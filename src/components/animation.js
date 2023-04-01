@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import Lottie from "lottie-react-native";
+import AnimatedLottieView from "lottie-react-native";
 
 export default function Animation({
   source,
@@ -21,7 +21,7 @@ export default function Animation({
   // fix end
 
   return (
-    <Lottie
+    <AnimatedLottieView
       source={source}
       autoPlay={autoplay}
       loop={loop}
