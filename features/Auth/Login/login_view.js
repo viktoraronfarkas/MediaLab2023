@@ -3,7 +3,7 @@ import { StyleSheet, SafeAreaView, Text } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import ClickableText from '../../../src/components/components';
 import { useNavigation } from '@react-navigation/native';
-import { formStylesLoginReg } from '../ui/form_style'
+import { stylesLoginReg } from '../ui/form_style'
 
 // TODO Validation for available User inside DB 
 
@@ -61,32 +61,32 @@ const LoginScreen = () => {
 
 
   return (
-    <SafeAreaView style={formStylesLoginReg.container}>
+    <SafeAreaView style={stylesLoginReg.container}>
     <Text variant="displayMedium">FH Social </Text>
     <Text variant="displaySmall">St.Pölten</Text>
     
-    {emailError ? <Text style={formStylesLoginReg.error}>{emailError}</Text> : null}
+    {emailError ? <Text style={stylesLoginReg.error}>{emailError}</Text> : null}
       <TextInput
         label="Enter Email"
         value={email}
         onChangeText= {(value) => setEmail(value)}
         mode="outlined"
-        style={formStylesLoginReg.input}
+        style={stylesLoginReg.input}
     />
 
-      {passwordError ? <Text style={formStylesLoginReg.error}>{passwordError}</Text> : null}
+      {passwordError ? <Text style={stylesLoginReg.error}>{passwordError}</Text> : null}
       <TextInput
         label="Enter Password"
         value={password}
         onChangeText={(value) => setPassword(value)}
         secureTextEntry
         mode="outlined"
-        style={formStylesLoginReg.input}
+        style={stylesLoginReg.input}
       />
       <Button
         mode="contained"
         onPress={handleSubmit}
-        style={formStylesLoginReg.button}
+        style={stylesLoginReg.button}
       >
         Login
       </Button>

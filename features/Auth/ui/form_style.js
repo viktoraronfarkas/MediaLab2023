@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const formStylesLoginReg = StyleSheet.create({
+export const stylesLoginReg = StyleSheet.create({
       container: {
         flex: 1,
         backgroundColor: '#fff',
