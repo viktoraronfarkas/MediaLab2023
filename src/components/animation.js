@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import AnimatedLottieView from "lottie-react-native";
+import React, { useEffect, useRef } from 'react';
+import AnimatedLottieView from 'lottie-react-native';
 
 export default function Animation({
   source,
