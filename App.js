@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import Splash from "./src/components/Splash";
-import Home from "./src/components/Home";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useEffect, useState } from 'react';
+import Splash from './src/components/Splash';
+import Home from './src/components/Home';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
