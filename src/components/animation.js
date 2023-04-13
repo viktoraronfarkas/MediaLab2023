@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import AnimatedLottieView from 'lottie-react-native';
+import { Platform, Text } from 'react-native';
 
 export default function Animation({
   source,
@@ -20,7 +21,7 @@ export default function Animation({
   }, []);
   // fix end
 
-  return (
+  return Platform.OS !== 'web' ? (
     <AnimatedLottieView
       source={source}
       autoPlay={autoplay}
@@ -30,5 +31,7 @@ export default function Animation({
       onAnimationFinish={onAnimationFinish}
       ref={lottieRef}
     />
+  ) : (
+    <Text>An animation is supposed to be here</Text>
   );
 }
