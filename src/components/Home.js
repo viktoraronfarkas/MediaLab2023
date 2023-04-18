@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Counter from '../redux/features/counter/counter';
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
         <Text style={{ fontSize: 28, textAlign: 'center' }}>
           Welcome to the first FH Social App
         </Text>
+        <Counter />
       </View>
     </SafeAreaView>
   );
