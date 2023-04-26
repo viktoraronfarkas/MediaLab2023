@@ -1,78 +1,75 @@
-import React, { useState } from "react";
-import { SafeAreaView, Text } from "react-native";
-import { TextInput, Button } from "react-native-paper";
-import ClickableText from "../../../src/components/components";
-import { useNavigation } from "@react-navigation/native";
-import { stylesLoginReg } from "../ui/form_style";
+import React, { useState } from 'react';
+import { SafeAreaView, Text } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import ClickableText from '../components/components';
+import stylesLoginReg from './Form_style';
 
 // TODO Check if username already exists in the DB
 // TODO onSubmit it should direct to authentication Screen and User should receive an Email to authenticate
+// TODO DELETE Console logs
 // TODO After Authentication create new User to DB
 
 /// This is the main representation of the Registration Screen for User to create an account
-const RegistrationScreen = () => {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [usernameError, setUsernameError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmPassword, setPasswordConfirmation] = useState("");
-  const [confirmError, setConfirmError] = useState("");
+function RegistrationScreen() {
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPassword, setPasswordConfirmation] = useState('');
+  const [confirmError, setConfirmError] = useState('');
 
   // Navigate to LOGIN SCREEN
   const navigation = useNavigation();
   const handleTextClick = () => {
-    navigation.navigate("LoginScreen");
+    navigation.navigate('LoginScreen');
   };
 
-  const validateEmail = (email) => {
+  const validateEmail = () => {
     const emailRegex = /[a-z]{2}\d{6}@fhstp\.ac\.at/;
 
     if (!emailRegex.test(email)) {
-      setEmailError("Please enter a valid FH email address.");
+      setEmailError('Please enter a valid FH email address.');
       return false;
-    } else {
-      setEmailError("");
-      return true;
     }
+    setEmailError('');
+    return true;
   };
-  const validateUsername = (username) => {
+  const validateUsername = () => {
     const usernameRegex = /^[a-zA-Z0-9]+$/;
 
     if (!usernameRegex.test(username)) {
       setUsernameError(
-        "Please enter a username that contains only letters or / and numbers."
+        'Please enter a username that contains only letters or / and numbers.'
       );
       return false;
-    } else {
-      setUsernameError("");
-      return true;
     }
+    setUsernameError('');
+    return true;
   };
 
-  const validatePassword = (password) => {
+  const validatePassword = () => {
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
     if (!passwordRegex.test(password)) {
       setPasswordError(
-        "Please enter a password that is at least 8 characters long and contains at least one uppercase letter, one lowercase letter, and one number."
+        'Please enter a password that is at least 8 characters long and contains at least one uppercase letter, one lowercase letter, and one number.'
       );
       return false;
-    } else {
-      setPasswordError("");
-      return true;
     }
+    setPasswordError('');
+    return true;
   };
 
-  const handlePasswordConfirmationChange = (confirmPassword) => {
+  const handlePasswordConfirmationChange = () => {
     if (confirmPassword !== password) {
-      setConfirmError("Passwords do not match");
+      setConfirmError('Passwords do not match');
       return false;
-    } else {
-      setConfirmError("");
-      return true;
     }
+    setConfirmError('');
+    return true;
   };
 
   const handleSubmit = (event) => {
@@ -83,14 +80,23 @@ const RegistrationScreen = () => {
     const isPasswordConfirm = handlePasswordConfirmationChange(confirmPassword);
 
     // submit registration form if there are no errors
-    isEmailValid && isUsernameValid && isPasswordValid && isPasswordConfirm
-      ? console.log(
-          "Input is valid: FH Student receives email for authentication"
-        )
-      : // if the input is not valid show this
-        console.log(
-          "Email or Password is incorrect or the passwords did not match"
-        );
+    // TODO delete console log after backend implementation
+    if (
+      isEmailValid &&
+      isUsernameValid &&
+      isPasswordValid &&
+      isPasswordConfirm
+    ) {
+      console.log(
+        'Input is valid: FH Student receives email for authentication'
+      );
+    } else {
+      console.error(
+        'Email or Password is incorrect or the passwords did not match'
+      );
+    }
+
+    // if the input is not valid show this
   };
 
   return (
@@ -156,6 +162,6 @@ const RegistrationScreen = () => {
       />
     </SafeAreaView>
   );
-};
+}
 
 export default RegistrationScreen;
