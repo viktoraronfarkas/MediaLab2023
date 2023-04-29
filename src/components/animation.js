@@ -9,6 +9,7 @@ export default function Animation({
   autoplay = true,
   loop = true,
   speed,
+  resizeMode
 }) {
   // temp ios fix begin
   // @see https://github.com/lottie-react-native/lottie-react-native/issues/832
@@ -30,6 +31,7 @@ export default function Animation({
       speed={speed}
       onAnimationFinish={onAnimationFinish}
       ref={lottieRef}
+      resizeMode={resizeMode}
     />
   ) : (
     <Text>An animation is supposed to be here</Text>
