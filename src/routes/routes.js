@@ -4,11 +4,11 @@ const mysql = require('mysql');
 
 // Create a MySQL connection pool
 const pool = mysql.createPool({
-  host: 'atp.fhstp.ac.at',
-  port: 8007,
-  user: 'flock-1946',
-  password: 'b7ZHKNZmcAFD',
-  database: 'db_flock-1946_1',
+  host: 'node.fhstp.io',
+  port: 3306,
+  user: 'node-cc201013-1070',
+  password: 'aCY-+Mn-Ru2-vC9',
+  database: 'node_cc201013_1070',
 });
 
 const app = express();
