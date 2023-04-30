@@ -1,9 +1,13 @@
 import { React, useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { MsalProvider } from '@azure/msal-react';
+import { PublicClientApplication } from '@azure/msal-browser';
 import Splash from './src/components/Splash';
-import LoginNavigation from './src/views/LoginNavigation';
+import LoginAuth from './src/views/LoginAuth';
+import config from './src/Auth/authConfig';
 
 export default function App() {
+  const pca = new PublicClientApplication(config);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {
@@ -12,7 +16,17 @@ export default function App() {
   }, []);
   return (
     <SafeAreaProvider>
-      {isLoading ? <Splash /> : <LoginNavigation />}
+      {isLoading ? (
+        <Splash />
+      ) : (
+        <MsalProvider
+          instance={pca}
+          config={config}
+          webviewProps={{ sharedCookiesEnabled: true }}
+        >
+          <LoginAuth />
+        </MsalProvider>
+      )}
     </SafeAreaProvider>
   );
 }

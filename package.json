@@ -11,10 +11,14 @@
     "lint": "eslint src --ext js,jsx --fix --max-warnings=0"
   },
   "dependencies": {
+    "@azure/msal-browser": "^2.36.0",
+    "@azure/msal-react": "^1.5.6",
     "@expo/webpack-config": "^18.0.1",
+    "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
     "bad-words": "^3.0.4",
+    "dotenv": "^16.0.3",
     "expo": "~48.0.6",
     "expo-status-bar": "~1.4.4",
     "lottie-ios": "^3.4.1",
@@ -24,10 +28,13 @@
     "react-dom": "18.2.0",
     "react-native": "0.71.6",
     "react-native-animated-loader": "^1.0.0",
+    "react-native-gesture-handler": "^2.9.0",
     "react-native-paper": "^5.5.2",
     "react-native-reanimated": "~2.14.4",
-    "react-native-safe-area-context": "4.5.0",
-    "react-native-web": "~0.18.10"
+    "react-native-safe-area-context": "^4.5.0",
+    "react-native-screens": "^3.20.0",
+    "react-native-web": "~0.18.10",
+    "react-navigation": "^4.4.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -39,7 +46,8 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-native": "^4.0.0",
-    "prettier": "2.8.7"
+    "prettier": "2.8.7",
+    "react-native-dotenv": "^3.4.8"
   },
   "private": true
 }
