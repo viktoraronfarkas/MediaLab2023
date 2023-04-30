@@ -24,7 +24,6 @@ export default function LoginNavigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="MainScreen" component={Main} />
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
@@ -35,6 +34,7 @@ export default function LoginNavigation() {
           component={RegistrationScreen}
           style={styles.container}
         />
+        <Stack.Screen name="MainScreen" component={Main} />
       </Stack.Navigator>
     </NavigationContainer>
   );

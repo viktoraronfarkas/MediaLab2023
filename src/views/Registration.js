@@ -87,6 +87,7 @@ function RegistrationScreen() {
       isPasswordValid &&
       isPasswordConfirm
     ) {
+      navigation.navigate('MainScreen');
       console.log(
         'Input is valid: FH Student receives email for authentication'
       );
