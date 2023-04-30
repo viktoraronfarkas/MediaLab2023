@@ -1,18 +1,26 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { BottomNavigation, Text } from 'react-native-paper';
-import ListItem from './GroupCard';
+import HomeContent from '../views/Home';
 
-const FeedRoute = () => <ListItem />;
+function FeedRoute() {
+  return <HomeContent />;
+}
 
-const SearchRoute = () => <Text>Search</Text>;
+function SearchRoute() {
+  return <Text>Search</Text>;
+}
 
-const InteractionRoute = () => <Text>Interaction</Text>;
+function InteractionRoute() {
+  return <Text>Interaction</Text>;
+}
 
-const ProfileRoute = () => <Text>Profile</Text>;
+function ProfileRoute() {
+  return <Text>Profile</Text>;
+}
 
-const BottomNav = () => {
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
+function BottomNav() {
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
     {
       key: 'feed',
       title: 'Feed',
@@ -43,6 +51,6 @@ const BottomNav = () => {
       renderScene={renderScene}
     />
   );
-};
+}
 
 export default BottomNav;
