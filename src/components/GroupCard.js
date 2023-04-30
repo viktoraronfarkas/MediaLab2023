@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { List, Avatar, Card, IconButton } from 'react-native-paper';
+import { Avatar, Card, IconButton } from 'react-native-paper';
 
-const ListItem = () => {
+function ListItem() {
   const listItemTitle = 'Spike Ball';
-  const listLabel = (title) => {
-    //return title.match(/\b\w/g).join('');
-    return title.split(' ').map((i) => i.charAt(0)); //Inherit case of each letter
-  };
+  const listLabel = (title) => 
+    // return title.match(/\b\w/g).join('');
+     title.split(' ').map((i) => i.charAt(0)) // Inherit case of each letter
+  ;
   return (
     <Card.Title
       title={listItemTitle}
@@ -19,6 +19,6 @@ const ListItem = () => {
       )}
     />
   );
-};
+}
 
 export default ListItem;
