@@ -113,6 +113,7 @@ function RegistrationScreen() {
         value={email}
         onChangeText={(value) => setEmail(value)}
         mode="outlined"
+        autoCapitalize="none"
         style={stylesLoginReg.input}
       />
 
@@ -124,6 +125,7 @@ function RegistrationScreen() {
         value={username}
         onChangeText={(value) => setUsername(value)}
         mode="outlined"
+        autoCapitalize="none"
         style={stylesLoginReg.input}
       />
 
@@ -136,6 +138,7 @@ function RegistrationScreen() {
         onChangeText={(value) => setPassword(value)}
         secureTextEntry
         mode="outlined"
+        autoCapitalize="none"
         style={stylesLoginReg.input}
       />
       {confirmError ? (
@@ -147,6 +150,7 @@ function RegistrationScreen() {
         onChangeText={(value) => setPasswordConfirmation(value)}
         secureTextEntry
         mode="outlined"
+        autoCapitalize="none"
         style={stylesLoginReg.input}
       />
       <Button
