@@ -6,32 +6,25 @@ import { Text } from 'react-native-paper';
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    position: 'relative',
+    flexDirection: 'row',
   },
   title: {
     fontFamily: 'Basic Sans',
     fontSize: 24,
     fontWeight: 700,
     lineHeight: 32,
-    paddingLeft: 7,
-    paddingTop: 5,
-  },
-  line: {
-    position: 'absolute',
-    top: -20,
-    left: 0,
   },
 });
 
-/// This Component represents a main Title and an Image representing a circle in front of the text
+/// This Component represents a main Title and an Image representing as a line, arrow next to the title.
 ///
-/// EXAMPLE: <TitleCircleHeadingH2 title="Subgroups" image={circleLineImage} lineStyle={{ height: 80, width: 160 }} />
-/// import circleLineImage from './path/Images/circleLineImage'
-export default function TitleCircleHeadingH2({ title, lineStyle, image }) {
+/// EXAMPLE: <TitleUnderlineHeadingH2 title="Main Group" image={underLineImage} lineStyle={{ height: 10, width: 150 }} />
+/// import underLineImage from './path/Images/underLineImage'
+export default function TitleScribbleHeadingH2({ title, image, lineStyle }) {
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.title}> {title} </Text>
       <View>
-        <Text style={styles.title}> {title} </Text>
         <Image
           style={[styles.line, lineStyle]}
           source={image}
