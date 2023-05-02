@@ -1,3 +1,4 @@
+// DELETE: DON'T USE THIS
 const config = {
   auth: {
     clientId: process.env.CLIENT_ID,

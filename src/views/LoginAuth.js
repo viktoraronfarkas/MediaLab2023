@@ -5,6 +5,7 @@ import { useMsal, useAccount } from '@azure/msal-react';
 
 import config from '../Auth/authConfig';
 
+// DELETE: DON'T USE THIS
 export default function LoginAuth() {
   const { instance } = useMsal();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
