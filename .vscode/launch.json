@@ -1,0 +1,34 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+ 
+    {
+      "name": "Debug Android Hermes - Experimental",
+      "request": "launch",
+      "type": "reactnativedirect",
+      "cwd": "${workspaceFolder}",
+      "platform": "android"
+    },
+
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Launch Chrome",
+      "url": "https://localhost:19006/",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "SWA: Run MediaLab2023",
+      "request": "launch",
+      "type": "chrome",
+      "url": "http://localhost:4280",
+      "preLaunchTask": "swa: start MediaLab2023",
+      "webRoot": "${workspaceFolder}/",
+      "timeout": 30000
+    },
+ 
+  ]
+}
