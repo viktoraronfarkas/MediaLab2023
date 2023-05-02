@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Splash from './src/components/Splash';
-import AddIconInteraction from './src/components/Button/AddIconInteraction';
+import LoginNavigation from './src/views/LoginNavigation';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -12,7 +12,7 @@ export default function App() {
   }, []);
   return (
     <SafeAreaProvider>
-      {isLoading ? <Splash /> : <AddIconInteraction />}
+      {isLoading ? <Splash /> : <LoginNavigation />}
     </SafeAreaProvider>
   );
 }
