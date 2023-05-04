@@ -29,7 +29,11 @@ export default function Home() {
             Press me
           </Button>
           <Card style={{ backgroundColor: 'primaryContainer' }}>
-            <Card.Title title="Computer graphics" subtitle="Study Group" />
+            <Card.Title
+              title="Computer graphics"
+              titleStyle={styles.headline3}
+              subtitle="Study Group"
+            />
             <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
             <Card.Content>
               <Text style={styles.bodyDefault}>
