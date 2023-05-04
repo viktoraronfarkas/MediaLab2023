@@ -1,28 +1,26 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { Provider as PaperProvider, Chip, Button } from 'react-native-paper';
+import {
+  Provider as PaperProvider,
+  Chip,
+  Button,
+  Card,
+} from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import theme from '../constants/myTheme';
+import { theme, styles } from '../constants/myTheme';
 
 export default function Home() {
+  console.log(theme);
   return (
     <PaperProvider theme={theme}>
       <SafeAreaView style={{ flex: 1 }}>
         <View
           style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
         >
-          <Text
-            style={{
-              fontSize: 28,
-              textAlign: 'center',
-              color: theme.colors.primary,
-            }}
-          >
+          <Text style={styles.headlineXL}>
             Welcome to the first FH Social App
           </Text>
-          <Chip icon="information" onPress={() => console.log('Pressed')}>
-            Example Chip
-          </Chip>
+          <Chip onPress={() => console.log('Pressed')}>Example Chip</Chip>
           <Button
             icon="camera"
             mode="contained"
@@ -30,6 +28,20 @@ export default function Home() {
           >
             Press me
           </Button>
+          <Card style={{ backgroundColor: 'primaryContainer' }}>
+            <Card.Title title="Computer graphics" subtitle="Study Group" />
+            <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
+            <Card.Content>
+              <Text style={styles.bodyDefault}>
+                Heyyy, I am searching for a study group <br />
+                for computer graphics
+              </Text>
+            </Card.Content>
+            <Card.Actions>
+              <Button>Cancel</Button>
+              <Button>Ok</Button>
+            </Card.Actions>
+          </Card>
         </View>
       </SafeAreaView>
     </PaperProvider>
