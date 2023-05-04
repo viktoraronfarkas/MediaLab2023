@@ -17,6 +17,7 @@
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
+    "@sendgrid/mail": "^7.7.0",
     "bad-words": "^3.0.4",
     "dotenv": "^16.0.3",
     "expo": "~48.0.6",
