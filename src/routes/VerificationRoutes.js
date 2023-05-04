@@ -1,7 +1,23 @@
 const sgMail = require('@sendgrid/mail');
+const express = require('express');
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(
+  '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'
+);
 
+const app = express();
+
+// Create random code
+function generateVerificationCode() {
+  const codeLength = 6;
+  const characters = '0123456789';
+  let code = '';
+
+  for (let i = 0; i < codeLength; i += 1) {
+    code += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return code;
+}
 app.post('/sendVerificationEmail', (req, res) => {
   const { email } = req.body;
 
@@ -9,7 +25,7 @@ app.post('/sendVerificationEmail', (req, res) => {
 
   const msg = {
     to: email,
-    from: 'your_email@example.com',
+    from: 'uasync@outlook.com',
     subject: 'Verify your email address',
     html: `<p>Your verification code is: ${code}</p>`,
   };
@@ -18,6 +34,7 @@ app.post('/sendVerificationEmail', (req, res) => {
     .send(msg)
     .then(() => {
       // Save the verification code to your database and associate it with the email address
+
       res.send({ success: true });
     })
     .catch((error) => {

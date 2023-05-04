@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SafeAreaView, Text } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 import ClickableText from '../components/components';
 import stylesLoginReg from './Form_style';
 
@@ -87,9 +88,18 @@ function RegistrationScreen() {
       isPasswordValid &&
       isPasswordConfirm
     ) {
-      console.log(
-        'Input is valid: FH Student receives email for authentication'
-      );
+      axios
+        .post('/sendVerificationEmail', { email })
+        .then((response) => {
+          if (response.data.success) {
+            console.log('Verification email sent');
+          } else {
+            console.error('Failed to send verification email');
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     } else {
       console.error(
         'Email or Password is incorrect or the passwords did not match'
