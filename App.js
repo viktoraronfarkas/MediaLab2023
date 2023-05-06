@@ -1,5 +1,5 @@
-import { React, useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import React, { useEffect, useState } from 'react';
 import Splash from './src/components/Splash';
 import LoginNavigation from './src/views/LoginNavigation';
 
