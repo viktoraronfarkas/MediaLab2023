@@ -2,8 +2,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import Main from './Main';
 import LoginScreen from './Login';
+import Main from './Main';
 import RegistrationScreen from './Registration';
 
 export default function LoginNavigation() {
