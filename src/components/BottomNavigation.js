@@ -18,22 +18,41 @@ function ProfileRoute() {
   return <Text>Profile</Text>;
 }
 
-function BottomNav() {
+function BottomNav({
+  HomeSvgFocused,
+  HomeSvgUnfocused,
+  SearchSvgFocused,
+  SearchSvgUnfocused,
+  MessageSvgFocused,
+  MessageSvgUnfocused,
+  ProfileSvgFocused,
+  ProfileSvgUnfocused,
+}) {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     {
       key: 'feed',
       title: 'Feed',
-      focusedIcon: 'home',
-      unfocusedIcon: 'home-outline',
+      focusedIcon: () => HomeSvgFocused,
+      unfocusedIcon: () => HomeSvgUnfocused,
     },
-    { key: 'search', title: 'Search', focusedIcon: 'magnify' },
-    { key: 'interaction', title: 'Interaction', focusedIcon: 'chat' },
+    {
+      key: 'search',
+      title: 'Search',
+      focusedIcon: () => SearchSvgFocused,
+      unfocusedIcon: () => SearchSvgUnfocused,
+    },
+    {
+      key: 'interaction',
+      title: 'Interaction',
+      focusedIcon: () => MessageSvgFocused,
+      unfocusedIcon: () => MessageSvgUnfocused,
+    },
     {
       key: 'profile',
       title: 'Profile',
-      focusedIcon: 'account',
-      unfocusedIcon: 'account-outline',
+      focusedIcon: () => ProfileSvgFocused,
+      unfocusedIcon: () => ProfileSvgUnfocused,
     },
   ]);
 
@@ -46,9 +65,17 @@ function BottomNav() {
 
   return (
     <BottomNavigation
+      theme={{
+        colors: {
+          secondaryContainer: 'transparent',
+        },
+      }}
       navigationState={{ index, routes }}
       onIndexChange={setIndex}
       renderScene={renderScene}
+      activeColor="#F34F34"
+      inactiveColor="#000"
+      barStyle={{ backgroundColor: '#F5F1EC' }}
     />
   );
 }
