@@ -1,9 +1,10 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import RegistrationScreen from './Registration';
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import Main from './Main';
 import LoginScreen from './Login';
+import RegistrationScreen from './Registration';
 
 export default function LoginNavigation() {
   const Stack = createStackNavigator();
@@ -33,6 +34,7 @@ export default function LoginNavigation() {
           component={RegistrationScreen}
           style={styles.container}
         />
+        <Stack.Screen name="MainScreen" component={Main} />
       </Stack.Navigator>
     </NavigationContainer>
   );
