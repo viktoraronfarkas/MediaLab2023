@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import LottieView from 'lottie-react-native';
 
 const styles = StyleSheet.create({
@@ -13,31 +13,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-});
-
-const stylesAnimation = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  title: {
+    color: '#FFFFFF',
+    fontFamily: 'Basic Sans',
+    fontSize: '24',
+    fontWeight: '700',
   },
 });
 
-function FullScreenOverlay({ animation }) {
-  return (
-    <View style={styles.overlay}>
-      <LottieView source={animation} autoPlay loop />
-    </View>
-  );
-}
-
-export default function App() {
+// This component is used for Overlays (see User-flow: Joined - success message overlay)
+// usage example, title can be modified:
+// import FullScreenOverlay from './src/components/Overlay/DefaultOverlay';
+// <FullScreenOverlay title="Joined" />
+export default function FullScreenOverlay({ title }) {
   // eslint-disable-next-line global-require
   const animation = require('../../../assets/Animation/Joined.json');
   return (
-    <View style={stylesAnimation.container}>
-      <FullScreenOverlay animation={animation} />
+    <View style={styles.overlay}>
+      <Text style={styles.title}> {title} </Text>
+      <LottieView source={animation} autoPlay loop />
     </View>
   );
 }
