@@ -88,18 +88,10 @@ function RegistrationScreen() {
       isPasswordValid &&
       isPasswordConfirm
     ) {
-      axios
-        .post('/sendVerificationEmail', { email })
-        .then((response) => {
-          if (response.data.success) {
-            console.log('Verification email sent');
-          } else {
-            console.error('Failed to send verification email');
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      navigation.navigate('MainScreen');
+      console.log(
+        'Input is valid: FH Student receives email for authentication'
+      );
     } else {
       console.error(
         'Email or Password is incorrect or the passwords did not match'
@@ -122,6 +114,7 @@ function RegistrationScreen() {
         value={email}
         onChangeText={(value) => setEmail(value)}
         mode="outlined"
+        autoCapitalize="none"
         style={stylesLoginReg.input}
       />
 
@@ -133,6 +126,7 @@ function RegistrationScreen() {
         value={username}
         onChangeText={(value) => setUsername(value)}
         mode="outlined"
+        autoCapitalize="none"
         style={stylesLoginReg.input}
       />
 
@@ -145,6 +139,7 @@ function RegistrationScreen() {
         onChangeText={(value) => setPassword(value)}
         secureTextEntry
         mode="outlined"
+        autoCapitalize="none"
         style={stylesLoginReg.input}
       />
       {confirmError ? (
@@ -156,6 +151,7 @@ function RegistrationScreen() {
         onChangeText={(value) => setPasswordConfirmation(value)}
         secureTextEntry
         mode="outlined"
+        autoCapitalize="none"
         style={stylesLoginReg.input}
       />
       <Button

@@ -72,6 +72,7 @@ function LoginScreen() {
         value={email}
         onChangeText={(value) => setEmail(value)}
         mode="outlined"
+        autoCapitalize="none"
         style={stylesLoginReg.input}
       />
 
@@ -84,6 +85,7 @@ function LoginScreen() {
         onChangeText={(value) => setPassword(value)}
         secureTextEntry
         mode="outlined"
+        autoCapitalize="none"
         style={stylesLoginReg.input}
       />
       <Button
