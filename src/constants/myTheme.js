@@ -115,6 +115,11 @@ export const styles = StyleSheet.create({
     lineHeight: 23.2,
     letterSpacing: 0.0,
   },
+  captionBold: {
+    fontSize: 17,
+    fontFamily: 'Nunito-Bold',
+    lineHeight: 32,
+  },
   overline: {
     fontSize: 11,
     fontFamily: 'Nunito-Regular',

@@ -1,73 +1,90 @@
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { Button, Card, Text } from 'react-native-paper';
+import { Card, Text } from 'react-native-paper';
+import { theme, styles } from '../../constants/myTheme';
+import OrangeButton from '../Buttons/OrangeButton';
+import IconImageDefault from '../../../assets/Icons/group-default-icon.png';
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
     width: '100%',
     paddingTop: 10,
     paddingBottom: 10,
+    backgroundColor: theme.colors.backgroundWhite,
   },
 });
 
-function LeftContent({ iconSource }) {
+function LeftContent({ iconImage }) {
   return (
-    <Image
-      style={{
-        width: 55,
-        height: 55,
-        borderRadius: 35,
-      }}
-      source={iconSource}
-    />
+    <>
+      {iconImage ? (
+        <Image
+          style={{
+            width: 55,
+            height: 55,
+            borderRadius: 35,
+          }}
+          source={iconImage}
+        />
+      ) : (
+        <Image
+          style={{
+            width: 55,
+            height: 55,
+            borderRadius: 35,
+          }}
+          source={IconImageDefault}
+        />
+      )}
+    </>
   );
 }
 
+/** This Component represents the post card.
+ * The coverImage, iconImage are optional.
+ * If no iconImage --> show default image.
+ *
+ * EXAMPLE: <PostCard title={'Title'} subTitle={'Subtitle'}  buttonText={'Button'}  content={'This is the text content'} />
+ */
 export default function PostCard({
   title,
   subTitle,
-  buttonTxt,
+  buttonText,
   content,
-  source,
-  iconSource,
+  coverImage,
+  iconImage,
 }) {
   return (
-    <Card style={styles.container}>
+    <Card elevation={0} style={style.container}>
       <Card.Title
-        titleStyle={{
-          padding: 0,
-          marginBottom: 0,
-          lineHeight: 24,
-          minHeight: 24,
-          marginLeft: 10,
-          fontWeight: 'bold',
-          fontSize: 18,
-        }}
-        subtitleStyle={{ marginLeft: 10, fontWeight: '500', fontSize: 15 }}
+        titleStyle={[styles.subtitle1, { marginLeft: 10 }]}
+        subtitleStyle={[styles.caption, { marginLeft: 10 }]}
         title={title}
         subtitle={subTitle}
-        left={() => LeftContent({ iconSource })}
+        left={() => LeftContent({ iconImage })}
       />
-      <Card.Cover
-        source={source}
-        resizeMode="cover"
-        style={{ borderRadius: 0 }}
-      />
+      {coverImage ? (
+        <Card.Cover
+          source={coverImage}
+          resizeMode="cover"
+          style={{ borderRadius: 0 }}
+        />
+      ) : null}
       <Card.Content>
         <Text
-          style={{
-            marginTop: content && content.length ? 15 : 0,
-            marginBottom: content && content.length > 0 ? 15 : 0,
-            fontSize: 20,
-            lineHeight: 25,
-          }}
-          variant="bodyMedium"
+          style={[
+            styles.bodyDefault,
+            {
+              marginTop: content && content.length ? 15 : 0,
+              marginBottom: content && content.length > 0 ? 15 : 0,
+            },
+          ]}
         >
           {content}
         </Text>
       </Card.Content>
       <Card.Actions>
-        <Button>{buttonTxt}</Button>
+        <OrangeButton text={buttonText}></OrangeButton>
       </Card.Actions>
     </Card>
   );
