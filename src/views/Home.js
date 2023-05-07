@@ -48,6 +48,7 @@ function HomeContent() {
                 flexDirection: 'row',
                 marginBottom: 10,
                 alignItems: 'center',
+                width: '100%',
               }}
             >
               <View style={{ flex: 1, marginRight: 10 }}>
