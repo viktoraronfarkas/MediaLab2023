@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import { SafeAreaView, Text } from 'react-native';
-import { TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import ClickableText from '../components/components';
-import stylesLoginReg from './Form_style';
+import LoginView from './LoginView';
 
 // TODO Validation / Authentication for available User inside DB
-
-/// This is the main representation of the Login Screen for User to login in their account
-/// Currently similar to registration Screen
+/**
+ * This is the main representation of the Login Screen for User to login in their account
+ */
 function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,7 +22,7 @@ function LoginScreen() {
     const emailRegex = /[a-z]{2}\d{6}@fhstp\.ac\.at/;
 
     if (!emailRegex.test(email)) {
-      setEmailError('Please enter a valid FH email address.');
+      setEmailError('Please enter your FH email address.');
       return false;
     }
     setEmailError('');
@@ -60,47 +57,17 @@ function LoginScreen() {
   };
 
   return (
-    <SafeAreaView style={stylesLoginReg.container}>
-      <Text variant="displayMedium">FH Social </Text>
-      <Text variant="displaySmall">St.Pölten</Text>
-
-      {emailError ? (
-        <Text style={stylesLoginReg.error}>{emailError}</Text>
-      ) : null}
-      <TextInput
-        label="Enter Email"
-        value={email}
-        onChangeText={(value) => setEmail(value)}
-        mode="outlined"
-        autoCapitalize="none"
-        style={stylesLoginReg.input}
-      />
-
-      {passwordError ? (
-        <Text style={stylesLoginReg.error}>{passwordError}</Text>
-      ) : null}
-      <TextInput
-        label="Enter Password"
-        value={password}
-        onChangeText={(value) => setPassword(value)}
-        secureTextEntry
-        mode="outlined"
-        autoCapitalize="none"
-        style={stylesLoginReg.input}
-      />
-      <Button
-        mode="contained"
-        onPress={handleSubmit}
-        style={stylesLoginReg.button}
-      >
-        Login
-      </Button>
-
-      <ClickableText
-        onPress={handleTextClick}
-        text="No account yet? REGISTER now"
-      />
-    </SafeAreaView>
+    <LoginView
+      emailError={emailError}
+      emailValue={email}
+      onChangeTextEmail={(value) => setEmail(value)}
+      passwordError={passwordError}
+      passwordValue={password}
+      onChangeTextPassword={(value) => setPassword(value)}
+      onNavigateText={handleTextClick}
+      handleSubmit={handleSubmit}
+      // onForgotPassword={handleForgotPassword}
+    />
   );
 }
 

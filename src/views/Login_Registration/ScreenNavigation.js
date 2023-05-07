@@ -2,9 +2,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import LoginScreen from './Login';
-import Main from './Main';
-import RegistrationScreen from './Registration';
+import LoginScreen from './Login/LoginScreen';
+import Main from '../Main';
+import RegistrationScreen from './Registration/Registration';
 
 export default function LoginNavigation() {
   const Stack = createStackNavigator();

@@ -61,8 +61,10 @@ const style = StyleSheet.create({
 export default function CaptionScribbleHeading({
   subHeading,
   scribbleSubHeadingImage,
+  containerSubHeadingStyle,
   scribbleStyle,
   title,
+  headlineStyle,
   arrowImage,
   arrowStyle,
   underlineImage,
@@ -70,7 +72,7 @@ export default function CaptionScribbleHeading({
 }) {
   return (
     <SafeAreaView style={style.container}>
-      <View style={style.containerSubHeading}>
+      <View style={[style.containerSubHeading, containerSubHeadingStyle]}>
         <Text style={[styles.captionBold, { color: theme.colors.primary }]}>
           {subHeading}
         </Text>
@@ -82,7 +84,13 @@ export default function CaptionScribbleHeading({
       </View>
 
       <View style={style.containerTitle}>
-        <Text style={[styles.headline1, { width: 160, textAlign: 'left' }]}>
+        <Text
+          style={[
+            styles.headline1,
+            { width: 160, textAlign: 'left' },
+            headlineStyle,
+          ]}
+        >
           {title}
         </Text>
         <Image

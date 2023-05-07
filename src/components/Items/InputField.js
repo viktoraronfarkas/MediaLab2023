@@ -15,7 +15,11 @@ const style = StyleSheet.create({
     borderBottomRightRadius: 8,
     textDecorationColor: 'none',
     fontFamily: theme.fonts.textLink,
-    backgroundColor: theme.colors.backgroundSand,
+    backgroundColor: theme.colors.backgroundWhite,
+  },
+  secureInput: {
+    // Add this style when secureTextEntry is true
+    secureTextEntry: true,
   },
 });
 /**
@@ -24,17 +28,27 @@ const style = StyleSheet.create({
  *
  * EXAMPLE:
  *
- * < InputField labelText="Enter Email!" />
+ *  <InputField
+        labelText="Enter Email"
+        value={email}
+        onChangeText={(value) => setEmail(value)}
+      />
+ * 
+ * <InputField label="Enter Password" secureTextEntry value={password} onChangeText={(value) => setPassword(value)} />
  */
-
-export default function InputField({ labelText, value, onChangeText }) {
+export default function InputField({
+  labelText,
+  value,
+  onChangeText,
+  secureTextEntry,
+}) {
   return (
     <SafeAreaView>
       <TextInput
         label={labelText}
         value={value}
         onChangeText={onChangeText}
-        style={style.input}
+        style={[style.input, secureTextEntry && { secureTextEntry: true }]}
         underlineColor="transparent"
         theme={{
           colors: {
@@ -42,6 +56,7 @@ export default function InputField({ labelText, value, onChangeText }) {
             text: theme.colors.neutralsBlack,
           },
         }}
+        secureTextEntry={secureTextEntry}
       />
     </SafeAreaView>
   );
