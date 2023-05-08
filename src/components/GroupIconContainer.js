@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, Image, Text } from 'react-native';
+import { styles } from '../constants/myTheme';
+import defaultImage from '../../assets/Icons/group-big-default-icon.png';
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
     alignItems: 'center',
   },
@@ -11,27 +13,26 @@ const styles = StyleSheet.create({
     borderRadius: 36,
     marginBottom: 8,
   },
-  title: {
-    fontSize: 14,
-    lineHeight: 20,
-    fontWeight: '500',
-    color: '#1F2937',
-  },
 });
 
-function GroupIconContainer({ imageSource, title }) {
+/**
+ * This component is the Circle Icon Container with text below
+ * If there is no image source it will use the group-default-icon image
+ *  How to use it:
+ * <GroupIconContainer
+ *  imageSource={groupImage}
+ *  title="My Group"
+ * />
+ */
+export default function GroupIconContainer({ imageSource, title }) {
   return (
-    <View style={styles.container}>
-      <Image style={styles.image} source={imageSource} />
-      <Text style={styles.title}>{title}</Text>
+    <View style={style.container}>
+      {imageSource ? (
+        <Image style={style.image} source={imageSource} />
+      ) : (
+        <Image style={style.image} source={defaultImage} />
+      )}
+      <Text style={styles.subtitle1}>{title}</Text>
     </View>
   );
 }
-
-export default GroupIconContainer;
-
-// How to use it:
-// <GroupIconContainer
-//     imageSource={foodIcon} 
-//     title="My Group"
-// />
