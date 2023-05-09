@@ -2,8 +2,8 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import PostCard from '../components/PostCard';
-import EventCard from '../components/EventCard';
+import PostCard from '../components/Cards/PostCard';
+import EventCard from '../components/Cards/EventCard';
 
 const styles = StyleSheet.create({
   container: {
@@ -48,6 +48,7 @@ function HomeContent() {
                 flexDirection: 'row',
                 marginBottom: 10,
                 alignItems: 'center',
+                width: '100%',
               }}
             >
               <View style={{ flex: 1, marginRight: 10 }}>
