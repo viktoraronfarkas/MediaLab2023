@@ -1,12 +1,21 @@
 import React from 'react';
-import { SafeAreaView, Text, StyleSheet, ScrollView } from 'react-native';
-import ClickableText from '../../../components/ClickableText';
-import { theme } from '../../../constants/myTheme';
+import {
+  SafeAreaView,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 
+import ClickableText from '../../../components/ClickableText';
+import { theme, styles } from '../../../constants/myTheme';
 import InputField from '../../../components/Items/InputField';
 import OrangeButton from '../../../components/Buttons/OrangeButton';
 import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHeading';
 import scribble from '../../../../assets/Images/star-glitter-image.png';
+import image from '../../../../assets/Icons/upload-icon.png';
 
 const style = StyleSheet.create({
   container: {
@@ -26,11 +35,15 @@ const style = StyleSheet.create({
 });
 
 export default function RegistrationView({
+
   emailError,
   emailValue,
   onChangeTextEmail,
   usernameError,
   usernameValue,
+  nameError,
+  nameValue,
+  onChangeTextName,
   onChangeTextUsername,
   passwordError,
   passwordValue,
@@ -38,9 +51,12 @@ export default function RegistrationView({
   confirmError,
   confirmPasswordValue,
   onPasswordConfirmation,
+  onPressProfileImageUpload,
+  
   onNavigateText,
-  handleSubmit,
+  onNavigatePage2,
 }) {
+
   return (
     <SafeAreaView style={style.container}>
       <ScrollView>
@@ -73,6 +89,12 @@ export default function RegistrationView({
           value={usernameValue}
           onChangeText={onChangeTextUsername}
         />
+        {nameError ? <Text style={style.error}>{usernameError}</Text> : null}
+        <InputField
+          labelText="Your Name"
+          value={nameValue}
+          onChangeText={onChangeTextName}
+        />
 
         {passwordError ? (
           <Text style={style.error}>{passwordError}</Text>
@@ -91,9 +113,24 @@ export default function RegistrationView({
           onChangeText={onPasswordConfirmation}
           secureTextEntry
         />
+
+        <View style={{ paddingVertical: 30, paddingHorizontal: 20 }}>
+          <Text style={styles.subtitle1}>
+            Upload your profile here (optional):
+          </Text>
+
+          <TouchableOpacity onPress={onPressProfileImageUpload}>
+            <Image
+              source={image}
+              style={{ width: 50, height: 50, paddingTop: 20 }}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </View>
+
         <OrangeButton
-          text="Register Account"
-          onPress={handleSubmit}
+          text="Next"
+          onPress={onNavigatePage2}
           styleButton={{ alignSelf: 'center', width: '100%' }}
         />
 

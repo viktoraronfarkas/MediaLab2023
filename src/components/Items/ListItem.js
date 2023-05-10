@@ -1,16 +1,9 @@
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { Avatar, Card, IconButton } from 'react-native-paper';
 import { theme, styles } from '../../constants/myTheme';
 
-const style = StyleSheet.create({
-  cardContainer: {
-    backgroundColor: theme.colors.backgroundWhite,
-    borderRadius: 12,
-    paddingTop: 11,
-    paddingBottom: 11,
-  },
-});
+
 /**
  * This Component represents the List Item containing avatar image, main and sub titles and a side action image-icon.
  *

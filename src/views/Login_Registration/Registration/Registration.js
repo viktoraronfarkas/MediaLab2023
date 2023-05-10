@@ -1,29 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import RegistrationView from './RegistrationView';
-// import { SafeAreaView, StyleSheet, Text } from 'react-native';
-// import { TextInput, Button } from 'react-native-paper';
-// import { theme } from '../../../constants/myTheme';
-// import ClickableText from '../../../components/ClickableText';
-// import stylesLoginReg from './Form_style';
 
-// const style = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     justifyContent: 'flex-start',
 
-//     paddingHorizontal: 20,
-//     paddingVertical: 20,
-//   },
-
-//   error: {
-//     color: theme.colors.primary,
-//     width: '50%',
-//     marginTop: 30,
-//     marginBottom: 15,
-//   },
-// });
 // TODO Check if username already exists in the DB
 // TODO onSubmit it should direct to authentication Screen and User should receive an Email to authenticate
 // TODO DELETE Console logs
@@ -33,15 +12,18 @@ import RegistrationView from './RegistrationView';
 function RegistrationScreen() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [usernameError, setUsernameError] = useState('');
+  const [nameError, setNameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPassword, setPasswordConfirmation] = useState('');
   const [confirmError, setConfirmError] = useState('');
 
-  // Navigate to LOGIN SCREEN
+
   const navigation = useNavigation();
+
   const handleTextClick = () => {
     navigation.navigate('LoginScreen');
   };
@@ -68,6 +50,17 @@ function RegistrationScreen() {
     setUsernameError('');
     return true;
   };
+  const validateName = () => {
+    // TODO ADJUST
+    const nameRegex = /^[a-zA-Z0-9]+$/;
+
+    if (!nameRegex.test(name)) {
+      setNameError('Please enter a username that contains only letters.');
+      return false;
+    }
+    setNameError('');
+    return true;
+  };
 
   const validatePassword = () => {
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
@@ -91,10 +84,19 @@ function RegistrationScreen() {
     return true;
   };
 
+  const handlePage2Click = () => {
+    navigation.navigate('RegistrationTwo');
+  };
+  const handlePage3Click = () => {
+    navigation.navigate('RegistrationThree');
+  };
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const isEmailValid = validateEmail(email);
     const isUsernameValid = validateUsername(username);
+    const isNameValid = validateName(name);
     const isPasswordValid = validatePassword(password);
     const isPasswordConfirm = handlePasswordConfirmationChange(confirmPassword);
 
@@ -103,6 +105,7 @@ function RegistrationScreen() {
     if (
       isEmailValid &&
       isUsernameValid &&
+      isNameValid &&
       isPasswordValid &&
       isPasswordConfirm
     ) {
@@ -115,78 +118,43 @@ function RegistrationScreen() {
         'Email or Password is incorrect or the passwords did not match'
       );
     }
-
-    // if the input is not valid show this
   };
 
   return (
     <RegistrationView
-      emailError={emailError}
-      emailValue={email}
+      // Email 
       onChangeTextEmail={(value) => setEmail(value)}
-      usernameError={usernameError}
+      emailValue={email}
+      emailError={emailError}
+
+      // Username
       onChangeTextUsername={(value) => setUsername(value)}
-      passwordError={passwordError}
-      passwordValue={password}
+      username={username}
+      usernameError={usernameError}
+
+      // Name
+      onChangeTextName={(value) => setName(value)}
+      nameValue={name}
+      nameError={nameError}
+
+      // Password
       onChangeTextPassword={(value) => setPassword(value)}
-      confirmError={confirmError}
+      passwordValue={password}
+      passwordError={passwordError}
+      
+      // Confirm Password
       onPasswordConfirmation={(value) => setPasswordConfirmation(value)}
-      onNavigateText={handleTextClick}
+      confirmError={confirmError}
+
+      // onPressProfileImageUpload={(value) => setProfileImageUpload(value)}
+
+      // Navigation
+      onNavigateText={handleTextClick} // To Login
+      onNavigatePage2={handlePage2Click}
+      onNavigatePage3={handlePage3Click}
       handleSubmit={handleSubmit}
     />
-    // <SafeAreaView style={style.container}>
-    //   <Text variant="displayMedium">FH Social </Text>
-    //   <Text variant="displaySmall">St.Pölten</Text>
-
-    //   {emailError ? <Text style={style.error}>{emailError}</Text> : null}
-    //   <TextInput
-    //     label=" Enter email"
-    //     value={email}
-    //     onChangeText={(value) => setEmail(value)}
-    //     mode="outlined"
-    //     autoCapitalize="none"
-    //     style={style.input}
-    //   />
-
-    //   {usernameError ? <Text style={style.error}>{usernameError}</Text> : null}
-    //   <TextInput
-    //     label=" Enter Username"
-    //     value={username}
-    //     onChangeText={(value) => setUsername(value)}
-    //     mode="outlined"
-    //     autoCapitalize="none"
-    //     style={style.input}
-    //   />
-
-    //   {passwordError ? <Text style={style.error}>{passwordError}</Text> : null}
-    //   <TextInput
-    //     label="Enter Password"
-    //     value={password}
-    //     onChangeText={(value) => setPassword(value)}
-    //     secureTextEntry
-    //     mode="outlined"
-    //     autoCapitalize="none"
-    //     style={style.input}
-    //   />
-    //   {confirmError ? <Text style={style.error}>{confirmError}</Text> : null}
-    //   <TextInput
-    //     label="Confirm Password"
-    //     value={confirmPassword}
-    //     onChangeText={(value) => setPasswordConfirmation(value)}
-    //     secureTextEntry
-    //     mode="outlined"
-    //     autoCapitalize="none"
-    //     style={style.input}
-    //   />
-    //   <Button mode="contained" onPress={handleSubmit} style={style.button}>
-    //     Register Account
-    //   </Button>
-
-    //   <ClickableText
-    //     onPress={handleTextClick}
-    //     text="Want to sign in? LOGIN here."
-    //   />
-    // </SafeAreaView>
+   
   );
 }
 
