@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native';
 import LoginScreen from './Login';
 import Main from './Main';
 import RegistrationScreen from './Registration';
+import JoinGroup from './JoinGroupScreen';
 
 export default function LoginNavigation() {
   const Stack = createStackNavigator();
@@ -23,7 +24,7 @@ export default function LoginNavigation() {
   });
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
@@ -35,6 +36,7 @@ export default function LoginNavigation() {
           style={styles.container}
         />
         <Stack.Screen name="MainScreen" component={Main} />
+        <Stack.Screen name="JoinGroupScreen" component={JoinGroup} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -4,6 +4,7 @@ import Splash from './src/components/Splash';
 import loadFonts from './assets/fonts/FontList'; // import fonts
 import LoginNavigation from './src/views/LoginNavigation';
 import store from './src/redux/app/store';
+import { Provider } from 'react-redux';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,8 +24,10 @@ export default function App() {
   }, []);
 
   return (
-    <SafeAreaProvider store={store}>
-      {isLoading ? <Splash /> : <LoginNavigation />}
+    <SafeAreaProvider>
+      <Provider store={store}>
+        {isLoading ? <Splash /> : <LoginNavigation />}
+      </Provider>
     </SafeAreaProvider>
   );
 }
