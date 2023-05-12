@@ -3,6 +3,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Splash from './src/components/Splash';
 import loadFonts from './assets/fonts/FontList'; // import fonts
 import LoginNavigation from './src/views/LoginNavigation';
+import StartingScreen from './src/views/StartingScreen';
+import HomeContent from './src/views/Main';
 import store from './src/redux/app/store';
 
 export default function App() {
@@ -24,7 +26,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider store={store}>
-      {isLoading ? <Splash /> : <LoginNavigation />}
+      {isLoading ? <Splash /> : <StartingScreen />}
     </SafeAreaProvider>
   );
 }
