@@ -30,7 +30,7 @@ const style = StyleSheet.create({
 export default function TitleCircleHeadingH2({ title, image, lineStyle }) {
   return (
     <SafeAreaView style={style.container}>
-      <View>
+      <View >
         <Text style={[styles.headline3, { paddingLeft: 13, paddingTop: 3 }]}>
           {title}
         </Text>
