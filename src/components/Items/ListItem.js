@@ -27,8 +27,14 @@ export default function ListItem({ mainTitle, subtitle, iconImage, onPress }) {
     title.split(' ').map((i) => i.charAt(0)); // Inherit case of each letter
   return (
     <TouchableOpacity onPress={onPress}>
-      <Card contentStyle={styles.cardContainer} elevation={0}>
-        <Card.Title
+    <Card
+        style={{
+          backgroundColor: theme.colors.neutralsWhite,
+          marginVertical: 10,
+          paddingVertical: 10,
+        }}
+        elevation={0}
+      >        <Card.Title
           title={mainTitle}
           titleStyle={styles.headline3}
           subtitle={subtitle}

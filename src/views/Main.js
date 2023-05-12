@@ -49,8 +49,8 @@ export default function Main() {
     fetchMainGroups();
   }, []);
   return (
-    <SafeAreaView edges={['left', 'right']} style={{ flex: 1 }}>
-      <GroupsTopBar preDefinedGroups={mainGroups} />
+    <SafeAreaView edges={['left', 'right', 'top']} style={{ flex: 1 }}>
+      <GroupsTopBar preDefinedGroups={preDefinedGroupsObject} />
       <View style={{ flex: 1 }}>
         <BottomNav
           HomeSvgFocused={<HomeSvg color="#F34F34" />}

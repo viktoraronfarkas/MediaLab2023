@@ -11,8 +11,7 @@ const style = StyleSheet.create({
   },
   line: {
     position: 'absolute',
-    top: -20,
-    left: 0,
+    top: -15,
   },
 });
 
@@ -30,10 +29,8 @@ const style = StyleSheet.create({
 export default function TitleCircleHeadingH2({ title, image, lineStyle }) {
   return (
     <SafeAreaView style={style.container}>
-      <View >
-        <Text style={[styles.headline3, { paddingLeft: 13, paddingTop: 3 }]}>
-          {title}
-        </Text>
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={styles.headline3}>{title}</Text>
         <Image
           style={[style.line, lineStyle]}
           source={image}

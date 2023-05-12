@@ -1,19 +1,37 @@
-import React, { useState, useRef } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useRef, useState } from 'react';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar } from 'react-native-paper';
-import { ScrollView, View, Text, TouchableOpacity } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { theme } from '../constants/myTheme';
+import {
+  actionExample,
+  selectedGroup,
+} from '../redux/features/mainSlice/mainSlice';
 
 function GroupsTopBar({ preDefinedGroups }) {
-  const [selected, setSelected] = useState('Feed');
+  const value = useSelector(selectedGroup);
+
+  const dispatch = useDispatch();
+
+  // navigate to REGISTRATION Screen
+  const navigation = useNavigation();
+
   const scrollViewRef = useRef();
 
   const handlePress = (groupName) => {
-    setSelected(groupName);
-
-    // find the index of the selected group
     const groupIndex = preDefinedGroups.findIndex(
       (group) => group.name === groupName
     );
+
+    const group = preDefinedGroups[groupIndex];
+
+    if (groupName !== 'Feed') {
+      dispatch(actionExample(group));
+      navigation.navigate('JoinGroupScreen');
+    } else {
+      dispatch(actionExample(''));
+    }
 
     // calculate the offset based on the index and width of each item
     const offset = groupIndex * 48;
@@ -47,13 +65,12 @@ function GroupsTopBar({ preDefinedGroups }) {
                 borderRadius: 12,
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor:
-                  selected === 'Feed' ? theme.colors.primary : 'white',
+                backgroundColor: !value.name ? theme.colors.primary : 'white',
               }}
             >
               <Text
                 style={{
-                  color: selected === 'Feed' ? 'white' : theme.colors.primary,
+                  color: !value.name ? 'white' : theme.colors.primary,
                   textAlignVertical: 'center',
                   textAlign: 'center',
                   fontSize: 17,
@@ -71,7 +88,7 @@ function GroupsTopBar({ preDefinedGroups }) {
                 height: 5,
                 width: 50,
                 backgroundColor: 'black',
-                opacity: selected === 'Feed' ? 1 : 0,
+                opacity: !value.name ? 1 : 0,
                 borderRadius: 20,
               }}
             />
@@ -94,7 +111,7 @@ function GroupsTopBar({ preDefinedGroups }) {
                   fontWeight: 700,
                   fontFamily: 'Nunito',
                   color:
-                    selected === group.name ? 'white' : theme.colors.primary,
+                    value.name === group.name ? 'white' : theme.colors.primary,
                 }}
                 size={48}
                 label={
@@ -102,7 +119,7 @@ function GroupsTopBar({ preDefinedGroups }) {
                 }
                 style={{
                   backgroundColor:
-                    selected === group.name ? theme.colors.primary : 'white',
+                    value.name === group.name ? theme.colors.primary : 'white',
                 }}
               />
               <View>
@@ -125,7 +142,7 @@ function GroupsTopBar({ preDefinedGroups }) {
                   height: 5,
                   width: 50,
                   backgroundColor: 'black',
-                  opacity: selected === group.name ? 1 : 0,
+                  opacity: value.name === group.name ? 1 : 0,
                   borderRadius: 20,
                 }}
               />
