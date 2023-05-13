@@ -3,14 +3,14 @@ import { View, Text, SafeAreaView, Image } from 'react-native';
 import { styles, theme } from '../constants/myTheme';
 import OrangeButton from '../components/Buttons/OrangeButton';
 
-const StartingScreenHeadline = () => (
-    <Image
+function StartingScreenHeadline() {
+  return <Image
       style={{ height: 350, width: 350 }}
       source={require('../../assets/Images/starting-screen-headline.svg')}
     />
-  );
+}
 
-const LandingScreen = () => {
+function LandingScreen() {
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.backgroundSand, flex: 1 }}>
         <View style={{ margin: 20 }}>
@@ -49,7 +49,7 @@ const LandingScreen = () => {
     </SafeAreaView>
 
   );
-};
+}
 
 
 

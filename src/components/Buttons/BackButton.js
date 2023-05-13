@@ -7,13 +7,12 @@ import { styles } from '../../constants/myTheme';
  *
  * EXAMPLE: <BackButton text="join me!" onPress={onPress}  />
  */
-const BackButton = ({ text, onPress }) => {
+function BackButton({ text, onPress }) {
   return (
     <View
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        gap: '2%',
         left: '2%',
       }}
     >
@@ -23,9 +22,9 @@ const BackButton = ({ text, onPress }) => {
           source={require('../../../assets/Icons/back.png')}
         />
       </TouchableOpacity>
-      <Text style={styles.captionBold}>{text}</Text>
+      <Text style={[styles.captionBold, { left: '2%' }]}>{text}</Text>
     </View>
   );
-};
+}
 
 export default BackButton;

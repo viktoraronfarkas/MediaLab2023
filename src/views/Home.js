@@ -1,14 +1,12 @@
 /* eslint-disable global-require */
-import React, { useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import React from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import PostCard from '../components/Cards/PostCard';
-import EventCard from '../components/Cards/EventCard';
-import { theme } from '../constants/myTheme';
+import { useSelector } from 'react-redux';
 import Feed from '../components/Feed';
 import MainJoinedGroup from '../components/MainJoinedGroup';
+import { theme } from '../constants/myTheme';
 import { selectedGroup } from '../redux/features/mainSlice/mainSlice';
-import { useSelector } from 'react-redux';
 
 const styles = StyleSheet.create({
   container: {

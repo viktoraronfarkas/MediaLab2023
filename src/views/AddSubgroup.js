@@ -11,7 +11,6 @@ import BackButton from '../components/Buttons/BackButton';
 
 
 
-
 function AddSubgroup() {
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.backgroundSand }}>
