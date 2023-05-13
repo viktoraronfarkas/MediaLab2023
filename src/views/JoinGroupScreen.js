@@ -1,11 +1,10 @@
-/* eslint-disable global-require */
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { theme } from '../constants/myTheme';
-import { styles } from '../constants/myTheme';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { theme, styles } from '../constants/myTheme';
+
 import TitleCircleHeadingH2 from '../components/Texts/TitleCircleHeading';
 import circleLineImage from '../../assets/Images/circleLine-image.png';
 import AddIconInteraction from '../components/Buttons/AddIconInteraction';
@@ -20,15 +19,17 @@ function JoinGroup() {
   const value = useSelector(selectedGroup);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const handlePress = () => {};
 
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: theme.colors.backgroundCamel }}
     >
       <BackButton
-        text={'back'}
+        text="back"
         onPress={() => {
-          navigation.goBack(null), dispatch(actionExample(''));
+          navigation.goBack(null);
+          dispatch(actionExample(''));
         }}
       />
       <View
@@ -67,20 +68,20 @@ function JoinGroup() {
         <View
           style={
             {
-              //marginTop: '10%',
+              // marginTop: '10%',
             }
           }
         >
           <AddIconInteraction
             text="join me!"
             icon={iconImage}
-            onPress={() => console.log('Join me')}
+            onPress={handlePress}
           />
         </View>
         <View
           style={
             {
-              //marginTop: '10%',
+              // marginTop: '10%',
             }
           }
         >

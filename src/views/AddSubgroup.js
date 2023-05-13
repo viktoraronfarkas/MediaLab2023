@@ -10,7 +10,7 @@ import GlitterImage from '../../assets/Images/glitter-image.png'
 
 
 
-const AddSubgroup = () => {
+function AddSubgroup() {
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.backgroundSand }}>
         <View style={{ margin: 20 }}>
@@ -18,8 +18,8 @@ const AddSubgroup = () => {
                 <Text style={ styles.textLink }>Back</Text>
             </View>
             <CaptionScribbleHeading 
-                subHeading={'Give it all to me'} 
-                title={'Enter all the infos for your Subgroup'}
+                subHeading="Give it all to me" 
+                title="Enter all the infos for your Subgroup"
                 scribbleSubHeadingImage={GlitterImage} 
                 scribbleStyle={{ width: 35, height: 35}}
             />
@@ -66,7 +66,7 @@ const AddSubgroup = () => {
     </SafeAreaView>
 
   );
-};
+}
 
 
 
