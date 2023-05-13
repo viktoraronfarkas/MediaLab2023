@@ -11,7 +11,13 @@ export default function EventCardImageDefault() {
     <Card.Cover
       source={cardImageEventDefault}
       resizeMode="contain"
-      style={{ borderRadius: 10, backgroundColor: theme.colors.primary }}
+      style={{
+        borderTopStartRadius: 10,
+        borderTopEndRadius: 10,
+        borderBottomEndRadius: 0,
+        borderBottomStartRadius: 0,
+        backgroundColor: theme.colors.primary,
+      }}
     />
   );
 }

@@ -6,7 +6,7 @@ import LoginView from './LoginView';
 /**
  * This is the main representation of the Login Screen for User to login in their account
  */
-function LoginScreen() {
+export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -15,7 +15,7 @@ function LoginScreen() {
   // navigate to REGISTRATION Screen
   const navigation = useNavigation();
   const handleTextClick = () => {
-    navigation.navigate('RegistrationScreen');
+    navigation.navigate('RegistrationOne');
   };
 
   const validateEmail = () => {
@@ -70,5 +70,3 @@ function LoginScreen() {
     />
   );
 }
-
-export default LoginScreen;

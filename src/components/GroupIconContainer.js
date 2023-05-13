@@ -24,13 +24,13 @@ const style = StyleSheet.create({
  *  title="My Group"
  * />
  */
-export default function GroupIconContainer({ imageSource, title }) {
+export default function GroupIconContainer({ imageSource, title, imageStyle }) {
   return (
     <View style={style.container}>
       {imageSource ? (
-        <Image style={style.image} source={imageSource} />
+        <Image style={[style.image, imageStyle]} source={imageSource} />
       ) : (
-        <Image style={style.image} source={defaultImage} />
+        <Image style={[style.image, imageStyle]} source={defaultImage} />
       )}
       <Text style={styles.subtitle1}>{title}</Text>
     </View>

@@ -3,7 +3,7 @@ import { Avatar } from 'react-native-paper';
 import { ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import { theme } from '../constants/myTheme';
 
-function GroupsTopBar({ preDefinedGroups }) {
+export default function GroupsTopBar({ preDefinedGroups }) {
   const [selected, setSelected] = useState('Feed');
   const scrollViewRef = useRef();
 
@@ -136,5 +136,3 @@ function GroupsTopBar({ preDefinedGroups }) {
     </View>
   );
 }
-
-export default GroupsTopBar;
