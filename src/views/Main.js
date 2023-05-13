@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import axios from 'axios';
 import BottomNav from '../components/BottomNavigation';
 import { HomeSvg, MessageSvg, ProfileSvg, SearchSvg } from '../components/SVG';
 import GroupsTopBar from '../components/GroupsTopHorizontalBar';
 import preDefinedGroupsObject from '../TestData/predefinedGroups';
-import axios from 'axios';
 
 export default function Main() {
   const [mainGroups, setMainGroups] = useState([]);

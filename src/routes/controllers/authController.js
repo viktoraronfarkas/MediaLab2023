@@ -1,6 +1,6 @@
 // authController.js
-const pool = require('../config/database');
 const bcrypt = require('bcrypt');
+const pool = require('../config/database');
 
 exports.signup = (req, res) => {
   const { email, name, username, password, confirm_password } = req.body;

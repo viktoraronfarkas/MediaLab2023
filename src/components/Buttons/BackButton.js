@@ -7,7 +7,7 @@ import { styles } from '../../constants/myTheme';
  *
  * EXAMPLE: <BackButton text="join me!" onPress={onPress}  />
  */
-const BackButton = ({ text, onPress }) => {
+function BackButton({ text, onPress }) {
   return (
     <View
       style={{
@@ -26,6 +26,6 @@ const BackButton = ({ text, onPress }) => {
       <Text style={styles.captionBold}>{text}</Text>
     </View>
   );
-};
+}
 
 export default BackButton;
