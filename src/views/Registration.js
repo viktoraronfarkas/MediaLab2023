@@ -88,10 +88,14 @@ function RegistrationScreen() {
       isPasswordConfirm
     ) {
       navigation.navigate('MainScreen');
+      // please delete the line below when console.log is removed
+      // eslint-disable-next-line no-console
       console.log(
         'Input is valid: FH Student receives email for authentication'
       );
     } else {
+      // please delete the line below when console.log is removed
+      // eslint-disable-next-line no-console
       console.error(
         'Email or Password is incorrect or the passwords did not match'
       );

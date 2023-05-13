@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 import { theme, styles } from '../../constants/myTheme';
@@ -16,6 +16,7 @@ const style = StyleSheet.create({
 
 function LeftContent({ iconImage }) {
   return (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       {iconImage ? (
         <Image
@@ -84,7 +85,7 @@ export default function PostCard({
         </Text>
       </Card.Content>
       <Card.Actions>
-        <OrangeButton text={buttonText}></OrangeButton>
+        <OrangeButton text={buttonText} />
       </Card.Actions>
     </Card>
   );

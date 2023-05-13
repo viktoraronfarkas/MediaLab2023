@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text } from 'react-native-paper';
-import { theme, styles } from '../../constants/myTheme';
+import { styles } from '../../constants/myTheme';
 
 const style = StyleSheet.create({
   container: {

@@ -15,7 +15,7 @@ const style = StyleSheet.create({
     borderBottomRightRadius: 8,
     textDecorationColor: 'none',
     fontFamily: theme.fonts.textLink,
-    backgroundColor: theme.colors.backgroundSand,
+    backgroundColor: theme.colors.backgroundWhite,
   },
 });
 /**
