@@ -28,6 +28,15 @@ export default function ListItemOnlyText({
   iconImage,
   onPress,
 }) {
+  const iconButton = (props) => (
+    <IconButton
+      {...props}
+      size={40}
+      icon={iconImage}
+      onPress={onPress}
+      resizeMode="contain"
+    />
+  );
   return (
     <Card
       contentStyle={[styles.cardContainer, cardContainerStyle]}
@@ -36,15 +45,7 @@ export default function ListItemOnlyText({
       <Card.Title
         title={title}
         titleStyle={styles.mainTitle}
-        right={(props) => (
-          <IconButton
-            {...props}
-            size={40}
-            icon={iconImage}
-            onPress={onPress}
-            resizeMode="contain"
-          />
-        )}
+        right={iconButton}
       />
     </Card>
   );
