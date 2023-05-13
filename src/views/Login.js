@@ -52,9 +52,13 @@ function LoginScreen() {
 
     // submit registration form if there are no errors
     if (isEmailValid && isPasswordValid) {
+      // please delete the line below when console.log is removed
+      // eslint-disable-next-line no-console
       console.log('FH Student is login');
     } else {
       // if the input is not valid show this
+      // please delete the line below when console.log is removed
+      // eslint-disable-next-line no-console
       console.log('email or password is incorrect');
     }
   };

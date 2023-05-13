@@ -10,7 +10,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { theme, styles } from '../constants/myTheme';
 
 export default function Home() {
-  console.log(theme);
   return (
     <PaperProvider theme={theme}>
       <SafeAreaView style={{ flex: 1 }}>
@@ -20,12 +19,8 @@ export default function Home() {
           <Text style={styles.headlineXL}>
             Welcome to the first FH Social App
           </Text>
-          <Chip onPress={() => console.log('Pressed')}>Example Chip</Chip>
-          <Button
-            icon="camera"
-            mode="contained"
-            onPress={() => console.log('Pressed')}
-          >
+          <Chip>Example Chip</Chip>
+          <Button icon="camera" mode="contained">
             Press me
           </Button>
           <Card style={{ backgroundColor: 'primaryContainer' }}>

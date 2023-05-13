@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, StyleSheet, Text } from 'react-native';
+import React from 'react';
+import { SafeAreaView, StyleSheet, Text } from 'react-native';
 
 import LottieView from 'lottie-react-native';
 import { theme, styles } from '../../constants/myTheme';
