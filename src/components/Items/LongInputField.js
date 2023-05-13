@@ -41,7 +41,7 @@ export default function LongInputField({ labelText, value, onChangeText }) {
           textAlignVertical="top"
           multiline
           keyboardType="default"
-          blurOnSubmit={true}
+          blurOnSubmit
           returnKeyType="done"
           theme={{
             colors: {

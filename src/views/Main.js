@@ -8,7 +8,7 @@ import preDefinedGroupsObject from '../TestData/predefinedGroups';
 
 export default function Main() {
   return (
-    <SafeAreaView edges={['left', 'right']} style={{ flex: 1 }}>
+    <SafeAreaView edges={['left', 'right', 'top']} style={{ flex: 1 }}>
       <GroupsTopBar preDefinedGroups={preDefinedGroupsObject} />
       <View style={{ flex: 1 }}>
         <BottomNav
