@@ -9,7 +9,6 @@ import { theme } from '../../../constants/myTheme';
 import OrangeButton from '../../../components/Buttons/OrangeButton';
 import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHeading';
 import GroupIconContainer from '../../../components/GroupIconContainer';
-// import HorizontalScrollViewBig from '../../../components/HorizontalScrollViewBig';
 import preDefinedGroups from '../../../TestData/predefinedGroups';
 
 const style = StyleSheet.create({
