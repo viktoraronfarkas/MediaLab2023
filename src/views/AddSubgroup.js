@@ -6,20 +6,27 @@ import OrangeButton from '../components/Buttons/OrangeButton';
 import CaptionScribbleHeading from '../components/Texts/CaptionScribbleHeading';
 import UploadIcon from '../../assets/Icons/upload-icon.png';
 import GlitterImage from '../../assets/Images/glitter-image.png'
+import BackButton from '../components/Buttons/BackButton';
 
 
 
 
-const AddSubgroup = () => {
+
+function AddSubgroup() {
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.backgroundSand }}>
         <View style={{ margin: 20 }}>
-            <View style={{ marginBottom:20, marginTop:20 }}>
-                <Text style={ styles.textLink }>Back</Text>
+            <View style={{ marginBottom:10, marginTop:10 }}>
+                <BackButton
+                    text="back"
+                    onPress={() => {
+                    navigation.goBack(null), dispatch(actionExample(''));
+                    }}
+                />
             </View>
             <CaptionScribbleHeading 
-                subHeading={'Give it all to me'} 
-                title={'Enter all the infos for your Subgroup'}
+                subHeading="Give it all to me" 
+                title="Enter all the infos for your Subgroup"
                 scribbleSubHeadingImage={GlitterImage} 
                 scribbleStyle={{ width: 35, height: 35}}
             />
@@ -66,7 +73,7 @@ const AddSubgroup = () => {
     </SafeAreaView>
 
   );
-};
+}
 
 
 
