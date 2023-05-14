@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -20,6 +19,7 @@ function JoinGroup() {
   const value = useSelector(selectedGroup);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const handlePress = () => {};
 
   return (
     <SafeAreaView
@@ -28,7 +28,8 @@ function JoinGroup() {
       <BackButton
         text="back"
         onPress={() => {
-          navigation.goBack(null), dispatch(actionExample(''));
+          navigation.goBack(null);
+          dispatch(actionExample(''));
         }}
       />
       <View
@@ -74,7 +75,7 @@ function JoinGroup() {
           <AddIconInteraction
             text="join me!"
             icon={iconImage}
-            onPress={() => console.log('Join me')}
+            onPress={handlePress}
           />
         </View>
         <View
