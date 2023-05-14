@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { SafeAreaView, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, Text, Image } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import ClickableText from '../components/components';
@@ -14,7 +14,21 @@ function LoginScreen() {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [userImage, setUserImage] = useState(null); // State to store the user image URL
+  const userId = 11;
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const response = await fetch(`http://10.5.13.150:3000/user/${userId}`);
+      const data = await response.json();
+      // Convert the Blob to a Base64-encoded string
+      console.log(data.profile_image);
+      const base64Image = `data:image/jpeg;base64,${data.profile_image}`;
+      setUserImage(base64Image);
+    };
+
+    fetchUser();
+  }, []);
   // navigate to REGISTRATION Screen
   const navigation = useNavigation();
   const handleTextClick = () => {
@@ -65,6 +79,12 @@ function LoginScreen() {
 
   return (
     <SafeAreaView style={stylesLoginReg.container}>
+      {userImage && (
+        <Image
+          source={{ uri: userImage }} // Use the user image URL as the source
+          style={{ width: 100, height: 100 }}
+        />
+      )}
       <Text variant="displayMedium">FH Social </Text>
       <Text variant="displaySmall">St.Pölten</Text>
 

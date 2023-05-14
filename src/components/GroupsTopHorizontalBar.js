@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,7 +21,7 @@ function GroupsTopBar({ preDefinedGroups }) {
 
   const handlePress = (groupName) => {
     const groupIndex = preDefinedGroups.findIndex(
-      (group) => group.name === groupName
+      (group) => group.main_group_name === groupName
     );
 
     const group = preDefinedGroups[groupIndex];
@@ -95,9 +95,9 @@ function GroupsTopBar({ preDefinedGroups }) {
           </View>
         </TouchableOpacity>
         {preDefinedGroups.map((group) => (
-          <TouchableOpacity onPress={() => handlePress(group.name)}>
+          <TouchableOpacity onPress={() => handlePress(group.main_group_name)}>
             <View
-              key={group.group_id}
+              key={group.main_group_id}
               style={{
                 padding: 10,
                 position: 'relative',
@@ -111,15 +111,21 @@ function GroupsTopBar({ preDefinedGroups }) {
                   fontWeight: 700,
                   fontFamily: 'Nunito',
                   color:
-                    value.name === group.name ? 'white' : theme.colors.primary,
+                    value.name === group.main_group_name
+                      ? 'white'
+                      : theme.colors.primary,
                 }}
                 size={48}
                 label={
-                  group.name.length > 3 ? group.name.charAt(0) : group.name
+                  group.main_group_name.length > 3
+                    ? group.main_group_name.charAt(0)
+                    : group.main_group_name
                 }
                 style={{
                   backgroundColor:
-                    value.name === group.name ? theme.colors.primary : 'white',
+                    value.name === group.main_group_name
+                      ? theme.colors.primary
+                      : 'white',
                 }}
               />
               <View>
@@ -131,7 +137,7 @@ function GroupsTopBar({ preDefinedGroups }) {
                     color: '#1F2937',
                   }}
                 >
-                  {group.name}
+                  {group.main_group_name}
                 </Text>
               </View>
 
@@ -142,7 +148,7 @@ function GroupsTopBar({ preDefinedGroups }) {
                   height: 5,
                   width: 50,
                   backgroundColor: 'black',
-                  opacity: value.name === group.name ? 1 : 0,
+                  opacity: value.name === group.main_group_name ? 1 : 0,
                   borderRadius: 20,
                 }}
               />

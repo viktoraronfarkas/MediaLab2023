@@ -4,7 +4,7 @@ import { View, Text, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { theme , styles } from '../constants/myTheme';
+import { theme, styles } from '../constants/myTheme';
 
 import TitleCircleHeadingH2 from '../components/Texts/TitleCircleHeading';
 import circleLineImage from '../../assets/Images/circleLine-image.png';
@@ -41,7 +41,7 @@ function JoinGroup() {
       >
         <View>
           <TitleCircleHeadingH2
-            title={value.name}
+            title={value.main_group_name}
             image={circleLineImage}
             lineStyle={{
               height: 70,
@@ -60,8 +60,8 @@ function JoinGroup() {
           <Text
             style={[styles.subtitle1, { width: '90%', textAlign: 'center' }]}
           >
-            Join the {value.name} group to get all the infos about this study
-            programme!
+            Join the {value.main_group_name} group to get all the infos about
+            this study programme!
           </Text>
         </View>
         <View

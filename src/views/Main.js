@@ -5,7 +5,6 @@ import axios from 'axios';
 import BottomNav from '../components/BottomNavigation';
 import { HomeSvg, MessageSvg, ProfileSvg, SearchSvg } from '../components/SVG';
 import GroupsTopBar from '../components/GroupsTopHorizontalBar';
-import preDefinedGroupsObject from '../TestData/predefinedGroups';
 
 export default function Main() {
   const [mainGroups, setMainGroups] = useState([]);
@@ -24,7 +23,7 @@ export default function Main() {
                 `http://10.5.13.150:3000/subgroup/${subgroup.subgroup_id}/posts`
               );
               const eventsResponse = await axios.get(
-                `http://localhost:3000/subgroup/${subgroup.subgroup_id}/events`
+                `http://10.5.13.150:3000/subgroup/${subgroup.subgroup_id}/events`
               );
 
               subgroup.posts = postsResponse.data;
@@ -37,6 +36,7 @@ export default function Main() {
           mainGroup.subgroups = subgroupsWithData;
 
           return mainGroup;
+          s;
         })
       );
 
@@ -45,12 +45,16 @@ export default function Main() {
       console.error('Error fetching main groups:', error);
     }
   };
+
   useEffect(() => {
     fetchMainGroups();
   }, []);
+
+  console.log(mainGroups);
+
   return (
     <SafeAreaView edges={['left', 'right', 'top']} style={{ flex: 1 }}>
-      <GroupsTopBar preDefinedGroups={preDefinedGroupsObject} />
+      <GroupsTopBar preDefinedGroups={mainGroups} />
       <View style={{ flex: 1 }}>
         <BottomNav
           HomeSvgFocused={<HomeSvg color="#F34F34" />}
