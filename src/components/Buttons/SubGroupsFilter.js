@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
 import { SegmentedButtons } from 'react-native-paper';
 
-const SubGroupsFilter = () => {
+export default function SubGroupsFilter() {
   const [value, setValue] = React.useState('');
 
   return (
@@ -23,13 +22,4 @@ const SubGroupsFilter = () => {
       ]}
     />
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-  },
-});
-
-export default SubGroupsFilter;
+}

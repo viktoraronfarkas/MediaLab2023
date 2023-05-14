@@ -20,6 +20,15 @@
       "error",
       { "devDependencies": true, "dependencies": true }
     ],
+    "react/no-unstable-nested-components": [
+      "off",
+      "warn",
+      "error",
+      {
+        "allowAsProps": true,
+        "customValidators": []
+      }
+    ],
     "global-require": 0,
     "react/jsx-props-no-spreading": "off"
   }

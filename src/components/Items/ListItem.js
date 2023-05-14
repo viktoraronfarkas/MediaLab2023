@@ -13,11 +13,9 @@ import { theme, styles } from '../../constants/myTheme';
  * < ListItem mainTitle="Spike Ball" subtitle="Spike Ball" iconImage={iconImage} />
  */
 
-export default function ListItem({ mainTitle, subtitle, iconImage, onPress }) {
-  const listLabel = (title) =>
-    // return title.match(/\b\w/g).join('');
-    title.split(' ').map((i) => i.charAt(0)); // Inherit case of each letter
+const listLabel = (title) => title.split(' ').map((i) => i.charAt(0)); // Inherit case of each letter
 
+export default function ListItem({ mainTitle, subtitle, iconImage, onPress }) {
   return (
     <TouchableOpacity onPress={onPress}>
       <Card
