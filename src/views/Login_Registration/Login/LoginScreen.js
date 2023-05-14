@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import LoginView from './LoginView';
+import firebase from '../../../../config';
 
 // TODO Validation / Authentication for available User inside DB
 /**
@@ -19,7 +20,8 @@ export default function LoginScreen() {
   };
 
   const validateEmail = () => {
-    const emailRegex = /[a-z]{2}\d{6}@fhstp\.ac\.at/;
+    // const emailRegex = /[a-z]{2}\d{6}@fhstp\.ac\.at/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
     if (!emailRegex.test(email)) {
       setEmailError('Please enter your FH email address.');
@@ -49,6 +51,7 @@ export default function LoginScreen() {
 
     // submit registration form if there are no errors
     if (isEmailValid && isPasswordValid) {
+      await firebase.auth().signInWithEmailAndPassword(email, password);
       console.log('FH Student is login');
     } else {
       // if the input is not valid show this
