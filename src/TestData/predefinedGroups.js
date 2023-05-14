@@ -11,6 +11,7 @@ const preDefinedGroupsObject = [
         events: 1,
         threads: 1,
         created_at: '2023-04-17T22:00:00.000Z',
+        subTitle: 'All semesters welcome!',
       },
       {
         subgroup_id: 4,
@@ -20,6 +21,7 @@ const preDefinedGroupsObject = [
         events: 0,
         threads: 0,
         created_at: '2023-05-05T23:46:49.000Z',
+        subTitle: 'For everything',
       },
       {
         subgroup_id: 9,
@@ -29,6 +31,7 @@ const preDefinedGroupsObject = [
         events: 0,
         threads: 0,
         created_at: '2023-05-06T17:51:38.000Z',
+        subTitle: 'Join us!',
       },
     ],
   },

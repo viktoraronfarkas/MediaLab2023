@@ -40,7 +40,6 @@ export default function ListItem({ mainTitle, subtitle, iconImage, onPress }) {
         }}
         elevation={0}
       >
-        {' '}
         <Card.Title
           title={mainTitle}
           titleStyle={styles.headline3}
