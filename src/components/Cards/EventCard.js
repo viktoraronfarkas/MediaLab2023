@@ -39,7 +39,12 @@ export default function EventCard({
         <Card.Cover
           source={cardImage}
           resizeMode="cover"
-          style={{ borderRadius: 10 }}
+          style={{
+            borderTopStartRadius: 10,
+            borderTopEndRadius: 10,
+            borderBottomEndRadius: 0,
+            borderBottomStartRadius: 0,
+          }}
         />
       ) : (
         // if there is no cardImage take a default image

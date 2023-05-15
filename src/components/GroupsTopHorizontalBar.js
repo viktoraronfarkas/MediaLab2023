@@ -9,7 +9,7 @@ import {
   selectedGroup,
 } from '../redux/features/mainSlice/mainSlice';
 
-function GroupsTopBar({ preDefinedGroups }) {
+export default function GroupsTopBar({ preDefinedGroups }) {
   const value = useSelector(selectedGroup);
 
   const dispatch = useDispatch();
@@ -162,5 +162,3 @@ function GroupsTopBar({ preDefinedGroups }) {
     </View>
   );
 }
-
-export default GroupsTopBar;

@@ -4,7 +4,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { theme, styles } from '../constants/myTheme';
-
 import TitleCircleHeadingH2 from '../components/Texts/TitleCircleHeading';
 import circleLineImage from '../../assets/Images/circleLine-image.png';
 import AddIconInteraction from '../components/Buttons/AddIconInteraction';
