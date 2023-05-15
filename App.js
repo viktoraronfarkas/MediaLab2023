@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider } from 'react-redux';
 import Splash from './src/components/Splash';
 import loadFonts from './assets/fonts/FontList'; // import fonts
 import ScreenNavigation from './src/views/Login_Registration/ScreenNavigation';

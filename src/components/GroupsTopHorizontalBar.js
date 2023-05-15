@@ -94,8 +94,11 @@ export default function GroupsTopBar({ preDefinedGroups }) {
             />
           </View>
         </TouchableOpacity>
-        {preDefinedGroups.map((group) => (
-          <TouchableOpacity onPress={() => handlePress(group.name)}>
+        {preDefinedGroups.map((group, index) => (
+          <TouchableOpacity
+            key={index /* eslint-disable-line react/no-array-index-key */}
+            onPress={() => handlePress(group.name)}
+          >
             <View
               key={group.group_id}
               style={{

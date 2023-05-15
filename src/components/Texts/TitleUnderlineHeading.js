@@ -22,7 +22,7 @@ const style = StyleSheet.create({
 export default function TitleUnderlineHeading({ title, image, lineStyle }) {
   return (
     <SafeAreaView style={style.container}>
-      <Text style={styles.headline3}> {title} </Text>
+      <Text style={[styles.headline3, { textAlign: 'center' }]}> {title} </Text>
       <View>
         <Image
           style={[style.line, lineStyle]}
