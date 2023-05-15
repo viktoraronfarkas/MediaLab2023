@@ -7,20 +7,6 @@ import { theme } from '../../constants/myTheme';
 import LoginScreen from './Login/LoginScreen';
 import RegistrationScreen from './Registration/RegistrationScreen';
 
-// const style = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: theme.colors.backgroundSand,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   text: {
-//     fontSize: 42,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     color: theme.colors.primary,
-//   },
-// });
 export default function ScreenNavigation() {
   const Stack = createStackNavigator();
 
