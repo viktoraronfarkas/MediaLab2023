@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import firebase from '../config';
-import ScreenNavigation from './views/Login_Registration/ScreenNavigation';
-import Home from './views/Home_Test';
+import firebase from '../../../config';
+import ScreenNavigation from './ScreenNavigation';
+import Home from '../Home_Test';
 
 export default function UserAuthentication() {
   const [initializing, setInitializing] = useState(true);

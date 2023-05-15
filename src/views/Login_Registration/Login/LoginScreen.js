@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import LoginView from './LoginView';
 import firebase from '../../../../config';
+// import Home from '../Home_Test';
 
 // TODO Validation / Authentication for available User inside DB
 /**
@@ -53,11 +54,22 @@ export default function LoginScreen() {
     if (isEmailValid && isPasswordValid) {
       await firebase.auth().signInWithEmailAndPassword(email, password);
       console.log('FH Student is login');
+      navigation.navigate('Home');
     } else {
       // if the input is not valid show this
       console.log('email or password is incorrect');
     }
   };
+
+  // useEffect(() => {
+  //   const subscribe = firebase.auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       navigation.navigate('Home');
+  //     }
+  //   });
+
+  //   return subscribe;
+  // }, [navigation]);
 
   return (
     <LoginView

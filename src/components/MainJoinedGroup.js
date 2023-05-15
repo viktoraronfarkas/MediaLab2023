@@ -1,10 +1,10 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { selectedGroup } from '../redux/features/mainSlice/mainSlice';
+import { View } from 'react-native';
 import { useSelector } from 'react-redux';
-import TitleCircleHeadingH2 from '../components/Texts/TitleCircleHeading';
+import TitleCircleHeadingH2 from './Texts/TitleCircleHeading';
+import { selectedGroup } from '../redux/features/mainSlice/mainSlice';
 import circleLineImage from '../../assets/Images/circleLine-image.png';
-import SubGroupsFilter from '../components/Buttons/SubGroupsFilter';
+import SubGroupsFilter from './Buttons/SubGroupsFilter';
 
 function MainJoinedGroup() {
   const value = useSelector(selectedGroup);

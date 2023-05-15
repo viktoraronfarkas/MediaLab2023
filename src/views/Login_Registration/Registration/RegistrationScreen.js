@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import firebase from '../../../../config';
 import { theme } from '../../../constants/myTheme';
 import RegistrationPageOneView from './RegistrationPageOneView';
 import RegistrationPageTwoView from './RegistrationPageTwoView';
 import RegistrationPageThreeView from './RegistrationPageThreeView';
-import firebase from '../../../../config';
+import VerifyEmailScreen from '../VerifyEmailScreen';
+// import Home from '../../Home_Test';
 
 const style = StyleSheet.create({
   container: {
@@ -157,46 +160,49 @@ export default function RegistrationScreen() {
       isPasswordValid &&
       isPasswordConfirm
     ) {
-      try {
-        await firebase
-          .auth()
-          .createUserWithEmailAndPassword(email, 'temporaryPassword');
+      // try {
+      await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
 
         // Send the verification email
-        await firebase.auth().currentUser.sendEmailVerification({
-          handleCodeInApp: true,
-          url: 'https://uasync-8e7a4.firebaseapp.com',
-        });
-
+        // await firebase.auth().currentUser.sendEmailVerification({
+        //   handleCodeInApp: true,
+        // url: 'https://uasync-8e7a4.firebaseapp.com',
+        // });
         // Prompt the user to verify their email address
-        alert(
-          'A verification email has been sent to your email address. Please verify your email address to complete the registration process.'
-        );
+        // alert(
+        //   'A verification email has been sent to your email address. Please verify your email address to complete the registration process.'
+        // );
 
         // Update the user's password once they have verified their email address
-        firebase.auth().onAuthStateChanged((user) => {
-          if (user && user.emailVerified) {
-            user
-              .updatePassword(password)
-              .then(() => {
-                // Update the user's information in the database
-                firebase.firestore().collection('users').doc(user.uid).set({
-                  email,
-                  username,
-                  name,
-                  imageUpload,
-                  selectedNames,
-                });
-              })
-              .catch((error) => {
-                alert(error.message);
-              });
-          }
+
+        .then(() => {
+          // Update the user's information in the database
+          firebase
+            .firestore()
+            .collection('users')
+            .doc(firebase.auth().currentUser.uid)
+            .set({
+              email,
+              username,
+              name,
+              imageUpload,
+              selectedNames,
+            });
+        })
+
+        .catch((error) => {
+          alert(error.message);
         });
-      } catch (error) {
-        alert(error.message);
-      }
-    } else {
+      navigation.navigate('VerifyEmailScreen');
+    }
+
+    // } catch (error) {
+    //   alert(error.message);
+    // }
+    // }
+    else {
       console.error(
         'Email or Password is incorrect or the passwords did not match'
       );
@@ -278,6 +284,11 @@ export default function RegistrationScreen() {
           />
         )}
       </RegistrationStack.Screen>
+
+      <RegistrationStack.Screen
+        name="VerifyEmailScreen"
+        component={VerifyEmailScreen}
+      />
     </RegistrationStack.Navigator>
   );
 }
