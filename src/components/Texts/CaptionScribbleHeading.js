@@ -82,9 +82,7 @@ export default function CaptionScribbleHeading({
       </View>
 
       <View style={style.containerTitle}>
-        <Text style={[styles.headline1, { textAlign: 'left' }]}>
-          {title}
-        </Text>
+        <Text style={[styles.headline3, { textAlign: 'left' }]}>{title}</Text>
         <Image
           style={[style.arrow, arrowStyle]}
           source={arrowImage}

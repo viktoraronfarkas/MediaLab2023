@@ -6,7 +6,6 @@ const style = StyleSheet.create({
   button: {
     backgroundColor: theme.colors.primary,
     borderRadius: 16,
-    paddingVertical: 8,
     paddingHorizontal: 16,
     width: 'auto',
     alignSelf: 'center',
@@ -22,9 +21,16 @@ const style = StyleSheet.create({
  *
  * <SmallButtonOrange title = filter.items.names
  */
-export default function SmallButtonOrange({ onPress, title }) {
+export default function SmallButtonOrange({
+  onPress,
+  title,
+  paddingVertical = 8,
+}) {
   return (
-    <TouchableOpacity style={style.button} onPress={onPress}>
+    <TouchableOpacity
+      style={[style.button, { paddingVertical }]}
+      onPress={onPress}
+    >
       <Text style={[styles.bodyDefault, { color: theme.colors.neutralsWhite }]}>
         {title}
       </Text>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, SafeAreaView, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import InputField from '../components/Items/InputField';
 import { styles, theme } from '../constants/myTheme';
 import OrangeButton from '../components/Buttons/OrangeButton';
@@ -8,29 +7,28 @@ import CaptionScribbleHeading from '../components/Texts/CaptionScribbleHeading';
 import UploadIcon from '../../assets/Icons/upload-icon.png';
 import GlitterImage from '../../assets/Images/glitter-image.png';
 import BackButton from '../components/Buttons/BackButton';
+import Filter from '../components/Filter';
 
 function AddSubgroup() {
-  const navigation = useNavigation();
-  const handlePress = () => {
-    navigation.goBack(null);
-    // dispatch(actionExample(''));
-  };
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.backgroundSand }}>
       <View style={{ margin: 20 }}>
         <View style={{ marginBottom: 10, marginTop: 10 }}>
-          <BackButton text="back" onPress={handlePress} />
+          <BackButton text="back" />
         </View>
+
+        <Filter options={['posts', 'events']} activeButton="posts" />
+
         <CaptionScribbleHeading
           subHeading="Give it all to me"
-          title="Enter all the infos for your Subgroup"
+          title="Enter all the post infos that are important for people:"
           scribbleSubHeadingImage={GlitterImage}
           scribbleStyle={{ width: 35, height: 35 }}
         />
 
         <View style={{ marginTop: 40 }}>
           <View style={{ marginBottom: 5 }}>
-            <Text style={styles.subtitle2}>Name your Subgroup:</Text>
+            <Text style={styles.subtitle2}>Give us a great heading:</Text>
           </View>
           <InputField labelText="Name" padding={2} marginLeft={0} />
           <View style={{ marginLeft: 20 }}>
@@ -40,7 +38,7 @@ function AddSubgroup() {
 
         <View style={{ marginTop: 20 }}>
           <View style={{ marginBottom: 5 }}>
-            <Text style={styles.subtitle2}>Write a great caption:</Text>
+            <Text style={styles.subtitle2}>Give us a great Subheading:</Text>
           </View>
           <InputField labelText="Caption" padding={2} marginLeft={0} />
           <View style={{ marginLeft: 20 }}>
@@ -57,7 +55,7 @@ function AddSubgroup() {
 
         <View style={{ marginTop: 20 }}>
           <View style={{ marginBottom: 5 }}>
-            <Text style={styles.subtitle2}>Write a small Introduction:</Text>
+            <Text style={styles.subtitle2}>Write what is important:</Text>
           </View>
           <InputField labelText="Introduction" padding={2} marginLeft={0} />
         </View>
