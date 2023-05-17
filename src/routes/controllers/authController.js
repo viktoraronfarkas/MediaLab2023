@@ -1,37 +1,10 @@
 // authController.js
 const bcrypt = require('bcrypt');
 const multer = require('multer');
-const path = require('path');
 const pool = require('../config/database');
 
-// Set up Multer storage for file uploads
-/* const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    const uploadPath = path.join(__dirname, '../../../uploads');
-    cb(null, uploadPath);
-  },
-  filename(req, file, cb) {
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    const fileExtension = file.mimetype.split('/')[1]; // Get the file extension from the mimetype
-    cb(null, `${file.fieldname}-${uniqueSuffix}.${fileExtension}`); // Set a unique filename with the file extension
-  },
-}); */
-
-/* const upload = multer({
-  storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // Set a file size limit (5MB in this example)
-  fileFilter: (req, file, cb) => {
-    // Check the file type and only allow certain file extensions
-    if (file.mimetype.startsWith('image/')) {
-      cb(null, true); // Accept the file
-    } else {
-      cb(new Error('Invalid file type. Only images are allowed.'), false); // Reject the file
-    }
-  },
-}).single('profile_image'); */
-
+// Configure multer for file upload
 const storage = multer.memoryStorage(); // Use MemoryStorage to store the uploaded file in memory
-
 const upload = multer({
   storage,
   limits: { fileSize: 5 * 1024 * 1024 }, // Set a file size limit (5MB in this example)
@@ -45,60 +18,81 @@ const upload = multer({
   },
 }).single('profile_image');
 
+/**
+ * User signup API
+ * Handles user registration and profile image upload.
+ *
+ * Request body:
+ * {
+ *   email: string,
+ *   name: string,
+ *   username: string,
+ *   password: string,
+ *   confirm_password: string
+ * }
+ *
+ * Response:
+ * {
+ *   message: string
+ * }
+ */
 exports.signup = (req, res) => {
-  upload(req, res, (err) => {
-    if (err instanceof multer.MulterError) {
-      // A Multer error occurred while uploading
+  // eslint-disable-next-line consistent-return
+  upload(req, res, (uploadErr) => {
+    // Handle file upload errors
+    if (uploadErr instanceof multer.MulterError) {
       return res.status(500).json({ message: 'Error uploading file' });
     }
-    if (err) {
-      console.error('Error uploading file:', err);
+    if (uploadErr) {
+      console.error('Error uploading file:', uploadErr);
       return res
         .status(500)
-        .json({ message: 'Error uploading file', error: err.message });
+        .json({ message: 'Error uploading file', error: uploadErr.message });
     }
 
-    const { email, name, username, password, confirm_password } = req.body;
-    const role_id = 1; // assuming role_id for regular users is 1
+    // Retrieve user registration data from the request body
+    const { email, name, username, password, confirmPassword } = req.body;
+    const roleId = 1; // assuming role_id for regular users is 1
 
+    // Validate required fields
     if (!email) {
       return res.status(400).json({ message: 'Email not provided' });
     }
-
     if (!name) {
       return res.status(400).json({ message: 'Name not provided' });
     }
-
     if (!username) {
       return res.status(400).json({ message: 'Username not provided' });
     }
-
     if (!password) {
       return res.status(400).json({ message: 'Password not provided' });
     }
 
-    if (password !== confirm_password) {
+    // Check password match
+    if (password !== confirmPassword) {
       return res.status(400).json({ message: 'Passwords do not match' });
     }
 
-    // Get the file path or filename from `req.file` and store it in the `profile_image` column of your users table
-    // const fileExtension = req.file ? req.file.filename.split('.').pop() : null;
-    // const profileImage = req.file ? req.file.filename : null;
-    const profileImage = req.file ? req.file.buffer : null; // Access the file buffer instead of the file path
+    // Access the file buffer instead of the file path
+    const profileImage = req.file ? req.file.buffer : null;
 
-    pool.getConnection((err, connection) => {
-      if (err) {
-        console.error('Error getting MySQL connection:', err);
+    // Connect to the database pool
+    // eslint-disable-next-line consistent-return
+    pool.getConnection((dbErr, connection) => {
+      if (dbErr) {
+        console.error('Error getting MySQL connection:', dbErr);
         return res.status(500).json({ message: 'Failed to connect to MySQL' });
       }
 
+      // Check if the email already exists
       connection.query(
         'SELECT * FROM users WHERE email = ?',
         [email],
-        (error, results) => {
-          if (error) {
+        // eslint-disable-next-line consistent-return
+        (queryErr, results) => {
+          if (queryErr) {
             connection.release();
-            console.error('Error querying MySQL:', error);
+            console.error('Error querying MySQL:', queryErr);
             return res
               .status(500)
               .json({ message: 'Error while creating user' });
@@ -109,23 +103,26 @@ exports.signup = (req, res) => {
             return res.status(409).json({ message: 'Email already exists' });
           }
 
-          bcrypt.hash(password, 12, (err, passwordHash) => {
-            if (err) {
+          // Hash the password
+          // eslint-disable-next-line consistent-return
+          bcrypt.hash(password, 12, (hashErr, passwordHash) => {
+            if (hashErr) {
               connection.release();
-              console.error('Error hashing password:', err);
+              console.error('Error hashing password:', hashErr);
               return res
                 .status(500)
                 .json({ message: 'Error while hashing password' });
             }
 
+            // Insert user data into the database
             connection.query(
               'INSERT INTO users (email, name, username, password, role_id, profile_image) VALUES (?, ?, ?, ?, ?, ?)',
-              [email, name, username, passwordHash, role_id, profileImage],
-              (error, results) => {
+              [email, name, username, passwordHash, roleId, profileImage],
+              (insertErr) => {
                 connection.release();
 
-                if (error) {
-                  console.error('Error creating user:', error);
+                if (insertErr) {
+                  console.error('Error creating user:', insertErr);
                   return res
                     .status(500)
                     .json({ message: 'Error while creating user' });
@@ -144,45 +141,53 @@ exports.signup = (req, res) => {
 exports.login = (req, res) => {
   const { email, password } = req.body;
 
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.error('Error getting MySQL connection:', err);
+  pool.getConnection((connectionErr, connection) => {
+    if (connectionErr) {
+      console.error('Error getting MySQL connection:', connectionErr);
       return res.status(500).json({ error: 'Failed to connect to MySQL' });
     }
 
+    // Query the database for the user with the provided email
     connection.query(
       'SELECT * FROM users WHERE email = ?',
       [email],
-      (error, results) => {
+      // eslint-disable-next-line consistent-return
+      (queryErr, results) => {
         connection.release();
 
-        if (error) {
-          console.error('Error querying MySQL:', error);
+        if (queryErr) {
+          console.error('Error querying MySQL:', queryErr);
           return res
             .status(500)
             .json({ error: 'Failed to fetch data from MySQL' });
         }
 
+        // Check if the user exists
         if (results.length === 0) {
-          return res.status(401).json({ error: 'Invalid email or password' });
+          return res.status(401).json({ error: 'invalidEmail' });
         }
 
         const user = results[0];
-        bcrypt.compare(password, user.password, (err, result) => {
-          if (err) {
-            console.error('Error comparing password hashes:', err);
+
+        // Compare the provided password with the stored password hash
+        bcrypt.compare(password, user.password, (bcryptErr, result) => {
+          if (bcryptErr) {
+            console.error('Error comparing password hashes:', bcryptErr);
             return res
               .status(500)
               .json({ error: 'Error while comparing password hashes' });
           }
 
+          // If the passwords match, return a success message and the user object
           if (!result) {
-            return res.status(401).json({ error: 'Invalid email or password' });
+            return res.status(401).json({ error: 'invalidPassword' });
           }
 
           return res.json({ message: 'Login successful', user });
         });
       }
     );
+
+    return null; // Add this line to satisfy the consistent-return ESLint rule
   });
 };

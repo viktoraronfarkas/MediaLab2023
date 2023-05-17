@@ -6,8 +6,14 @@ function SubGroupsFilter({
   firstFilterLabel,
   secondFilterLabel,
   thirdFilterLabel,
+  onFilterChange, // New prop to handle filter selection change
 }) {
   const [selected, setSelected] = useState('all');
+
+  const handleFilterChange = (filter) => {
+    setSelected(filter);
+    onFilterChange(filter);
+  };
 
   return (
     <View
@@ -43,7 +49,7 @@ function SubGroupsFilter({
             height: 30,
             borderRadius: 12,
           }}
-          onPress={() => setSelected(firstFilterLabel)}
+          onPress={() => handleFilterChange(firstFilterLabel)}
         >
           <Text
             style={{
@@ -54,7 +60,7 @@ function SubGroupsFilter({
                   : theme.colors.neutralsGrey800,
             }}
           >
-            all
+            {firstFilterLabel}
           </Text>
         </TouchableOpacity>
       </View>
@@ -75,7 +81,7 @@ function SubGroupsFilter({
             height: 30,
             borderRadius: 12,
           }}
-          onPress={() => setSelected(secondFilterLabel)}
+          onPress={() => handleFilterChange(secondFilterLabel)}
         >
           <Text
             style={{
@@ -86,7 +92,7 @@ function SubGroupsFilter({
                   : theme.colors.neutralsGrey800,
             }}
           >
-            joined
+            {secondFilterLabel}
           </Text>
         </TouchableOpacity>
       </View>
@@ -112,7 +118,7 @@ function SubGroupsFilter({
             height: 30,
             borderRadius: 12,
           }}
-          onPress={() => setSelected(thirdFilterLabel)}
+          onPress={() => handleFilterChange(thirdFilterLabel)}
         >
           <Text
             style={{
@@ -123,7 +129,7 @@ function SubGroupsFilter({
                   : theme.colors.neutralsGrey800,
             }}
           >
-            unjoined
+            {thirdFilterLabel}
           </Text>
         </TouchableOpacity>
       </View>

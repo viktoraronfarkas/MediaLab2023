@@ -1,17 +1,22 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import axios from 'axios';
+import { useSelector } from 'react-redux';
 import BottomNav from '../components/BottomNavigation';
-import { HomeSvg, MessageSvg, ProfileSvg, SearchSvg } from '../components/SVG';
 import GroupsTopBar from '../components/GroupsTopHorizontalBar';
+import { HomeSvg, MessageSvg, ProfileSvg, SearchSvg } from '../components/SVG';
+import { IpAddress } from '../redux/features/mainSlice/mainSlice';
 
 export default function Main() {
   const [mainGroups, setMainGroups] = useState([]);
+  const clientIpAddress = useSelector(IpAddress);
 
   const fetchMainGroups = async () => {
     try {
-      const response = await axios.get('http://10.5.13.150:3000/maingroup');
+      const response = await axios.get(
+        `http://${clientIpAddress}:3001/maingroup`
+      );
       const mainGroupsData = response.data;
 
       // Fetch posts and events for each subgroup
@@ -20,10 +25,10 @@ export default function Main() {
           const subgroupsWithData = await Promise.all(
             mainGroup.subgroups.map(async (subgroup) => {
               const postsResponse = await axios.get(
-                `http://10.5.13.150:3000/subgroup/${subgroup.subgroup_id}/posts`
+                `http://${clientIpAddress}:3001/subgroup/${subgroup.subgroup_id}/posts`
               );
               const eventsResponse = await axios.get(
-                `http://10.5.13.150:3000/subgroup/${subgroup.subgroup_id}/events`
+                `http://${clientIpAddress}:3001/subgroup/${subgroup.subgroup_id}/events`
               );
 
               subgroup.posts = postsResponse.data;
@@ -36,7 +41,6 @@ export default function Main() {
           mainGroup.subgroups = subgroupsWithData;
 
           return mainGroup;
-          s;
         })
       );
 
@@ -49,8 +53,6 @@ export default function Main() {
   useEffect(() => {
     fetchMainGroups();
   }, []);
-
-  console.log(mainGroups);
 
   return (
     <SafeAreaView edges={['left', 'right', 'top']} style={{ flex: 1 }}>

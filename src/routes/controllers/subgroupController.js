@@ -3,6 +3,7 @@ const pool = require('../config/database');
 exports.getPostsBySubgroupId = (req, res) => {
   const { subgroupId } = req.params;
 
+  // eslint-disable-next-line consistent-return
   pool.getConnection((err, connection) => {
     if (err) {
       console.error('Error getting MySQL connection:', err);
@@ -12,6 +13,7 @@ exports.getPostsBySubgroupId = (req, res) => {
     connection.query(
       'SELECT * FROM posts WHERE group_id = ?',
       [subgroupId],
+      // eslint-disable-next-line consistent-return
       (error, results) => {
         connection.release();
 
@@ -31,6 +33,7 @@ exports.getPostsBySubgroupId = (req, res) => {
 exports.getEventsBySubgroupId = (req, res) => {
   const { subgroupId } = req.params;
 
+  // eslint-disable-next-line consistent-return
   pool.getConnection((err, connection) => {
     if (err) {
       console.error('Error getting MySQL connection:', err);
@@ -40,6 +43,7 @@ exports.getEventsBySubgroupId = (req, res) => {
     connection.query(
       'SELECT * FROM events WHERE group_id = ?',
       [subgroupId],
+      // eslint-disable-next-line consistent-return
       (error, results) => {
         connection.release();
 

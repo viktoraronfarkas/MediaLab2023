@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import LoginView from './LoginView';
+import {
+  setCurrentUser,
+  IpAddress,
+} from '../../../redux/features/mainSlice/mainSlice';
 
 // TODO Validation / Authentication for available User inside DB
 /**
@@ -11,6 +17,8 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const dispatch = useDispatch();
+  const clientIpAddress = useSelector(IpAddress);
 
   // navigate to REGISTRATION Screen
   const navigation = useNavigation();
@@ -18,43 +26,40 @@ export default function LoginScreen() {
     navigation.navigate('RegistrationOne');
   };
 
-  const validateEmail = () => {
-    const emailRegex = /[a-z]{2}\d{6}@fhstp\.ac\.at/;
-
-    if (!emailRegex.test(email)) {
-      setEmailError('Please enter your FH email address.');
-      return false;
-    }
-    setEmailError('');
-    return true;
-  };
-
-  const validatePassword = () => {
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
-
-    if (!passwordRegex.test(password)) {
-      setPasswordError(
-        'Please enter a password that is at least 8 characters long and contains at least one uppercase letter, one lowercase letter, and one number.'
-      );
-      return false;
-    }
-    setPasswordError('');
-    return true;
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const isEmailValid = validateEmail(email);
-    const isPasswordValid = validatePassword(password);
 
-    // submit registration form if there are no errors
-    if (isEmailValid && isPasswordValid) {
-      // TODO Validate User in Database here
-      // TODO If available: Navigate to HomeScreen
-      console.log('FH Student is login');
-    } else {
-      // if the input is not valid show this
-      console.log('email or password is incorrect');
+    try {
+      const response = await axios.post(
+        `http://${clientIpAddress}:3001/auth/login`,
+        {
+          email,
+          password,
+        }
+      );
+
+      const { message, user } = response.data;
+      console.log(message); // Optional: Display success message
+
+      // TODO: Store user data or token in the app state or local storage
+      // Redirect to the main screen or any other screen in your app
+      console.log(user);
+      navigation.navigate('MainScreen');
+      dispatch(setCurrentUser(user));
+    } catch (error) {
+      console.error(
+        'Login error:',
+        error.response?.data?.error || error.message
+      );
+      const errorMessage = error.response?.data?.error;
+
+      if (errorMessage === 'invalidEmail') {
+        setEmailError('Invalid email');
+      } else if (errorMessage === 'invalidPassword') {
+        setPasswordError('Invalid password');
+      } else {
+        // Handle other login errors here
+      }
     }
   };
 
@@ -66,8 +71,9 @@ export default function LoginScreen() {
       passwordError={passwordError}
       passwordValue={password}
       onChangeTextPassword={(value) => setPassword(value)}
-      onNavigateText={handleTextClick}
       handleSubmit={handleSubmit}
+      onNavigateText={handleTextClick}
+
       // onForgotPassword={handleForgotPassword}
     />
   );

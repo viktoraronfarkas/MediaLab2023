@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useRef } from 'react';
+import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,28 +8,59 @@ import { theme } from '../constants/myTheme';
 import {
   actionExample,
   selectedGroup,
+  selectedUser,
+  IpAddress,
 } from '../redux/features/mainSlice/mainSlice';
 
 export default function GroupsTopBar({ preDefinedGroups }) {
   const value = useSelector(selectedGroup);
+  const currentUser = useSelector(selectedUser);
+  const clientIpAddress = useSelector(IpAddress);
+  const [subscribedGroups, setSubscribedGroups] = useState([]);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchSubscribedGroups = async () => {
+      try {
+        const response = await axios.get(
+          `http://${clientIpAddress}:3001/user/${currentUser.user_id}/subscribed-groups`
+        );
+        const { mainGroups } = response.data;
+
+        // Filter the predefined groups based on the user's subscribed groups
+        const subscribed = preDefinedGroups.filter((group) =>
+          mainGroups.some(
+            (mainGroup) => mainGroup.main_group_id === group.mainGroupId
+          )
+        );
+        setSubscribedGroups(subscribed);
+      } catch (error) {
+        console.error('Error retrieving subscribed groups:', error);
+        // Handle the error
+      }
+    };
+
+    fetchSubscribedGroups();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser.user_id, preDefinedGroups]);
 
   // navigate to REGISTRATION Screen
   const navigation = useNavigation();
 
   const scrollViewRef = useRef();
 
-  const handlePress = (groupName) => {
+  const handlePress = async (groupName) => {
     const groupIndex = preDefinedGroups.findIndex(
-      (group) => group.main_group_name === groupName
+      (group) => group.mainGroupName === groupName
     );
 
     const group = preDefinedGroups[groupIndex];
 
     if (groupName !== 'Feed') {
+      // Check if the selected group is present in the user's subscribed groups
       dispatch(actionExample(group));
-      navigation.navigate('JoinGroupScreen');
+      navigation.navigate('MainScreen');
     } else {
       dispatch(actionExample(''));
     }
@@ -65,12 +97,14 @@ export default function GroupsTopBar({ preDefinedGroups }) {
                 borderRadius: 12,
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: !value.name ? theme.colors.primary : 'white',
+                backgroundColor: !value.mainGroupName
+                  ? theme.colors.primary
+                  : 'white',
               }}
             >
               <Text
                 style={{
-                  color: !value.name ? 'white' : theme.colors.primary,
+                  color: !value.mainGroupName ? 'white' : theme.colors.primary,
                   textAlignVertical: 'center',
                   textAlign: 'center',
                   fontSize: 17,
@@ -88,19 +122,19 @@ export default function GroupsTopBar({ preDefinedGroups }) {
                 height: 5,
                 width: 50,
                 backgroundColor: 'black',
-                opacity: !value.name ? 1 : 0,
+                opacity: !value.mainGroupName ? 1 : 0,
                 borderRadius: 20,
               }}
             />
           </View>
         </TouchableOpacity>
-        {preDefinedGroups.map((group, index) => (
+        {subscribedGroups.map((group, index) => (
           <TouchableOpacity
             key={index /* eslint-disable-line react/no-array-index-key */}
-            onPress={() => handlePress(group.main_group_name)}
+            onPress={() => handlePress(group.mainGroupName)}
           >
             <View
-              key={group.main_group_id}
+              key={group.mainGroupId}
               style={{
                 padding: 10,
                 position: 'relative',
@@ -114,19 +148,19 @@ export default function GroupsTopBar({ preDefinedGroups }) {
                   fontWeight: 700,
                   fontFamily: 'Nunito',
                   color:
-                    value.name === group.main_group_name
+                    value.mainGroupName === group.mainGroupName
                       ? 'white'
                       : theme.colors.primary,
                 }}
                 size={48}
                 label={
-                  group.main_group_name.length > 3
-                    ? group.main_group_name.charAt(0)
-                    : group.main_group_name
+                  group.mainGroupName.length > 3
+                    ? group.mainGroupName.charAt(0)
+                    : group.mainGroupName
                 }
                 style={{
                   backgroundColor:
-                    value.name === group.main_group_name
+                    value.mainGroupName === group.mainGroupName
                       ? theme.colors.primary
                       : 'white',
                 }}
@@ -140,7 +174,7 @@ export default function GroupsTopBar({ preDefinedGroups }) {
                     color: '#1F2937',
                   }}
                 >
-                  {group.main_group_name}
+                  {group.mainGroupName}
                 </Text>
               </View>
 
@@ -151,7 +185,7 @@ export default function GroupsTopBar({ preDefinedGroups }) {
                   height: 5,
                   width: 50,
                   backgroundColor: 'black',
-                  opacity: value.name === group.main_group_name ? 1 : 0,
+                  opacity: value.mainGroupName === group.mainGroupName ? 1 : 0,
                   borderRadius: 20,
                 }}
               />

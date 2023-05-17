@@ -1,31 +1,37 @@
 const pool = require('../config/database');
 
-// Subscribe a user to multiple main groups
+// Subscribe a user to multiple/single main group(s)
+// eslint-disable-next-line consistent-return
 exports.subscribeToMainGroups = (req, res) => {
-  const { user_id, main_group_ids } = req.body;
+  const { userId, mainGroupIds } = req.body;
 
-  if (!user_id) {
+  // Validate user_id parameter
+  if (!userId) {
     return res.status(400).json({ message: 'User ID not provided' });
   }
 
-  if (!main_group_ids || !Array.isArray(main_group_ids)) {
+  // Validate main_group_ids parameter
+  if (!mainGroupIds || !Array.isArray(mainGroupIds)) {
     return res
       .status(400)
       .json({ message: 'Main group IDs not provided or invalid' });
   }
 
+  // eslint-disable-next-line consistent-return
   pool.getConnection((err, connection) => {
     if (err) {
       console.error('Error getting MySQL connection:', err);
       return res.status(500).json({ message: 'Failed to connect to MySQL' });
     }
 
-    const values = main_group_ids.map((group_id) => [user_id, group_id]);
+    // Prepare values for batch insertion
+    const values = mainGroupIds.map((groupId) => [userId, groupId]);
 
+    // Execute the query to insert subscriptions
     connection.query(
       'INSERT INTO subscribedmaingroups (user_id, main_group_id) VALUES ?',
       [values],
-      (error, results) => {
+      (error) => {
         connection.release();
 
         if (error) {
@@ -44,21 +50,23 @@ exports.subscribeToMainGroups = (req, res) => {
 };
 
 // Subscribe a user to subgroups
+// eslint-disable-next-line consistent-return
 exports.subscribeToSubgroup = (req, res) => {
-  const { user_id, subgroup_id, main_group_id } = req.body;
+  const { userId, subgroupId, mainGroupId } = req.body;
 
-  if (!user_id) {
+  if (!userId) {
     return res.status(400).json({ message: 'User ID not provided' });
   }
 
-  if (!subgroup_id) {
+  if (!subgroupId) {
     return res.status(400).json({ message: 'Subgroup ID not provided' });
   }
 
-  if (!main_group_id) {
+  if (!mainGroupId) {
     return res.status(400).json({ message: 'Main Group ID not provided' });
   }
 
+  // eslint-disable-next-line consistent-return
   pool.getConnection((err, connection) => {
     if (err) {
       console.error('Error getting MySQL connection:', err);
@@ -67,8 +75,8 @@ exports.subscribeToSubgroup = (req, res) => {
 
     connection.query(
       'INSERT INTO subscribedsubgroups (user_id, group_id, main_group_id) VALUES (?, ?, ?)',
-      [user_id, subgroup_id, main_group_id],
-      (error, results) => {
+      [userId, subgroupId, mainGroupId],
+      (error) => {
         connection.release();
 
         if (error) {
@@ -85,6 +93,7 @@ exports.subscribeToSubgroup = (req, res) => {
 };
 
 // Retrieve all joined groups (main and subgroups) for a user
+// eslint-disable-next-line consistent-return
 exports.getSubscribedGroups = (req, res) => {
   const { userId } = req.params;
 
@@ -92,6 +101,7 @@ exports.getSubscribedGroups = (req, res) => {
     return res.status(400).json({ message: 'User ID not provided' });
   }
 
+  // eslint-disable-next-line consistent-return
   pool.getConnection((err, connection) => {
     if (err) {
       console.error('Error getting MySQL connection:', err);
@@ -103,6 +113,7 @@ exports.getSubscribedGroups = (req, res) => {
     const querySubGroups =
       'SELECT * FROM subscribedsubgroups WHERE user_id = ?';
 
+    // eslint-disable-next-line consistent-return
     connection.query(queryMainGroups, [userId], (errorMain, resultsMain) => {
       if (errorMain) {
         console.error('Error retrieving joined main groups:', errorMain);
@@ -133,6 +144,7 @@ exports.getSubscribedGroups = (req, res) => {
 };
 
 // Get user by ID
+// eslint-disable-next-line consistent-return
 exports.getUserById = (req, res) => {
   const { userId } = req.params;
 
@@ -140,6 +152,7 @@ exports.getUserById = (req, res) => {
     return res.status(400).json({ message: 'User ID not provided' });
   }
 
+  // eslint-disable-next-line consistent-return
   pool.getConnection((err, connection) => {
     if (err) {
       console.error('Error getting MySQL connection:', err);
@@ -187,14 +200,16 @@ exports.getUserById = (req, res) => {
 };
 
 // Update user by ID
+// eslint-disable-next-line consistent-return
 exports.updateUserById = (req, res) => {
   const { userId } = req.params;
-  const { name, email, phone_number, birthday, biography } = req.body;
+  const { name, email, phoneNumber, birthday, biography } = req.body;
 
   if (!userId) {
     return res.status(400).json({ message: 'User ID not provided' });
   }
 
+  // eslint-disable-next-line consistent-return
   pool.getConnection((err, connection) => {
     if (err) {
       console.error('Error getting MySQL connection:', err);
@@ -203,10 +218,10 @@ exports.updateUserById = (req, res) => {
 
     const query =
       'UPDATE users SET name = ?, email = ?, phone_number = ?, birthday = ?, biography = ? WHERE user_id = ?';
-
+      
     connection.query(
       query,
-      [name, email, phone_number, birthday, biography, userId],
+      [name, email, phoneNumber, birthday, biography, userId],
       (error, results) => {
         connection.release();
 

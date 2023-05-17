@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+require('dotenv').config();
 
 const pool = mysql.createPool({
   host: 'atp.fhstp.ac.at', // Your connection address (localhost).
@@ -7,5 +8,5 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: 'uasync',
 });
-
+console.log(process.env.DB_PASSWORD);
 module.exports = pool;

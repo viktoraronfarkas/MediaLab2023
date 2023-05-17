@@ -1,6 +1,7 @@
 const pool = require('../config/database');
 
 exports.getMainGroupsWithSubgroups = (req, res) => {
+  // eslint-disable-next-line consistent-return
   pool.getConnection((err, connection) => {
     if (err) {
       console.error('Error getting MySQL connection:', err);
@@ -9,10 +10,10 @@ exports.getMainGroupsWithSubgroups = (req, res) => {
 
     const query = `
       SELECT 
-        maingroup.group_id AS main_group_id, 
-        maingroup.name AS main_group_name, 
-        subgroups.group_id AS subgroup_id, 
-        subgroups.name AS subgroup_name, 
+        maingroup.group_id AS mainGroupId, 
+        maingroup.name AS mainGroupName, 
+        subgroups.group_id AS subgroupId, 
+        subgroups.name AS subgroupName, 
         subgroups.title_image, 
         subgroups.members, 
         subgroups.events, 
@@ -34,41 +35,45 @@ exports.getMainGroupsWithSubgroups = (req, res) => {
 
       // Process the results and return the response
       const mainGroups = {};
+
       results.forEach((row) => {
         const {
-          main_group_id,
-          main_group_name,
-          subgroup_id,
-          subgroup_name,
-          title_image,
+          mainGroupId,
+          mainGroupName,
+          subgroupId,
+          subgroupName,
+          title_image: titleImage,
           members,
           events,
           threads,
-          created_at,
+          created_at: createdAt,
         } = row;
 
-        if (!mainGroups[main_group_id]) {
-          mainGroups[main_group_id] = {
-            main_group_id,
-            main_group_name,
+        if (!mainGroups[mainGroupId]) {
+          mainGroups[mainGroupId] = {
+            mainGroupId,
+            mainGroupName,
             subgroups: [],
           };
         }
 
-        mainGroups[main_group_id].subgroups.push({
-          subgroup_id,
-          subgroup_name,
-          title_image,
-          members,
-          events,
-          threads,
-          created_at,
-        });
+        if (subgroupId) {
+          // Only add subgroups if subgroupId exists
+          mainGroups[mainGroupId].subgroups.push({
+            subgroupId,
+            subgroupName,
+            titleImage, // camel case
+            members,
+            events,
+            threads,
+            createdAt, // camel case
+          });
+        }
       });
 
       const response = Object.values(mainGroups);
       console.log(`responseObject:${response}`);
-      res.json(response);
+      return res.json(response); // Return the response
     });
   });
 };

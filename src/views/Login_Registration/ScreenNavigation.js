@@ -5,6 +5,8 @@ import { theme } from '../../constants/myTheme';
 
 import LoginScreen from './Login/LoginScreen';
 import RegistrationScreen from './Registration/RegistrationScreen';
+import Main from '../Main';
+import JoinGroup from '../JoinGroupScreen';
 
 export default function ScreenNavigation() {
   const Stack = createStackNavigator();
@@ -19,6 +21,7 @@ export default function ScreenNavigation() {
             borderColor: theme.colors.backgroundWhite,
             backgroundColor: theme.colors.backgroundSand,
           },
+          headerShown: false,
         }}
       >
         <Stack.Screen
@@ -31,6 +34,8 @@ export default function ScreenNavigation() {
           component={RegistrationScreen}
           options={{ headerShown: false }}
         />
+        <Stack.Screen name="MainScreen" component={Main} />
+        <Stack.Screen name="JoinGroupScreen" component={JoinGroup} />
       </Stack.Navigator>
     </NavigationContainer>
   );
