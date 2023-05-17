@@ -7,6 +7,8 @@ import LoginScreen from './Login/LoginScreen';
 import RegistrationScreen from './Registration/RegistrationScreen';
 import Main from '../Main';
 import JoinGroup from '../JoinGroupScreen';
+import JoinedSubgroup from '../JoinedSubgroup';
+import AddSubgroup from '../AddSubgroup';
 
 export default function ScreenNavigation() {
   const Stack = createStackNavigator();
@@ -36,6 +38,8 @@ export default function ScreenNavigation() {
         />
         <Stack.Screen name="MainScreen" component={Main} />
         <Stack.Screen name="JoinGroupScreen" component={JoinGroup} />
+        <Stack.Screen name="JoinedSubgroup" component={JoinedSubgroup} />
+        <Stack.Screen name="AddSubgroup" component={AddSubgroup} />
       </Stack.Navigator>
     </NavigationContainer>
   );

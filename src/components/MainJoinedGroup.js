@@ -58,8 +58,6 @@ function MainJoinedGroup() {
     filterSubgroups(filter);
   };
 
-
-
   useEffect(() => {
     const fetchSubscribedGroups = async () => {
       try {
@@ -81,7 +79,12 @@ function MainJoinedGroup() {
 
     fetchSubscribedGroups();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser.user_id, selectedFilter, selectedGroupValue, clientIpAddress]);
+  }, [
+    currentUser.user_id,
+    selectedFilter,
+    selectedGroupValue,
+    clientIpAddress,
+  ]);
 
   return (
     <View
@@ -129,36 +132,6 @@ function MainJoinedGroup() {
           onFilterChange={handleFilterChange}
         />
       </View>
-
-      <View
-        style={{
-          marginTop: '3%',
-          marginBottom: '3%',
-          width: '85%',
-        }}
-      >
-        {filteredSubgroups.length === 0 ? (
-          <Text>
-            {selectedGroupValue.subgroups.length === 0
-              ? 'There are no subgroups added for this group yet.'
-              : 'You have not joined any subgroups yet.'}
-          </Text>
-        ) : (
-          filteredSubgroups.map((subgroup) => (
-            <ListItem
-              key={subgroup.subgroupId}
-              mainTitle={subgroup.name || subgroup.subgroupName}
-              subtitle={subgroup.subTitle || subgroup.subgroupName}
-              iconImage={require('../../assets/Icons/arrow-right.png')}
-              onPress={() => {
-                dispatch(SetselectedSubGroup(subgroup));
-                navigation.navigate('JoinedSubgroup');
-              }}
-            />
-          ))
-        )}
-      </View>
-
       <View
         style={{
           flexDirection: 'row',
@@ -196,6 +169,35 @@ function MainJoinedGroup() {
             <Image source={iconImage} style={{ height: 48, width: 48 }} />
           </TouchableOpacity>
         </View>
+      </View>
+
+      <View
+        style={{
+          marginTop: '20%',
+          width: '94%',
+        }}
+      >
+        {/** FIXME : a place holder should take place here instead */}
+        {filteredSubgroups.length === 0 ? (
+          <Text style={{ textAlign: 'center' }}>
+            {selectedGroupValue.subgroups.length === 0
+              ? 'There are no subgroups added for this group yet.'
+              : 'You have not joined any subgroups yet.'}
+          </Text>
+        ) : (
+          filteredSubgroups.map((subgroup) => (
+            <ListItem
+              key={subgroup.subgroupId}
+              mainTitle={subgroup.name || subgroup.subgroupName}
+              subtitle={subgroup.subTitle || subgroup.subgroupName}
+              iconImage={require('../../assets/Icons/arrow-right.png')}
+              onPress={() => {
+                dispatch(SetselectedSubGroup(subgroup));
+                navigation.navigate('JoinedSubgroup');
+              }}
+            />
+          ))
+        )}
       </View>
     </View>
   );

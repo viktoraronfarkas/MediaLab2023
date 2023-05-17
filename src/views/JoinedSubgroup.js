@@ -127,7 +127,7 @@ function JoinedSubgroup() {
   return (
     <SafeAreaView style={style.container}>
       <BackButton
-        text={`back ${selectedGroupValue.name}`}
+        text={`back ${selectedGroupValue.mainGroupName}`}
         onPress={() => {
           navigation.goBack(null);
         }}
@@ -145,7 +145,7 @@ function JoinedSubgroup() {
 
           <View style={style.headingContainer}>
             <Text style={[styles.headline1, style.headlineStyle]}>
-              {selectedSubGroupValue.name}
+              {selectedSubGroupValue.subgroupName}
             </Text>
             {!joined ? (
               <TouchableOpacity style={style.menuIcon}>
