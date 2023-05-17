@@ -6,6 +6,7 @@ function SubGroupsFilter({
   firstFilterLabel,
   secondFilterLabel,
   thirdFilterLabel,
+  disabled,
 }) {
   const [selected, setSelected] = useState(firstFilterLabel);
 
@@ -30,26 +31,33 @@ function SubGroupsFilter({
         <TouchableOpacity
           style={{
             backgroundColor:
-              selected === firstFilterLabel
+              // eslint-disable-next-line no-nested-ternary
+              disabled
+                ? theme.colors.neutralsGrey500
+                : selected === firstFilterLabel
                 ? theme.colors.primary
                 : theme.colors.backgroundCamel,
             borderColor:
-              selected === firstFilterLabel
+              // eslint-disable-next-line no-nested-ternary
+              disabled
+                ? theme.colors.neutralsGrey500
+                : selected === firstFilterLabel
                 ? theme.colors.primary
                 : theme.colors.backgroundCamel,
+
             justifyContent: 'center', // align text vertically
             alignItems: 'center', // align text horizontally
             width: 88,
             height: 30,
             borderRadius: 12,
           }}
-          onPress={() => setSelected(firstFilterLabel)}
+          onPress={() => (disabled ? null : setSelected(firstFilterLabel))}
         >
           <Text
             style={{
               textAlign: 'center',
               color:
-                selected === firstFilterLabel
+                selected === firstFilterLabel || disabled
                   ? '#fff'
                   : theme.colors.neutralsGrey800,
             }}
@@ -75,7 +83,7 @@ function SubGroupsFilter({
             height: 30,
             borderRadius: 12,
           }}
-          onPress={() => setSelected(secondFilterLabel)}
+          onPress={() => (disabled ? null : setSelected(secondFilterLabel))}
         >
           <Text
             style={{
@@ -112,7 +120,7 @@ function SubGroupsFilter({
             height: 30,
             borderRadius: 12,
           }}
-          onPress={() => setSelected(thirdFilterLabel)}
+          onPress={() => (disabled ? null : setSelected(thirdFilterLabel))}
         >
           <Text
             style={{

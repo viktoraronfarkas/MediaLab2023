@@ -27,10 +27,6 @@ export default function LoginNavigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="MainScreen" component={Main} />
-        <Stack.Screen name="JoinGroupScreen" component={JoinGroup} />
-        <Stack.Screen name="JoinedSubgroup" component={JoinedSubgroup} />
-        <Stack.Screen name="AddSubgroup" component={AddSubgroup} />
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
@@ -42,6 +38,10 @@ export default function LoginNavigation() {
           style={styles.container}
         />
       </Stack.Navigator>
+      <Stack.Screen name="MainScreen" component={Main} />
+      <Stack.Screen name="JoinedSubgroup" component={JoinedSubgroup} />
+      <Stack.Screen name="JoinGroupScreen" component={JoinGroup} />
+      <Stack.Screen name="AddSubgroup" component={AddSubgroup} />
     </NavigationContainer>
   );
 }

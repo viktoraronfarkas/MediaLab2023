@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, TouchableOpacity, Text } from 'react-native';
+import { View, Image, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useSelector } from 'react-redux';
@@ -15,6 +15,9 @@ import iconImage from '../../assets/Icons/plus-icon.png';
 import moreMenuIcon from '../../assets/Icons/more-menu-icon.png';
 import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png';
 import { styles, theme } from '../constants/myTheme';
+import AddIconInteraction from '../components/Buttons/AddIconInteraction';
+import PostCard from '../components/Cards/PostCard';
+import EventCard from '../components/Cards/EventCard';
 
 function JoinedSubgroup() {
   const style = StyleSheet.create({
@@ -83,17 +86,32 @@ function JoinedSubgroup() {
       width: 48,
       height: 48,
     },
+    joinContainer: {
+      marginTop: '5%',
+    },
     postsContainer: {
-      width: '100%',
-      flexDirection: 'column',
-      marginTop: '20%',
-      alignContent: 'center',
-      justifyContent: 'center',
+      flex: 1,
       alignItems: 'center',
+      paddingTop: 20,
+      paddingBottom: 10,
+      padding: 15,
+      width: '100%',
     },
     postContainer: {
+      marginBottom: 10,
+      alignItems: 'center',
       width: '100%',
-      padding: '3%',
+    },
+    eventsMainContainer: { width: '100%', alignItems: 'center' },
+    eventsSubContainer: {
+      flex: 1,
+      flexDirection: 'row',
+      marginBottom: 10,
+      alignItems: 'center',
+      width: '100%',
+    },
+    eventContainer: {
+      flex: 1,
     },
   });
 
@@ -101,6 +119,8 @@ function JoinedSubgroup() {
 
   const selectedGroupValue = useSelector(selectedGroup);
   const selectedSubGroupValue = useSelector(selectedSupGroup);
+
+  const joined = true;
 
   const handlePress = () => {};
 
@@ -112,39 +132,100 @@ function JoinedSubgroup() {
           navigation.goBack(null);
         }}
       />
-      <View style={style.column}>
-        <View style={style.subGroupsFilterContainer}>
-          <SubGroupsFilter
-            firstFilterLabel="all"
-            secondFilterLabel="posts"
-            thirdFilterLabel="events"
-          />
-        </View>
-        <View style={style.headingContainer}>
-          <Text style={[styles.headline1, style.headlineStyle]}>
-            {selectedSubGroupValue.name}
-          </Text>
-
-          <TouchableOpacity style={style.menuIcon}>
-            <Image style={style.moreMenuIconImage} source={moreMenuIcon} />
-          </TouchableOpacity>
-        </View>
-        <View style={style.addPostContainer}>
-          <View style={style.addPostTextContainer}>
-            <Text style={style.addPostText}>add a new post or event</Text>
-            <Image
-              style={style.underlineArrowImage}
-              source={underlineArrowImage}
+      <ScrollView style={{ flex: 1 }}>
+        <View style={style.column}>
+          <View style={style.subGroupsFilterContainer}>
+            <SubGroupsFilter
+              firstFilterLabel="all"
+              secondFilterLabel="posts"
+              thirdFilterLabel="events"
+              disabled
             />
           </View>
 
-          <View style={style.addIconContainer}>
-            <TouchableOpacity onPress={handlePress}>
-              <Image source={iconImage} style={style.addIconImage} />
-            </TouchableOpacity>
+          <View style={style.headingContainer}>
+            <Text style={[styles.headline1, style.headlineStyle]}>
+              {selectedSubGroupValue.name}
+            </Text>
+            {!joined ? (
+              <TouchableOpacity style={style.menuIcon}>
+                <Image style={style.moreMenuIconImage} source={moreMenuIcon} />
+              </TouchableOpacity>
+            ) : null}
+          </View>
+          {!joined ? (
+            <View style={style.addPostContainer}>
+              <View style={style.addPostTextContainer}>
+                <Text style={style.addPostText}>add a new post or event</Text>
+                <Image
+                  style={style.underlineArrowImage}
+                  source={underlineArrowImage}
+                />
+              </View>
+
+              <View style={style.addIconContainer}>
+                <TouchableOpacity onPress={handlePress}>
+                  <Image source={iconImage} style={style.addIconImage} />
+                </TouchableOpacity>
+              </View>
+            </View>
+          ) : (
+            <View style={style.joinContainer}>
+              <AddIconInteraction
+                text="join me!"
+                icon={iconImage}
+                onPress={handlePress}
+              />
+            </View>
+          )}
+
+          <View style={style.postsContainer}>
+            <View style={style.postContainer}>
+              <PostCard
+                buttonText="Comment"
+                title="Computer graphics"
+                subTitle="Study Group"
+                content="Heyyy, I am searching for a study group for computer graphics :)"
+                coverImage={require('../../assets/media.png')}
+                iconSource={require('../../assets/Application-of-Computer-Graphics-1.png')}
+                disabled
+              />
+            </View>
+            <View style={style.eventsMainContainer}>
+              <View style={style.eventsSubContainer}>
+                <View style={[style.eventContainer, { marginRight: 10 }]}>
+                  <EventCard
+                    title="Study session"
+                    subTitle="02.04"
+                    cardImage={require('../../assets/media.png')}
+                    joiningNumber={20}
+                    style={{ marginRight: 10 }}
+                  />
+                </View>
+                <View style={style.eventContainer}>
+                  <EventCard
+                    title="Study session"
+                    subTitle="24.04"
+                    cardImage={require('../../assets/study.jpeg')}
+                    joiningNumber={0}
+                    style={{ marginRight: 10 }}
+                  />
+                </View>
+              </View>
+            </View>
+            <View style={style.postContainer}>
+              <PostCard
+                buttonText="Comment"
+                title="Foodshare"
+                subTitle="just comment ;)"
+                coverImage={require('../../assets/food.png')}
+                iconSource={require('../../assets/foodshare.jpg')}
+                disabled
+              />
+            </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
