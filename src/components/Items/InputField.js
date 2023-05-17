@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { theme } from '../../constants/myTheme';
 
 const style = StyleSheet.create({
@@ -32,7 +31,16 @@ const style = StyleSheet.create({
         onChangeText={(value) => setEmail(value)}
       />
  * 
+ *  If it has password included:
  * <InputField label="Enter Password" secureTextEntry value={password} onChangeText={(value) => setPassword(value)} />
+ * 
+ * 
+ * If the Input should not be changed, disable edit:
+ *  <InputField
+          labelText="LabelText"
+          marginLeft={0}
+          editable={false}
+        />
  */
 
 export default function InputField({
@@ -40,9 +48,11 @@ export default function InputField({
   value,
   onChangeText,
   secureTextEntry,
+  inputStyle,
   padding,
   marginLeft,
   width = '100%',
+  editable = true,
 }) {
   const dynamicStyles = StyleSheet.create({
     input: {
@@ -53,13 +63,14 @@ export default function InputField({
     },
   });
   return (
-    <SafeAreaView>
+    <View>
       <TextInput
         label={labelText}
         value={value}
         onChangeText={onChangeText}
         style={[
           style.input,
+          inputStyle,
           dynamicStyles.input,
           { width },
           secureTextEntry && { secureTextEntry: true },
@@ -72,7 +83,8 @@ export default function InputField({
           },
         }}
         secureTextEntry={secureTextEntry}
+        editable={editable}
       />
-    </SafeAreaView>
+    </View>
   );
 }

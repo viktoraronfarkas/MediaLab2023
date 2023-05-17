@@ -85,17 +85,21 @@ export default function UserProfileView({
         {/* When uploadIcon pressed: show this dialog  */}
         <View>
           <DialogAction
-            containerStyle={{ marginVertical: 200, marginHorizontal: 15 }}
+            containerStyle={{
+              marginVertical: 200,
+              marginHorizontal: 15,
+              paddingRight: 20,
+            }}
             visible={alertVisible}
             text="Upload or edit your Profile-Picture. You can also delete it or cancel this action"
             isDialog
             actions={[
-              { id: 1, text: 'Edit', onPress: onPressEditImage },
               {
-                id: 2,
-                text: 'Delete current Image',
+                id: 1,
+                text: 'Delete Picture',
                 onPress: onPressDeleteImage,
               },
+              { id: 2, text: 'Upload Picture', onPress: onPressEditImage },
             ]}
             optionalButtonText="Cancel"
             onPressOptionalButton={onPressCancelDialog}
@@ -126,51 +130,51 @@ export default function UserProfileView({
           />
 
           {/* Settings */}
-          <Text style={[styles.headline3, { paddingVertical: 30 }]}>
+          <Text style={[styles.headline3, { paddingVertical: 20 }]}>
             account details
           </Text>
 
           <ListItemOnlyText
-            title="Personal Data"
+            title="personal data"
             iconImage={iconImage}
             onPress={onPersonalData}
-            cardContainerStyle={{ marginVertical: 10 }}
+            cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
           />
           <ListItemOnlyText
-            title="Joined Groups"
+            title="joined groups"
             iconImage={iconImage}
             onPress={onJoinedGroups}
-            cardContainerStyle={{ marginVertical: 10 }}
+            cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
           />
           <ListItemOnlyText
-            title="Joined Events"
+            title="joined events"
             iconImage={iconImage}
             onPress={onJoinedEvents}
-            cardContainerStyle={{ marginVertical: 10 }}
+            cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
           />
           <ListItemOnlyText
-            title="Interacted Posts"
+            title="interacted posts"
             iconImage={iconImage}
             onPress={onInteractedPosts}
-            cardContainerStyle={{ marginVertical: 10 }}
+            cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
           />
           <ListItemOnlyText
-            title="Your Posts & Events"
+            title="your posts & events"
             iconImage={iconImage}
             onPress={onYourPostsEvents}
-            cardContainerStyle={{ marginVertical: 10 }}
+            cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
           />
           <ListItemOnlyText
-            title="Help"
+            title="help"
             iconImage={iconImage}
             onPress={onYourPostsEvents}
-            cardContainerStyle={{ marginVertical: 10 }}
+            cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
           />
           <ListItemOnlyText
-            title="About Us"
+            title="about us"
             iconImage={iconImage}
             onPress={onYourPostsEvents}
-            cardContainerStyle={{ marginVertical: 10 }}
+            cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
           />
         </View>
       </ScrollView>

@@ -7,15 +7,13 @@ import { theme } from '../../constants/myTheme';
 const style = StyleSheet.create({
   input: {
     padding: 10,
-    marginLeft: 20,
-    marginRight: 20,
     borderTopRightRadius: 8,
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     textDecorationColor: 'none',
     fontFamily: theme.fonts.textLink,
-    backgroundColor: theme.colors.backgroundSand,
+    backgroundColor: theme.colors.backgroundWhite,
     height: 250,
   },
 });
@@ -28,12 +26,17 @@ const style = StyleSheet.create({
  *
  * < InputField labelText="Write something here..." />
  */
-export default function LongInputField({ labelText, value, onChangeText }) {
+export default function LongInputField({
+  inputStyle,
+  labelText,
+  value,
+  onChangeText,
+}) {
   return (
     <SafeAreaView>
       <ScrollView keyboardShouldPersistTaps="handled">
         <TextInput
-          style={style.input}
+          style={[style.input, inputStyle]}
           label={labelText}
           value={value}
           onChangeText={onChangeText}
