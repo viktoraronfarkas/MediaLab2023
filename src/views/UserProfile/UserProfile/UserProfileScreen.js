@@ -71,10 +71,12 @@ export default function UserProfileScreen() {
       studyProgramme="BCC"
       // Settings
       onPersonalData={() => navigation.navigate('PersonalData')}
-      // onJoinedGroups={() => navigation.navigate('JoinedGroups')}
-      // onJoinedEvents={() => navigation.navigate('JoinedEvents')}
-      // onInteractedPosts={() => navigation.navigate('InteractedPosts')}
-      // onYourPostsEvents={() => navigation.navigate('YourPostsEvents')}
+      onJoinedGroups={() => navigation.navigate('JoinedGroups')}
+      onJoinedEvents={() => navigation.navigate('JoinedEvents')}
+      onInteractedPosts={() => navigation.navigate('InteractedPosts')}
+      onYourPostsEvents={() => navigation.navigate('YourPostsEvents')}
+      onHelp={() => navigation.navigate('help')}
+      onAboutUs={() => navigation.navigate('aboutUs')}
     />
   );
 }

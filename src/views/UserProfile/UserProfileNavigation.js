@@ -6,6 +6,12 @@ import { theme } from '../../constants/myTheme';
 
 import UserProfileScreen from './UserProfile/UserProfileScreen';
 import PersonalDataScreen from './AccountDetails/personalData/PersonalDataScreen';
+import InteractedPostsScreen from './AccountDetails/interactedPosts/InteractedPostsScreen';
+import JoinedEventsScreen from './AccountDetails/joinedEvents/JoinedEventScreen';
+import JoinedGroupsScreen from './AccountDetails/joinedGroups/JoinedGroupsScreen';
+import YourPostsEventsScreen from './AccountDetails/yourPostsAndEvents/YourPostsEventsScreen';
+import HelpScreen from './AccountDetails/help/HelpScreen';
+import AboutUsScreen from './AccountDetails/aboutUs/AbouUsScreen';
 
 export default function UserProfileNavigation() {
   const Stack = createStackNavigator();
@@ -32,36 +38,36 @@ export default function UserProfileNavigation() {
           component={PersonalDataScreen}
           options={{ title: '' }}
         />
-        {/* <Stack.Screen
+        <Stack.Screen
           name="YourPostsEvents"
-          component={YourPostsEvents}
+          component={YourPostsEventsScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
           name="InteractedPosts"
-          component={InteractedPosts}
+          component={InteractedPostsScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
           name="JoinedEvents"
-          component={JoinedEvents}
+          component={JoinedEventsScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
           name="JoinedGroups"
-          component={JoinedGroups}
+          component={JoinedGroupsScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
           name="help"
-          component={HelpUserProfile}
+          component={HelpScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
           name="aboutUs"
-          component={AboutUs}
+          component={AboutUsScreen}
           options={{ headerShown: false }}
-        /> */}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
