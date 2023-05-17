@@ -3,7 +3,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Splash from './src/components/Splash';
 import loadFonts from './assets/fonts/FontList'; // import fonts
 // import ScreenNavigation from './src/views/Login_Registration/ScreenNavigation';
-import UserProfileScreenNavigation from './src/views/UserProfile/UserProfileScreenNavigation';
+import UserProfileScreenNavigation from './src/views/UserProfile/UserProfileNavigation';
 import store from './src/redux/app/store';
 
 export default function App() {

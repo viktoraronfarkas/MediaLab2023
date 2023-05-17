@@ -4,10 +4,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 // import { StyleSheet } from 'react-native';
 import { theme } from '../../constants/myTheme';
 
-import UserProfile from './UserProfile';
-// import PersonalData from './PersonalData';
+import UserProfileScreen from './UserProfile/UserProfileScreen';
+import PersonalDataScreen from './AccountDetails/personalData/PersonalDataScreen';
 
-export default function UserProfileScreenNavigation() {
+export default function UserProfileNavigation() {
   const Stack = createStackNavigator();
 
   return (
@@ -24,15 +24,15 @@ export default function UserProfileScreenNavigation() {
       >
         <Stack.Screen
           name="UserProfile"
-          component={UserProfile}
-          options={{ title: 'Your Profile' }}
-        />
-        {/* <Stack.Screen
-          name="PersonalData"
-          component={PersonalData}
-          options={{ headerShown: false }}
+          component={UserProfileScreen}
+          options={{ title: 'Your Profile', headerShown: false }}
         />
         <Stack.Screen
+          name="PersonalData"
+          component={PersonalDataScreen}
+          options={{ title: '' }}
+        />
+        {/* <Stack.Screen
           name="YourPostsEvents"
           component={YourPostsEvents}
           options={{ headerShown: false }}
@@ -50,6 +50,16 @@ export default function UserProfileScreenNavigation() {
         <Stack.Screen
           name="JoinedGroups"
           component={JoinedGroups}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="help"
+          component={HelpUserProfile}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="aboutUs"
+          component={AboutUs}
           options={{ headerShown: false }}
         /> */}
       </Stack.Navigator>

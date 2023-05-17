@@ -15,15 +15,24 @@ import { theme, styles } from '../../constants/myTheme';
 
 const listLabel = (title) => title.split(' ').map((i) => i.charAt(0)); // Inherit case of each letter
 
-export default function ListItem({ mainTitle, subtitle, iconImage, onPress }) {
+export default function ListItem({
+  cardContainerStyle,
+  mainTitle,
+  subtitle,
+  iconImage,
+  onPress,
+}) {
   return (
     <TouchableOpacity onPress={onPress}>
       <Card
-        style={{
-          backgroundColor: theme.colors.neutralsWhite,
-          marginVertical: 10,
-          paddingVertical: 10,
-        }}
+        style={[
+          {
+            backgroundColor: theme.colors.neutralsWhite,
+            marginVertical: 10,
+            paddingVertical: 10,
+          },
+          cardContainerStyle,
+        ]}
         elevation={0}
       >
         <Card.Title

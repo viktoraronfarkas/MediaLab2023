@@ -49,6 +49,9 @@ export default function LoginScreen() {
 
     // submit registration form if there are no errors
     if (isEmailValid && isPasswordValid) {
+      // TODO Validate User in Database here
+      // TODO If available: Navigate to HomeScreen
+
       console.log('FH Student is login');
     } else {
       // if the input is not valid show this

@@ -1,20 +1,23 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
+import { Modal, TouchableOpacity, StyleSheet, Text, View } from 'react-native';
+import GreyButton from '../Buttons/GreyButton';
 import { theme, styles } from '../../constants/myTheme';
 
 const style = StyleSheet.create({
   container: {
-    flexDirection: 'column',
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 30,
-    paddingBottom: 30,
+    flexDirection: 'column',
+    paddingVertical: 30,
+    paddingHorizontal: 30,
     borderRadius: 12,
     backgroundColor: theme.colors.backgroundCamel,
   },
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 8,
+    marginTop: 20,
   },
   buttonContainer: {
     borderRadius: 28,
@@ -35,6 +38,7 @@ const style = StyleSheet.create({
 /**
  * This Component represents a dialog information with action buttons.
  * The buttons can be dynamically added or removed.
+ * There is also an optionalButton (can be used for "Cancel, for example")
  * 
  * How to use it:
  * 
@@ -42,38 +46,57 @@ const style = StyleSheet.create({
     text="Do you want to delete this item? "
     isDialog
     actions={[
-     { id: 1, text: 'Cancel' },
-     { id: 2, text: 'Delete' },
+     { id: 1, text: 'Edit', onPress: onPressEdit },
+     { id: 2, text: 'Delete', onPress: onPressDelete },
      ]}
+      optionalButtonText="Cancel"
+      onPressOptionalButton={onPressCancelDialog}
     />
  */
-export default function DialogAction({ text, isDialog, actions }) {
+export default function DialogAction({
+  visible,
+  containerStyle,
+  text,
+  isDialog,
+  actions,
+  optionalButtonText,
+  onPressOptionalButton,
+}) {
   return (
-    <View style={style.container}>
-      <Text
-        style={[
-          styles.subtitle1,
-          { textAlign: 'center' },
-          isDialog && style.dialog,
-        ]}
-      >
-        {text}
-      </Text>
-      <View style={style.buttonRow}>
-        {actions.map((action) => (
-          <TouchableOpacity
-            key={action.id}
-            style={style.buttonContainer}
-            onPress={action.onPress}
-          >
-            <Text
-              style={[styles.button, { color: theme.colors.neutralsWhite }]}
+    <Modal visible={visible} transparent>
+      <View style={[style.container, containerStyle]}>
+        <Text
+          style={[
+            styles.subtitle1,
+            { textAlign: 'center' },
+            isDialog && style.dialog,
+          ]}
+        >
+          {text}
+        </Text>
+        <View style={style.buttonRow}>
+          {actions.map((action) => (
+            <TouchableOpacity
+              key={action.id}
+              style={style.buttonContainer}
+              onPress={action.onPress}
             >
-              {action.text}
-            </Text>
-          </TouchableOpacity>
-        ))}
+              <Text
+                style={[styles.button, { color: theme.colors.neutralsWhite }]}
+              >
+                {action.text}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        {optionalButtonText && (
+          <GreyButton
+            text={optionalButtonText}
+            styleButtonContainer={{ alignSelf: 'flex-end', top: 10 }}
+            onPress={onPressOptionalButton}
+          />
+        )}
       </View>
-    </View>
+    </Modal>
   );
 }

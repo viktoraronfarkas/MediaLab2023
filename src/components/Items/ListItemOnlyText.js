@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Card, IconButton } from 'react-native-paper';
+import { theme, styles } from '../../constants/myTheme';
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   cardContainer: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.colors.neutralsWhite,
     borderRadius: 12,
-    paddingTop: 11,
-    paddingBottom: 11,
+    paddingVertical: 11,
   },
   mainTitle: {
-    fontFamily: 'Basic Sans',
+    color: theme.colors.primary,
     fontSize: 24,
     fontWeight: 700,
     lineHeight: 32,
@@ -29,23 +29,25 @@ export default function ListItemOnlyText({
   onPress,
 }) {
   return (
-    <Card
-      contentStyle={[styles.cardContainer, cardContainerStyle]}
-      elevation={0}
-    >
-      <Card.Title
-        title={title}
-        titleStyle={styles.mainTitle}
-        right={(props) => (
-          <IconButton
-            {...props}
-            size={40}
-            icon={iconImage}
-            onPress={onPress}
-            resizeMode="contain"
-          />
-        )}
-      />
-    </Card>
+    <TouchableOpacity onPress={onPress}>
+      <Card
+        contentStyle={[style.cardContainer, cardContainerStyle]}
+        elevation={0}
+      >
+        <Card.Title
+          title={title}
+          titleStyle={styles.headline3}
+          right={(props) => (
+            <IconButton
+              {...props}
+              size={40}
+              icon={iconImage}
+              onPress={onPress}
+              resizeMode="contain"
+            />
+          )}
+        />
+      </Card>
+    </TouchableOpacity>
   );
 }
