@@ -7,7 +7,7 @@ function SubGroupsFilter({
   secondFilterLabel,
   thirdFilterLabel,
 }) {
-  const [selected, setSelected] = useState('all');
+  const [selected, setSelected] = useState(firstFilterLabel);
 
   return (
     <View
@@ -54,7 +54,7 @@ function SubGroupsFilter({
                   : theme.colors.neutralsGrey800,
             }}
           >
-            all
+            {firstFilterLabel}
           </Text>
         </TouchableOpacity>
       </View>
@@ -86,7 +86,7 @@ function SubGroupsFilter({
                   : theme.colors.neutralsGrey800,
             }}
           >
-            joined
+            {secondFilterLabel}
           </Text>
         </TouchableOpacity>
       </View>
@@ -123,7 +123,7 @@ function SubGroupsFilter({
                   : theme.colors.neutralsGrey800,
             }}
           >
-            unjoined
+            {thirdFilterLabel}
           </Text>
         </TouchableOpacity>
       </View>

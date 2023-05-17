@@ -5,12 +5,12 @@ import { Avatar } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { theme } from '../constants/myTheme';
 import {
-  actionExample,
+  setSelectedMainGroup,
   selectedGroup,
 } from '../redux/features/mainSlice/mainSlice';
 
 function GroupsTopBar({ preDefinedGroups }) {
-  const value = useSelector(selectedGroup);
+  const selectedGroupValue = useSelector(selectedGroup);
 
   const dispatch = useDispatch();
 
@@ -27,10 +27,10 @@ function GroupsTopBar({ preDefinedGroups }) {
     const group = preDefinedGroups[groupIndex];
 
     if (groupName !== 'Feed') {
-      dispatch(actionExample(group));
+      dispatch(setSelectedMainGroup(group));
       navigation.navigate('JoinGroupScreen');
     } else {
-      dispatch(actionExample(''));
+      dispatch(setSelectedMainGroup(''));
     }
 
     // calculate the offset based on the index and width of each item
@@ -65,12 +65,16 @@ function GroupsTopBar({ preDefinedGroups }) {
                 borderRadius: 12,
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: !value.name ? theme.colors.primary : 'white',
+                backgroundColor: !selectedGroupValue.name
+                  ? theme.colors.primary
+                  : 'white',
               }}
             >
               <Text
                 style={{
-                  color: !value.name ? 'white' : theme.colors.primary,
+                  color: !selectedGroupValue.name
+                    ? 'white'
+                    : theme.colors.primary,
                   textAlignVertical: 'center',
                   textAlign: 'center',
                   fontSize: 17,
@@ -88,7 +92,7 @@ function GroupsTopBar({ preDefinedGroups }) {
                 height: 5,
                 width: 50,
                 backgroundColor: 'black',
-                opacity: !value.name ? 1 : 0,
+                opacity: !selectedGroupValue.name ? 1 : 0,
                 borderRadius: 20,
               }}
             />
@@ -114,7 +118,9 @@ function GroupsTopBar({ preDefinedGroups }) {
                   fontWeight: 700,
                   fontFamily: 'Nunito',
                   color:
-                    value.name === group.name ? 'white' : theme.colors.primary,
+                    selectedGroupValue.name === group.name
+                      ? 'white'
+                      : theme.colors.primary,
                 }}
                 size={48}
                 label={
@@ -122,7 +128,9 @@ function GroupsTopBar({ preDefinedGroups }) {
                 }
                 style={{
                   backgroundColor:
-                    value.name === group.name ? theme.colors.primary : 'white',
+                    selectedGroupValue.name === group.name
+                      ? theme.colors.primary
+                      : 'white',
                 }}
               />
               <View>
@@ -145,7 +153,7 @@ function GroupsTopBar({ preDefinedGroups }) {
                   height: 5,
                   width: 50,
                   backgroundColor: 'black',
-                  opacity: value.name === group.name ? 1 : 0,
+                  opacity: selectedGroupValue.name === group.name ? 1 : 0,
                   borderRadius: 20,
                 }}
               />
