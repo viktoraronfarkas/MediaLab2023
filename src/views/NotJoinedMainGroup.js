@@ -15,7 +15,6 @@ function AddSubgroup() {
 
   const handlePress = () => {
     navigation.goBack(null);
-    // dispatch(actionExample(''))
   };
   return (
     <SafeAreaView

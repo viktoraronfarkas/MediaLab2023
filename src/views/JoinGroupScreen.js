@@ -11,14 +11,14 @@ import BackButton from '../components/Buttons/BackButton';
 import TitleCircleHeadingH2 from '../components/Texts/TitleCircleHeading';
 import { styles, theme } from '../constants/myTheme';
 import {
-  actionExample,
+  setSelectedMainGroup,
   selectedGroup,
   selectedUser,
   IpAddress,
 } from '../redux/features/mainSlice/mainSlice';
 
 function JoinGroup() {
-  const value = useSelector(selectedGroup);
+  const selectedGroupvalue = useSelector(selectedGroup);
   const currentUser = useSelector(selectedUser);
   const clientIpAddress = useSelector(IpAddress);
   const navigation = useNavigation();
@@ -31,7 +31,7 @@ function JoinGroup() {
         `http://${clientIpAddress}:3001/user/subscribe/maingroup`,
         {
           userId: currentUser.user_id, // Replace with the actual user ID
-          mainGroupIds: [value.mainGroupId], // Pass the main group ID as an array
+          mainGroupIds: [selectedGroupvalue.mainGroupId], // Pass the main group ID as an array
         }
       );
 
@@ -58,7 +58,7 @@ function JoinGroup() {
         text="back"
         onPress={() => {
           navigation.goBack(null);
-          dispatch(actionExample(''));
+          dispatch(setSelectedMainGroup(''));
         }}
       />
       <View
@@ -71,7 +71,7 @@ function JoinGroup() {
       >
         <View>
           <TitleCircleHeadingH2
-            title={value.mainGroupName}
+            title={selectedGroupvalue.name}
             image={circleLineImage}
             lineStyle={{
               height: 70,
@@ -90,8 +90,8 @@ function JoinGroup() {
           <Text
             style={[styles.subtitle1, { width: '90%', textAlign: 'center' }]}
           >
-            Join the {value.mainGroupName} group to get all the infos about this
-            study programme!
+            Join the {selectedGroupvalue.name} group to get all the infos about this study
+            programme!
           </Text>
         </View>
         <View

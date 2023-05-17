@@ -6,9 +6,10 @@ function SubGroupsFilter({
   firstFilterLabel,
   secondFilterLabel,
   thirdFilterLabel,
+  disabled,
   onFilterChange, // New prop to handle filter selection change
 }) {
-  const [selected, setSelected] = useState('all');
+  const [selected, setSelected] = useState(firstFilterLabel)
 
   const handleFilterChange = (filter) => {
     setSelected(filter);
@@ -36,26 +37,33 @@ function SubGroupsFilter({
         <TouchableOpacity
           style={{
             backgroundColor:
-              selected === firstFilterLabel
+              // eslint-disable-next-line no-nested-ternary
+              disabled
+                ? theme.colors.neutralsGrey500
+                : selected === firstFilterLabel
                 ? theme.colors.primary
                 : theme.colors.backgroundCamel,
             borderColor:
-              selected === firstFilterLabel
+              // eslint-disable-next-line no-nested-ternary
+              disabled
+                ? theme.colors.neutralsGrey500
+                : selected === firstFilterLabel
                 ? theme.colors.primary
                 : theme.colors.backgroundCamel,
+
             justifyContent: 'center', // align text vertically
             alignItems: 'center', // align text horizontally
             width: 88,
             height: 30,
             borderRadius: 12,
           }}
-          onPress={() => handleFilterChange(firstFilterLabel)}
+          onPress={() => (disabled ? null : handleFilterChange(firstFilterLabel))}
         >
           <Text
             style={{
               textAlign: 'center',
               color:
-                selected === firstFilterLabel
+                selected === firstFilterLabel || disabled
                   ? '#fff'
                   : theme.colors.neutralsGrey800,
             }}
@@ -81,7 +89,7 @@ function SubGroupsFilter({
             height: 30,
             borderRadius: 12,
           }}
-          onPress={() => handleFilterChange(secondFilterLabel)}
+          onPress={() => (disabled ? null : handleFilterChange(secondFilterLabel))}
         >
           <Text
             style={{
@@ -118,7 +126,7 @@ function SubGroupsFilter({
             height: 30,
             borderRadius: 12,
           }}
-          onPress={() => handleFilterChange(thirdFilterLabel)}
+          onPress={() => (disabled ? null : handleFilterChange(thirdFilterLabel))}
         >
           <Text
             style={{

@@ -1,42 +1,48 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { useSelector } from 'react-redux';
-import moreMenuIcon from '../../assets/Icons/more-menu-icon.png';
-import iconImage from '../../assets/Icons/plus-icon.png';
+import { View, Image, TouchableOpacity, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import circleLineImage from '../../assets/Images/circleLine-image.png';
-import { styles } from '../constants/myTheme';
 import {
-  IpAddress,
   selectedGroup,
+  SetselectedSubGroup,
   selectedUser,
+  IpAddress,
 } from '../redux/features/mainSlice/mainSlice';
 import SubGroupsFilter from './Buttons/SubGroupsFilter';
-import ListItem from './Items/ListItem';
 import TitleCircleHeadingH2 from './Texts/TitleCircleHeading';
+import ListItem from './Items/ListItem';
+import iconImage from '../../assets/Icons/plus-icon.png';
+import moreMenuIcon from '../../assets/Icons/more-menu-icon.png';
+import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png';
+import { styles } from '../constants/myTheme';
 
 function MainJoinedGroup() {
-  const value = useSelector(selectedGroup);
+  const selectedGroupValue = useSelector(selectedGroup);
   const currentUser = useSelector(selectedUser);
   const clientIpAddress = useSelector(IpAddress);
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [subscribedGroups, setSubscribedGroups] = useState([]);
   const [filteredSubgroups, setFilteredSubgroups] = useState([]);
 
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   const filterSubgroups = (filter) => {
     // eslint-disable-next-line no-shadow
     let filteredSubgroups = [];
 
     if (filter === 'all') {
-      filteredSubgroups = value.subgroups;
+      filteredSubgroups = selectedGroupValue.subgroups;
     } else if (filter === 'joined') {
-      filteredSubgroups = value.subgroups.filter((subgroup) =>
+      filteredSubgroups = selectedGroupValue.subgroups.filter((subgroup) =>
         subscribedGroups.some(
           (group) => group.main_group_id === subgroup.main_group_id
         )
       );
     } else if (filter === 'unjoined') {
-      filteredSubgroups = value.subgroups.filter(
+      filteredSubgroups = selectedGroupValue.subgroups.filter(
         (subgroup) =>
           !subscribedGroups.some(
             (group) => group.main_group_id === subgroup.main_group_id
@@ -51,6 +57,8 @@ function MainJoinedGroup() {
     setSelectedFilter(filter);
     filterSubgroups(filter);
   };
+
+
 
   useEffect(() => {
     const fetchSubscribedGroups = async () => {
@@ -73,11 +81,7 @@ function MainJoinedGroup() {
 
     fetchSubscribedGroups();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser.user_id, selectedFilter, value, clientIpAddress]);
-
-  const handlePress = () => {
-    // Handle the press event
-  };
+  }, [currentUser.user_id, selectedFilter, selectedGroupValue, clientIpAddress]);
 
   return (
     <View
@@ -89,7 +93,7 @@ function MainJoinedGroup() {
     >
       <View style={{ position: 'relative' }}>
         <TitleCircleHeadingH2
-          title={value.mainGroupName}
+          title={selectedGroupValue.name || selectedGroupValue.mainGroupName}
           image={circleLineImage}
           lineStyle={{
             height: 70,
@@ -135,7 +139,7 @@ function MainJoinedGroup() {
       >
         {filteredSubgroups.length === 0 ? (
           <Text>
-            {value.subgroups.length === 0
+            {selectedGroupValue.subgroups.length === 0
               ? 'There are no subgroups added for this group yet.'
               : 'You have not joined any subgroups yet.'}
           </Text>
@@ -143,21 +147,56 @@ function MainJoinedGroup() {
           filteredSubgroups.map((subgroup) => (
             <ListItem
               key={subgroup.subgroupId}
-              mainTitle={subgroup.subgroupName}
-              subtitle={subgroup.subgroupName}
+              mainTitle={subgroup.name || subgroup.subgroupName}
+              subtitle={subgroup.subTitle || subgroup.subgroupName}
               iconImage={require('../../assets/Icons/arrow-right.png')}
-              onPress={handlePress}
+              onPress={() => {
+                dispatch(SetselectedSubGroup(subgroup));
+                navigation.navigate('JoinedSubgroup');
+              }}
             />
           ))
         )}
       </View>
 
-      <TouchableOpacity
-        style={styles.newItemButton}
-        onPress={() => handlePress()}
+      <View
+        style={{
+          flexDirection: 'row',
+          marginTop: '8%',
+          width: '100%',
+          justifyContent: 'center',
+          alignContent: 'center',
+          position: 'relative',
+        }}
       >
-        <Image style={styles.newItemButtonIcon} source={iconImage} />
-      </TouchableOpacity>
+        <View style={{ position: 'relative' }}>
+          <Text style={[styles.headline3, { textAlign: 'center' }]}>
+            add a new subgroup
+          </Text>
+          <Image
+            style={{
+              left: '12%',
+              top: '90%',
+              height: 50,
+              width: 200,
+              position: 'absolute',
+            }}
+            source={underlineArrowImage}
+          />
+        </View>
+
+        <View
+          style={{
+            left: '82%',
+            top: '-20%',
+            position: 'absolute',
+          }}
+        >
+          <TouchableOpacity onPress={() => navigation.navigate('AddSubgroup')}>
+            <Image source={iconImage} style={{ height: 48, width: 48 }} />
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 }

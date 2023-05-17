@@ -6,8 +6,6 @@ import { theme } from '../../constants/myTheme';
 
 const style = StyleSheet.create({
   input: {
-    padding: 10,
-    marginLeft: 20,
     marginRight: 20,
     borderTopRightRadius: 8,
     borderTopLeftRadius: 8,
@@ -36,19 +34,31 @@ const style = StyleSheet.create({
  * 
  * <InputField label="Enter Password" secureTextEntry value={password} onChangeText={(value) => setPassword(value)} />
  */
+
 export default function InputField({
   labelText,
   value,
   onChangeText,
+  padding,
+  marginLeft,
   secureTextEntry,
+  width = '100%',
 }) {
+  const dynamicStyles = StyleSheet.create({
+    input: {
+      padding: padding !== undefined ? padding : 2,
+      marginLeft: marginLeft !== undefined ? marginLeft : 20,
+      flex: width === '50%' ? 1 : undefined,
+      maxWidth: width === '50%' ? '50%' : undefined,
+    },
+  });
   return (
     <SafeAreaView>
       <TextInput
         label={labelText}
         value={value}
         onChangeText={onChangeText}
-        style={[style.input, secureTextEntry && { secureTextEntry: true }]}
+        style={[[style.input, dynamicStyles.input, { width }], secureTextEntry && { secureTextEntry: true }]}
         underlineColor="transparent"
         theme={{
           colors: {

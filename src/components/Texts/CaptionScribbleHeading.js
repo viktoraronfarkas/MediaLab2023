@@ -85,15 +85,7 @@ export default function CaptionScribbleHeading({
         resizeMode="contain"
       />
       <View style={style.containerTitle}>
-        <Text
-          style={[
-            styles.headline1,
-            { width: 160, textAlign: 'left' },
-            headlineStyle,
-          ]}
-        >
-          {title}
-        </Text>
+        <Text style={[styles.headline3, { textAlign: 'left' }]}>{title}</Text>
         <Image
           style={[style.arrow, arrowStyle]}
           source={arrowImage}

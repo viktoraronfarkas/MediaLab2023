@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 // Here we pass the intial state of the variables/object
 const initialState = {
   // FIXME: This code needs to be deleted its just an example
-  value: 'Feed',
+  selectedMainGroup: 'Feed',
+  selectedSubGroup: '',
   currentUser: {},
   IpAddress: '10.55.103.60',
 };
@@ -12,8 +13,14 @@ export const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
-    actionExample: (state, action) => {
-      state.value = action.payload;
+    setSelectedMainGroup: (state, action) => {
+      state.selectedMainGroup = action.payload;
+    },
+    SetselectedSubGroup: (state, action) => {
+      state.selectedSubGroup = action.payload;
+    },
+    setCurrentUser: (state, action) => {
+      state.currentUser = action.payload;
     },
     setCurrentUser: (state, action) => {
       state.currentUser = action.payload;
@@ -22,9 +29,10 @@ export const mainSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { actionExample, setCurrentUser } = mainSlice.actions;
+export const { setSelectedMainGroup, SetselectedSubGroup, setCurrentUser } = mainSlice.actions;
 
-export const selectedGroup = (state) => state.main.value;
+export const selectedGroup = (state) => state.main.selectedMainGroup;
+export const selectedSupGroup = (state) => state.main.selectedSubGroup;
 export const selectedUser = (state) => state.main.currentUser;
 export const IpAddress = (state) => state.main.IpAddress;
 
