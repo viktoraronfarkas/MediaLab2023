@@ -13,7 +13,6 @@ function BackButton({ text, onPress }) {
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        gap: '2%',
         left: '2%',
       }}
     >
@@ -23,7 +22,7 @@ function BackButton({ text, onPress }) {
           source={require('../../../assets/Icons/back.png')}
         />
       </TouchableOpacity>
-      <Text style={styles.captionBold}>{text}</Text>
+      <Text style={[styles.captionBold, { left: '2%' }]}>{text}</Text>
     </View>
   );
 }
