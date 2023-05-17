@@ -15,12 +15,12 @@ const styles = StyleSheet.create({
   },
 });
 function HomeContent() {
-  const value = useSelector(selectedGroup);
+  const selectedGroupValue = useSelector(selectedGroup);
 
   return (
     <SafeAreaView edges={['left', 'right']} style={styles.container}>
       <ScrollView style={{ flex: 1 }}>
-        {!value.name ? <Feed /> : <MainJoinedGroup />}
+        {!selectedGroupValue.name ? <Feed /> : <MainJoinedGroup />}
       </ScrollView>
     </SafeAreaView>
   );

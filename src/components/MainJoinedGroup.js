@@ -1,8 +1,12 @@
 import React from 'react';
 import { View, Image, TouchableOpacity, Text } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
 import circleLineImage from '../../assets/Images/circleLine-image.png';
-import { selectedGroup } from '../redux/features/mainSlice/mainSlice';
+import {
+  selectedGroup,
+  SetselectedSubGroup,
+} from '../redux/features/mainSlice/mainSlice';
 import SubGroupsFilter from './Buttons/SubGroupsFilter';
 import TitleCircleHeadingH2 from './Texts/TitleCircleHeading';
 import ListItem from './Items/ListItem';
@@ -12,8 +16,11 @@ import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png'
 import { styles } from '../constants/myTheme';
 
 function MainJoinedGroup() {
-  const value = useSelector(selectedGroup);
-  const handlePress = () => {};
+  const selectedGroupValue = useSelector(selectedGroup);
+
+  const navigation = useNavigation();
+
+  const dispatch = useDispatch();
 
   return (
     <View
@@ -25,7 +32,7 @@ function MainJoinedGroup() {
     >
       <View style={{ position: 'relative' }}>
         <TitleCircleHeadingH2
-          title={value.name}
+          title={selectedGroupValue.name}
           image={circleLineImage}
           lineStyle={{
             height: 70,
@@ -56,7 +63,7 @@ function MainJoinedGroup() {
       >
         <SubGroupsFilter
           firstFilterLabel="all"
-          fourthFilterLabel="joined"
+          secondFilterLabel="joined"
           thirdFilterLabel="unjoined"
         />
       </View>
@@ -69,7 +76,6 @@ function MainJoinedGroup() {
           justifyContent: 'center',
           alignContent: 'center',
           position: 'relative',
-          border: '1px solid black',
         }}
       >
         <View style={{ position: 'relative' }}>
@@ -95,7 +101,7 @@ function MainJoinedGroup() {
             position: 'absolute',
           }}
         >
-          <TouchableOpacity onPress={handlePress}>
+          <TouchableOpacity onPress={() => navigation.navigate('AddSubgroup')}>
             <Image source={iconImage} style={{ height: 48, width: 48 }} />
           </TouchableOpacity>
         </View>
@@ -107,14 +113,17 @@ function MainJoinedGroup() {
           width: '94%',
         }}
       >
-        {value.subgroups.map((subgroup, index) => (
+        {selectedGroupValue.subgroups.map((subgroup, index) => (
           <ListItem
             // eslint-disable-next-line react/no-array-index-key
             key={index}
             mainTitle={subgroup.name}
             subtitle={subgroup.subTitle}
             iconImage={require('../../assets/Icons/arrow-right.png')}
-            onPress={handlePress}
+            onPress={() => {
+              dispatch(SetselectedSubGroup(subgroup));
+              navigation.navigate('JoinedSubgroup');
+            }}
           />
         ))}
       </View>

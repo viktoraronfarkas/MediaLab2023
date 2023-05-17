@@ -13,7 +13,6 @@ function AddSubgroup() {
   const navigation = useNavigation();
   const handlePress = () => {
     navigation.goBack(null);
-    // dispatch(actionExample(''));
   };
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.backgroundSand }}>
