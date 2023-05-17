@@ -54,7 +54,9 @@ export default function PostCard({
   content,
   coverImage,
   iconImage,
+  disabled,
 }) {
+  const handlePress = () => {};
   return (
     <Card elevation={0} style={style.container}>
       <Card.Title
@@ -85,7 +87,13 @@ export default function PostCard({
         </Text>
       </Card.Content>
       <Card.Actions>
-        <OrangeButton text={buttonText} />
+        <OrangeButton
+          buttonBackgroundColor={
+            disabled ? theme.colors.neutralsGrey500 : theme.colors.primary
+          }
+          text={buttonText}
+          onPress={disabled ? null : handlePress}
+        />
       </Card.Actions>
     </Card>
   );
