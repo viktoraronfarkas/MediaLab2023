@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-// import { StyleSheet } from 'react-native';
 import { theme } from '../../constants/myTheme';
 
 import UserProfileScreen from './UserProfile/UserProfileScreen';
@@ -12,6 +11,8 @@ import JoinedGroupsScreen from './AccountDetails/joinedGroups/JoinedGroupsScreen
 import YourPostsEventsScreen from './AccountDetails/yourPostsAndEvents/YourPostsEventsScreen';
 import HelpScreen from './AccountDetails/help/HelpScreen';
 import AboutUsScreen from './AccountDetails/aboutUs/AboutUsScreen';
+import DataSecurity from '../DataSecurity';
+import CommunityGuidelines from '../CommunityGuidelines';
 
 export default function UserProfileNavigation() {
   const Stack = createStackNavigator();
@@ -66,6 +67,21 @@ export default function UserProfileNavigation() {
         <Stack.Screen
           name="aboutUs"
           component={AboutUsScreen}
+          // options={{ headerShown: false }}
+        />
+        {/*  <Stack.Screen
+          name="quickTour"
+          component={QuickTour}
+          // options={{ headerShown: false }}
+        /> */}
+        <Stack.Screen
+          name="communityGuidelines"
+          component={CommunityGuidelines}
+          // options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="dataSecurity"
+          component={DataSecurity}
           // options={{ headerShown: false }}
         />
       </Stack.Navigator>

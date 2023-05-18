@@ -8,12 +8,11 @@ import {
 } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import { theme } from '../../constants/myTheme';
-import CaptionScribbleHeading from '../../components/Texts/CaptionScribbleHeading';
-import OrangeSubtitleBodyText from '../../components/Texts/OrangeSubtitleBodyText';
+import BottomScrollSheet from '../../components/BottomScrollSheet/BottomScrollSheet';
 import ProfileImage from '../../components/ProfileImageScribble';
-import scribble from '../../../assets/Images/heart-right-image.png';
-import underline from '../../../assets/Images/under-line-image.png';
-import arrow from '../../../assets/Images/arrow-image.png';
+import OrangeSubtitleBodyText from '../../components/Texts/OrangeSubtitleBodyText';
+import ClickableText from '../../components/ClickableText';
+import DialogAction from '../../components/Dialogs/DialogAction';
 
 const style = StyleSheet.create({
   container: {
@@ -34,22 +33,15 @@ export default function VisitUserProfileView({
   username,
   name,
   studyProgramme,
+  onReportUser,
+  bottomSheetRef,
+  contentComponent,
+  alertVisible,
+  onPressOkay,
 }) {
   return (
     <SafeAreaView style={style.container}>
       <ScrollView style={{ paddingHorizontal: 30 }}>
-        {/* Header */}
-        <View>
-          <CaptionScribbleHeading
-            subHeading="Only you"
-            title="Your Profile"
-            scribbleSubHeadingImage={scribble}
-            underlineImage={underline}
-            arrowImage={arrow}
-            lineStyle={{ height: 50, width: 50 }}
-          />
-        </View>
-
         {/* Profile Image */}
         <ProfileImage profileImage={profileImage} username={username} />
 
@@ -76,6 +68,33 @@ export default function VisitUserProfileView({
             bodyText={studyProgramme}
           />
         </View>
+        <ClickableText text="Report User" onPress={onReportUser} />
+
+        {/* When uploadIcon pressed: show this dialog  */}
+        <View>
+          <DialogAction
+            containerStyle={{
+              marginVertical: 200,
+              marginHorizontal: 15,
+              paddingRight: 20,
+            }}
+            visible={alertVisible}
+            text="We will check it!"
+            subText="We want everybody to feel safe and welcome, harmful content has no place here. We will check your request and take actions accordingly."
+            isDialog
+            actions={[
+              {
+                id: 1,
+                text: 'Okay',
+                onPress: onPressOkay,
+              },
+            ]}
+          />
+        </View>
+        <BottomScrollSheet
+          bottomSheetRef={bottomSheetRef}
+          contentComponent={contentComponent}
+        />
       </ScrollView>
     </SafeAreaView>
   );

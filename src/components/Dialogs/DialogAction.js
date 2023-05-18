@@ -4,8 +4,11 @@ import GreyButton from '../Buttons/GreyButton';
 import { theme, styles } from '../../constants/myTheme';
 
 const style = StyleSheet.create({
-  container: {
+  backgroundColor: {
     flex: 1,
+    backgroundColor: '#0000007A',
+  },
+  container: {
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
@@ -57,6 +60,7 @@ export default function DialogAction({
   visible,
   containerStyle,
   text,
+  subText,
   isDialog,
   actions,
   optionalButtonText,
@@ -64,38 +68,54 @@ export default function DialogAction({
 }) {
   return (
     <Modal visible={visible} transparent>
-      <View style={[style.container, containerStyle]}>
-        <Text
-          style={[
-            styles.subtitle1,
-            { textAlign: 'center' },
-            isDialog && style.dialog,
-          ]}
-        >
-          {text}
-        </Text>
-        <View style={style.buttonRow}>
-          {actions.map((action) => (
-            <TouchableOpacity
-              key={action.id}
-              style={style.buttonContainer}
-              onPress={action.onPress}
+      <View style={StyleSheet.absoluteFill}>
+        <View style={style.backgroundColor}>
+          <View style={[style.container, containerStyle]}>
+            <Text
+              style={[
+                styles.subtitle1,
+                { textAlign: 'center' },
+                isDialog && style.dialog,
+              ]}
             >
-              <Text
-                style={[styles.button, { color: theme.colors.neutralsWhite }]}
-              >
-                {action.text}
-              </Text>
-            </TouchableOpacity>
-          ))}
+              {text}
+            </Text>
+            <Text
+              style={[
+                styles.bodyDefault,
+                { textAlign: 'center' },
+                isDialog && style.dialog,
+              ]}
+            >
+              {subText}
+            </Text>
+            <View style={style.buttonRow}>
+              {actions.map((action) => (
+                <TouchableOpacity
+                  key={action.id}
+                  style={style.buttonContainer}
+                  onPress={action.onPress}
+                >
+                  <Text
+                    style={[
+                      styles.button,
+                      { color: theme.colors.neutralsWhite },
+                    ]}
+                  >
+                    {action.text}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+            {optionalButtonText && (
+              <GreyButton
+                text={optionalButtonText}
+                styleButtonContainer={{ alignSelf: 'flex-end', top: 10 }}
+                onPress={onPressOptionalButton}
+              />
+            )}
+          </View>
         </View>
-        {optionalButtonText && (
-          <GreyButton
-            text={optionalButtonText}
-            styleButtonContainer={{ alignSelf: 'flex-end', top: 10 }}
-            onPress={onPressOptionalButton}
-          />
-        )}
       </View>
     </Modal>
   );

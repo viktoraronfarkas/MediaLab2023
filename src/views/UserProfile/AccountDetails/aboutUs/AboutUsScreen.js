@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { useNavigation } from '@react-navigation/native';
 import AboutUsView from './AboutUsView';
 
 /**
@@ -7,5 +7,11 @@ import AboutUsView from './AboutUsView';
  *
  */
 export default function AboutUsScreen() {
-  return <AboutUsView />;
+  const navigation = useNavigation();
+  return (
+    <AboutUsView
+      onCommunityGuidelines={() => navigation.navigate('communityGuidelines')}
+      onDataSecurity={() => navigation.navigate('dataSecurity')}
+    />
+  );
 }

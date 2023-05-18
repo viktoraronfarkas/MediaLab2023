@@ -30,7 +30,7 @@ const style = StyleSheet.create({
 /**
  * This represents the user profile image component.
  * It contains the scribbles around the rounded profile image. Below it displays the username.
- * A default Image is implemented and by clicking on the email it will be copied to the clipboard.
+ * A default Image is implemented.
  *
  * How to use:
  *  < ProfileImage profileImage={profileImage} username={username} />

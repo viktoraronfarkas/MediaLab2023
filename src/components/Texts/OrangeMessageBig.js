@@ -21,7 +21,7 @@ const style = StyleSheet.create({
  * 
  * EXAMPLE:
  * 
- * <RedMessageBig
+ * <OrangeMessageBig
       textAbove={'Error'}
       textBelow={'Message'}
       note={'Please try again.'}
@@ -34,8 +34,7 @@ export default function OrangeMessageBig({ textAbove, textBelow, note }) {
       <Text style={[styles.headlineXL, { lineHeight: 70 }]}> {textAbove} </Text>
       <Text style={[styles.headlineXL, { lineHeight: 70 }]}> {textBelow} </Text>
       <Text style={[styles.headlineXL, { lineHeight: 70, fontSize: 18 }]}>
-        {' '}
-        {note}{' '}
+        {note}
       </Text>
     </SafeAreaView>
   );
