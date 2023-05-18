@@ -73,6 +73,11 @@ export const styles = StyleSheet.create({
     lineHeight: 40,
     letterSpacing: 0.0,
   },
+  appTitle: {
+    fontSize: 40,
+    fontFamily: 'Basic Sans Bold',
+  },
+
   headline1: {
     fontSize: 32,
     fontFamily: 'Basic Sans Bold',
