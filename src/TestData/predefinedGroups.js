@@ -1,6 +1,6 @@
 const preDefinedGroupsObject = [
   {
-    group_id: 2,
+    group_id: 1,
     name: 'BCC',
     subgroups: [
       {
@@ -36,7 +36,7 @@ const preDefinedGroupsObject = [
     ],
   },
   {
-    group_id: 3,
+    group_id: 2,
     name: 'Sport',
     subgroups: [
       {
@@ -60,7 +60,7 @@ const preDefinedGroupsObject = [
     ],
   },
   {
-    group_id: 4,
+    group_id: 3,
     name: 'Food',
     subgroups: [
       {
@@ -84,7 +84,7 @@ const preDefinedGroupsObject = [
     ],
   },
   {
-    group_id: 5,
+    group_id: 4,
     name: 'BMT',
     subgroups: [
       {
@@ -108,7 +108,7 @@ const preDefinedGroupsObject = [
     ],
   },
   {
-    group_id: 3,
+    group_id: 5,
     name: 'Events',
     subgroups: [
       {
@@ -132,7 +132,7 @@ const preDefinedGroupsObject = [
     ],
   },
   {
-    group_id: 3,
+    group_id: 6,
     name: 'Fun',
     subgroups: [
       {
@@ -156,7 +156,7 @@ const preDefinedGroupsObject = [
     ],
   },
   {
-    group_id: 3,
+    group_id: 7,
     name: 'Date',
     subgroups: [
       {

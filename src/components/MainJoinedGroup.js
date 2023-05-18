@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Image, TouchableOpacity, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import circleLineImage from '../../assets/Images/circleLine-image.png';
 import {
   selectedGroup,
   SetselectedSubGroup,
+  selectedUser,
+  IpAddress,
 } from '../redux/features/mainSlice/mainSlice';
 import SubGroupsFilter from './Buttons/SubGroupsFilter';
 import TitleCircleHeadingH2 from './Texts/TitleCircleHeading';
@@ -17,10 +20,71 @@ import { styles } from '../constants/myTheme';
 
 function MainJoinedGroup() {
   const selectedGroupValue = useSelector(selectedGroup);
+  const currentUser = useSelector(selectedUser);
+  const clientIpAddress = useSelector(IpAddress);
+  const [selectedFilter, setSelectedFilter] = useState('all');
+  const [subscribedGroups, setSubscribedGroups] = useState([]);
+  const [filteredSubgroups, setFilteredSubgroups] = useState([]);
 
   const navigation = useNavigation();
-
   const dispatch = useDispatch();
+
+  const filterSubgroups = (filter) => {
+    // eslint-disable-next-line no-shadow
+    let filteredSubgroups = [];
+
+    if (filter === 'all') {
+      filteredSubgroups = selectedGroupValue.subgroups;
+    } else if (filter === 'joined') {
+      filteredSubgroups = selectedGroupValue.subgroups.filter((subgroup) =>
+        subscribedGroups.some(
+          (group) => group.main_group_id === subgroup.main_group_id
+        )
+      );
+    } else if (filter === 'unjoined') {
+      filteredSubgroups = selectedGroupValue.subgroups.filter(
+        (subgroup) =>
+          !subscribedGroups.some(
+            (group) => group.main_group_id === subgroup.main_group_id
+          )
+      );
+    }
+
+    setFilteredSubgroups(filteredSubgroups);
+  };
+
+  const handleFilterChange = (filter) => {
+    setSelectedFilter(filter);
+    filterSubgroups(filter);
+  };
+
+  useEffect(() => {
+    const fetchSubscribedGroups = async () => {
+      try {
+        const response = await axios.get(
+          `http://${clientIpAddress}:3001/user/${currentUser.user_id}/subscribed-groups`
+        );
+        const { mainGroups, subGroups } = response.data;
+
+        const fetchedSubscribedGroups = mainGroups.concat(subGroups);
+        setSubscribedGroups(fetchedSubscribedGroups);
+
+        // Filter the subgroups based on the initial filter value
+        filterSubgroups(selectedFilter);
+      } catch (error) {
+        console.error('Error retrieving subscribed groups:', error);
+        // Handle the error
+      }
+    };
+
+    fetchSubscribedGroups();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    currentUser.user_id,
+    selectedFilter,
+    selectedGroupValue,
+    clientIpAddress,
+  ]);
 
   return (
     <View
@@ -32,7 +96,7 @@ function MainJoinedGroup() {
     >
       <View style={{ position: 'relative' }}>
         <TitleCircleHeadingH2
-          title={selectedGroupValue.name}
+          title={selectedGroupValue.name || selectedGroupValue.mainGroupName}
           image={circleLineImage}
           lineStyle={{
             height: 70,
@@ -65,9 +129,9 @@ function MainJoinedGroup() {
           firstFilterLabel="all"
           secondFilterLabel="joined"
           thirdFilterLabel="unjoined"
+          onFilterChange={handleFilterChange}
         />
       </View>
-
       <View
         style={{
           flexDirection: 'row',
@@ -113,19 +177,27 @@ function MainJoinedGroup() {
           width: '94%',
         }}
       >
-        {selectedGroupValue.subgroups.map((subgroup, index) => (
-          <ListItem
-            // eslint-disable-next-line react/no-array-index-key
-            key={index}
-            mainTitle={subgroup.name}
-            subtitle={subgroup.subTitle}
-            iconImage={require('../../assets/Icons/arrow-right.png')}
-            onPress={() => {
-              dispatch(SetselectedSubGroup(subgroup));
-              navigation.navigate('JoinedSubgroup');
-            }}
-          />
-        ))}
+        {/** FIXME : a place holder should take place here instead */}
+        {filteredSubgroups.length === 0 ? (
+          <Text style={{ textAlign: 'center' }}>
+            {selectedGroupValue.subgroups.length === 0
+              ? 'There are no subgroups added for this group yet.'
+              : 'You have not joined any subgroups yet.'}
+          </Text>
+        ) : (
+          filteredSubgroups.map((subgroup) => (
+            <ListItem
+              key={subgroup.subgroupId}
+              mainTitle={subgroup.name || subgroup.subgroupName}
+              subtitle={subgroup.subTitle || subgroup.subgroupName}
+              iconImage={require('../../assets/Icons/arrow-right.png')}
+              onPress={() => {
+                dispatch(SetselectedSubGroup(subgroup));
+                navigation.navigate('JoinedSubgroup');
+              }}
+            />
+          ))
+        )}
       </View>
     </View>
   );

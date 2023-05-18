@@ -7,8 +7,14 @@ function SubGroupsFilter({
   secondFilterLabel,
   thirdFilterLabel,
   disabled,
+  onFilterChange, // New prop to handle filter selection change
 }) {
-  const [selected, setSelected] = useState(firstFilterLabel);
+  const [selected, setSelected] = useState(firstFilterLabel)
+
+  const handleFilterChange = (filter) => {
+    setSelected(filter);
+    onFilterChange(filter);
+  };
 
   return (
     <View
@@ -51,7 +57,7 @@ function SubGroupsFilter({
             height: 30,
             borderRadius: 12,
           }}
-          onPress={() => (disabled ? null : setSelected(firstFilterLabel))}
+          onPress={() => (disabled ? null : handleFilterChange(firstFilterLabel))}
         >
           <Text
             style={{
@@ -83,7 +89,7 @@ function SubGroupsFilter({
             height: 30,
             borderRadius: 12,
           }}
-          onPress={() => (disabled ? null : setSelected(secondFilterLabel))}
+          onPress={() => (disabled ? null : handleFilterChange(secondFilterLabel))}
         >
           <Text
             style={{
@@ -120,7 +126,7 @@ function SubGroupsFilter({
             height: 30,
             borderRadius: 12,
           }}
-          onPress={() => (disabled ? null : setSelected(thirdFilterLabel))}
+          onPress={() => (disabled ? null : handleFilterChange(thirdFilterLabel))}
         >
           <Text
             style={{

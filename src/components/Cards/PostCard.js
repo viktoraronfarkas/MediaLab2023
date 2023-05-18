@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 import { theme, styles } from '../../constants/myTheme';
@@ -15,29 +15,24 @@ const style = StyleSheet.create({
 });
 
 function LeftContent({ iconImage }) {
-  return (
-    // eslint-disable-next-line react/jsx-no-useless-fragment
-    <>
-      {iconImage ? (
-        <Image
-          style={{
-            width: 55,
-            height: 55,
-            borderRadius: 35,
-          }}
-          source={iconImage}
-        />
-      ) : (
-        <Image
-          style={{
-            width: 55,
-            height: 55,
-            borderRadius: 35,
-          }}
-          source={IconImageDefault}
-        />
-      )}
-    </>
+  return iconImage ? (
+    <Image
+      style={{
+        width: 55,
+        height: 55,
+        borderRadius: 35,
+      }}
+      source={iconImage}
+    />
+  ) : (
+    <Image
+      style={{
+        width: 55,
+        height: 55,
+        borderRadius: 35,
+      }}
+      source={IconImageDefault}
+    />
   );
 }
 
@@ -67,11 +62,7 @@ export default function PostCard({
         left={() => LeftContent({ iconImage })}
       />
       {coverImage ? (
-        <Card.Cover
-          source={coverImage}
-          resizeMode="cover"
-          style={{ borderRadius: 0 }}
-        />
+        <Card.Cover source={coverImage} resizeMode="cover" />
       ) : null}
       <Card.Content>
         <Text

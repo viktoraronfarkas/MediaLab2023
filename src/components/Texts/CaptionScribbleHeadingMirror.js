@@ -11,7 +11,6 @@ const style = StyleSheet.create({
   containerSubHeading: {
     flexDirection: 'row',
   },
-
   scribble: {
     height: 20,
     width: 20,
@@ -19,17 +18,19 @@ const style = StyleSheet.create({
   containerTitle: {
     flexDirection: 'row',
     alignItems: 'flex-start',
+    justifyContent: 'flex-end',
   },
   arrow: {
     height: 50,
     width: 90,
+    transform: [{ scaleX: -1 }],
   },
   underline: {
     position: 'absolute',
-    top: 85,
-    left: 60,
+    top: 71,
+    right: 15,
     height: 10,
-    width: 110,
+    width: 130,
   },
 });
 
@@ -45,13 +46,11 @@ const style = StyleSheet.create({
  * import underline from './assets/Images/underLineImage.png';
  * import arrow from './assets/Images/arrowImage.png';
  *
- *    <CaptionScribbleHeading
-          subHeading="For you"
-          title="Your latest interaction"
-          scribbleSubHeadingImage={scribble}
+ *    <CaptionScribbleHeadingMirror
+          title="Sub Groups"
+          headlineStyle={{ width: 160 }}
           underlineImage={underline}
           arrowImage={arrow}
-          lineStyle={{ height: 50, width: 50 }}
         />
  */
 
@@ -84,13 +83,22 @@ export default function CaptionScribbleHeading({
         source={underlineImage}
         resizeMode="contain"
       />
+
       <View style={style.containerTitle}>
-        <Text style={[styles.headline3, { textAlign: 'left' }]}>{title}</Text>
         <Image
           style={[style.arrow, arrowStyle]}
           source={arrowImage}
           resizeMode="contain"
         />
+        <Text
+          style={[
+            styles.headline1,
+            { width: 160, textAlign: 'right' },
+            headlineStyle,
+          ]}
+        >
+          {title}
+        </Text>
       </View>
     </SafeAreaView>
   );
