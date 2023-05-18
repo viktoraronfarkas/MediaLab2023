@@ -48,6 +48,8 @@ export default function UserProfileView({
   onInteractedPosts,
   studyProgramme,
   onYourPostsEvents,
+  onHelp,
+  onAboutUs,
 }) {
   return (
     <View style={style.container}>
@@ -135,45 +137,45 @@ export default function UserProfileView({
           </Text>
 
           <ListItemOnlyText
-            title="personal data"
+            title="Your Posts/Events"
             iconImage={iconImage}
-            onPress={onPersonalData}
+            onPress={onYourPostsEvents}
             cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
           />
           <ListItemOnlyText
-            title="joined groups"
-            iconImage={iconImage}
-            onPress={onJoinedGroups}
-            cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
-          />
-          <ListItemOnlyText
-            title="joined events"
-            iconImage={iconImage}
-            onPress={onJoinedEvents}
-            cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
-          />
-          <ListItemOnlyText
-            title="interacted posts"
+            title="Interacted Posts"
             iconImage={iconImage}
             onPress={onInteractedPosts}
             cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
           />
           <ListItemOnlyText
-            title="your posts & events"
+            title="Joined Groups"
             iconImage={iconImage}
-            onPress={onYourPostsEvents}
+            onPress={onJoinedGroups}
             cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
           />
           <ListItemOnlyText
-            title="help"
+            title="Joined Events"
             iconImage={iconImage}
-            onPress={onYourPostsEvents}
+            onPress={onJoinedEvents}
             cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
           />
           <ListItemOnlyText
-            title="about us"
+            title="Personal Data"
             iconImage={iconImage}
-            onPress={onYourPostsEvents}
+            onPress={onPersonalData}
+            cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
+          />
+          <ListItemOnlyText
+            title="Help"
+            iconImage={iconImage}
+            onPress={onHelp}
+            cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
+          />
+          <ListItemOnlyText
+            title="About Us"
+            iconImage={iconImage}
+            onPress={onAboutUs}
             cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
           />
         </View>

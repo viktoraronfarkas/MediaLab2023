@@ -11,7 +11,7 @@ import JoinedEventsScreen from './AccountDetails/joinedEvents/JoinedEventScreen'
 import JoinedGroupsScreen from './AccountDetails/joinedGroups/JoinedGroupsScreen';
 import YourPostsEventsScreen from './AccountDetails/yourPostsAndEvents/YourPostsEventsScreen';
 import HelpScreen from './AccountDetails/help/HelpScreen';
-import AboutUsScreen from './AccountDetails/aboutUs/AbouUsScreen';
+import AboutUsScreen from './AccountDetails/aboutUs/AboutUsScreen';
 
 export default function UserProfileNavigation() {
   const Stack = createStackNavigator();
@@ -41,32 +41,32 @@ export default function UserProfileNavigation() {
         <Stack.Screen
           name="YourPostsEvents"
           component={YourPostsEventsScreen}
-          options={{ headerShown: false }}
+          // options={{ headerShown: false }}
         />
         <Stack.Screen
           name="InteractedPosts"
           component={InteractedPostsScreen}
-          options={{ headerShown: false }}
+          // options={{ headerShown: false }}
         />
         <Stack.Screen
           name="JoinedEvents"
           component={JoinedEventsScreen}
-          options={{ headerShown: false }}
+          // options={{ headerShown: false }}
         />
         <Stack.Screen
           name="JoinedGroups"
           component={JoinedGroupsScreen}
-          options={{ headerShown: false }}
+          // options={{ headerShown: false }}
         />
         <Stack.Screen
           name="help"
           component={HelpScreen}
-          options={{ headerShown: false }}
+          // options={{ headerShown: false }}
         />
         <Stack.Screen
           name="aboutUs"
           component={AboutUsScreen}
-          options={{ headerShown: false }}
+          // options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

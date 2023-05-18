@@ -6,6 +6,6 @@ import AboutUsView from './AboutUsView';
  * This is the main Joined Groups Screen
  *
  */
-export default function AbouUsScreen() {
+export default function AboutUsScreen() {
   return <AboutUsView />;
 }
