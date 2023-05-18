@@ -19,10 +19,10 @@ const style = StyleSheet.create({
  * This component is the Circle Icon Container with text below
  * If there is no image source it will use the group-default-icon image
  *  How to use it:
- * <GroupIconContainer
- *  imageSource={groupImage}
- *  title="My Group"
- * />
+  <GroupIconContainer
+   imageSource={groupImage}
+   title="My Group"
+  />
  */
 export default function GroupIconContainer({ imageSource, title, imageStyle }) {
   return (

@@ -4,5 +4,14 @@
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "cSpell.words": ["FHLOGO", "Msal", "Nunito", "Pölten", "reduxjs", "usersname"]
+  "cSpell.words": [
+    "FHLOGO",
+    "maingroup",
+    "maingroups",
+    "Msal",
+    "Nunito",
+    "Pölten",
+    "reduxjs",
+    "usersname"
+  ]
 }

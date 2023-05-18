@@ -1,16 +1,24 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import { SafeAreaView, View, ScrollView } from 'react-native';
 import { theme } from '../../../../constants/myTheme';
 import TitleArrowHeading from '../../../../components/Texts/TitleArrowHeading';
+import EventCard from '../../../../components/Cards/EventCard';
 import arrowImage from '../../../../../assets/Images/arrow-image.png';
 
 /**
- * This is the main Joined Groups Screen
- *
+ * This is the main Joined Events Screen
+ * Joined Events are mapped here.
  */
-export default function JoinedEventsView() {
+export default function JoinedEventsView({
+  joinedEvents,
+  joinedEventKey,
+  joinedTotal,
+  title,
+  subTitle,
+  cardImage,
+}) {
   return (
-    <View>
+    <SafeAreaView>
       <ScrollView
         style={{
           paddingHorizontal: 15,
@@ -25,7 +33,18 @@ export default function JoinedEventsView() {
             arrowStyle={{ height: 70, width: 100, bottom: 20 }}
           />
         </View>
+
+        {/* Map the Events as Cards */}
+        {joinedEvents.map((joinedEvent) => (
+          <EventCard
+            key={joinedEvent[joinedEventKey]}
+            joiningNumber={joinedEvent[joinedTotal]}
+            title={joinedEvent[title]}
+            subTitle={joinedEvent[subTitle]}
+            cardImage={joinedEvent[cardImage]}
+          />
+        ))}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }

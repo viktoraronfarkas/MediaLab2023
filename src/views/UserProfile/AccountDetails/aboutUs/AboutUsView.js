@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import { SafeAreaView, View, ScrollView } from 'react-native';
 import { theme } from '../../../../constants/myTheme';
 import TitleArrowHeading from '../../../../components/Texts/TitleArrowHeading';
 import ListItemOnlyText from '../../../../components/Items/ListItemOnlyText';
@@ -12,7 +12,7 @@ import iconImage from '../../../../../assets/Icons/arrow-right.png';
  */
 export default function AboutUsView({ onCommunityGuidelines, onDataSecurity }) {
   return (
-    <View>
+    <SafeAreaView>
       <ScrollView
         style={{
           paddingHorizontal: 15,
@@ -40,6 +40,6 @@ export default function AboutUsView({ onCommunityGuidelines, onDataSecurity }) {
           cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
         />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }

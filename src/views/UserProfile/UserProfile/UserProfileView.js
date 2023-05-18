@@ -2,6 +2,7 @@ import React from 'react';
 import {
   ScrollView,
   StyleSheet,
+  SafeAreaView,
   View,
   Text,
   TouchableOpacity,
@@ -30,6 +31,9 @@ const style = StyleSheet.create({
   },
 });
 
+/**
+ * This is the main User Profile View / UI
+ */
 export default function UserProfileView({
   profileImage,
   onPressProfileImageEdit,
@@ -52,10 +56,10 @@ export default function UserProfileView({
   onAboutUs,
 }) {
   return (
-    <View style={style.container}>
+    <SafeAreaView style={style.container}>
       <ScrollView style={{ paddingHorizontal: 30 }}>
         {/* Header */}
-        <View style={{ paddingVertical: 40 }}>
+        <View style={{ paddingVertical: 20 }}>
           <CaptionScribbleHeading
             subHeading="Only you"
             title="Your Profile"
@@ -180,6 +184,6 @@ export default function UserProfileView({
           />
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }

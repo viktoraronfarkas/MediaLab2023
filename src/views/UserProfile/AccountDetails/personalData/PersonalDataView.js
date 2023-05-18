@@ -1,5 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, Text, Image } from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  View,
+  ScrollView,
+  Text,
+  Image,
+} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 
 import { theme, styles } from '../../../../constants/myTheme';
@@ -89,7 +96,7 @@ export default function PersonalDataView({
     <Image source={dropDownIcon} style={style.dropdownIcon} />
   );
   return (
-    <View style={style.container}>
+    <SafeAreaView style={style.container}>
       <ScrollView style={{ paddingHorizontal: 15 }}>
         {/* Header */}
         <View style={{ paddingVertical: 10 }}>
@@ -192,6 +199,6 @@ export default function PersonalDataView({
           />
         )}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }

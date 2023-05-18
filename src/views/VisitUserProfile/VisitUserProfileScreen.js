@@ -2,6 +2,14 @@ import React from 'react';
 import { ToastAndroid, Alert, Clipboard, Platform } from 'react-native';
 import VisitUserProfileView from './VisitUserProfileView';
 
+/**
+ * This is the User Profile Screen that is visited from another user, displaying only data.
+ * However the visiting users can report this user profile.
+ *
+ * The data of the user is fetched here. Also the functionalities are handled here.
+ */
+
+// TODO Add Report User
 export default function VisitUserProfile() {
   const email = 'cc201037@fhstp.ac.at';
 

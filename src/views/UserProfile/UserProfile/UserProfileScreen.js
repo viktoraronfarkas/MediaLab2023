@@ -5,8 +5,9 @@ import * as ImagePicker from 'expo-image-picker';
 import UserProfileView from './UserProfileView';
 
 /**
- * This is the main User Profile Screen
- *
+ * This is the main User Profile Screen.
+ * General data like profile image, username, email, biography, name are fetched and handled here.
+ * Also navigating to the other settings.
  */
 export default function UserProfileScreen() {
   const [imageUpload, setImage] = useState(null);
@@ -57,12 +58,13 @@ export default function UserProfileScreen() {
   };
   return (
     <UserProfileView
-      profileImage={imageUpload}
       onPressEditImage={pickProfilePicture}
       onPressDeleteImage={handleDeletePicture}
       onPressProfileImageEdit={handleDialogOpen}
       alertVisible={dialogVisible}
       onPressCancelDialog={handleCancelDialog}
+      // User Data
+      profileImage={imageUpload}
       username="Username"
       biography="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
       email={email}
