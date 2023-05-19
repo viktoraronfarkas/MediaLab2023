@@ -24,7 +24,7 @@ export default function JoinedGroupsView({
   subgroupSubTitle,
 }) {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView
         style={{
           paddingHorizontal: 15,

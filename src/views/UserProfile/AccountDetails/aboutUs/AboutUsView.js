@@ -12,7 +12,7 @@ import iconImage from '../../../../../assets/Icons/arrow-right.png';
  */
 export default function AboutUsView({ onCommunityGuidelines, onDataSecurity }) {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView
         style={{
           paddingHorizontal: 15,

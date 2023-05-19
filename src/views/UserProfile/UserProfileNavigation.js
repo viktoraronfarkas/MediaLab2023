@@ -13,6 +13,7 @@ import HelpScreen from './AccountDetails/help/HelpScreen';
 import AboutUsScreen from './AccountDetails/aboutUs/AboutUsScreen';
 import DataSecurity from '../DataSecurity';
 import CommunityGuidelines from '../CommunityGuidelines';
+import BackButtonNavigationContainer from '../../components/Buttons/BackButtonNavigationContainer';
 
 export default function UserProfileNavigation() {
   const Stack = createStackNavigator();
@@ -21,18 +22,19 @@ export default function UserProfileNavigation() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerTintColor: theme.colors.onInfo,
+          headerBackTitleVisible: false,
+          headerBackImage: () => <BackButtonNavigationContainer text="back" />,
           headerStyle: {
-            borderBottomWidth: 0,
-            borderColor: theme.colors.backgroundWhite,
             backgroundColor: theme.colors.backgroundSand,
+            borderBottomWidth: 0,
+            borderBottomColor: theme.colors.backgroundSand,
           },
         }}
       >
         <Stack.Screen
           name="UserProfile"
           component={UserProfileScreen}
-          options={{ title: 'Your Profile', headerShown: false }}
+          options={{ title: '', headerShown: false }}
         />
         <Stack.Screen
           name="PersonalData"
@@ -42,47 +44,47 @@ export default function UserProfileNavigation() {
         <Stack.Screen
           name="YourPostsEvents"
           component={YourPostsEventsScreen}
-          // options={{ headerShown: false }}
+          options={{ title: '' }}
         />
         <Stack.Screen
           name="InteractedPosts"
           component={InteractedPostsScreen}
-          // options={{ headerShown: false }}
+          options={{ title: '' }}
         />
         <Stack.Screen
           name="JoinedEvents"
           component={JoinedEventsScreen}
-          // options={{ headerShown: false }}
+          options={{ title: '' }}
         />
         <Stack.Screen
           name="JoinedGroups"
           component={JoinedGroupsScreen}
-          // options={{ headerShown: false }}
+          options={{ title: '' }}
         />
         <Stack.Screen
           name="help"
           component={HelpScreen}
-          // options={{ headerShown: false }}
+          options={{ title: '' }}
         />
         <Stack.Screen
           name="aboutUs"
           component={AboutUsScreen}
-          // options={{ headerShown: false }}
+          options={{ title: '' }}
         />
         {/*  <Stack.Screen
           name="quickTour"
           component={QuickTour}
-          // options={{ headerShown: false }}
+         
         /> */}
         <Stack.Screen
           name="communityGuidelines"
           component={CommunityGuidelines}
-          // options={{ headerShown: false }}
+          options={{ title: '' }}
         />
         <Stack.Screen
           name="dataSecurity"
           component={DataSecurity}
-          // options={{ headerShown: false }}
+          options={{ title: '' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

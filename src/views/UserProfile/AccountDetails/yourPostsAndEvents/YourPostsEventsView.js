@@ -25,7 +25,7 @@ export default function YourPostsEventsView({
   content,
 }) {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView
         style={{
           paddingHorizontal: 15,

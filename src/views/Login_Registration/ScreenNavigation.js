@@ -6,6 +6,7 @@ import { theme } from '../../constants/myTheme';
 
 import LoginScreen from './Login/LoginScreen';
 import RegistrationScreen from './Registration/RegistrationScreen';
+import BackButtonNavigationContainer from '../../components/Buttons/BackButtonNavigationContainer';
 
 export default function ScreenNavigation() {
   const Stack = createStackNavigator();
@@ -14,23 +15,24 @@ export default function ScreenNavigation() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerTintColor: theme.colors.onInfo,
+          headerBackTitleVisible: false,
+          headerBackImage: () => <BackButtonNavigationContainer text="back" />,
           headerStyle: {
-            borderBottomWidth: 0,
-            borderColor: theme.colors.backgroundWhite,
             backgroundColor: theme.colors.backgroundSand,
+            borderBottomWidth: 0,
+            borderBottomColor: theme.colors.backgroundSand,
           },
         }}
       >
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
-          options={{ title: 'Login to UASync' }}
+          options={{ title: '' }}
         />
         <Stack.Screen
           name="RegistrationOne"
           component={RegistrationScreen}
-          options={{ headerShown: false }}
+          options={{ title: '' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -17,7 +17,7 @@ export default function InteractedPostsView({
   content,
 }) {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView
         style={{
           paddingHorizontal: 15,
