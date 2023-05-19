@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, ScrollView, StyleSheet } from 'react-native';
+import { Text, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { theme, styles } from '../constants/myTheme';
 
 const style = StyleSheet.create({
@@ -28,12 +28,12 @@ const style = StyleSheet.create({
 });
 /**
  * This is the Data Security Page.
- * It contains only information
+ * It contains only information about general data security.
  *
  */
 export default function DataSecurity() {
   return (
-    <View style={style.container}>
+    <SafeAreaView style={style.container}>
       <ScrollView>
         <Text style={[styles.headline3, style.title]}>
           App Data Privacy Policy
@@ -151,6 +151,6 @@ export default function DataSecurity() {
           declarations, you can delete your account at any time.
         </Text>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
