@@ -58,6 +58,7 @@ export default function CaptionScribbleHeading({
   scribbleSubHeadingImage,
   containerSubHeadingStyle,
   scribbleStyle,
+  headlineStyle,
   title,
   arrowImage,
   arrowStyle,
@@ -82,7 +83,7 @@ export default function CaptionScribbleHeading({
         resizeMode="contain"
       />
       <View style={style.containerTitle}>
-        <Text style={[styles.headline3, { textAlign: 'left' }, headlineStyle]}>
+        <Text style={[styles.headline3, headlineStyle, { textAlign: 'left' }]}>
           {title}
         </Text>
         <Image

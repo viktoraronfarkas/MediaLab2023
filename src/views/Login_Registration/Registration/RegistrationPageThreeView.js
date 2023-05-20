@@ -32,7 +32,7 @@ export default function RegistrationPageThreeView({
         <CaptionScribbleHeading
           subHeading="Click down below, to add groups:"
           title="Before you’re good to go, here are some groups you can join right away:"
-          headlineStyle={{ width: 350 }}
+          headlineStyle={{ width: 300 }}
         />
         <ScrollView horizontal>
           {preDefinedGroups.map((group) => (
@@ -40,7 +40,7 @@ export default function RegistrationPageThreeView({
               key={group.group_id}
               onPress={() => onGroupsSelected(group.name)}
               style={{
-                padding: 10,
+                paddingVertical: 40,
                 backgroundColor: selectedGroups.includes(group.name)
                   ? theme.colors.primary
                   : '#FFFFFF00',

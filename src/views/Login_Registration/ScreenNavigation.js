@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { theme } from '../../constants/myTheme';
 
+import LandingScreen from '../LandingScreen';
 import LoginScreen from './Login/LoginScreen';
 import RegistrationScreen from './Registration/RegistrationScreen';
 import BackButtonNavigationContainer from '../../components/Buttons/BackButtonNavigationContainer';
@@ -28,10 +29,12 @@ export default function ScreenNavigation() {
           headerShown: false,
         }}
       >
+        <Stack.Screen name="LandingScreen" component={LandingScreen} />
+
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
-          options={{ title: '' }}
+          options={{ title: '', headerShown: true }}
         />
         <Stack.Screen
           name="RegistrationOne"

@@ -23,7 +23,6 @@ const style = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     paddingHorizontal: 20,
-    paddingVertical: 20,
     backgroundColor: theme.colors.backgroundSand,
   },
 
@@ -39,7 +38,7 @@ const style = StyleSheet.create({
     flexDirection: 'column',
   },
   infoImageContainer: {
-    paddingVertical: 40,
+    paddingVertical: 10,
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
@@ -59,6 +58,10 @@ const style = StyleSheet.create({
   iconCheck: {
     width: 50,
     height: 50,
+  },
+
+  inputStyle: {
+    paddingBottom: 20,
   },
 });
 
@@ -94,72 +97,85 @@ export default function RegistrationPageOneView({
   return (
     <SafeAreaView style={style.container}>
       <ScrollView>
-        <CaptionScribbleHeading
-          subHeading="Sign up"
-          title="Please register below"
-          headlineStyle={{ width: 300 }}
-          scribbleSubHeadingImage={scribble}
-          scribbleStyle={{
-            width: 50,
-            height: 50,
-            right: 0,
-            position: 'absolute',
-            alignSelf: 'flex-end',
-          }}
-        />
-
+        <View style={{ paddingTop: 30 }}>
+          <CaptionScribbleHeading
+            subHeading="Sign up"
+            title="Please register below"
+            headlineStyle={{ width: 300 }}
+            scribbleSubHeadingImage={scribble}
+            scribbleStyle={{
+              width: 50,
+              height: 50,
+              right: 0,
+              position: 'absolute',
+              alignSelf: 'flex-end',
+            }}
+          />
+        </View>
         {emailError ? <Text style={style.error}>{emailError}</Text> : null}
-        <InputField
-          labelText="Enter Email"
-          value={emailValue}
-          onChangeText={onChangeTextEmail}
-        />
-
+        <View style={style.inputStyle}>
+          <InputField
+            labelText="Enter Email"
+            value={emailValue}
+            onChangeText={onChangeTextEmail}
+            marginLeft={0}
+          />
+        </View>
         {usernameError ? (
           <Text style={style.error}>{usernameError}</Text>
         ) : null}
-        <InputField
-          labelText="Your Username"
-          value={usernameValue}
-          onChangeText={onChangeTextUsername}
-        />
-        {nameError ? <Text style={style.error}>{usernameError}</Text> : null}
-        <InputField
-          labelText="Your Name"
-          value={nameValue}
-          onChangeText={onChangeTextName}
-        />
+        <View style={style.inputStyle}>
+          <InputField
+            labelText="Your Username"
+            value={usernameValue}
+            onChangeText={onChangeTextUsername}
+            marginLeft={0}
+          />
+        </View>
 
+        {nameError ? <Text style={style.error}>{usernameError}</Text> : null}
+        <View style={style.inputStyle}>
+          <InputField
+            labelText="Your Name"
+            value={nameValue}
+            onChangeText={onChangeTextName}
+            marginLeft={0}
+          />
+        </View>
         {passwordError ? (
           <Text style={style.error}>{passwordError}</Text>
         ) : null}
-        <InputField
-          labelText="Enter Password"
-          value={passwordValue}
-          onChangeText={onChangeTextPassword}
-          secureTextEntry
-        />
-
+        <View style={style.inputStyle}>
+          <InputField
+            labelText="Enter Password"
+            value={passwordValue}
+            onChangeText={onChangeTextPassword}
+            secureTextEntry
+            marginLeft={0}
+          />
+        </View>
         {confirmError ? <Text style={style.error}>{confirmError}</Text> : null}
-        <InputField
-          labelText="Confirm Password"
-          value={confirmPasswordValue}
-          onChangeText={onPasswordConfirmation}
-          secureTextEntry
-        />
-
-        <View style={{ paddingVertical: 30, paddingHorizontal: 20 }}>
+        <View style={style.inputStyle}>
+          <InputField
+            labelText="Confirm Password"
+            value={confirmPasswordValue}
+            onChangeText={onPasswordConfirmation}
+            secureTextEntry
+            marginLeft={0}
+          />
+        </View>
+        <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
           <Text style={styles.subtitle1}>
             Upload your profile picture here (optional):
           </Text>
 
           <TouchableOpacity
             onPress={onPressProfileImageUpload}
-            style={{ paddingTop: 20 }}
+            style={{ paddingTop: 20, paddingBottom: 40 }}
           >
             <Image
               source={uploadIcon}
-              style={{ width: 50, height: 50, padding: 30 }}
+              style={{ width: 50, height: 50 }}
               resizeMode="contain"
             />
           </TouchableOpacity>

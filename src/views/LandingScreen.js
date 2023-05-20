@@ -1,57 +1,109 @@
 import React from 'react';
-import { View, Text, SafeAreaView, Image } from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { styles, theme } from '../constants/myTheme';
 import OrangeButton from '../components/Buttons/OrangeButton';
+import SingeFrameImage from '../../assets/Images/single-frame.png';
+import LetsConnectImage from '../../assets/Images/lets-connect-image.png';
 
-function StartingScreenHeadline() {
-  return <Image
-      style={{ height: 350, width: 350 }}
-      source={require('../../assets/Images/starting-screen-headline.svg')}
-    />
-}
+const style = StyleSheet.create({
+  mainTitle: { textAlign: 'center', fontSize: 40, paddingTop: 30 },
+  frameContainer: {
+    position: 'absolute',
+    alignSelf: 'center',
+    top: -30,
+  },
 
-function LandingScreen() {
+  frameImage: {
+    height: 250,
+    width: 250,
+  },
+
+  LetsConnectContainer: {
+    alignItems: 'center',
+  },
+  LetsConnectImage: { height: 300, width: 300 },
+
+  buttonStyle: {
+    alignSelf: 'center',
+    width: '100%',
+  },
+});
+
+/**
+ * This is the very first Screen, if the user is not logged in.
+ * It can be navigated to the Login / Register Screen.
+ */
+export default function LandingScreen() {
+  const navigation = useNavigation();
+
+  const navigateLogin = () => {
+    navigation.navigate('LoginScreen');
+  };
+  const navigateRegister = () => {
+    navigation.navigate('RegistrationOne');
+  };
   return (
-    <SafeAreaView style={{ backgroundColor: theme.colors.backgroundSand, flex: 1 }}>
-        <View style={{ margin: 20 }}>
-
-            <View style={{ marginTop: 50, alignItems:'center'}}>
-                <Text style={[styles.headline1, { textAlign: 'center' }]}>
-                    UASYNC
-                </Text>
-            </View>
-
-            <View style={{ alignItems:'center' }}>
-                <StartingScreenHeadline />
-            </View>
-
-            <View style={{ marginTop: 40, marginBottom: 10, alignItems:'center'}}>
-                <Text style={ styles.headline1 }>
-                    Register Below:
-                </Text>
-            </View>
-
-            <View style={{ alignItems:'center'}}>
-                <Text style={[styles.bodyDefault, { textAlign: 'center' }]}>
-                    Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte.
-                </Text>
-            </View>
-
-            <View style={{ marginTop: 40 }}>
-                <OrangeButton text="Register!"  styleButton={{  alignSelf: 'center', width: '100%' }}  />
-            </View>
-
-            <View style={{ marginTop: 20, marginBottom: 20 }}>
-                <OrangeButton text="Login!"  styleButton={{  alignSelf: 'center', width: '100%' }}  />
-            </View>
-            
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: theme.colors.backgroundSand }}
+    >
+      <ScrollView>
+        <View style={style.frameContainer}>
+          <Image
+            style={style.frameImage}
+            source={SingeFrameImage}
+            resizeMode="contain"
+          />
         </View>
-    </SafeAreaView>
 
+        <Text style={[styles.headline1, style.mainTitle]}>UASync</Text>
+
+        <View style={style.LetsConnectContainer}>
+          <Image
+            style={style.LetsConnectImage}
+            source={LetsConnectImage}
+            resizeMode="contain"
+          />
+        </View>
+
+        <View style={{ marginBottom: 10, alignItems: 'center' }}>
+          <Text style={styles.headline1}>Register Below:</Text>
+        </View>
+
+        <View style={{ alignItems: 'center' }}>
+          <Text
+            style={[
+              styles.bodyDefault,
+              { textAlign: 'center', paddingHorizontal: 20 },
+            ]}
+          >
+            Welcome to UASync! To join our community and start to connect. Just
+            register below or log in and get going:
+          </Text>
+        </View>
+
+        <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
+          <OrangeButton
+            text="Login!"
+            styleButton={style.buttonStyle}
+            onPress={navigateLogin}
+          />
+        </View>
+        <View style={{ paddingHorizontal: 20, paddingVertical: 20 }}>
+          <OrangeButton
+            text="Register!"
+            styleButton={style.buttonStyle}
+            onPress={navigateRegister}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
-
-
-
-
-export default LandingScreen;
