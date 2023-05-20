@@ -90,8 +90,8 @@ function JoinGroup() {
           <Text
             style={[styles.subtitle1, { width: '90%', textAlign: 'center' }]}
           >
-            Join the {selectedGroupvalue.name} group to get all the infos about this study
-            programme!
+            Join the {selectedGroupvalue.name} group to get all the infos about
+            this study programme!
           </Text>
         </View>
         <View

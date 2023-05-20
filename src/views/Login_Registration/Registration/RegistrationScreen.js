@@ -7,6 +7,7 @@ import { theme } from '../../../constants/myTheme';
 import RegistrationPageOneView from './RegistrationPageOneView';
 import RegistrationPageTwoView from './RegistrationPageTwoView';
 import RegistrationPageThreeView from './RegistrationPageThreeView';
+import BackButtonNavigationContainer from '../../../components/Buttons/BackButtonNavigationContainer';
 
 const style = StyleSheet.create({
   container: {
@@ -171,10 +172,12 @@ export default function RegistrationScreen() {
   return (
     <RegistrationStack.Navigator
       screenOptions={{
-        headerBackTitle: 'Go Back',
+        headerBackTitleVisible: false,
+        headerBackImage: () => <BackButtonNavigationContainer text="back" />,
         headerStyle: {
-          borderBottomWidth: 0,
           backgroundColor: theme.colors.backgroundSand,
+          borderBottomWidth: 0,
+          borderBottomColor: theme.colors.backgroundSand,
         },
       }}
     >

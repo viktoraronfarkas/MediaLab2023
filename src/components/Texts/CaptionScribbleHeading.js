@@ -25,7 +25,6 @@ const style = StyleSheet.create({
   },
   underline: {
     position: 'absolute',
-    top: 85,
     left: 60,
     height: 10,
     width: 110,
@@ -60,7 +59,6 @@ export default function CaptionScribbleHeading({
   containerSubHeadingStyle,
   scribbleStyle,
   title,
-  headlineStyle,
   arrowImage,
   arrowStyle,
   underlineImage,

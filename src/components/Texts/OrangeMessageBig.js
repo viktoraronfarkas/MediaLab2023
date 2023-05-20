@@ -20,7 +20,7 @@ const style = StyleSheet.create({
  * 
  * EXAMPLE:
  * 
- * <RedMessageBig
+ * <OrangeMessageBig
       textAbove={'Error'}
       textBelow={'Message'}
       note={'Please try again.'}

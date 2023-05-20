@@ -1,11 +1,11 @@
-/* eslint-disable global-require */
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
+import { theme } from '../constants/myTheme';
 import Feed from '../components/Feed';
 import MainJoinedGroup from '../components/MainJoinedGroup';
-import { theme } from '../constants/myTheme';
+
 import { selectedGroup } from '../redux/features/mainSlice/mainSlice';
 
 const styles = StyleSheet.create({

@@ -14,7 +14,7 @@ import InputField from '../../../components/Items/InputField';
 import OrangeButton from '../../../components/Buttons/OrangeButton';
 import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHeading';
 import scribble from '../../../../assets/Images/star-glitter-image.png';
-import image from '../../../../assets/Icons/upload-icon.png';
+import uploadIcon from '../../../../assets/Icons/upload-icon.png';
 import cancelIcon from '../../../../assets/Icons/cancel-icon.png';
 import checkIcon from '../../../../assets/Icons/check-icon.png';
 
@@ -158,11 +158,12 @@ export default function RegistrationPageOneView({
             style={{ paddingTop: 20 }}
           >
             <Image
-              source={image}
+              source={uploadIcon}
               style={{ width: 50, height: 50, padding: 30 }}
               resizeMode="contain"
             />
           </TouchableOpacity>
+
           {imageUpload && (
             <View style={style.imageUploadedContainer}>
               <View style={{ justifyContent: 'center', alignItems: 'center' }}>

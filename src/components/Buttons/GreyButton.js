@@ -21,14 +21,28 @@ const style = StyleSheet.create({
  * EXAMPLE (for a FULL WIDTH BUTTON):
  *
  * <GreyButton text="Comment"  styleButton={{  alignSelf: 'center', width: '100%' }}  />
+ * 
+ * disabled version:
+ *  <GreyButton
+          text="save changes"
+          styleButton={{ alignSelf: 'center', width: '100%' }}
+          disabled
+        />
  */
 
-export default function GreyButton({ text, styleButton, onPress }) {
+export default function GreyButton({
+  styleButtonContainer,
+  text,
+  styleButton,
+  onPress,
+  disabled = false, // to disable the onPress function
+}) {
   return (
-    <View>
+    <View style={[styleButtonContainer]}>
       <TouchableOpacity
         style={[style.styleButton, styleButton]}
         onPress={onPress}
+        disabled={disabled}
       >
         <Text style={[styles.button, { color: theme.colors.neutralsWhite }]}>
           {text}

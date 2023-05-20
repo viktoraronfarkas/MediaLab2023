@@ -31,7 +31,16 @@ const style = StyleSheet.create({
         onChangeText={(value) => setEmail(value)}
       />
  * 
+ *  If it has password included:
  * <InputField label="Enter Password" secureTextEntry value={password} onChangeText={(value) => setPassword(value)} />
+ * 
+ * 
+ * If the Input should not be changed, disable edit:
+ *  <InputField
+          labelText="LabelText"
+          marginLeft={0}
+          editable={false}
+        />
  */
 
 export default function InputField({
@@ -42,6 +51,7 @@ export default function InputField({
   marginLeft,
   secureTextEntry,
   width = '100%',
+  editable = true,
 }) {
   const dynamicStyles = StyleSheet.create({
     input: {
@@ -69,6 +79,7 @@ export default function InputField({
           },
         }}
         secureTextEntry={secureTextEntry}
+        editable={editable}
       />
     </View>
   );
