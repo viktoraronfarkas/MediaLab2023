@@ -17,7 +17,6 @@ import ListItem from './Items/ListItem';
 import iconImage from '../../assets/Icons/plus-icon.png';
 import moreMenuIcon from '../../assets/Icons/more-menu-icon.png';
 import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png';
-import { styles } from '../constants/myTheme';
 
 function MainJoinedGroup() {
   const selectedGroupValue = useSelector(selectedGroup);
