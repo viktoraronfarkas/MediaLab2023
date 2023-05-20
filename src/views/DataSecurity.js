@@ -35,7 +35,7 @@ export default function DataSecurity() {
   return (
     <SafeAreaView style={style.container}>
       <ScrollView>
-        <Text style={[styles.headline3, style.title]}>
+        <Text style={[styles.headline1, style.title]}>
           App Data Privacy Policy
         </Text>
 

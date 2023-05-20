@@ -63,7 +63,6 @@ const style = StyleSheet.create({
 });
 /**
  * This is the main Personal Data View
- *
  */
 export default function PersonalDataView({
   emailLabel,
@@ -108,7 +107,7 @@ export default function PersonalDataView({
         </View>
 
         {/* User Input Data */}
-        <Text style={styles.subtitle1}>your email</Text>
+        <Text style={styles.subtitle1}>Email</Text>
         <InputField
           labelText={emailLabel}
           editable={false} // disabled, user should not edit this
@@ -119,8 +118,53 @@ export default function PersonalDataView({
           }}
           marginLeft={0}
         />
+        <Text style={styles.subtitle1}>Name</Text>
+        {nameError ? <Text style={style.error}>{nameError}</Text> : null}
+        <InputField
+          labelText={nameLabel}
+          value={nameValue}
+          onChangeText={onChangeTextName}
+          inputStyle={{ marginTop: 10, marginBottom: 30 }}
+          marginLeft={0}
+        />
 
-        <Text style={styles.subtitle1}>username</Text>
+        <Text style={styles.subtitle1}>Study Programme</Text>
+        <View style={{ paddingBottom: 30 }}>
+          <SelectDropdown
+            data={studyProgrammeList}
+            onSelect={(selectedItem) => {
+              onChangeSelectionStudyProgramme(selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem) => selectedItem}
+            rowTextForSelection={(item) => item}
+            dropdownIconPosition="right"
+            dropdownStyle={style.dropdownStyle}
+            buttonStyle={style.dropdownButtonStyle}
+            renderDropdownIcon={renderDropdownIcon}
+            st
+          />
+        </View>
+        <Text style={styles.subtitle1}>Bibliography</Text>
+        <LongInputField
+          placeholderText={biographyLabel}
+          value={biographyValue}
+          onChangeText={onChangeTextBiography}
+          inputStyle={{ marginBottom: 30 }}
+        />
+        <Text style={styles.subtitle1}>Password</Text>
+        {passwordError ? (
+          <Text style={style.error}>{passwordError}</Text>
+        ) : null}
+        <InputField
+          labelText={passwordLabel}
+          value={passwordValue}
+          onChangeText={onChangeTextPassword}
+          secureTextEntry
+          inputStyle={{ marginTop: 10, marginBottom: 30 }}
+          marginLeft={0}
+        />
+
+        <Text style={styles.subtitle1}>Username</Text>
         {usernameError ? (
           <Text style={style.error}>{usernameError}</Text>
         ) : null}
@@ -133,49 +177,6 @@ export default function PersonalDataView({
             marginTop: 10,
             marginBottom: 30,
           }}
-        />
-
-        <Text style={styles.subtitle1}>name</Text>
-        {nameError ? <Text style={style.error}>{nameError}</Text> : null}
-        <InputField
-          labelText={nameLabel}
-          value={nameValue}
-          onChangeText={onChangeTextName}
-          inputStyle={{ marginTop: 10, marginBottom: 30 }}
-          marginLeft={0}
-        />
-        <Text style={styles.subtitle1}>biography</Text>
-        <LongInputField
-          labelText={biographyLabel}
-          value={biographyValue}
-          onChangeText={onChangeTextBiography}
-          inputStyle={{ marginBottom: 30 }}
-        />
-        <Text style={styles.subtitle1}>study programme</Text>
-        <SelectDropdown
-          data={studyProgrammeList}
-          onSelect={(selectedItem) => {
-            onChangeSelectionStudyProgramme(selectedItem);
-          }}
-          buttonTextAfterSelection={(selectedItem) => selectedItem}
-          rowTextForSelection={(item) => item}
-          dropdownIconPosition="right"
-          dropdownStyle={style.dropdownStyle}
-          buttonStyle={style.dropdownButtonStyle}
-          renderDropdownIcon={renderDropdownIcon}
-        />
-
-        <Text style={styles.subtitle1}>password</Text>
-        {passwordError ? (
-          <Text style={style.error}>{passwordError}</Text>
-        ) : null}
-        <InputField
-          labelText={passwordLabel}
-          value={passwordValue}
-          onChangeText={onChangeTextPassword}
-          secureTextEntry
-          inputStyle={{ marginTop: 10, marginBottom: 30 }}
-          marginLeft={0}
         />
 
         {onChangeValuesButton ? (

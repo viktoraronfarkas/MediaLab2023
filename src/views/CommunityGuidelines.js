@@ -45,7 +45,7 @@ export default function CommunityGuidelines() {
   return (
     <SafeAreaView style={style.container}>
       <ScrollView>
-        <Text style={[styles.headline3, style.title]}>Our Guidelines</Text>
+        <Text style={[styles.headline1, style.title]}>Our Guidelines</Text>
         <Text
           style={[
             styles.bodyDefault,
