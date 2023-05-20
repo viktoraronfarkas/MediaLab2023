@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { styles } from '../../constants/myTheme';
 
@@ -30,12 +29,12 @@ const style = StyleSheet.create({
 
 export default function OrangeMessageBig({ textAbove, textBelow, note }) {
   return (
-    <SafeAreaView style={style.container}>
+    <View style={style.container}>
       <Text style={[styles.headlineXL, { lineHeight: 70 }]}> {textAbove} </Text>
       <Text style={[styles.headlineXL, { lineHeight: 70 }]}> {textBelow} </Text>
       <Text style={[styles.headlineXL, { lineHeight: 70, fontSize: 18 }]}>
         {note}
       </Text>
-    </SafeAreaView>
+    </View>
   );
 }

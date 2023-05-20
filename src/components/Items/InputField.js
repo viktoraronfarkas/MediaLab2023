@@ -67,7 +67,10 @@ export default function InputField({
         label={labelText}
         value={value}
         onChangeText={onChangeText}
-        style={[[style.input, dynamicStyles.input, { width }], secureTextEntry && { secureTextEntry: true }]}
+        style={[
+          [style.input, dynamicStyles.input, { width }],
+          secureTextEntry && { secureTextEntry: true },
+        ]}
         underlineColor="transparent"
         theme={{
           colors: {
