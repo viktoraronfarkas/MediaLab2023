@@ -59,7 +59,6 @@ export default function CaptionScribbleHeading({
   containerSubHeadingStyle,
   scribbleStyle,
   title,
-  headlineStyle,
   arrowImage,
   arrowStyle,
   underlineImage,
