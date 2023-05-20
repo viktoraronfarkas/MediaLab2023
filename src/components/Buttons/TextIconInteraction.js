@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Image, View, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text } from 'react-native-paper';
 import { styles } from '../../constants/myTheme';
 
@@ -51,7 +50,7 @@ export default function TextIconInteraction({
   onPress,
 }) {
   return (
-    <SafeAreaView style={style.container}>
+    <View style={style.container}>
       <View style={style.containerText}>
         <Text style={[styles.headline3, { top: 10 }]}> {text} </Text>
         <TouchableOpacity onPress={onPress} style={style.button}>
@@ -68,6 +67,6 @@ export default function TextIconInteraction({
         source={underlineImage}
         resizeMode="contain"
       />
-    </SafeAreaView>
+    </View>
   );
 }

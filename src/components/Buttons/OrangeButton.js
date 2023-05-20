@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { theme, styles } from '../../constants/myTheme';
 
 const style = StyleSheet.create({
@@ -30,7 +29,7 @@ export default function OrangeButton({
   buttonBackgroundColor = theme.colors.primary,
 }) {
   return (
-    <SafeAreaView>
+    <View>
       <TouchableOpacity
         style={[
           style.styleButton,
@@ -43,6 +42,6 @@ export default function OrangeButton({
           {text}
         </Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 }

@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { theme, styles } from '../../constants/myTheme';
 
 const style = StyleSheet.create({
@@ -26,7 +25,7 @@ const style = StyleSheet.create({
 
 export default function GreyButton({ text, styleButton, onPress }) {
   return (
-    <SafeAreaView>
+    <View>
       <TouchableOpacity
         style={[style.styleButton, styleButton]}
         onPress={onPress}
@@ -35,6 +34,6 @@ export default function GreyButton({ text, styleButton, onPress }) {
           {text}
         </Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 }

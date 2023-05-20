@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Image, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text } from 'react-native-paper';
 import { theme, styles } from '../../constants/myTheme';
 
@@ -67,7 +66,7 @@ export default function CaptionScribbleHeading({
   underlineStyle,
 }) {
   return (
-    <SafeAreaView style={style.container}>
+    <View style={style.container}>
       <View style={[style.containerSubHeading, containerSubHeadingStyle]}>
         <Text style={[styles.captionBold, { color: theme.colors.primary }]}>
           {subHeading}
@@ -100,6 +99,6 @@ export default function CaptionScribbleHeading({
           {title}
         </Text>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }

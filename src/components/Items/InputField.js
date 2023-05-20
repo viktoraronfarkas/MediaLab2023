@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { theme } from '../../constants/myTheme';
 
 const style = StyleSheet.create({
@@ -53,12 +52,15 @@ export default function InputField({
     },
   });
   return (
-    <SafeAreaView>
+    <View>
       <TextInput
         label={labelText}
         value={value}
         onChangeText={onChangeText}
-        style={[[style.input, dynamicStyles.input, { width }], secureTextEntry && { secureTextEntry: true }]}
+        style={[
+          [style.input, dynamicStyles.input, { width }],
+          secureTextEntry && { secureTextEntry: true },
+        ]}
         underlineColor="transparent"
         theme={{
           colors: {
@@ -68,6 +70,6 @@ export default function InputField({
         }}
         secureTextEntry={secureTextEntry}
       />
-    </SafeAreaView>
+    </View>
   );
 }

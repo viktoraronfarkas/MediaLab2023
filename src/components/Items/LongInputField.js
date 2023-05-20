@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { theme } from '../../constants/myTheme';
 
 const style = StyleSheet.create({
@@ -30,7 +29,7 @@ const style = StyleSheet.create({
  */
 export default function LongInputField({ labelText, value, onChangeText }) {
   return (
-    <SafeAreaView>
+    <View>
       <ScrollView keyboardShouldPersistTaps="handled">
         <TextInput
           style={style.input}
@@ -51,6 +50,6 @@ export default function LongInputField({ labelText, value, onChangeText }) {
           }}
         />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
