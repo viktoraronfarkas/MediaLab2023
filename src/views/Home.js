@@ -20,7 +20,7 @@ function HomeContent() {
   return (
     <SafeAreaView edges={['left', 'right']} style={styles.container}>
       <ScrollView style={{ flex: 1 }}>
-        {!selectedGroupValue.name ? <Feed /> : <MainJoinedGroup />}
+        {!selectedGroupValue.mainGroupName ? <Feed /> : <MainJoinedGroup />}
       </ScrollView>
     </SafeAreaView>
   );

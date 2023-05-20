@@ -24,8 +24,10 @@ export default function App() {
   }, []);
 
   return (
-    <SafeAreaProvider store={store}>
-      {isLoading ? <Splash /> : <ScreenNavigation />}
+    <SafeAreaProvider>
+      <Provider store={store}>
+        {isLoading ? <Splash /> : <ScreenNavigation />}
+      </Provider>
     </SafeAreaProvider>
   );
 }

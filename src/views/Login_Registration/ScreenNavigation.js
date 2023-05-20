@@ -1,12 +1,15 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-// import { StyleSheet } from 'react-native';
 import { theme } from '../../constants/myTheme';
 
 import LoginScreen from './Login/LoginScreen';
 import RegistrationScreen from './Registration/RegistrationScreen';
 import BackButtonNavigationContainer from '../../components/Buttons/BackButtonNavigationContainer';
+import Main from '../Main';
+import JoinGroup from '../JoinGroupScreen';
+import JoinedSubgroup from '../JoinedSubgroup';
+import AddSubgroup from '../AddSubgroup';
 
 export default function ScreenNavigation() {
   const Stack = createStackNavigator();
@@ -22,6 +25,7 @@ export default function ScreenNavigation() {
             borderBottomWidth: 0,
             borderBottomColor: theme.colors.backgroundSand,
           },
+          headerShown: false,
         }}
       >
         <Stack.Screen
@@ -34,6 +38,10 @@ export default function ScreenNavigation() {
           component={RegistrationScreen}
           options={{ title: '' }}
         />
+        <Stack.Screen name="MainScreen" component={Main} />
+        <Stack.Screen name="JoinGroupScreen" component={JoinGroup} />
+        <Stack.Screen name="JoinedSubgroup" component={JoinedSubgroup} />
+        <Stack.Screen name="AddSubgroup" component={AddSubgroup} />
       </Stack.Navigator>
     </NavigationContainer>
   );

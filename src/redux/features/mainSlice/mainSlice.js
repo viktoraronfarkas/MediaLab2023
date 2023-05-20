@@ -5,6 +5,8 @@ const initialState = {
   // FIXME: This code needs to be deleted its just an example
   selectedMainGroup: 'Feed',
   selectedSubGroup: '',
+  currentUser: {},
+  IpAddress: '10.5.13.150',
 };
 
 export const mainSlice = createSlice({
@@ -17,13 +19,19 @@ export const mainSlice = createSlice({
     SetselectedSubGroup: (state, action) => {
       state.selectedSubGroup = action.payload;
     },
+    setCurrentUser: (state, action) => {
+      state.currentUser = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setSelectedMainGroup, SetselectedSubGroup } = mainSlice.actions;
+export const { setSelectedMainGroup, SetselectedSubGroup, setCurrentUser } =
+  mainSlice.actions;
 
 export const selectedGroup = (state) => state.main.selectedMainGroup;
 export const selectedSupGroup = (state) => state.main.selectedSubGroup;
+export const selectedUser = (state) => state.main.currentUser;
+export const IpAddress = (state) => state.main.IpAddress;
 
 export default mainSlice.reducer;

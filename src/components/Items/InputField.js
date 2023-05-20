@@ -47,10 +47,9 @@ export default function InputField({
   labelText,
   value,
   onChangeText,
-  secureTextEntry,
-  inputStyle,
   padding,
   marginLeft,
+  secureTextEntry,
   width = '100%',
   editable = true,
 }) {
@@ -68,13 +67,7 @@ export default function InputField({
         label={labelText}
         value={value}
         onChangeText={onChangeText}
-        style={[
-          style.input,
-          inputStyle,
-          dynamicStyles.input,
-          { width },
-          secureTextEntry && { secureTextEntry: true },
-        ]}
+        style={[[style.input, dynamicStyles.input, { width }], secureTextEntry && { secureTextEntry: true }]}
         underlineColor="transparent"
         theme={{
           colors: {

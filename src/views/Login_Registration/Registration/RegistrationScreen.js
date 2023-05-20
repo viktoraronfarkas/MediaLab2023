@@ -156,16 +156,16 @@ export default function RegistrationScreen() {
       isPasswordValid &&
       isPasswordConfirm
     ) {
-      navigation.navigate('MainScreen');
+      // TODO Save User Details in DATABASE here (Bedo)
+      // TODO Navigate To verify screen to authenticate new User
+
       console.log(
         'Input is valid: FH Student receives email for authentication'
       );
-      console.log(selectedNames);
     } else {
       console.error(
         'Email or Password is incorrect or the passwords did not match'
       );
-      console.log(selectedNames);
     }
   };
 
