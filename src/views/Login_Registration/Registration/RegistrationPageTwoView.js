@@ -17,7 +17,7 @@ import coverImage from '../../../../assets/foodshare.jpg';
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+
     paddingHorizontal: 20,
     paddingVertical: 20,
     backgroundColor: theme.colors.backgroundSand,
@@ -40,10 +40,10 @@ export default function RegistrationPageTwoView() {
 
         <CaptionScribbleHeading
           title="Main Groups"
-          headlineStyle={{ width: 180 }}
+          headlineStyle={{ fontSize: 32, width: 180 }}
           underlineImage={underline}
           arrowImage={arrow}
-          underlineStyle={{ height: 9, width: 100, top: 71, left: 70 }}
+          underlineStyle={{ width: 100, top: 45, left: 70 }}
         />
 
         <View style={{ paddingVertical: 30 }}>
@@ -58,6 +58,7 @@ export default function RegistrationPageTwoView() {
           headlineStyle={{ width: 160 }}
           underlineImage={underline}
           arrowImage={arrow}
+          underlineStyle={{ width: 130, top: 52 }}
         />
 
         <View style={{ paddingVertical: 30 }}>
@@ -74,10 +75,10 @@ export default function RegistrationPageTwoView() {
         </View>
         <CaptionScribbleHeading
           title="Posts & Events"
-          headlineStyle={{ width: 200 }}
+          headlineStyle={{ fontSize: 32, width: 200 }}
           underlineImage={underline}
           arrowImage={arrow}
-          underlineStyle={{ height: 9, width: 200, top: 75, left: 1 }}
+          underlineStyle={{ width: 180, top: 48, left: 10 }}
         />
         <View style={{ paddingVertical: 30, paddingHorizontal: 50 }}>
           <EventCard joiningNumber={17} title="Party" subTitle="31.06" />
