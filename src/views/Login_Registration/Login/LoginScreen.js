@@ -28,7 +28,7 @@ export default function LoginScreen() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    console.log(clientIpAddress);
     try {
       const response = await axios.post(
         `http://${clientIpAddress}:3001/auth/login`,
