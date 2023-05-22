@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { BottomNavigation, Text } from 'react-native-paper';
 import HomeContent from '../views/Home';
+import UserProfileView from '../views/UserProfile/UserProfile/UserProfileScreen';
+import Latest from '../views/Latest';
 
 function FeedRoute() {
   return <HomeContent />;
@@ -11,11 +13,11 @@ function SearchRoute() {
 }
 
 function InteractionRoute() {
-  return <Text>Interaction</Text>;
+  return <Latest />;
 }
 
 function ProfileRoute() {
-  return <Text>Profile</Text>;
+  return <UserProfileView />;
 }
 
 function BottomNav({
