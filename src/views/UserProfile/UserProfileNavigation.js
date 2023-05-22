@@ -16,11 +16,11 @@ import CommunityGuidelines from '../CommunityGuidelines';
 import BackButtonNavigationContainer from '../../components/Buttons/BackButtonNavigationContainer';
 
 export default function UserProfileNavigation() {
-  const Stack = createStackNavigator();
+  const profileStack = createStackNavigator();
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
+      <profileStack.Navigator
         screenOptions={{
           headerBackTitleVisible: false,
           headerBackImage: () => <BackButtonNavigationContainer text="back" />,
@@ -31,42 +31,42 @@ export default function UserProfileNavigation() {
           },
         }}
       >
-        <Stack.Screen
+        <profileStack.Screen
           name="UserProfile"
           component={UserProfileScreen}
           options={{ title: '', headerShown: false }}
         />
-        <Stack.Screen
+        <profileStack.Screen
           name="PersonalData"
           component={PersonalDataScreen}
           options={{ title: '' }}
         />
-        <Stack.Screen
+        <profileStack.Screen
           name="YourPostsEvents"
           component={YourPostsEventsScreen}
           options={{ title: '' }}
         />
-        <Stack.Screen
+        <profileStack.Screen
           name="InteractedPosts"
           component={InteractedPostsScreen}
           options={{ title: '' }}
         />
-        <Stack.Screen
+        <profileStack.Screen
           name="JoinedEvents"
           component={JoinedEventsScreen}
           options={{ title: '' }}
         />
-        <Stack.Screen
+        <profileStack.Screen
           name="JoinedGroups"
           component={JoinedGroupsScreen}
           options={{ title: '' }}
         />
-        <Stack.Screen
+        <profileStack.Screen
           name="help"
           component={HelpScreen}
           options={{ title: '' }}
         />
-        <Stack.Screen
+        <profileStack.Screen
           name="aboutUs"
           component={AboutUsScreen}
           options={{ title: '' }}
@@ -76,17 +76,17 @@ export default function UserProfileNavigation() {
           component={QuickTour}
          
         /> */}
-        <Stack.Screen
+        <profileStack.Screen
           name="communityGuidelines"
           component={CommunityGuidelines}
           options={{ title: '' }}
         />
-        <Stack.Screen
+        <profileStack.Screen
           name="dataSecurity"
           component={DataSecurity}
           options={{ title: '' }}
         />
-      </Stack.Navigator>
+      </profileStack.Navigator>
     </NavigationContainer>
   );
 }
