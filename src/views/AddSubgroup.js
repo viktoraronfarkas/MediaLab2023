@@ -31,7 +31,12 @@ function AddSubgroup() {
           <View style={{ marginBottom: 5 }}>
             <Text style={styles.subtitle2}>Name your Subgroup:</Text>
           </View>
-          <InputField labelText="Name" padding={2} marginLeft={0} />
+          <InputField
+            labelText="Name"
+            padding={2}
+            marginLeft={0}
+            maxLength={15}
+          />
           <View style={{ marginLeft: 20 }}>
             <Text style={styles.navLabel}>Limit to 15 Characters</Text>
           </View>
@@ -41,7 +46,12 @@ function AddSubgroup() {
           <View style={{ marginBottom: 5 }}>
             <Text style={styles.subtitle2}>Write a great caption:</Text>
           </View>
-          <InputField labelText="Caption" padding={2} marginLeft={0} />
+          <InputField
+            labelText="Caption"
+            padding={2}
+            marginLeft={0}
+            maxLength={15}
+          />
           <View style={{ marginLeft: 20 }}>
             <Text style={styles.navLabel}>Limit to 15 Characters</Text>
           </View>
