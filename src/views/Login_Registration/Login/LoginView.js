@@ -1,11 +1,14 @@
 import React from 'react';
 import { SafeAreaView, View, Text, StyleSheet, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import ClickableText from '../../../components/ClickableText';
 import InputField from '../../../components/Items/InputField';
 import OrangeButton from '../../../components/Buttons/OrangeButton';
 import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHeading';
 import { theme } from '../../../constants/myTheme';
 import scribble from '../../../../assets/Images/star-glitter-image.png';
+import BackButton from '../../../components/Buttons/BackButton';
+
 
 const style = StyleSheet.create({
   container: {
@@ -32,9 +35,16 @@ export default function LoginView({
   onNavigateText,
   handleSubmit,
 }) {
+  const navigation = useNavigation();
+  const handlePress = () => {
+    navigation.goBack(null);
+  };
   return (
     <SafeAreaView style={style.container}>
       <ScrollView>
+      <View style={{ marginLeft: 10, marginTop: 30 }}>
+          <BackButton text="back" onPress={handlePress}/>
+        </View>
         <View style={{ paddingHorizontal: 30, paddingTop: 30 }}>
           <CaptionScribbleHeading
             subHeading="Sign in"
@@ -71,21 +81,14 @@ export default function LoginView({
             marginLeft={0}
           />
         </View>
-        <ClickableText
-          onPress={onForgotPassword}
-          text="Forgot Password?"
-          clickableTextStyle={{ alignSelf: 'flex-end' }}
-          textLinkStyle={{
-            textDecorationLine: 'underlined',
-          }}
-        />
+        {/*
         <View style={{ paddingHorizontal: 30 }}>
           <OrangeButton
             text="Login"
             onPress={handleSubmit}
             styleButton={{ alignSelf: 'center', width: '100%' }}
           />
-        </View>
+        </View> */}
         <ClickableText
           onPress={onNavigateText}
           text="No account yet? Sign up now!"
