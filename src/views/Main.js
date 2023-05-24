@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
 import BottomNav from '../components/BottomNavigation';
 import GroupsTopBar from '../components/GroupsTopHorizontalBar';
-import { HomeSvg, MessageSvg, ProfileSvg, SearchSvg } from '../components/SVG';
+import { HomeSvg, MessageSvg, ProfileSvg, SearchSvg } from '../components/svgs';
 import { IpAddress } from '../redux/features/mainSlice/mainSlice';
 
 export default function Main() {
