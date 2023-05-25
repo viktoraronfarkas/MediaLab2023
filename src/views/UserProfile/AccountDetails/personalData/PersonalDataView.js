@@ -96,7 +96,7 @@ export default function PersonalDataView({
   );
   return (
     <SafeAreaView style={style.container}>
-      <ScrollView style={{ paddingHorizontal: 15 }}>
+      <ScrollView style={{ paddingHorizontal: 20, paddingVertical: 20 }}>
         {/* Header */}
         <View style={{ paddingVertical: 10 }}>
           <TitleArrowHeading

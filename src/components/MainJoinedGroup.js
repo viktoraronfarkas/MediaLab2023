@@ -94,13 +94,13 @@ function MainJoinedGroup() {
         alignItems: 'center',
       }}
     >
-      <View style={{ position: 'relative', paddingTop: 30 }}>
+      <View style={{ position: 'relative', paddingTop: 40 }}>
         <TitleCircleHeadingH2
           title={selectedGroupValue.name || selectedGroupValue.mainGroupName}
           image={circleLineImage}
           lineStyle={{
-            height: 70,
-            width: 200,
+            height: 60,
+            width: 190,
           }}
         />
         <TouchableOpacity
