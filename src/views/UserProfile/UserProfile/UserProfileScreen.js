@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { ToastAndroid, Alert, Clipboard, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import UserProfileView from './UserProfileView';
+import useFetchUserData from '../../../routes/fetchData/useFetchUserData';
 
+// TODO Fetch profile image & edit profile image
 /**
  * This is the main User Profile Screen.
  * General data like profile image, username, email, biography, name are fetched and handled here.
@@ -13,18 +14,7 @@ export default function UserProfileScreen() {
   const [imageUpload, setImage] = useState(null);
   const [dialogVisible, setDialogVisible] = useState(false);
   const navigation = useNavigation();
-
-  // we need to have the user.email declared & defined here for the handleCopy function:
-  const email = 'cc201028@fhstp.ac.at';
-
-  const handleCopy = () => {
-    Clipboard.setString(email);
-    if (Platform.OS === 'android') {
-      ToastAndroid.show('The email has been copied.', ToastAndroid.SHORT);
-    } else if (Platform.OS === 'ios') {
-      Alert.alert('The email has been copied.');
-    }
-  };
+  const userId = useFetchUserData();
 
   // Open Action Dialog to edit, delete profile image
   const handleDialogOpen = () => {
@@ -65,12 +55,11 @@ export default function UserProfileScreen() {
       onPressCancelDialog={handleCancelDialog}
       // User Data
       profileImage={imageUpload}
-      username="Username"
-      biography="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-      email={email}
-      handleCopy={() => handleCopy(email)}
-      name="Jane Doe"
-      studyProgramme="BCC"
+      username={userId.username ?? 'no data'}
+      biography={userId.biography ?? 'no data'}
+      emailUser={userId.email}
+      name={userId.name ?? 'null'}
+      studyProgramme={userId.studyProgramme ?? 'no data'}
       // Settings
       onPersonalData={() => navigation.navigate('PersonalData')}
       onJoinedGroups={() => navigation.navigate('JoinedGroups')}

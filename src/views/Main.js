@@ -11,48 +11,46 @@ import { IpAddress } from '../redux/features/mainSlice/mainSlice';
 export default function Main() {
   const [mainGroups, setMainGroups] = useState([]);
   const clientIpAddress = useSelector(IpAddress);
-
-  const fetchMainGroups = async () => {
-    try {
-      const response = await axios.get(
-        `http://${clientIpAddress}:3001/maingroup`
-      );
-      const mainGroupsData = response.data;
-
-      // Fetch posts and events for each subgroup
-      const mainGroupsWithData = await Promise.all(
-        mainGroupsData.map(async (mainGroup) => {
-          const subgroupsWithData = await Promise.all(
-            mainGroup.subgroups.map(async (subgroup) => {
-              const postsResponse = await axios.get(
-                `http://${clientIpAddress}:3001/subgroup/${subgroup.subgroup_id}/posts`
-              );
-              const eventsResponse = await axios.get(
-                `http://${clientIpAddress}:3001/subgroup/${subgroup.subgroup_id}/events`
-              );
-
-              subgroup.posts = postsResponse.data;
-              subgroup.events = eventsResponse.data;
-
-              return subgroup;
-            })
-          );
-
-          mainGroup.subgroups = subgroupsWithData;
-
-          return mainGroup;
-        })
-      );
-
-      setMainGroups(mainGroupsWithData);
-    } catch (error) {
-      console.error('Error fetching main groups:', error);
-    }
-  };
-
   useEffect(() => {
+    const fetchMainGroups = async () => {
+      try {
+        const response = await axios.get(
+          `http://${clientIpAddress}:3001/maingroup`
+        );
+        const mainGroupsData = response.data;
+
+        // Fetch posts and events for each subgroup
+        const mainGroupsWithData = await Promise.all(
+          mainGroupsData.map(async (mainGroup) => {
+            const subgroupsWithData = await Promise.all(
+              mainGroup.subgroups.map(async (subgroup) => {
+                const postsResponse = await axios.get(
+                  `http://${clientIpAddress}:3001/subgroup/${subgroup.subgroup_id}/posts`
+                );
+                const eventsResponse = await axios.get(
+                  `http://${clientIpAddress}:3001/subgroup/${subgroup.subgroup_id}/events`
+                );
+
+                subgroup.posts = postsResponse.data;
+                subgroup.events = eventsResponse.data;
+
+                return subgroup;
+              })
+            );
+
+            mainGroup.subgroups = subgroupsWithData;
+
+            return mainGroup;
+          })
+        );
+
+        setMainGroups(mainGroupsWithData);
+      } catch (error) {
+        console.error('Error fetching main groups:', error);
+      }
+    };
     fetchMainGroups();
-  }, []);
+  }, [clientIpAddress]);
 
   return (
     <SafeAreaView edges={['left', 'right', 'top']} style={{ flex: 1 }}>

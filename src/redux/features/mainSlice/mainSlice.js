@@ -2,12 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // Here we pass the intial state of the variables/object
 const initialState = {
-  // FIXME: This code needs to be deleted its just an example
+  // TODO FIXME: This code needs to be deleted its just an example
   selectedMainGroup: 'Feed',
   selectedSubGroup: '',
   currentUser: {},
-  IpAddress: '129.168.1.102',
-  // IpAddress: '10.5.13.150',
+  IpAddress: '192.168.1.102',
 };
 
 export const mainSlice = createSlice({

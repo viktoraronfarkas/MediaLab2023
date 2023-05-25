@@ -7,7 +7,12 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  ToastAndroid,
+  Alert,
+  Clipboard,
+  Platform,
 } from 'react-native';
+
 import { IconButton } from 'react-native-paper';
 import { theme, styles } from '../../../constants/myTheme';
 
@@ -42,32 +47,41 @@ export default function UserProfileView({
   onPressCancelDialog,
   alertVisible,
   biography,
-  handleCopy,
-  email,
+  emailUser,
   username,
   name,
-  onPersonalData,
-  onJoinedGroups,
-  onJoinedEvents,
-  onInteractedPosts,
   studyProgramme,
-  onYourPostsEvents,
+  onPersonalData,
   onHelp,
   onAboutUs,
+  // onJoinedGroups,
+  // onJoinedEvents,
+  // onInteractedPosts,
+  // onYourPostsEvents,
 }) {
+  // copy userId.email to the Clipboard
+  const handleCopy = () => {
+    Clipboard.setString(emailUser);
+    if (Platform.OS === 'android') {
+      ToastAndroid.show('The email has been copied.', ToastAndroid.SHORT);
+    } else if (Platform.OS === 'ios') {
+      Alert.alert('The email has been copied.');
+    }
+  };
+
   return (
     <SafeAreaView style={style.container}>
       <ScrollView style={{ paddingHorizontal: 30 }}>
         {/* Header */}
-        <View style={{ paddingVertical: 20 }}>
+        <View style={{ paddingVertical: 10 }}>
           <CaptionScribbleHeading
             subHeading="Only you"
             title="Your Profile"
-            headlineStyle={{ width: 180 }}
+            headlineStyle={{ width: 120 }}
             scribbleSubHeadingImage={scribble}
             underlineImage={underline}
             arrowImage={arrow}
-            underlineStyle={{ height: 140, width: 100 }}
+            underlineStyle={{ height: 120, width: 80, left: 50 }}
           />
         </View>
 
@@ -116,8 +130,8 @@ export default function UserProfileView({
         <View style={{ paddingTop: 130 }}>
           <OrangeSubtitleBodyText title="Biography" bodyText={biography} />
 
-          <TouchableOpacity onPress={handleCopy}>
-            <OrangeSubtitleBodyText title="Email" bodyText={email} />
+          <TouchableOpacity onPress={() => handleCopy(emailUser)}>
+            <OrangeSubtitleBodyText title="Email" bodyText={emailUser} />
             <IconButton
               icon="content-copy"
               style={{
@@ -137,10 +151,18 @@ export default function UserProfileView({
 
           {/* Settings */}
           <Text style={[styles.headline3, { paddingVertical: 20 }]}>
-            account details
+            Account Details
           </Text>
 
           <ListItemOnlyText
+            title="Personal Data"
+            iconImage={iconImage}
+            onPress={onPersonalData}
+            cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
+          />
+
+          {/* Add these when ready */}
+          {/* <ListItemOnlyText
             title="Your Posts/Events"
             iconImage={iconImage}
             onPress={onYourPostsEvents}
@@ -163,13 +185,8 @@ export default function UserProfileView({
             iconImage={iconImage}
             onPress={onJoinedEvents}
             cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
-          />
-          <ListItemOnlyText
-            title="Personal Data"
-            iconImage={iconImage}
-            onPress={onPersonalData}
-            cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
-          />
+          /> */}
+
           <ListItemOnlyText
             title="Help"
             iconImage={iconImage}

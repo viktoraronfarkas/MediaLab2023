@@ -23,6 +23,9 @@ import JoinGroup from '../JoinGroupScreen';
 import JoinedSubgroup from '../JoinedSubgroup';
 import AddSubgroup from '../AddSubgroup';
 
+/**
+ * This is the main Navigation file of most of the screens.
+ */
 export default function ScreenNavigation() {
   const Stack = createStackNavigator();
 
