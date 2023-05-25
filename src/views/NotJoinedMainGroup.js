@@ -9,6 +9,7 @@ import circleLineImage from '../../assets/Images/circleLine-image.png';
 import glitterImage from '../../assets/Images/glitter-image.png';
 import heartLeftImage from '../../assets/Images/heart-left-image.png';
 import starImage from '../../assets/Images/star-image.png';
+import { MoreSvg } from '../components/svgs';
 
 function AddSubgroup() {
   const navigation = useNavigation();
@@ -25,11 +26,11 @@ function AddSubgroup() {
       </View>
 
       <View style={{ marginTop: 20, marginBottom: 20, alignItems: 'center' }}>
-        <Image
-          source={glitterImage}
+        <MoreSvg
+          color="#000"
+          width={30}
+          height={50}
           style={{
-            width: 30,
-            height: 50,
             position: 'absolute',
             top: -30,
             left: 320,

@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, Image, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { styles } from '../../constants/myTheme';
+import { BackSvg } from '../svgs';
+
 /**
  * This Component represents a text, a clickable IconImage
  * You adjust the text and the onPress function
@@ -13,14 +15,10 @@ function BackButton({ text, onPress }) {
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        left: '2%',
       }}
     >
       <TouchableOpacity onPress={onPress}>
-        <Image
-          style={{ width: 40, height: 40 }}
-          source={require('../../../assets/Icons/back.png')}
-        />
+        <BackSvg color="#000" width={35} height={35} />
       </TouchableOpacity>
       <Text style={[styles.captionBold, { left: '2%' }]}>{text}</Text>
     </View>

@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from '../../constants/myTheme';
+import { BackSvg } from '../svgs';
 
 const style = StyleSheet.create({
   container: {
@@ -46,11 +47,7 @@ export default function BackButtonNavigationContainer({
   return (
     <View style={[style.container, containerStyles]}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Image
-          style={{ width: 24, height: 24 }}
-          source={require('../../../assets/Icons/back-new.png')}
-          resizeMode="contain"
-        />
+        <BackSvg color="#000" width={35} height={35} />
       </TouchableOpacity>
       <Text style={[styles.captionBold, style.text, styleText]}>{text}</Text>
     </View>
