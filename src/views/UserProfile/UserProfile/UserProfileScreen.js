@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import UserProfileView from './UserProfileView';
+
 import useFetchUserData from '../../../routes/fetchData/useFetchUserData';
 
 // TODO Fetch profile image & edit profile image
@@ -11,10 +12,16 @@ import useFetchUserData from '../../../routes/fetchData/useFetchUserData';
  * Also navigating to the other settings.
  */
 export default function UserProfileScreen() {
-  const [imageUpload, setImage] = useState(null);
+  const { userData, imageUpload } = useFetchUserData();
+  const [imageUploaded, setImage] = useState(null);
   const [dialogVisible, setDialogVisible] = useState(false);
   const navigation = useNavigation();
-  const userId = useFetchUserData();
+  // const userId = useFetchUserData();
+
+  // Update imageUploaded when imageUpload changes
+  useEffect(() => {
+    setImage(imageUpload);
+  }, [imageUpload]);
 
   // Open Action Dialog to edit, delete profile image
   const handleDialogOpen = () => {
@@ -54,12 +61,12 @@ export default function UserProfileScreen() {
       alertVisible={dialogVisible}
       onPressCancelDialog={handleCancelDialog}
       // User Data
-      profileImage={imageUpload}
-      username={userId.username ?? 'no data'}
-      biography={userId.biography ?? 'no data'}
-      emailUser={userId.email}
-      name={userId.name ?? 'null'}
-      studyProgramme={userId.studyProgramme ?? 'no data'}
+      profileImage={imageUploaded}
+      username={userData.username ?? 'no data'}
+      biography={userData.biography ?? 'no data'}
+      emailUser={userData.email}
+      name={userData.name ?? 'null'}
+      studyProgramme={userData.studyProgramme ?? 'no data'}
       // Settings
       onPersonalData={() => navigation.navigate('PersonalData')}
       onJoinedGroups={() => navigation.navigate('JoinedGroups')}

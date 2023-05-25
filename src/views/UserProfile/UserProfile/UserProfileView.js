@@ -1,32 +1,32 @@
 import React from 'react';
 import {
-  ScrollView,
-  StyleSheet,
-  SafeAreaView,
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  ToastAndroid,
   Alert,
   Clipboard,
+  Image,
   Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 import { IconButton } from 'react-native-paper';
-import { theme, styles } from '../../../constants/myTheme';
+import { styles, theme } from '../../../constants/myTheme';
 
-import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHeading';
 import DialogAction from '../../../components/Dialogs/DialogAction';
 import ListItemOnlyText from '../../../components/Items/ListItemOnlyText';
-import OrangeSubtitleBodyText from '../../../components/Texts/OrangeSubtitleBodyText';
 import ProfileImage from '../../../components/ProfileImageScribble';
+import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHeading';
+import OrangeSubtitleBodyText from '../../../components/Texts/OrangeSubtitleBodyText';
 
+import iconImage from '../../../../assets/Icons/arrow-right.png';
 import uploadIcon from '../../../../assets/Icons/upload-icon.png';
+import arrow from '../../../../assets/Images/arrow-image.png';
 import scribble from '../../../../assets/Images/heart-right-image.png';
 import underline from '../../../../assets/Images/under-line-image.png';
-import arrow from '../../../../assets/Images/arrow-image.png';
-import iconImage from '../../../../assets/Icons/arrow-right.png';
 
 const style = StyleSheet.create({
   container: {
