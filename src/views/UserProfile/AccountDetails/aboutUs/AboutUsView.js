@@ -16,6 +16,8 @@ export default function AboutUsView({ onCommunityGuidelines, onDataSecurity }) {
       <ScrollView
         style={{
           paddingHorizontal: 15,
+          paddingVertical: 15,
+          margin: 20,
           backgroundColor: theme.colors.backgroundSand,
         }}
       >
