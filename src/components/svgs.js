@@ -1,5 +1,5 @@
 import React from 'react';
-import Svg, { Path } from 'react-native-svg';
+import Svg, { ClipPath, Defs, G, Path, Rect } from 'react-native-svg';
 
 export function HomeSvg({ color }) {
   return (
@@ -74,6 +74,79 @@ export function ProfileSvg({ color }) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+    </Svg>
+  );
+}
+export function BackSvg({ color, width, height }) {
+  return (
+    <Svg
+      width={width}
+      height={height}
+      viewBox="0 0 40 40"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <Path
+        d="M15.7532 20.647H33.9471"
+        stroke={color}
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M18.8104 10C16.9682 10 15.1352 12.2237 13.8645 13.3145C12.3105 14.6485 10.411 16.1881 9.1517 17.8072C8.34024 18.8505 7.21206 19.9236 6.57518 21.0699C6.40353 21.3789 6.09671 21.6959 6.0055 22.0151C5.81122 22.6951 10.8214 25.2905 11.4045 25.6144C13.9697 27.0395 16.607 28.4181 19.0434 30.0424"
+        stroke={color}
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}
+export function MoreSvg({ color, width, height }) {
+  return (
+    <Svg
+      width={width}
+      height={height}
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <G clipPath="url(#clip0_327_7728)">
+        <Path
+          d="M24.0371 14.8466C23.6461 14.8466 22.5988 15.7725 23.1637 16.0381C23.9806 16.4221 24.6338 16.3012 24.8998 15.6211C25.0444 15.2514 25.1532 14.4015 24.3247 14.5487C23.8999 14.6241 23.0739 16.3001 23.6537 16.5317"
+          stroke={color}
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <Path
+          d="M24.2623 24.3197C24.2623 25.0702 24.7774 24.6867 24.7774 24.191C24.7774 23.4557 24.1284 23.2803 23.7471 23.9477C23.4823 24.4111 22.7126 25.3501 23.7471 25.3501C24.5306 25.3501 24.9023 24.5773 24.0047 24.5773"
+          stroke={color}
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <Path
+          d="M23.8636 32.844C23.5297 32.844 24.7192 32.9189 24.8367 32.7868C25.2272 32.3474 23.8019 32.299 23.606 32.3861C22.4279 32.9097 23.5486 33.7742 24.3787 33.3592"
+          stroke={color}
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </G>
+      <Defs>
+        <ClipPath id="clip0_327_7728">
+          <Rect
+            x="15"
+            y="6.53174"
+            width="18"
+            height="34.9367"
+            rx="9"
+            fill="white"
+          />
+        </ClipPath>
+      </Defs>
     </Svg>
   );
 }

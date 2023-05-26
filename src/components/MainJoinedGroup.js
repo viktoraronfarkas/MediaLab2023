@@ -15,8 +15,8 @@ import { styles } from '../constants/myTheme';
 import TitleCircleHeadingH2 from './Texts/TitleCircleHeading';
 import ListItem from './Items/ListItem';
 import iconImage from '../../assets/Icons/plus-icon.png';
-import moreMenuIcon from '../../assets/Icons/more-menu-icon.png';
 import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png';
+import { MoreSvg } from './svgs';
 
 function MainJoinedGroup() {
   const selectedGroupValue = useSelector(selectedGroup);
@@ -94,25 +94,19 @@ function MainJoinedGroup() {
         alignItems: 'center',
       }}
     >
-      <View style={{ position: 'relative' }}>
+      <View style={{ position: 'relative', paddingTop: 40 }}>
         <TitleCircleHeadingH2
           title={selectedGroupValue.name || selectedGroupValue.mainGroupName}
           image={circleLineImage}
           lineStyle={{
-            height: 70,
-            width: 200,
+            height: 60,
+            width: 190,
           }}
         />
         <TouchableOpacity
-          style={{ position: 'absolute', left: '44%', top: '50%' }}
+          style={{ position: 'absolute', left: '41%', top: '80%' }}
         >
-          <Image
-            style={{
-              height: 20,
-              width: 5,
-            }}
-            source={moreMenuIcon}
-          />
+          <MoreSvg color="#000" width={50} height={50} />
         </TouchableOpacity>
       </View>
 
@@ -160,7 +154,7 @@ function MainJoinedGroup() {
 
         <View
           style={{
-            left: '82%',
+            left: '84%',
             top: '-20%',
             position: 'absolute',
           }}
