@@ -29,7 +29,7 @@ export default function TitleCircleHeadingH2({ title, image, lineStyle }) {
   return (
     <View style={style.container}>
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={styles.headline3}>{title}</Text>
+        <Text style={styles.headline1}>{title}</Text>
         <Image
           style={[style.line, lineStyle]}
           source={image}
