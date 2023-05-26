@@ -53,6 +53,7 @@ export default function InputField({
   width = '100%',
   editable = true,
   placeholderText,
+  inputStyle, // leave that inside please! It's for overriding the input-style
 }) {
   const dynamicStyles = StyleSheet.create({
     input: {
@@ -70,7 +71,7 @@ export default function InputField({
         value={value}
         onChangeText={onChangeText}
         style={[
-          [style.input, dynamicStyles.input, { width }],
+          [style.input, dynamicStyles.input, { width }, inputStyle],
           secureTextEntry && { secureTextEntry: true },
         ]}
         underlineColor="transparent"

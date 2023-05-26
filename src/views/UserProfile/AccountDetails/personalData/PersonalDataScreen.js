@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 
 import PersonalDataView from './PersonalDataView';
+import useFetchUserData from '../../../../routes/hooks/useFetchUserData';
+import useUpdateUserData from '../../../../routes/hooks/useUpdateUserData';
+
+// TODO Editing Bio is not working
+// TODO Editing Username is not working
+// TODO Editing StudyCourse, Password is not working
 
 /**
  * This is the main Personal Data Screen
@@ -10,22 +16,25 @@ export default function PersonalDataScreen() {
   const [hasChanges, setHasChanges] = useState(false);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
 
-  const [username, setUsername] = useState('JaneDoe');
-  // const [usernameError, setUsernameError] = useState('');
-  const [name, setName] = useState('');
-  // const [nameError, setNameError] = useState('JaneDoe');
+  const [usernameData, setUsername] = useState('');
+  const [nameData, setName] = useState('');
+  const [biographyData, setBiography] = useState('');
   const [studyProgramme, setStudyProgramme] = useState('');
-  const [biography, setBiography] = useState('');
-
   // const [password, setPassword] = useState('');
-  // const [passwordError, setPasswordError] = useState('');
   // const [confirmPassword, setPasswordConfirmation] = useState('');
+
+  // const [usernameError, setUsernameError] = useState('');
+  // const [nameError, setNameError] = useState('');
+  // const [passwordError, setPasswordError] = useState('');
   // const [confirmError, setConfirmError] = useState('');
+
+  const userData = useFetchUserData();
+  const { updateUser } = useUpdateUserData();
 
   // const validateUsername = () => {
   //   const usernameRegex = /^[a-zA-Z0-9]+$/;
 
-  //   if (!usernameRegex.test(username)) {
+  //   if (!usernameRegex.test(usernameData)) {
   //     setUsernameError(
   //       'Please enter a username that contains only letters or / and numbers.'
   //     );
@@ -38,7 +47,7 @@ export default function PersonalDataScreen() {
   // const validateName = () => {
   //   const nameRegex = /^[a-zA-Z]+$/;
 
-  //   if (!nameRegex.test(name)) {
+  //   if (!nameRegex.test(nameData)) {
   //     setNameError('Please enter a name that contains only letters.');
   //     return false;
   //   }
@@ -46,52 +55,76 @@ export default function PersonalDataScreen() {
   //   return true;
   // };
 
-  const handleInputChange = () => {
-    setHasChanges(true);
-  };
   const onChangeSelectionStudyProgramme = (value) => {
     setStudyProgramme(value);
     setIsPickerOpen(true);
   };
 
-  const handleSaveChanges = (event) => {
+  const handleSaveChanges = async (event) => {
     event.preventDefault();
-    // const isUsernameValid = validateUsername(username);
-    // const isNameValid = validateName(name);
-    // const isPasswordValid = validatePassword(password);
-    // const isPasswordConfirm = handlePasswordConfirmationChange(confirmPassword);
+    // const isUsernameValid = validateUsername();
+    // const isNameValid = validateName();
+    // const isPasswordValid = validatePassword();
+    // const isPasswordConfirm = handlePasswordConfirmationChange();
+
+    // Create an object with the updated data
+    const updatedData = {
+      email: userData.email,
+      username: usernameData,
+      name: nameData,
+      biography: biographyData,
+      studyCourse: studyProgramme,
+    };
+
+    try {
+      // Call the updateUser function to update the data in the database
+      await updateUser(updatedData);
+      setHasChanges(false);
+
+      alert('Changes have been saved.');
+    } catch (error) {
+      // Handle error if necessary
+      console.error('Error updating user data:', error);
+      throw error;
+    }
   };
 
   const studyProgrammeList = ['BCC', 'BMT', 'SPM', 'ECM'];
 
   return (
     <PersonalDataView
-      emailLabel="cc201028@fhstp.ac.at" // this will be like: user.email
+      emailLabel={userData.email}
       // Username
-      usersnameLabel="JaneDoe207"
-      usersnameValue={username} // "JaneDoe207"
+      usersnameLabel={userData.username}
+      usersnameValue={usernameData}
       // usernameError={usernameError}
       onChangeTextUsername={(value) => {
+        setHasChanges(true);
         setUsername(value);
-        handleInputChange(value);
       }}
       // Name
-      nameLabel="Jane Doe"
-      nameValue={name} // "JaneDoe"
+      nameLabel={userData.name}
+      nameValue={nameData}
       // nameError={nameError}
-      onChangeTextName={(value) => setName(value)}
+      onChangeTextName={(value) => {
+        setHasChanges(true);
+        setName(value);
+      }}
       // Biography
-      biographyLabel="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-      biographyValue={biography}
-      onChangeTextBiography={(value) => setBiography(value)}
+      biographyLabel={userData.biography}
+      biographyValue={biographyData}
+      onChangeTextBiography={(value) => {
+        setHasChanges(true);
+        setBiography(value);
+      }}
       // Study Programme
-      studyProgrammeLabel="BCC"
+      studyProgrammeLabel={userData.studyProgramme}
       studyProgrammeList={studyProgrammeList}
-      studyProgrammeValue={studyProgramme}
+      studyProgrammeValue={userData.studyProgramme}
       onChangeSelectionStudyProgramme={onChangeSelectionStudyProgramme}
       isPickerOpen={isPickerOpen}
       // Password
-      passwordLabel="*****************"
+      passwordLabel="**********************"
       // onPasswordConfirmation={(value) => setPasswordConfirmation(value)}
       // confirmError={confirmError}
       onSaveChanges={handleSaveChanges}

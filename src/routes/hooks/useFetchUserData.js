@@ -21,7 +21,6 @@ function useFetchUserData() {
         setUserId(response.data);
       } catch (error) {
         console.error('Error retrieving user data:', error);
-        // Handle the error
       }
     };
 
