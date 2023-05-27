@@ -1,13 +1,9 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, Text, ImageBackground, Image, StyleSheet, ScrollView  } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView  } from 'react-native';
 import { styles, theme } from '../constants/myTheme';
 import BackButton from '../components/Buttons/BackButton';
-import OrangeButton from '../components/Buttons/OrangeButton';
 import underlineImage from '../../assets/Images/thin-underline-image.png';
-import circleLineImage from '../../assets/Images/circleLine-image.png';
-import UnderlineImageSmall from '../../assets/Images/under-line-image.png';
-import Foodshare from '../../assets/foodshare.jpg';
 import SingleComment from '../components/Comments/SingleComment';
 import foodIcon from '../../assets/food.png';
 import InputField from '../components/Items/InputField'

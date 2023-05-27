@@ -24,7 +24,6 @@ const style = StyleSheet.create({
     fontSize: 32,
     textAlign: 'center',
     alignSelf: 'center',
-    maxWidth: 200,
     paddingBottom: 20,
   },
 
@@ -43,8 +42,13 @@ const style = StyleSheet.create({
  */
 export default function CommunityGuidelines() {
   return (
-    <SafeAreaView style={style.container}>
-      <ScrollView>
+    <SafeAreaView style={[style.container]}>
+      <ScrollView style={{
+          paddingHorizontal: 15,
+          paddingVertical: 15,
+          margin: 20,
+          backgroundColor: theme.colors.backgroundSand,
+        }}>
         <Text style={[styles.headline1, style.title]}>Our Guidelines</Text>
         <Text
           style={[
@@ -82,8 +86,7 @@ export default function CommunityGuidelines() {
           </Text>
           <Image
             source={heartImage}
-            style={{ width: 50, height: 40, marginRight: 30 }}
-            resizeMode="contain"
+            style={{ width: 50, height: 40 }}
           />
         </View>
         <Text style={[styles.bodyDefault, { marginBottom: 30, marginTop: 20 }]}>
@@ -95,8 +98,7 @@ export default function CommunityGuidelines() {
           <Text style={[styles.headline2, style.header]}>General Rule:</Text>
           <Image
             source={starImage}
-            style={{ width: 23, height: 33, marginLeft: 10 }}
-            resizeMode="contain"
+            style={{ width: 23, height: 33}}
           />
         </View>
         <Text style={[styles.bodyDefault, style.body, { paddingBottom: 30 }]}>
