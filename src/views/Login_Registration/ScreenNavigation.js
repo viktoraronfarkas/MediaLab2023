@@ -22,6 +22,7 @@ import Main from '../Main';
 import JoinGroup from '../JoinGroupScreen';
 import JoinedSubgroup from '../JoinedSubgroup';
 import AddSubgroup from '../AddSubgroup';
+import JoinNewGroup from '../JoinNewGroup';
 
 export default function ScreenNavigation() {
   const Stack = createStackNavigator();
@@ -40,6 +41,11 @@ export default function ScreenNavigation() {
           // headerShown: false,
         }}
       >
+        <Stack.Screen
+          name="JoinNewGroup"
+          component={JoinNewGroup}
+          options={{ title: '', headerShown: false }}
+        />
         <Stack.Screen
           name="LandingScreen"
           component={LandingScreen}
@@ -61,7 +67,11 @@ export default function ScreenNavigation() {
           component={Main}
           options={{ title: '', headerShown: false }}
         />
-        <Stack.Screen name="JoinGroupScreen" component={JoinGroup} />
+        <Stack.Screen
+          name="JoinGroupScreen"
+          component={JoinGroup}
+          options={{ title: '', headerShown: false }}
+        />
         <Stack.Screen
           name="JoinedSubgroup"
           component={JoinedSubgroup}
