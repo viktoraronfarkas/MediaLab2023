@@ -6,7 +6,7 @@ const initialState = {
   selectedMainGroup: 'Feed',
   selectedSubGroup: '',
   currentUser: {},
-  IpAddress: '192.168.1.103',
+  IpAddress: '192.168.1.100',
 };
 
 export const mainSlice = createSlice({
@@ -20,7 +20,8 @@ export const mainSlice = createSlice({
       state.selectedSubGroup = action.payload;
     },
     setCurrentUser: (state, action) => {
-      state.currentUser = action.payload;
+      const updatedProps = action.payload;
+      state.currentUser = { ...state.currentUser, ...updatedProps };
     },
   },
 });

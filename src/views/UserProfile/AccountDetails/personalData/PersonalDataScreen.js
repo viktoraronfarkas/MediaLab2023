@@ -1,132 +1,160 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PersonalDataView from './PersonalDataView';
 import useFetchUserData from '../../../../routes/hooks/useFetchUserData';
 import useUpdateUserData from '../../../../routes/hooks/useUpdateUserData';
+import {
+  setCurrentUser,
+  selectedUser,
+} from '../../../../redux/features/mainSlice/mainSlice';
 
-// TODO Editing Bio is not working
-// TODO Editing Username is not working
 // TODO Editing StudyCourse, Password is not working
-
 /**
  * This is the main Personal Data Screen
  *
  */
 export default function PersonalDataScreen() {
   const [hasChanges, setHasChanges] = useState(false);
-  const [isPickerOpen, setIsPickerOpen] = useState(false);
-
+  // const [isPickerOpen, setIsPickerOpen] = useState(false);
+  const dispatch = useDispatch();
   const [usernameData, setUsername] = useState('');
   const [nameData, setName] = useState('');
   const [biographyData, setBiography] = useState('');
-  const [studyProgramme, setStudyProgramme] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
+  const [dialogVisible, setDialogVisible] = useState(false);
+  // const [studyProgramme, setStudyProgramme] = useState('');
   // const [password, setPassword] = useState('');
   // const [confirmPassword, setPasswordConfirmation] = useState('');
 
-  // const [usernameError, setUsernameError] = useState('');
-  // const [nameError, setNameError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [nameError, setNameError] = useState('');
   // const [passwordError, setPasswordError] = useState('');
   // const [confirmError, setConfirmError] = useState('');
 
   const userData = useFetchUserData();
+  useEffect(() => {
+    dispatch(setCurrentUser(userData));
+  }, []);
+  const currentUser = useSelector(selectedUser);
   const { updateUser } = useUpdateUserData();
 
-  // const validateUsername = () => {
-  //   const usernameRegex = /^[a-zA-Z0-9]+$/;
+  const validateUsername = () => {
+    const usernameRegex = /^[a-zA-Z0-9]+$/;
 
-  //   if (!usernameRegex.test(usernameData)) {
-  //     setUsernameError(
-  //       'Please enter a username that contains only letters or / and numbers.'
-  //     );
-  //     return false;
-  //   }
-  //   setUsernameError('');
-  //   return true;
-  // };
-
-  // const validateName = () => {
-  //   const nameRegex = /^[a-zA-Z]+$/;
-
-  //   if (!nameRegex.test(nameData)) {
-  //     setNameError('Please enter a name that contains only letters.');
-  //     return false;
-  //   }
-  //   setNameError('');
-  //   return true;
-  // };
-
-  const onChangeSelectionStudyProgramme = (value) => {
-    setStudyProgramme(value);
-    setIsPickerOpen(true);
+    if (
+      usernameData !== currentUser.username &&
+      !usernameRegex.test(usernameData)
+    ) {
+      setUsernameError(
+        'Please enter a username that contains only letters and/or numbers.'
+      );
+      return false;
+    }
+    setUsernameError('');
+    return true;
   };
 
+  const validateName = () => {
+    const nameRegex = /^[a-zA-Z]+$/;
+
+    if (nameData !== currentUser.name && !nameRegex.test(nameData)) {
+      setNameError('Please enter a name that contains only letters.');
+      return false;
+    }
+    setNameError('');
+    return true;
+  };
+
+  // const onChangeSelectionStudyProgramme = (value) => {
+  //   setStudyProgramme(value);
+  //   setIsPickerOpen(true);
+  // };
+
   const handleSaveChanges = async (event) => {
-    event.preventDefault();
-    // const isUsernameValid = validateUsername();
-    // const isNameValid = validateName();
-    // const isPasswordValid = validatePassword();
-    // const isPasswordConfirm = handlePasswordConfirmationChange();
+    const isUsernameValid = !usernameData || validateUsername();
+    const isNameValid = !nameData || validateName();
 
-    // Create an object with the updated data
-    const updatedData = {
-      email: userData.email,
-      username: usernameData,
-      name: nameData,
-      biography: biographyData,
-      studyCourse: studyProgramme,
-    };
+    if (isUsernameValid && isNameValid) {
+      event.preventDefault();
+      // const isUsernameValid = validateUsername();
+      // const isNameValid = validateName();
+      // const isPasswordValid = validatePassword();
+      // const isPasswordConfirm = handlePasswordConfirmationChange();
 
-    try {
+      // Create an object with the updated data
+      const updatedData = {
+        email: currentUser.email,
+        username: usernameData || currentUser.username,
+        name: nameData || currentUser.name,
+        biography: biographyData || currentUser.biography,
+        // studyCourse: studyProgramme,
+      };
+
       // Call the updateUser function to update the data in the database
-      await updateUser(updatedData);
-      setHasChanges(false);
-
-      alert('Changes have been saved.');
-    } catch (error) {
-      // Handle error if necessary
-      console.error('Error updating user data:', error);
-      throw error;
+      try {
+        await updateUser(updatedData);
+        setHasChanges(false);
+        dispatch(setCurrentUser(updatedData));
+        setDialogVisible(true);
+      } catch (error) {
+        // Handle error if necessary
+        console.error('Error updating user data:', error);
+        throw error;
+      }
     }
   };
 
-  const studyProgrammeList = ['BCC', 'BMT', 'SPM', 'ECM'];
-
   return (
     <PersonalDataView
-      emailLabel={userData.email}
+      emailLabel={currentUser.email}
       // Username
-      usersnameLabel={userData.username}
-      usersnameValue={usernameData}
-      // usernameError={usernameError}
+      usernameLabel={currentUser.username}
+      usernameValue={usernameData}
+      usernameError={usernameError}
       onChangeTextUsername={(value) => {
         setHasChanges(true);
         setUsername(value);
       }}
       // Name
-      nameLabel={userData.name}
+      nameLabel={currentUser.name}
       nameValue={nameData}
-      // nameError={nameError}
+      nameError={nameError}
       onChangeTextName={(value) => {
         setHasChanges(true);
         setName(value);
       }}
       // Biography
-      biographyLabel={userData.biography}
+      biographyLabel={currentUser.biography}
       biographyValue={biographyData}
       onChangeTextBiography={(value) => {
         setHasChanges(true);
         setBiography(value);
       }}
       // Study Programme
-      studyProgrammeLabel={userData.studyProgramme}
-      studyProgrammeList={studyProgrammeList}
-      studyProgrammeValue={userData.studyProgramme}
-      onChangeSelectionStudyProgramme={onChangeSelectionStudyProgramme}
-      isPickerOpen={isPickerOpen}
+      // studyProgrammeLabel={userData.studyProgramme}
+      // studyProgrammeList={studyProgrammeList}
+      // studyProgrammeValue={userData.studyProgramme}
+      // onChangeSelectionStudyProgramme={onChangeSelectionStudyProgramme}
+      // isPickerOpen={isPickerOpen}
       // Password
       passwordLabel="**********************"
+      editBirthday={() => setOpen(true)}
+      openDatePicker={open}
+      setDate={date}
+      confirmNewDate={() => {
+        setOpen(false);
+        setDate(date);
+      }}
+      cancelDatePicker={() => {
+        setOpen(false);
+      }}
       // onPasswordConfirmation={(value) => setPasswordConfirmation(value)}
       // confirmError={confirmError}
+      alertVisible={dialogVisible}
+      onPressCancelDialog={() => {
+        setDialogVisible(false);
+      }}
       onSaveChanges={handleSaveChanges}
       onChangeValuesButton={hasChanges}
     />

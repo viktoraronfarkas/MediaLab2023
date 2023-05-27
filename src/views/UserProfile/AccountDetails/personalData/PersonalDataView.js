@@ -5,11 +5,14 @@ import {
   View,
   ScrollView,
   Text,
-  Image,
+  // Image,
   Platform,
   KeyboardAvoidingView,
+  Button,
 } from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown';
+// import SelectDropdown from 'react-native-select-dropdown';
+// import DatePicker from 'react-native-date-picker';
+import DialogAction from '../../../../components/Dialogs/DialogAction';
 import { theme, styles } from '../../../../constants/myTheme';
 import TitleArrowHeading from '../../../../components/Texts/TitleArrowHeading';
 import GreyButton from '../../../../components/Buttons/GreyButton';
@@ -17,7 +20,7 @@ import OrangeButton from '../../../../components/Buttons/OrangeButton';
 import InputField from '../../../../components/Items/InputField';
 import LongInputField from '../../../../components/Items/LongInputField';
 import arrowImage from '../../../../../assets/Images/arrow-image.png';
-import dropDownIcon from '../../../../../assets/Icons/arrow-right.png';
+// import dropDownIcon from '../../../../../assets/Icons/arrow-right.png';
 
 const style = StyleSheet.create({
   container: {
@@ -66,9 +69,9 @@ const style = StyleSheet.create({
 export default function PersonalDataView({
   emailLabel,
 
-  usersnameLabel,
-  usersnameValue,
-  onChangeTextUsersname,
+  usernameLabel,
+  usernameValue,
+  onChangeTextUsername,
   usernameError,
 
   nameLabel,
@@ -80,19 +83,28 @@ export default function PersonalDataView({
   biographyValue,
   onChangeTextBiography,
 
-  studyProgrammeList,
-  onChangeSelectionStudyProgramme,
+  // studyProgrammeList,
+  // onChangeSelectionStudyProgramme,
 
   passwordLabel,
   passwordValue,
   onChangeTextPassword,
   passwordError,
+
+  editBirthday,
+  alertVisible,
+  onPressCancelDialog,
+  // openDatePicker,
+  // setDate,
+  // confirmNewDate,
+  // cancelDatePicker,
+
   onSaveChanges,
   onChangeValuesButton,
 }) {
-  const renderDropdownIcon = () => (
-    <Image source={dropDownIcon} style={style.dropdownIcon} />
-  );
+  // const renderDropdownIcon = () => (
+  //   <Image source={dropDownIcon} style={style.dropdownIcon} />
+  // );
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -131,7 +143,7 @@ export default function PersonalDataView({
             marginLeft={0}
           />
 
-          <Text style={styles.subtitle1}>Study Programme</Text>
+          {/* <Text style={styles.subtitle1}>Study Programme</Text>
           <View style={{ paddingBottom: 30 }}>
             <SelectDropdown
               data={studyProgrammeList}
@@ -146,7 +158,7 @@ export default function PersonalDataView({
               renderDropdownIcon={renderDropdownIcon}
               st
             />
-          </View>
+          </View> */}
           <Text style={styles.subtitle1}>Bibliography</Text>
           <LongInputField
             placeholderText={biographyLabel}
@@ -177,15 +189,37 @@ export default function PersonalDataView({
             <Text style={style.error}>{usernameError}</Text>
           ) : null}
           <InputField
-            labelText={usersnameLabel}
-            value={usersnameValue}
-            onChangeText={onChangeTextUsersname}
+            labelText={usernameLabel}
+            value={usernameValue}
+            onChangeText={onChangeTextUsername}
+            inputStyle={{ marginTop: 10, marginBottom: 30 }}
             marginLeft={0}
-            inputStyle={{
-              marginTop: 10,
-              marginBottom: 30,
-            }}
           />
+
+          <Text style={styles.subtitle1}>Birthday</Text>
+          <Button title="Open" onPress={editBirthday} />
+          {/* <DatePicker
+            modal
+            open={openDatePicker}
+            date={setDate}
+            onConfirm={confirmNewDate}
+            onCancel={cancelDatePicker}
+          /> */}
+
+          {/* When Save: show this dialog  */}
+          <View>
+            <DialogAction
+              containerStyle={{
+                marginVertical: 200,
+                marginHorizontal: 15,
+                paddingRight: 20,
+              }}
+              actions={[{ id: 1, text: 'Close', onPress: onPressCancelDialog }]}
+              visible={alertVisible}
+              text="Changes have been saved!"
+              isDialog
+            />
+          </View>
 
           {onChangeValuesButton ? (
             <OrangeButton

@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import { useDispatch, useSelector } from 'react-redux';
 import UserProfileView from './UserProfileView';
-
+import {
+  setCurrentUser,
+  selectedUser,
+} from '../../../redux/features/mainSlice/mainSlice';
 import useFetchUserData from '../../../routes/hooks/useFetchUserData';
 
 // TODO Fetch profile image & edit profile image
@@ -16,12 +20,18 @@ export default function UserProfileScreen() {
   const [imageUploaded, setImage] = useState(null);
   const [dialogVisible, setDialogVisible] = useState(false);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const currentUser = useSelector(selectedUser);
   // const userId = useFetchUserData();
 
   // Update imageUploaded when imageUpload changes
   useEffect(() => {
     setImage(imageUpload);
   }, [imageUpload]);
+
+  useEffect(() => {
+    dispatch(setCurrentUser(userData));
+  }, [dispatch, userData]);
 
   // Open Action Dialog to edit, delete profile image
   const handleDialogOpen = () => {
@@ -62,11 +72,11 @@ export default function UserProfileScreen() {
       onPressCancelDialog={handleCancelDialog}
       // User Data
       profileImage={imageUploaded}
-      username={userData.username ?? 'no data'}
-      biography={userData.biography ?? 'no data'}
-      emailUser={userData.email}
-      name={userData.name ?? 'null'}
-      studyProgramme={userData.studyProgramme ?? 'no data'}
+      username={currentUser.username ?? 'no data'}
+      biography={currentUser.biography ?? 'no data'}
+      emailUser={currentUser.email}
+      name={currentUser.name ?? 'null'}
+      studyProgramme={currentUser.studyProgramme ?? 'no data'}
       // Settings
       onPersonalData={() => navigation.navigate('PersonalData')}
       onJoinedGroups={() => navigation.navigate('JoinedGroups')}

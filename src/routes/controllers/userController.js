@@ -203,7 +203,7 @@ exports.getUserById = (req, res) => {
 // eslint-disable-next-line consistent-return
 exports.updateUserById = (req, res) => {
   const { userId } = req.params;
-  const { name, email, phoneNumber, birthday, biography } = req.body;
+  const { username, name, email, phoneNumber, birthday, biography } = req.body;
 
   if (!userId) {
     return res.status(400).json({ message: 'User ID not provided' });
@@ -217,11 +217,11 @@ exports.updateUserById = (req, res) => {
     }
 
     const query =
-      'UPDATE users SET name = ?, email = ?, phone_number = ?, birthday = ?, biography = ? WHERE user_id = ?';
-      
+      'UPDATE users SET username = ?, name = ?, email = ?, phone_number = ?, birthday = ?, biography = ? WHERE user_id = ?';
+
     connection.query(
       query,
-      [name, email, phoneNumber, birthday, biography, userId],
+      [username, name, email, phoneNumber, birthday, biography, userId],
       (error, results) => {
         connection.release();
 

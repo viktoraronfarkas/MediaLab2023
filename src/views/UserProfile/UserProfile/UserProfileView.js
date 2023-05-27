@@ -12,10 +12,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
 import { IconButton } from 'react-native-paper';
 import { styles, theme } from '../../../constants/myTheme';
-
 import DialogAction from '../../../components/Dialogs/DialogAction';
 import ListItemOnlyText from '../../../components/Items/ListItemOnlyText';
 import ProfileImage from '../../../components/ProfileImageScribble';
@@ -50,7 +48,7 @@ export default function UserProfileView({
   emailUser,
   username,
   name,
-  studyProgramme,
+  // studyProgramme,
   onPersonalData,
   onHelp,
   onAboutUs,
@@ -59,7 +57,7 @@ export default function UserProfileView({
   // onInteractedPosts,
   // onYourPostsEvents,
 }) {
-  // copy userId.email to the Clipboard
+  // copy email to the Clipboard
   const handleCopy = () => {
     Clipboard.setString(emailUser);
     if (Platform.OS === 'android') {
@@ -128,8 +126,6 @@ export default function UserProfileView({
 
         {/* User Info */}
         <View style={{ paddingTop: 130 }}>
-          <OrangeSubtitleBodyText title="Biography" bodyText={biography} />
-
           <TouchableOpacity onPress={() => handleCopy(emailUser)}>
             <OrangeSubtitleBodyText title="Email" bodyText={emailUser} />
             <IconButton
@@ -144,10 +140,12 @@ export default function UserProfileView({
 
           <OrangeSubtitleBodyText title="Name" bodyText={name} />
 
-          <OrangeSubtitleBodyText
+          <OrangeSubtitleBodyText title="Biography" bodyText={biography} />
+
+          {/* <OrangeSubtitleBodyText
             title="Study Programme"
             bodyText={studyProgramme}
-          />
+          /> */}
 
           {/* Settings */}
           <Text style={[styles.headline3, { paddingVertical: 20 }]}>
