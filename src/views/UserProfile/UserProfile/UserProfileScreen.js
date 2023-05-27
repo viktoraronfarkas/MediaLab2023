@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import UserProfileView from './UserProfileView';
 
-import useFetchUserData from '../../../routes/fetchData/useFetchUserData';
+import useFetchUserData from '../../../routes/hooks/useFetchUserData';
 
 // TODO Fetch profile image & edit profile image
 /**

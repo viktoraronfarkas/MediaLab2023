@@ -18,18 +18,18 @@ const style = StyleSheet.create({
   frameContainer: {
     position: 'absolute',
     alignSelf: 'center',
-    top: -30,
+    top: -70,
   },
 
   frameImage: {
-    height: 250,
-    width: 250,
+    height: 350,
+    width: 350,
   },
 
   LetsConnectContainer: {
     alignItems: 'center',
   },
-  LetsConnectImage: { height: 300, width: 300 },
+  LetsConnectImage: { height: 420, width: 420 },
 
   buttonStyle: {
     alignSelf: 'center',
@@ -91,14 +91,14 @@ export default function LandingScreen() {
 
         <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
           <OrangeButton
-            text="Login!"
+            text="Login"
             styleButton={style.buttonStyle}
             onPress={navigateLogin}
           />
         </View>
         <View style={{ paddingHorizontal: 20, paddingVertical: 20 }}>
           <OrangeButton
-            text="Register!"
+            text="Register"
             styleButton={style.buttonStyle}
             onPress={navigateRegister}
           />

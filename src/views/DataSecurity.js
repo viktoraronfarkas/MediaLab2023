@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { theme, styles } from '../constants/myTheme';
 
+
 const style = StyleSheet.create({
   container: {
     flex: 1,
@@ -15,7 +16,7 @@ const style = StyleSheet.create({
     fontSize: 32,
     textAlign: 'center',
     alignSelf: 'center',
-    maxWidth: 200,
+    maxWidth: 250,
     paddingBottom: 20,
   },
 
@@ -33,8 +34,8 @@ const style = StyleSheet.create({
  */
 export default function DataSecurity() {
   return (
-    <SafeAreaView style={style.container}>
-      <ScrollView>
+    <SafeAreaView style={[style.container]}>
+      <ScrollView style={{margin: 20}}>
         <Text style={[styles.headline1, style.title]}>
           App Data Privacy Policy
         </Text>
