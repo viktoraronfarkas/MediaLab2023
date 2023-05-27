@@ -9,7 +9,7 @@ import {
   selectedGroup,
   selectedSubGroup,
 } from '../redux/features/mainSlice/mainSlice';
-import SubGroupsFilter from '../components/Buttons/SubGroupsFilter';
+// import SubGroupsFilter from '../components/Buttons/SubGroupsFilter';
 import BackButton from '../components/Buttons/BackButton';
 import iconImage from '../../assets/Icons/plus-icon.png';
 import moreMenuIcon from '../../assets/Icons/more-menu-icon.png';
@@ -23,7 +23,7 @@ function JoinedSubgroup() {
   const style = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: theme.colors.backgroundSand,
+      backgroundColor: theme.colors.backgroundCamel,
     },
     column: {
       flexDirection: 'column',
@@ -134,14 +134,14 @@ function JoinedSubgroup() {
       />
       <ScrollView style={{ flex: 1 }}>
         <View style={style.column}>
-          <View style={style.subGroupsFilterContainer}>
+          {/* <View style={style.subGroupsFilterContainer}>
             <SubGroupsFilter
               firstFilterLabel="all"
               secondFilterLabel="posts"
               thirdFilterLabel="events"
               disabled
             />
-          </View>
+      </View> */}
 
           <View style={style.headingContainer}>
             <Text style={[styles.headline1, style.headlineStyle]}>

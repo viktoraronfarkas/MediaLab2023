@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { View, Text, SafeAreaView, Image, ScrollView } from 'react-native';
 import InputField from '../components/Items/InputField';
 import { styles, theme } from '../constants/myTheme';
 import OrangeButton from '../components/Buttons/OrangeButton';
 import CaptionScribbleHeading from '../components/Texts/CaptionScribbleHeading';
 import UploadIcon from '../../assets/Icons/upload-icon.png';
 import GlitterImage from '../../assets/Images/glitter-image.png';
-import BackButton from '../components/Buttons/BackButton';
 import {
   selectedGroup,
   IpAddress,
@@ -47,10 +46,7 @@ function AddSubgroup() {
 
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.backgroundSand }}>
-      <View style={{ margin: 20 }}>
-        <View style={{ marginBottom: 10, marginTop: 10 }}>
-          <BackButton text="back" onPress={handlePress} />
-        </View>
+      <ScrollView style={{ margin: 20 }}>
         <CaptionScribbleHeading
           subHeading="Give it all to me"
           title="Enter all the infos for your Subgroup"
@@ -119,7 +115,7 @@ function AddSubgroup() {
             onPress={handlePress}
           />
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

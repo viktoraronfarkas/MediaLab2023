@@ -53,6 +53,7 @@ export default function InputField({
   width = '100%',
   editable = true,
   maxLength,
+  placeholderText,
 }) {
   const dynamicStyles = StyleSheet.create({
     input: {
@@ -65,6 +66,7 @@ export default function InputField({
   return (
     <View>
       <TextInput
+        placeholder={placeholderText}
         label={labelText}
         value={value}
         onChangeText={onChangeText}
