@@ -5,6 +5,8 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { theme } from '../constants/myTheme';
+import iconImage from '../../assets/Icons/plus-icon.png';
+import AddIconInteraction from './Buttons/AddIconInteraction';
 import {
   setSelectedMainGroup,
   selectedGroup,
@@ -78,7 +80,11 @@ export default function GroupsTopBar({ preDefinedGroups }) {
         horizontal
         showsHorizontalScrollIndicator={false}
         ref={scrollViewRef}
-        style={{ flexGrow: 0, backgroundColor: theme.colors.backgroundSand }}
+        style={{
+          flexGrow: 0,
+          backgroundColor: theme.colors.backgroundSand,
+          border: '1px solid black',
+        }}
       >
         <TouchableOpacity onPress={() => handlePress('Feed')}>
           <View
@@ -104,7 +110,9 @@ export default function GroupsTopBar({ preDefinedGroups }) {
             >
               <Text
                 style={{
-                  color: !selectedGroupValue.mainGroupName ? 'white' : theme.colors.primary,
+                  color: !selectedGroupValue.mainGroupName
+                    ? 'white'
+                    : theme.colors.primary,
                   textAlignVertical: 'center',
                   textAlign: 'center',
                   fontSize: 17,
@@ -148,7 +156,7 @@ export default function GroupsTopBar({ preDefinedGroups }) {
                   fontWeight: 700,
                   fontFamily: 'Nunito',
                   color:
-                  selectedGroupValue.mainGroupName === group.mainGroupName
+                    selectedGroupValue.mainGroupName === group.mainGroupName
                       ? 'white'
                       : theme.colors.primary,
                 }}
@@ -160,7 +168,7 @@ export default function GroupsTopBar({ preDefinedGroups }) {
                 }
                 style={{
                   backgroundColor:
-                  selectedGroupValue.mainGroupName === group.mainGroupName
+                    selectedGroupValue.mainGroupName === group.mainGroupName
                       ? theme.colors.primary
                       : 'white',
                 }}
@@ -185,13 +193,23 @@ export default function GroupsTopBar({ preDefinedGroups }) {
                   height: 5,
                   width: 50,
                   backgroundColor: 'black',
-                  opacity: selectedGroupValue.mainGroupName === group.mainGroupName ? 1 : 0,
+                  opacity:
+                    selectedGroupValue.mainGroupName === group.mainGroupName
+                      ? 1
+                      : 0,
                   borderRadius: 20,
                 }}
               />
             </View>
           </TouchableOpacity>
         ))}
+        <View style={{ top: '6%' }}>
+          <AddIconInteraction
+            iconStyle={{ width: 48, height: 48 }}
+            icon={iconImage}
+            onPress={console.log('add group')}
+          />
+        </View>
       </ScrollView>
     </View>
   );
