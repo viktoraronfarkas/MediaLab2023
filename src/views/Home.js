@@ -1,8 +1,9 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 import { theme } from '../constants/myTheme';
 import Feed from '../components/Feed';
 import GroupsTopBar from '../components/GroupsTopHorizontalBar';
@@ -66,6 +67,12 @@ function HomeContent() {
   useEffect(() => {
     fetchMainGroups();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchMainGroups();
+    }, [])
+  );
 
   return (
     <SafeAreaView edges={['left', 'right']} style={styles.container}>

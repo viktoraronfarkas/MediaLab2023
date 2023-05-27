@@ -42,11 +42,6 @@ export default function ScreenNavigation() {
         }}
       >
         <Stack.Screen
-          name="JoinNewGroup"
-          component={JoinNewGroup}
-          options={{ title: '', headerShown: false }}
-        />
-        <Stack.Screen
           name="LandingScreen"
           component={LandingScreen}
           options={{ title: '', headerShown: false }}
@@ -133,6 +128,11 @@ export default function ScreenNavigation() {
           name="dataSecurity"
           component={DataSecurity}
           options={{ title: '' }}
+        />
+        <Stack.Screen
+          name="JoinNewGroup"
+          component={JoinNewGroup}
+          options={{ title: '', headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

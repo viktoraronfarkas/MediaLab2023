@@ -65,11 +65,10 @@ export default function JoinNewGroup() {
     const fetchSubscribedGroups = async () => {
       try {
         const response = await axios.get(
-          `http://${clientIpAddress}:3001/user/11/subscribed-groups`
+          `http://${clientIpAddress}:3001/user/${currentUser.user_id}/subscribed-groups`
         );
         const { mainGroups } = response.data;
         setSubscribedGroups(mainGroups || []); // Ensure initialization with an empty array if data is undefined
-        console.log(mainGroups);
       } catch (error) {
         console.error('Error retrieving subscribed groups:', error);
         // Handle the error
@@ -83,7 +82,6 @@ export default function JoinNewGroup() {
         );
         const mainGroupsData = response.data;
         setMainGroups(mainGroupsData || []); // Ensure initialization with an empty array if data is undefined
-        console.log(mainGroupsData);
       } catch (error) {
         console.error('Error retrieving main groups:', error);
         // Handle the error
@@ -101,8 +99,6 @@ export default function JoinNewGroup() {
         (group) => group.main_group_id === mainGroup.mainGroupId
       )
   );
-
-  console.log(unjoinedGroups);
 
   function handlePress(selectedMainGroup) {
     const isNewlyJoined = NewJoinedGroups.includes(
@@ -146,8 +142,9 @@ export default function JoinNewGroup() {
 
         const { message } = response.data;
         console.log(message); // Optional: Display success message
-
+        navigation.navigate('MainScreen');
         // Clear the selected groups and navigate back to the group list
+        dispatch(setSelectedMainGroup(''));
         dispatch(setNewJoinedGroup([]));
         // navigation.navigate('GroupListScreen');
       } catch (error) {
@@ -164,8 +161,7 @@ export default function JoinNewGroup() {
     if (NewJoinedGroups.length > 0) {
       setShowDialog(true);
     } else {
-      navigation.goBack(null);
-      dispatch(setSelectedMainGroup(''));
+      navigation.navigate('MainScreen');
     }
   };
 
@@ -185,7 +181,16 @@ export default function JoinNewGroup() {
             visible={showDialog}
             text="Nothing saved yet! Your added groups will be lost. Continue?"
             actions={[
-              { id: 1, text: 'Continue', onPress: handleBackButtonPress },
+              {
+                id: 1,
+                text: 'Continue',
+                onPress: () => {
+                  setShowDialog(false);
+                  dispatch(setSelectedMainGroup(''));
+                  dispatch(setNewJoinedGroup([]));
+                  navigation.navigate('MainScreen');
+                },
+              },
               { id: 2, text: 'Cancel', onPress: () => setShowDialog(false) },
             ]}
             containerStyle={style.dialogContainer}

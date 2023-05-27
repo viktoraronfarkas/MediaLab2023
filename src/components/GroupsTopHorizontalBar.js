@@ -83,7 +83,6 @@ export default function GroupsTopBar({ preDefinedGroups }) {
         style={{
           flexGrow: 0,
           backgroundColor: theme.colors.backgroundSand,
-          border: '1px solid black',
         }}
       >
         <TouchableOpacity onPress={() => handlePress('Feed')}>
@@ -207,7 +206,7 @@ export default function GroupsTopBar({ preDefinedGroups }) {
           <AddIconInteraction
             iconStyle={{ width: 48, height: 48 }}
             icon={iconImage}
-            onPress={console.log('add group')}
+            onPress={() => navigation.navigate('JoinNewGroup')}
           />
         </View>
       </ScrollView>
