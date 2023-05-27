@@ -1,9 +1,8 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text } from 'react-native';
 
-import LottieView from 'lottie-react-native';
+import { styles, theme } from '../../constants/myTheme';
 import Animation from '../animation';
-import { theme, styles } from '../../constants/myTheme';
 
 const style = StyleSheet.create({
   overlay: {

@@ -1,13 +1,13 @@
-import React from 'react';
-import { SafeAreaView, View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import ClickableText from '../../../components/ClickableText';
-import InputField from '../../../components/Items/InputField';
-import OrangeButton from '../../../components/Buttons/OrangeButton';
-import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHeading';
-import { theme } from '../../../constants/myTheme';
+import React from 'react';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import scribble from '../../../../assets/Images/star-glitter-image.png';
 import BackButton from '../../../components/Buttons/BackButton';
+import OrangeButton from '../../../components/Buttons/OrangeButton';
+import ClickableText from '../../../components/ClickableText';
+import InputField from '../../../components/Items/InputField';
+import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHeading';
+import { theme } from '../../../constants/myTheme';
 
 const style = StyleSheet.create({
   container: {
@@ -30,7 +30,6 @@ export default function LoginView({
   passwordError,
   passwordValue,
   onChangeTextPassword,
-  onForgotPassword,
   onNavigateText,
   handleSubmit,
 }) {

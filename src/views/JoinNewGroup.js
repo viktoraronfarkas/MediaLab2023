@@ -203,7 +203,7 @@ export default function JoinNewGroup() {
             />
 
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {unjoinedGroups.map((group, index) => {
+              {unjoinedGroups.map((group) => {
                 const isNewlyJoined = NewJoinedGroups.includes(
                   group.mainGroupId
                 );
@@ -211,7 +211,7 @@ export default function JoinNewGroup() {
 
                 return (
                   <TouchableOpacity
-                    key={index}
+                    key={group.mainGroupId}
                     onPress={() => handlePress(group)}
                   >
                     <View

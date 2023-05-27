@@ -66,11 +66,13 @@ function HomeContent() {
 
   useEffect(() => {
     fetchMainGroups();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useFocusEffect(
     useCallback(() => {
       fetchMainGroups();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
   );
 
