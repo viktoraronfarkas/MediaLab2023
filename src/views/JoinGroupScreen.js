@@ -1,9 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios'; // Import the axios library
-import React from 'react';
-import { Image, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Image, Text, View, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
+import FullScreenOverlay from '../components/Overlays/FullScreenOverlay';
 import iconImage from '../../assets/Icons/plus-icon.png';
 import circleLineImage from '../../assets/Images/circleLine-image.png';
 import AddIconInteraction from '../components/Buttons/AddIconInteraction';
@@ -13,40 +13,40 @@ import { styles, theme } from '../constants/myTheme';
 import {
   setSelectedMainGroup,
   selectedGroup,
-  selectedUser,
-  IpAddress,
+  setNewJoinedGroup,
+  selectedNewJoinedGroups,
 } from '../redux/features/mainSlice/mainSlice';
 
 function JoinGroup() {
   const selectedGroupvalue = useSelector(selectedGroup);
-  const currentUser = useSelector(selectedUser);
-  const clientIpAddress = useSelector(IpAddress);
+  const NewJoinedGroups = useSelector(selectedNewJoinedGroups);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [showOverlay, setShowOverlay] = useState(false);
 
-  const handlePress = async () => {
-    try {
-      // Make a POST request to the API endpoint
-      const response = await axios.post(
-        `http://${clientIpAddress}:3001/user/subscribe/maingroup`,
-        {
-          userId: currentUser.user_id, // Replace with the actual user ID
-          mainGroupIds: [selectedGroupvalue.mainGroupId], // Pass the main group ID as an array
-        }
+  const handlePress = () => {
+    setShowOverlay(true); // Show the overlay animation
+    const isNewlyJoined = NewJoinedGroups.includes(
+      selectedGroupvalue.mainGroupId
+    );
+
+    if (isNewlyJoined) {
+      const updatedGroups = NewJoinedGroups.filter(
+        (groupId) => groupId !== selectedGroupvalue.mainGroupId
       );
-
-      const { message } = response.data;
-      console.log(message); // Optional: Display success message
-
-      // TODO: Handle the success response and perform necessary actions
-      // Redirect to the main screen or any other screen in your app
-      navigation.navigate('MainScreen');
-    } catch (error) {
-      console.error(
-        'Subscribe to main groups error:',
-        error.response?.data?.message || error.message
-      );
-      // Handle the error response
+      dispatch(setNewJoinedGroup(updatedGroups));
+    } else {
+      const updatedGroups = [
+        ...NewJoinedGroups,
+        selectedGroupvalue.mainGroupId,
+      ];
+      dispatch(setNewJoinedGroup(updatedGroups));
+      dispatch(setSelectedMainGroup(selectedGroupvalue));
+      setTimeout(() => {
+        // Navigate after a delay to allow the animation to play
+        navigation.navigate('JoinNewGroup');
+        setShowOverlay(false); // Hide the overlay animation
+      }, 2000); // Adjust the delay as per your animation duration
     }
   };
 
@@ -54,72 +54,85 @@ function JoinGroup() {
     <SafeAreaView
       style={{ flex: 1, backgroundColor: theme.colors.backgroundCamel }}
     >
-      <BackButton
-        text="back"
-        onPress={() => {
-          navigation.goBack(null);
-          dispatch(setSelectedMainGroup(''));
-        }}
-      />
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <View>
-          <TitleCircleHeadingH2
-            title={selectedGroupvalue.name}
-            image={circleLineImage}
-            lineStyle={{
-              height: 70,
-              width: 200,
-            }}
-          />
-        </View>
+      {showOverlay && (
+        <FullScreenOverlay title={Platform.OS === 'android' ? '' : 'Joined'} />
+      )}
+      {!showOverlay && (
+        <View style={{ paddingHorizontal: 25 }}>
+          <View style={{ marginTop: 10 }}>
+            <BackButton
+              text="back"
+              onPress={() => {
+                navigation.goBack(null);
+                dispatch(setSelectedMainGroup(''));
+              }}
+            />
+          </View>
 
-        <View
-          style={{
-            marginTop: '10%',
-            width: '100%',
-            alignItems: 'center',
-          }}
-        >
-          <Text
-            style={[styles.subtitle1, { width: '90%', textAlign: 'center' }]}
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
           >
-            Join the {selectedGroupvalue.name} group to get all the infos about
-            this study programme!
-          </Text>
+            <View style={{ marginTop: 30 }}>
+              <TitleCircleHeadingH2
+                title={selectedGroupvalue.mainGroupName}
+                image={circleLineImage}
+                lineStyle={{
+                  height: 70,
+                  width: 200,
+                }}
+              />
+            </View>
+
+            <View
+              style={{
+                marginTop: '10%',
+                width: '100%',
+                alignItems: 'center',
+              }}
+            >
+              <Text
+                style={[
+                  styles.subtitle1,
+                  { width: '100%', textAlign: 'center' },
+                ]}
+              >
+                Join the {selectedGroupvalue.mainGroupName} group to get all the
+                infos about this study programme!
+              </Text>
+            </View>
+            <View
+              style={
+                {
+                  // marginTop: '10%',
+                }
+              }
+            >
+              <AddIconInteraction
+                text="join me!"
+                icon={iconImage}
+                onPress={handlePress}
+              />
+            </View>
+            <View
+              style={
+                {
+                  // marginTop: '10%',
+                }
+              }
+            >
+              <Image
+                style={{ width: 338, height: 338 }}
+                source={require('../../assets/Images/join-group.png')}
+              />
+            </View>
+          </View>
         </View>
-        <View
-          style={
-            {
-              // marginTop: '10%',
-            }
-          }
-        >
-          <AddIconInteraction
-            text="join me!"
-            icon={iconImage}
-            onPress={handlePress}
-          />
-        </View>
-        <View
-          style={
-            {
-              // marginTop: '10%',
-            }
-          }
-        >
-          <Image
-            style={{ width: 338, height: 338 }}
-            source={require('../../assets/Images/join-group.png')}
-          />
-        </View>
-      </View>
+      )}
     </SafeAreaView>
   );
 }

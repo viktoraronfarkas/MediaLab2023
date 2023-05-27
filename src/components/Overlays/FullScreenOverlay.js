@@ -2,6 +2,7 @@ import React from 'react';
 import { SafeAreaView, StyleSheet, Text } from 'react-native';
 
 import LottieView from 'lottie-react-native';
+import Animation from '../animation';
 import { theme, styles } from '../../constants/myTheme';
 
 const style = StyleSheet.create({
@@ -29,11 +30,11 @@ export default function FullScreenOverlay({ title }) {
 
   return (
     <SafeAreaView style={style.overlay}>
-      <Text style={[styles.headline3, { color: theme.colors.backgroundWhite }]}>
+      <Text style={[styles.headline1, { color: theme.colors.backgroundWhite }]}>
         {title}
       </Text>
-
-      <LottieView source={animation} autoPlay loop />
+      <Animation source={animation} />
+      {/* <LottieView source={animation} autoPlay loop /> */}
     </SafeAreaView>
   );
 }
