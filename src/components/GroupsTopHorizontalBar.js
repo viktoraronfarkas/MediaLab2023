@@ -202,7 +202,7 @@ export default function GroupsTopBar({ preDefinedGroups }) {
             </View>
           </TouchableOpacity>
         ))}
-        <View style={{ top: '6%' }}>
+        <View style={{ paddingTop: '1%' }}>
           <AddIconInteraction
             iconStyle={{ width: 48, height: 48 }}
             icon={iconImage}
