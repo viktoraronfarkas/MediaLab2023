@@ -28,6 +28,7 @@ import {
   setLoggedIn,
   loggedIn,
 } from '../../redux/features/mainSlice/mainSlice';
+import JoinNewGroup from '../JoinNewGroup';
 
 export default function ScreenNavigation() {
   const Stack = createStackNavigator();
@@ -64,18 +65,21 @@ export default function ScreenNavigation() {
         {isUserLoggedIn ? (
           <>
             <Stack.Screen
-              name="Main"
+              name="MainScreen"
               component={Main}
               options={{ title: '', headerShown: false }}
             />
-            <Stack.Screen name="JoinGroupScreen" component={JoinGroup} />
+            <Stack.Screen
+              name="JoinGroupScreen"
+              component={JoinGroup}
+              options={{ title: '', headerShown: false }}
+            />
             <Stack.Screen
               name="JoinedSubgroup"
               component={JoinedSubgroup}
               options={{ title: '', headerShown: false }}
             />
             <Stack.Screen name="AddSubgroup" component={AddSubgroup} />
-
             <Stack.Screen
               name="UserProfile"
               component={UserProfileScreen}
@@ -130,6 +134,11 @@ export default function ScreenNavigation() {
               name="dataSecurity"
               component={DataSecurity}
               options={{ title: '' }}
+            />
+            <Stack.Screen
+              name="JoinNewGroup"
+              component={JoinNewGroup}
+              options={{ title: '', headerShown: false }}
             />
           </>
         ) : (

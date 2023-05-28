@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Image, TouchableOpacity, Text, ScrollView } from 'react-native';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { useSelector } from 'react-redux';
-import { StyleSheet } from 'react-native-web';
 import { useNavigation } from '@react-navigation/native';
+import { StyleSheet } from 'react-native-web';
+import { useSelector } from 'react-redux';
 import {
   selectedGroup,
   selectedSupGroup,
@@ -14,10 +14,10 @@ import BackButton from '../components/Buttons/BackButton';
 import iconImage from '../../assets/Icons/plus-icon.png';
 import moreMenuIcon from '../../assets/Icons/more-menu-icon.png';
 import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png';
-import { styles, theme } from '../constants/myTheme';
 import AddIconInteraction from '../components/Buttons/AddIconInteraction';
-import PostCard from '../components/Cards/PostCard';
 import EventCard from '../components/Cards/EventCard';
+import PostCard from '../components/Cards/PostCard';
+import { styles, theme } from '../constants/myTheme';
 
 function JoinedSubgroup() {
   const style = StyleSheet.create({

@@ -1,15 +1,15 @@
-import React from 'react';
-import { View, Text, SafeAreaView, Image, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { styles, theme } from '../constants/myTheme';
-import BackButton from '../components/Buttons/BackButton';
-import JoinGroupImage from '../../assets/Images/join-group.png';
+import React from 'react';
+import { Image, ImageBackground, SafeAreaView, Text, View } from 'react-native';
 import plusIcon from '../../assets/Icons/plus-icon.png';
 import circleLineImage from '../../assets/Images/circleLine-image.png';
 // import glitterImage from '../../assets/Images/glitter-image.png';
 import heartLeftImage from '../../assets/Images/heart-left-image.png';
+import JoinGroupImage from '../../assets/Images/join-group.png';
 import starImage from '../../assets/Images/star-image.png';
+import BackButton from '../components/Buttons/BackButton';
 import { MoreSvg } from '../components/svgs';
+import { styles, theme } from '../constants/myTheme';
 
 function AddSubgroup() {
   const navigation = useNavigation();

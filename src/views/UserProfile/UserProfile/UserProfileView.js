@@ -74,7 +74,7 @@ export default function UserProfileView({
   };
   return (
     <SafeAreaView style={style.container}>
-      <ScrollView style={{ paddingHorizontal: 30, bottom: 10 }}>
+      <ScrollView style={{ paddingHorizontal: 30 }}>
         {/* Header */}
         <View style={{ paddingVertical: 20 }}>
           <CaptionScribbleHeading
@@ -203,8 +203,8 @@ export default function UserProfileView({
         <View
           style={{
             alignItems: 'center',
-            padding: '4px 0px',
             top: 10,
+            paddingBottom: 20,
           }}
         >
           <OrangeButton text="Log Out" onPress={handleRemove} />

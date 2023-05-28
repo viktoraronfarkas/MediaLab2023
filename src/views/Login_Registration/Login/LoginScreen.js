@@ -3,6 +3,9 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, StyleSheet } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
+import { theme } from '../../../constants/myTheme';
 import LoginView from './LoginView';
 import {
   setCurrentUser,
@@ -10,20 +13,29 @@ import {
   setLoggedIn,
 } from '../../../redux/features/mainSlice/mainSlice';
 
-// TODO Validation / Authentication for available User inside DB
-/**
- * This is the main representation of the Login Screen for User to login in their account
- */
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const clientIpAddress = useSelector(IpAddress);
-
-  // navigate to REGISTRATION Screen
   const navigation = useNavigation();
+
   const handleTextClick = () => {
     navigation.navigate('RegistrationOne');
   };
@@ -41,6 +53,8 @@ export default function LoginScreen() {
     event.preventDefault();
 
     try {
+      setLoading(true);
+
       const response = await axios.post(
         `http://${clientIpAddress}:3001/auth/login`,
         {
@@ -55,8 +69,9 @@ export default function LoginScreen() {
       console.log(message);
 
       // TODO: Store user data or token in the app state or local storage
-      dispatch(setCurrentUser(user));
       console.log(user);
+      navigation.navigate('MainScreen');
+      dispatch(setCurrentUser(user));
 
       // Set the isUserLoggedIn state to true
       dispatch(setLoggedIn(true));
@@ -77,21 +92,28 @@ export default function LoginScreen() {
       } else {
         // Handle other login errors here
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <LoginView
-      emailError={emailError}
-      emailValue={email}
-      onChangeTextEmail={(value) => setEmail(value)}
-      passwordError={passwordError}
-      passwordValue={password}
-      onChangeTextPassword={(value) => setPassword(value)}
-      handleSubmit={handleSubmit}
-      onNavigateText={handleTextClick}
-
-      // onForgotPassword={handleForgotPassword}
-    />
+    <View style={styles.container}>
+      {loading && (
+        <View style={styles.overlay}>
+          <ActivityIndicator animating color={theme.colors.primary} />
+        </View>
+      )}
+      <LoginView
+        emailError={emailError}
+        emailValue={email}
+        onChangeTextEmail={(value) => setEmail(value)}
+        passwordError={passwordError}
+        passwordValue={password}
+        onChangeTextPassword={(value) => setPassword(value)}
+        handleSubmit={handleSubmit}
+        onNavigateText={handleTextClick}
+      />
+    </View>
   );
 }
