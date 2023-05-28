@@ -65,6 +65,7 @@ function HomeContent() {
 
   useEffect(() => {
     fetchMainGroups();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

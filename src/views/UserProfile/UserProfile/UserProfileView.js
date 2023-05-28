@@ -9,6 +9,8 @@ import {
   Image,
 } from 'react-native';
 import { IconButton } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
 import { theme, styles } from '../../../constants/myTheme';
 
 import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHeading';
@@ -22,6 +24,8 @@ import scribble from '../../../../assets/Images/heart-right-image.png';
 import underline from '../../../../assets/Images/under-line-image.png';
 import arrow from '../../../../assets/Images/arrow-image.png';
 import iconImage from '../../../../assets/Icons/arrow-right.png';
+import OrangeButton from '../../../components/Buttons/OrangeButton';
+import { setLoggedIn } from '../../../redux/features/mainSlice/mainSlice';
 
 const style = StyleSheet.create({
   container: {
@@ -55,9 +59,22 @@ export default function UserProfileView({
   onHelp,
   onAboutUs,
 }) {
+  // navigate to REGISTRATION Screen
+  const dispatch = useDispatch();
+
+  const handleRemove = async () => {
+    try {
+      await AsyncStorage.removeItem('userID');
+      // Set the isUserLoggedIn state to true
+      dispatch(setLoggedIn(false));
+      return true;
+    } catch (exception) {
+      return false;
+    }
+  };
   return (
     <SafeAreaView style={style.container}>
-      <ScrollView style={{ paddingHorizontal: 30 }}>
+      <ScrollView style={{ paddingHorizontal: 30, bottom: 10 }}>
         {/* Header */}
         <View style={{ paddingVertical: 20 }}>
           <CaptionScribbleHeading
@@ -182,6 +199,15 @@ export default function UserProfileView({
             onPress={onAboutUs}
             cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
           />
+        </View>
+        <View
+          style={{
+            alignItems: 'center',
+            padding: '4px 0px',
+            top: 10,
+          }}
+        >
+          <OrangeButton text="Log Out" onPress={handleRemove} />
         </View>
       </ScrollView>
     </SafeAreaView>

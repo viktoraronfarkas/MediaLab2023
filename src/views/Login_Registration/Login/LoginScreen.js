@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginView from './LoginView';
 import {
   setCurrentUser,
   IpAddress,
+  setLoggedIn,
 } from '../../../redux/features/mainSlice/mainSlice';
 
 // TODO Validation / Authentication for available User inside DB
@@ -26,6 +28,15 @@ export default function LoginScreen() {
     navigation.navigate('RegistrationOne');
   };
 
+  // saving user_id in local storage
+  const storeUserId = async (value) => {
+    try {
+      await AsyncStorage.setItem('userID', String(value));
+    } catch (e) {
+      // saving error
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -39,13 +50,19 @@ export default function LoginScreen() {
       );
 
       const { message, user } = response.data;
-      console.log(message); // Optional: Display success message
+
+      // Optional: Display success message
+      console.log(message);
 
       // TODO: Store user data or token in the app state or local storage
-      // Redirect to the main screen or any other screen in your app
-      console.log(user);
-      navigation.navigate('MainScreen');
       dispatch(setCurrentUser(user));
+      console.log(user);
+
+      // Set the isUserLoggedIn state to true
+      dispatch(setLoggedIn(true));
+
+      // Store user_id in local storage
+      storeUserId(user.user_id);
     } catch (error) {
       console.error(
         'Login error:',

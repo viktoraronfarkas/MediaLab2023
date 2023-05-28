@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View, Text, StyleSheet, ScrollView } from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ClickableText from '../../../components/ClickableText';
 import InputField from '../../../components/Items/InputField';
@@ -30,7 +30,7 @@ export default function LoginView({
   passwordError,
   passwordValue,
   onChangeTextPassword,
-  onForgotPassword,
+  // onForgotPassword,
   onNavigateText,
   handleSubmit,
 }) {

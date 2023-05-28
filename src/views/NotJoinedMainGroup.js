@@ -6,7 +6,7 @@ import BackButton from '../components/Buttons/BackButton';
 import JoinGroupImage from '../../assets/Images/join-group.png';
 import plusIcon from '../../assets/Icons/plus-icon.png';
 import circleLineImage from '../../assets/Images/circleLine-image.png';
-import glitterImage from '../../assets/Images/glitter-image.png';
+// import glitterImage from '../../assets/Images/glitter-image.png';
 import heartLeftImage from '../../assets/Images/heart-left-image.png';
 import starImage from '../../assets/Images/star-image.png';
 import { MoreSvg } from '../components/svgs';

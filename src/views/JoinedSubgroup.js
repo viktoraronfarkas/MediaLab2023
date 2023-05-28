@@ -9,7 +9,7 @@ import {
   selectedGroup,
   selectedSupGroup,
 } from '../redux/features/mainSlice/mainSlice';
-import SubGroupsFilter from '../components/Buttons/SubGroupsFilter';
+// import SubGroupsFilter from '../components/Buttons/SubGroupsFilter';
 import BackButton from '../components/Buttons/BackButton';
 import iconImage from '../../assets/Icons/plus-icon.png';
 import moreMenuIcon from '../../assets/Icons/more-menu-icon.png';

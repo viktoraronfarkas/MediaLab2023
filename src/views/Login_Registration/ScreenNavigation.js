@@ -1,6 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
+import React, { useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch, useSelector } from 'react-redux';
 import { theme } from '../../constants/myTheme';
 
 import UserProfileScreen from '../UserProfile/UserProfile/UserProfileScreen';
@@ -22,9 +24,28 @@ import Main from '../Main';
 import JoinGroup from '../JoinGroupScreen';
 import JoinedSubgroup from '../JoinedSubgroup';
 import AddSubgroup from '../AddSubgroup';
+import {
+  setLoggedIn,
+  loggedIn,
+} from '../../redux/features/mainSlice/mainSlice';
 
 export default function ScreenNavigation() {
   const Stack = createStackNavigator();
+  const dispatch = useDispatch();
+  const isUserLoggedIn = useSelector(loggedIn);
+
+  useEffect(() => {
+    AsyncStorage.getItem('userID')
+      .then((userID) => {
+        if (userID) {
+          dispatch(setLoggedIn(true));
+        }
+      })
+      .catch((error) => {
+        console.log('Error retrieving userID:', error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <NavigationContainer>
@@ -40,90 +61,97 @@ export default function ScreenNavigation() {
           // headerShown: false,
         }}
       >
-        <Stack.Screen
-          name="LandingScreen"
-          component={LandingScreen}
-          options={{ title: '', headerShown: false }}
-        />
+        {isUserLoggedIn ? (
+          <>
+            <Stack.Screen
+              name="Main"
+              component={Main}
+              options={{ title: '', headerShown: false }}
+            />
+            <Stack.Screen name="JoinGroupScreen" component={JoinGroup} />
+            <Stack.Screen
+              name="JoinedSubgroup"
+              component={JoinedSubgroup}
+              options={{ title: '', headerShown: false }}
+            />
+            <Stack.Screen name="AddSubgroup" component={AddSubgroup} />
 
-        <Stack.Screen
-          name="LoginScreen"
-          component={LoginScreen}
-          options={{ title: '', headerShown: false }}
-        />
-        <Stack.Screen
-          name="RegistrationOne"
-          component={RegistrationScreen}
-          options={{ title: '', headerShown: false }}
-        />
-        <Stack.Screen
-          name="MainScreen"
-          component={Main}
-          options={{ title: '', headerShown: false }}
-        />
-        <Stack.Screen name="JoinGroupScreen" component={JoinGroup} />
-        <Stack.Screen
-          name="JoinedSubgroup"
-          component={JoinedSubgroup}
-          options={{ title: '', headerShown: false }}
-        />
-        <Stack.Screen name="AddSubgroup" component={AddSubgroup} />
-
-        <Stack.Screen
-          name="UserProfile"
-          component={UserProfileScreen}
-          options={{ title: '', headerShown: false }}
-        />
-        <Stack.Screen
-          name="PersonalData"
-          component={PersonalDataScreen}
-          options={{ title: '' }}
-        />
-        <Stack.Screen
-          name="YourPostsEvents"
-          component={YourPostsEventsScreen}
-          options={{ title: '' }}
-        />
-        <Stack.Screen
-          name="InteractedPosts"
-          component={InteractedPostsScreen}
-          options={{ title: '' }}
-        />
-        <Stack.Screen
-          name="JoinedEvents"
-          component={JoinedEventsScreen}
-          options={{ title: '' }}
-        />
-        <Stack.Screen
-          name="JoinedGroups"
-          component={JoinedGroupsScreen}
-          options={{ title: '' }}
-        />
-        <Stack.Screen
-          name="help"
-          component={HelpScreen}
-          options={{ title: '' }}
-        />
-        <Stack.Screen
-          name="aboutUs"
-          component={AboutUsScreen}
-          options={{ title: '' }}
-        />
-        {/*  <Stack.Screen
+            <Stack.Screen
+              name="UserProfile"
+              component={UserProfileScreen}
+              options={{ title: '', headerShown: false }}
+            />
+            <Stack.Screen
+              name="PersonalData"
+              component={PersonalDataScreen}
+              options={{ title: '' }}
+            />
+            <Stack.Screen
+              name="YourPostsEvents"
+              component={YourPostsEventsScreen}
+              options={{ title: '' }}
+            />
+            <Stack.Screen
+              name="InteractedPosts"
+              component={InteractedPostsScreen}
+              options={{ title: '' }}
+            />
+            <Stack.Screen
+              name="JoinedEvents"
+              component={JoinedEventsScreen}
+              options={{ title: '' }}
+            />
+            <Stack.Screen
+              name="JoinedGroups"
+              component={JoinedGroupsScreen}
+              options={{ title: '' }}
+            />
+            <Stack.Screen
+              name="help"
+              component={HelpScreen}
+              options={{ title: '' }}
+            />
+            <Stack.Screen
+              name="aboutUs"
+              component={AboutUsScreen}
+              options={{ title: '' }}
+            />
+            {/*  <Stack.Screen
           name="quickTour"
           component={QuickTour}
          
         /> */}
-        <Stack.Screen
-          name="communityGuidelines"
-          component={CommunityGuidelines}
-          options={{ title: '' }}
-        />
-        <Stack.Screen
-          name="dataSecurity"
-          component={DataSecurity}
-          options={{ title: '' }}
-        />
+            <Stack.Screen
+              name="communityGuidelines"
+              component={CommunityGuidelines}
+              options={{ title: '' }}
+            />
+            <Stack.Screen
+              name="dataSecurity"
+              component={DataSecurity}
+              options={{ title: '' }}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              name="LandingScreen"
+              component={LandingScreen}
+              options={{ title: '', headerShown: false }}
+            />
+
+            <Stack.Screen
+              name="LoginScreen"
+              component={LoginScreen}
+              options={{ title: '', headerShown: false }}
+            />
+            <Stack.Screen
+              name="RegistrationOne"
+              component={RegistrationScreen}
+              options={{ title: '', headerShown: false }}
+            />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
