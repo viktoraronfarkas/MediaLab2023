@@ -44,7 +44,10 @@ const style = StyleSheet.create({
  */
 
 export default function InputField({
+  placeholderText,
   labelText,
+  onFocus,
+  onBlur,
   value,
   onChangeText,
   padding,
@@ -52,7 +55,6 @@ export default function InputField({
   secureTextEntry,
   width = '100%',
   editable = true,
-  placeholderText,
   inputStyle, // leave that inside please! It's for overriding the input-style
 }) {
   const dynamicStyles = StyleSheet.create({
@@ -68,6 +70,8 @@ export default function InputField({
       <TextInput
         placeholder={placeholderText}
         label={labelText}
+        onFocus={onFocus}
+        onBlur={onBlur}
         value={value}
         onChangeText={onChangeText}
         style={[

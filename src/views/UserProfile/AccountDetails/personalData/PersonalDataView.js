@@ -5,13 +5,11 @@ import {
   View,
   ScrollView,
   Text,
-  // Image,
   Platform,
   KeyboardAvoidingView,
-  Button,
 } from 'react-native';
 // import SelectDropdown from 'react-native-select-dropdown';
-// import DatePicker from 'react-native-date-picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import DialogAction from '../../../../components/Dialogs/DialogAction';
 import { theme, styles } from '../../../../constants/myTheme';
 import TitleArrowHeading from '../../../../components/Texts/TitleArrowHeading';
@@ -20,7 +18,6 @@ import OrangeButton from '../../../../components/Buttons/OrangeButton';
 import InputField from '../../../../components/Items/InputField';
 import LongInputField from '../../../../components/Items/LongInputField';
 import arrowImage from '../../../../../assets/Images/arrow-image.png';
-// import dropDownIcon from '../../../../../assets/Icons/arrow-right.png';
 
 const style = StyleSheet.create({
   container: {
@@ -68,36 +65,38 @@ const style = StyleSheet.create({
  */
 export default function PersonalDataView({
   emailLabel,
+  onBlur,
 
-  usernameLabel,
+  // usernameLabel,
   usernameValue,
   onChangeTextUsername,
   usernameError,
 
-  nameLabel,
+  // nameLabel,
   nameValue,
   onChangeTextName,
   nameError,
 
-  biographyLabel,
+  // biographyLabel,
   biographyValue,
   onChangeTextBiography,
 
   // studyProgrammeList,
   // onChangeSelectionStudyProgramme,
 
-  passwordLabel,
   passwordValue,
   onChangeTextPassword,
   passwordError,
 
-  editBirthday,
   alertVisible,
   onPressCancelDialog,
-  // openDatePicker,
-  // setDate,
-  // confirmNewDate,
-  // cancelDatePicker,
+
+  openDatePicker,
+  showDatePicker,
+  formattedDate,
+  birthdayValue,
+  handleDateChange,
+  applyChangesAndClose,
 
   onSaveChanges,
   onChangeValuesButton,
@@ -136,7 +135,7 @@ export default function PersonalDataView({
           <Text style={styles.subtitle1}>Name</Text>
           {nameError ? <Text style={style.error}>{nameError}</Text> : null}
           <InputField
-            labelText={nameLabel}
+            onBlur={onBlur}
             value={nameValue}
             onChangeText={onChangeTextName}
             inputStyle={{ marginTop: 10, marginBottom: 30 }}
@@ -159,19 +158,13 @@ export default function PersonalDataView({
               st
             />
           </View> */}
-          <Text style={styles.subtitle1}>Bibliography</Text>
-          <LongInputField
-            placeholderText={biographyLabel}
-            value={biographyValue}
-            onChangeText={onChangeTextBiography}
-            inputStyle={{ marginBottom: 30, marginTop: 10 }}
-          />
+
           <Text style={styles.subtitle1}>Password</Text>
           {passwordError ? (
             <Text style={style.error}>{passwordError}</Text>
           ) : null}
           <InputField
-            labelText={passwordLabel}
+            onBlur={onBlur}
             value={passwordValue}
             onChangeText={onChangeTextPassword}
             secureTextEntry
@@ -189,7 +182,7 @@ export default function PersonalDataView({
             <Text style={style.error}>{usernameError}</Text>
           ) : null}
           <InputField
-            labelText={usernameLabel}
+            onBlur={onBlur}
             value={usernameValue}
             onChangeText={onChangeTextUsername}
             inputStyle={{ marginTop: 10, marginBottom: 30 }}
@@ -197,14 +190,49 @@ export default function PersonalDataView({
           />
 
           <Text style={styles.subtitle1}>Birthday</Text>
-          <Button title="Open" onPress={editBirthday} />
-          {/* <DatePicker
-            modal
-            open={openDatePicker}
-            date={setDate}
-            onConfirm={confirmNewDate}
-            onCancel={cancelDatePicker}
-          /> */}
+          {showDatePicker && (
+            <View>
+              <DateTimePicker
+                value={birthdayValue}
+                mode="date"
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                onChange={handleDateChange}
+              />
+              <OrangeButton
+                text="Apply Changes"
+                onPress={applyChangesAndClose}
+                styleButton={{ marginBottom: 20 }}
+              />
+            </View>
+          )}
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <InputField
+              value={formattedDate}
+              onChangeText={handleDateChange}
+              inputStyle={{ marginTop: 10, marginBottom: 30 }}
+              marginLeft={0}
+              editable={false}
+            />
+
+            <OrangeButton
+              text="Edit"
+              onPress={openDatePicker}
+              styleButton={{ marginBottom: 20 }}
+            />
+          </View>
+
+          <Text style={styles.subtitle1}>Biography</Text>
+          <LongInputField
+            value={biographyValue}
+            onChangeText={onChangeTextBiography}
+            inputStyle={{ marginBottom: 30, marginTop: 10 }}
+          />
 
           {/* When Save: show this dialog  */}
           <View>
@@ -229,6 +257,7 @@ export default function PersonalDataView({
                 alignSelf: 'center',
                 width: '100%',
                 marginBottom: 60,
+                marginTop: 60,
               }}
             />
           ) : (
@@ -238,7 +267,9 @@ export default function PersonalDataView({
                 alignSelf: 'center',
                 width: '100%',
                 marginBottom: 60,
+                marginTop: 60,
               }}
+              onPress={!onSaveChanges}
               disabled
             />
           )}
