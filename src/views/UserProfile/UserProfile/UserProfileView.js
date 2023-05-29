@@ -12,12 +12,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
 import { IconButton } from 'react-native-paper';
 import { styles, theme } from '../../../constants/myTheme';
+
+import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHeading';
 import DialogAction from '../../../components/Dialogs/DialogAction';
 import ListItemOnlyText from '../../../components/Items/ListItemOnlyText';
 import ProfileImage from '../../../components/ProfileImageScribble';
-import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHeading';
 import OrangeSubtitleBodyText from '../../../components/Texts/OrangeSubtitleBodyText';
 
 import iconImage from '../../../../assets/Icons/arrow-right.png';
@@ -25,6 +28,8 @@ import uploadIcon from '../../../../assets/Icons/upload-icon.png';
 import arrow from '../../../../assets/Images/arrow-image.png';
 import scribble from '../../../../assets/Images/heart-right-image.png';
 import underline from '../../../../assets/Images/under-line-image.png';
+import OrangeButton from '../../../components/Buttons/OrangeButton';
+import { setLoggedIn } from '../../../redux/features/mainSlice/mainSlice';
 
 const style = StyleSheet.create({
   container: {
@@ -67,6 +72,19 @@ export default function UserProfileView({
     }
   };
 
+  // navigate to REGISTRATION Screen
+  const dispatch = useDispatch();
+
+  const handleRemove = async () => {
+    try {
+      await AsyncStorage.removeItem('userID');
+      // Set the isUserLoggedIn state to true
+      dispatch(setLoggedIn(false));
+      return true;
+    } catch (exception) {
+      return false;
+    }
+  };
   return (
     <SafeAreaView style={style.container}>
       <ScrollView style={{ paddingHorizontal: 30 }}>
@@ -197,6 +215,15 @@ export default function UserProfileView({
             onPress={onAboutUs}
             cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
           />
+        </View>
+        <View
+          style={{
+            alignItems: 'center',
+            top: 10,
+            paddingBottom: 20,
+          }}
+        >
+          <OrangeButton text="Log Out" onPress={handleRemove} />
         </View>
       </ScrollView>
     </SafeAreaView>

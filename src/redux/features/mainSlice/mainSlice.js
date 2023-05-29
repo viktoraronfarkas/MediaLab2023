@@ -7,6 +7,8 @@ const initialState = {
   selectedSubGroup: '',
   currentUser: {},
   IpAddress: '',
+  loggedIn: '',
+  selectedNewJoinedGroups: [],
 };
 
 export const mainSlice = createSlice({
@@ -23,16 +25,30 @@ export const mainSlice = createSlice({
       const updatedProps = action.payload;
       state.currentUser = { ...state.currentUser, ...updatedProps };
     },
+    setLoggedIn: (state, action) => {
+      state.loggedIn = action.payload;
+    },
+    setNewJoinedGroup: (state, action) => {
+      state.selectedNewJoinedGroups = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setSelectedMainGroup, SetselectedSubGroup, setCurrentUser } =
-  mainSlice.actions;
+export const {
+  setSelectedMainGroup,
+  SetselectedSubGroup,
+  setCurrentUser,
+  setLoggedIn,
+  setNewJoinedGroup,
+} = mainSlice.actions;
 
 export const selectedGroup = (state) => state.main.selectedMainGroup;
 export const selectedSupGroup = (state) => state.main.selectedSubGroup;
 export const selectedUser = (state) => state.main.currentUser;
 export const IpAddress = (state) => state.main.IpAddress;
+export const loggedIn = (state) => state.main.loggedIn;
+export const selectedNewJoinedGroups = (state) =>
+  state.main.selectedNewJoinedGroups;
 
 export default mainSlice.reducer;

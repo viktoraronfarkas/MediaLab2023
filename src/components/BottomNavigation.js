@@ -4,6 +4,7 @@ import HomeContent from '../views/Home';
 import UserProfileView from '../views/UserProfile/UserProfile/UserProfileScreen';
 import Latest from '../views/Latest';
 import SearchScreen from '../views/SearchScreen';
+import { theme } from '../constants/myTheme';
 
 function FeedRoute() {
   return <HomeContent />;
@@ -78,7 +79,12 @@ function BottomNav({
       renderScene={renderScene}
       activeColor="#F34F34"
       inactiveColor="#000"
-      barStyle={{ backgroundColor: '#F5F1EC' }}
+      barStyle={{
+        backgroundColor:
+          index === 0
+            ? theme.colors.backgroundSand
+            : theme.colors.backgroundCamel,
+      }}
     />
   );
 }
