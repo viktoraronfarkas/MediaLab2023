@@ -25,7 +25,7 @@ export default function InteractedPostsView({
         }}
       >
         {/* Header Interacted Posts */}
-        <View style={{ paddingVertical: 10 }}>
+        <View style={{ paddingVertical: 10, marginTop: 20 }}>
           <TitleArrowHeading
             title="Interacted Posts"
             arrowImage={arrowImage}

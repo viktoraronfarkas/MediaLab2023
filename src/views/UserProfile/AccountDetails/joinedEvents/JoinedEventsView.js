@@ -26,7 +26,7 @@ export default function JoinedEventsView({
         }}
       >
         {/* Header Events */}
-        <View style={{ paddingVertical: 10 }}>
+        <View style={{ paddingVertical: 10, marginTop: 20 }}>
           <TitleArrowHeading
             title="Joined Events"
             arrowImage={arrowImage}

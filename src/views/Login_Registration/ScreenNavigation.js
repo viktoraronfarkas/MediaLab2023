@@ -79,7 +79,11 @@ export default function ScreenNavigation() {
               component={JoinedSubgroup}
               options={{ title: '', headerShown: false }}
             />
-            <Stack.Screen name="AddSubgroup" component={AddSubgroup} />
+            <Stack.Screen 
+              name="AddSubgroup" 
+              component={AddSubgroup} 
+              options={{ title: '', headerShown: true }} 
+            />
             <Stack.Screen
               name="UserProfile"
               component={UserProfileScreen}

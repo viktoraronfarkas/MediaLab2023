@@ -126,12 +126,14 @@ function JoinedSubgroup() {
 
   return (
     <SafeAreaView style={style.container}>
-      <BackButton
-        text={`back ${selectedGroupValue.mainGroupName}`}
-        onPress={() => {
-          navigation.goBack(null);
-        }}
-      />
+      <View style={{marginLeft: 15, marginTop: 15}}>
+        <BackButton
+          text={`back ${selectedGroupValue.mainGroupName}`}
+          onPress={() => {
+            navigation.goBack(null);
+          }}
+        />
+      </View>
       <ScrollView style={{ flex: 1 }}>
         <View style={style.column}>
           {/* <View style={style.subGroupsFilterContainer}>
