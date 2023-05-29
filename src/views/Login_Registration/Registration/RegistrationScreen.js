@@ -3,11 +3,17 @@ import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 import { theme } from '../../../constants/myTheme';
 import RegistrationPageOneView from './RegistrationPageOneView';
 import RegistrationPageTwoView from './RegistrationPageTwoView';
 import RegistrationPageThreeView from './RegistrationPageThreeView';
 import BackButtonNavigationContainer from '../../../components/Buttons/BackButtonNavigationContainer';
+import {
+  IpAddress,
+  selectedNewJoinedGroups,
+} from '../../../redux/features/mainSlice/mainSlice';
 
 const style = StyleSheet.create({
   container: {
@@ -46,6 +52,10 @@ export default function RegistrationScreen() {
   const [confirmError, setConfirmError] = useState('');
   const [imageUpload, setImage] = useState(null);
   const [selectedNames, setSelectedNames] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const NewJoinedGroups = useSelector(selectedNewJoinedGroups);
+
+  const clientIpAddress = useSelector(IpAddress);
 
   // Handle Navigation
   const RegistrationStack = createStackNavigator();
@@ -53,8 +63,44 @@ export default function RegistrationScreen() {
   const handleTextLoginClick = () => {
     navigation.navigate('LoginScreen');
   };
-  const handlePage2Click = () => {
-    navigation.navigate('RegistrationTwo');
+  const handlePage2Click = async (event) => {
+    event.preventDefault();
+    const isEmailValid = validateEmail();
+    const isUsernameValid = validateUsername();
+    const isNameValid = validateName();
+    const isPasswordValid = validatePassword();
+    const isPasswordConfirm = handlePasswordConfirmationChange();
+
+    // Check if email already exists
+    if (isEmailValid) {
+      try {
+        const response = await axios.post(
+          `http://${clientIpAddress}:3001/auth/checkEmailExists`,
+          { email }
+        );
+
+        if (response.data.exists) {
+          setEmailError('Email already exists.');
+          return;
+        }
+        setEmailError('');
+      } catch (error) {
+        console.error('Error checking email:', error);
+      }
+    }
+
+    // Submit registration form if there are no errors
+    if (
+      isEmailValid &&
+      isUsernameValid &&
+      isNameValid &&
+      isPasswordValid &&
+      isPasswordConfirm
+    ) {
+      navigation.navigate('RegistrationTwo');
+    } else {
+      console.log('Cannot proceed');
+    }
   };
   const handlePage3Click = () => {
     navigation.navigate('RegistrationThree');
@@ -140,32 +186,76 @@ export default function RegistrationScreen() {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const isEmailValid = validateEmail(email);
-    const isUsernameValid = validateUsername(username);
-    const isNameValid = validateName(name);
-    const isPasswordValid = validatePassword(password);
-    const isPasswordConfirm = handlePasswordConfirmationChange(confirmPassword);
 
-    // submit registration form if there are no errors
-    if (
-      isEmailValid &&
-      isUsernameValid &&
-      isNameValid &&
-      isPasswordValid &&
-      isPasswordConfirm
-    ) {
-      // TODO Save User Details in DATABASE here (Bedo)
-      // TODO Navigate To verify screen to authenticate new User
+    // Create FormData object
+    const formData = new FormData();
 
-      console.log(
-        'Input is valid: FH Student receives email for authentication'
+    // Append form fields to FormData object
+    formData.append('email', email);
+    formData.append('username', username);
+    formData.append('name', name);
+    formData.append('password', password);
+
+    // Check if an image is uploaded
+    if (imageUpload) {
+      try {
+        setLoading(true);
+        const response = await fetch(imageUpload);
+        const blob = await response.blob();
+
+        // Append the image blob to FormData object
+        formData.append('profile_image', blob, 'profile_image.png');
+      } catch (error) {
+        console.error('Error reading image file:', error);
+      }
+    }
+
+    // Make the API request using Axios or any other HTTP client library
+    try {
+      const response = await axios.post(
+        `http://${clientIpAddress}:3001/auth/signup`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
       );
-    } else {
-      console.error(
-        'Email or Password is incorrect or the passwords did not match'
-      );
+
+      // Handle response
+      console.log(response.data);
+
+      // Retrieve the user ID from the response
+      const { userId } = response.data;
+      const mainGroupIds = [...NewJoinedGroups];
+
+      // Join the recommended groups with the user ID
+      if (userId) {
+        try {
+          const joinGroupResponse = await axios.post(
+            `http://${clientIpAddress}:3001/user/subscribe/maingroup`,
+            {
+              userId,
+              mainGroupIds,
+            }
+          );
+
+          // Handle join group response
+          console.log(joinGroupResponse.data);
+        } catch (error) {
+          // Handle error
+          console.error('Error joining recommended groups:', error);
+        }
+      }
+
+      navigation.navigate('LoginScreen');
+    } catch (error) {
+      // Handle error
+      console.error('Error sending form data:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -225,8 +315,14 @@ export default function RegistrationScreen() {
       <RegistrationStack.Screen
         name="RegistrationTwo"
         component={RegistrationPageTwoView}
-        style={style.container}
         options={{ title: 'Step 2 of 3' }}
+        initialParams={{
+          imageUpload,
+          handleImageUpload: pickProfilePicture,
+          selectedNames,
+          setSelectedNames,
+          handlePage3Click,
+        }}
       />
 
       <RegistrationStack.Screen
@@ -242,6 +338,7 @@ export default function RegistrationScreen() {
             selectedGroups={selectedNames}
             // Submit form
             handleSubmit={handleSubmit}
+            loading={loading}
           />
         )}
       </RegistrationStack.Screen>

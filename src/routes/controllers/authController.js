@@ -1,12 +1,10 @@
-// authController.js
 const bcrypt = require('bcrypt');
 const multer = require('multer');
+const sharp = require('sharp');
 const pool = require('../config/database');
 
 // Configure multer for file upload
-const storage = multer.memoryStorage(); // Use MemoryStorage to store the uploaded file in memory
 const upload = multer({
-  storage,
   limits: { fileSize: 5 * 1024 * 1024 }, // Set a file size limit (5MB in this example)
   fileFilter: (req, file, cb) => {
     // Check the file type and only allow certain file extensions
@@ -18,6 +16,24 @@ const upload = multer({
   },
 }).single('profile_image');
 
+// eslint-disable-next-line consistent-return
+exports.checkEmailExists = (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: 'Email not provided' });
+  }
+
+  pool.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
+    if (err) {
+      console.error('Error querying MySQL:', err);
+      return res.status(500).json({ error: 'Failed to fetch data from MySQL' });
+    }
+
+    const emailExists = results.length > 0;
+    return res.json({ exists: emailExists });
+  });
+};
 /**
  * User signup API
  * Handles user registration and profile image upload.
@@ -27,18 +43,17 @@ const upload = multer({
  *   email: string,
  *   name: string,
  *   username: string,
- *   password: string,
- *   confirm_password: string
+ *   password: string
  * }
  *
  * Response:
  * {
- *   message: string
+ *   message: string,
+ *   userId: number
  * }
  */
-exports.signup = (req, res) => {
-  // eslint-disable-next-line consistent-return
-  upload(req, res, (uploadErr) => {
+exports.signup = async (req, res) => {
+  upload(req, res, async (uploadErr) => {
     // Handle file upload errors
     if (uploadErr instanceof multer.MulterError) {
       return res.status(500).json({ message: 'Error uploading file' });
@@ -51,90 +66,80 @@ exports.signup = (req, res) => {
     }
 
     // Retrieve user registration data from the request body
-    const { email, name, username, password, confirmPassword } = req.body;
+    const { email, name, username, password } = req.body;
     const roleId = 1; // assuming role_id for regular users is 1
 
     // Validate required fields
-    if (!email) {
-      return res.status(400).json({ message: 'Email not provided' });
-    }
-    if (!name) {
-      return res.status(400).json({ message: 'Name not provided' });
-    }
-    if (!username) {
-      return res.status(400).json({ message: 'Username not provided' });
-    }
-    if (!password) {
-      return res.status(400).json({ message: 'Password not provided' });
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: 'Email or password not provided' });
     }
 
-    // Check password match
-    if (password !== confirmPassword) {
-      return res.status(400).json({ message: 'Passwords do not match' });
-    }
+    try {
+      // Hash the password
+      const passwordHash = await bcrypt.hash(password, 12);
 
-    // Access the file buffer instead of the file path
-    const profileImage = req.file ? req.file.buffer : null;
+      // Get the profile image file data
+      let profileImageData;
+      if (req.file) {
+        const compressedImageBuffer = await sharp(req.file.buffer)
+          .resize(500, 500) // Resize the image to a specific size (e.g., 500x500 pixels)
+          .jpeg({ quality: 80 }) // Convert the image to JPEG format with 80% quality
+          .toBuffer();
 
-    // Connect to the database pool
-    // eslint-disable-next-line consistent-return
-    pool.getConnection((dbErr, connection) => {
-      if (dbErr) {
-        console.error('Error getting MySQL connection:', dbErr);
-        return res.status(500).json({ message: 'Failed to connect to MySQL' });
+        profileImageData = compressedImageBuffer;
       }
 
       // Check if the email already exists
-      connection.query(
-        'SELECT * FROM users WHERE email = ?',
-        [email],
-        // eslint-disable-next-line consistent-return
-        (queryErr, results) => {
-          if (queryErr) {
-            connection.release();
-            console.error('Error querying MySQL:', queryErr);
-            return res
-              .status(500)
-              .json({ message: 'Error while creating user' });
-          }
-
-          if (results.length > 0) {
-            connection.release();
-            return res.status(409).json({ message: 'Email already exists' });
-          }
-
-          // Hash the password
-          // eslint-disable-next-line consistent-return
-          bcrypt.hash(password, 12, (hashErr, passwordHash) => {
-            if (hashErr) {
-              connection.release();
-              console.error('Error hashing password:', hashErr);
-              return res
-                .status(500)
-                .json({ message: 'Error while hashing password' });
+      const emailExists = await new Promise((resolve, reject) => {
+        pool.query(
+          'SELECT * FROM users WHERE email = ?',
+          [email],
+          (err, results) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(results.length > 0);
             }
+          }
+        );
+      });
 
-            // Insert user data into the database
-            connection.query(
-              'INSERT INTO users (email, name, username, password, role_id, profile_image) VALUES (?, ?, ?, ?, ?, ?)',
-              [email, name, username, passwordHash, roleId, profileImage],
-              (insertErr) => {
-                connection.release();
-
-                if (insertErr) {
-                  console.error('Error creating user:', insertErr);
-                  return res
-                    .status(500)
-                    .json({ message: 'Error while creating user' });
-                }
-
-                return res.status(200).json({ message: 'User created' });
-              }
-            );
-          });
+      if (emailExists) {
+        // If an error occurred or the email already exists, delete the uploaded profile image
+        if (req.file) {
+          req.file.buffer = null;
         }
-      );
-    });
+        return res.status(409).json({ message: 'Email already registered' });
+      }
+
+      // Insert the user data into the database
+      const result = await new Promise((resolve, reject) => {
+        pool.query(
+          'INSERT INTO users (email, name, username, password, profile_image, role_id) VALUES (?, ?, ?, ?, ?, ?)',
+          [email, name, username, passwordHash, profileImageData, roleId],
+          (err, result) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result);
+            }
+          }
+        );
+      });
+
+      return res
+        .status(200)
+        .json({ message: 'User created', userId: result.insertId });
+    } catch (error) {
+      console.error('Error creating user:', error);
+      // If an error occurred, delete the uploaded profile image
+      if (req.file) {
+        req.file.buffer = null;
+      }
+      return res.status(500).json({ message: 'Error while creating user' });
+    }
   });
 };
 
