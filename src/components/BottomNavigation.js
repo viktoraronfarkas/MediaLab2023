@@ -2,21 +2,21 @@ import React, { useState } from 'react';
 import { BottomNavigation } from 'react-native-paper';
 import HomeContent from '../views/Home';
 import UserProfileView from '../views/UserProfile/UserProfile/UserProfileScreen';
-import Latest from '../views/Latest';
-import SearchScreen from '../views/SearchScreen';
+// import Latest from '../views/Latest';
+// import SearchScreen from '../views/SearchScreen';
 import { theme } from '../constants/myTheme';
 
 function FeedRoute() {
   return <HomeContent />;
 }
 
-function SearchRoute() {
-  return <SearchScreen />;
-}
+// function SearchRoute() {
+//   return <SearchScreen />;
+// }
 
-function InteractionRoute() {
-  return <Latest />;
-}
+// function InteractionRoute() {
+//   return <Latest />;
+// }
 
 function ProfileRoute() {
   return <UserProfileView />;
@@ -25,10 +25,10 @@ function ProfileRoute() {
 function BottomNav({
   HomeSvgFocused,
   HomeSvgUnfocused,
-  SearchSvgFocused,
-  SearchSvgUnfocused,
-  MessageSvgFocused,
-  MessageSvgUnfocused,
+  // SearchSvgFocused,
+  // SearchSvgUnfocused,
+  // MessageSvgFocused,
+  // MessageSvgUnfocused,
   ProfileSvgFocused,
   ProfileSvgUnfocused,
 }) {
@@ -40,18 +40,18 @@ function BottomNav({
       focusedIcon: () => HomeSvgFocused,
       unfocusedIcon: () => HomeSvgUnfocused,
     },
-    {
-      key: 'search',
-      title: 'Search',
-      focusedIcon: () => SearchSvgFocused,
-      unfocusedIcon: () => SearchSvgUnfocused,
-    },
-    {
-      key: 'interaction',
-      title: 'Interaction',
-      focusedIcon: () => MessageSvgFocused,
-      unfocusedIcon: () => MessageSvgUnfocused,
-    },
+    // {
+    //   key: 'search',
+    //   title: 'Search',
+    //   focusedIcon: () => SearchSvgFocused,
+    //   unfocusedIcon: () => SearchSvgUnfocused,
+    // },
+    // {
+    //   key: 'interaction',
+    //   title: 'Interaction',
+    //   focusedIcon: () => MessageSvgFocused,
+    //   unfocusedIcon: () => MessageSvgUnfocused,
+    // },
     {
       key: 'profile',
       title: 'Profile',
@@ -62,8 +62,8 @@ function BottomNav({
 
   const renderScene = BottomNavigation.SceneMap({
     feed: FeedRoute,
-    search: SearchRoute,
-    interaction: InteractionRoute,
+    // search: SearchRoute,
+    // interaction: InteractionRoute,
     profile: ProfileRoute,
   });
 

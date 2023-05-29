@@ -9,7 +9,6 @@ import {
   KeyboardAvoidingView,
   // Image,
 } from 'react-native';
-// import SelectDropdown from 'react-native-select-dropdown';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DialogAction from '../../../../components/Dialogs/DialogAction';
 import { theme, styles } from '../../../../constants/myTheme';
@@ -19,6 +18,7 @@ import OrangeButton from '../../../../components/Buttons/OrangeButton';
 import InputField from '../../../../components/Items/InputField';
 import LongInputField from '../../../../components/Items/LongInputField';
 import arrowImage from '../../../../../assets/Images/arrow-image.png';
+// import SelectDropdown from 'react-native-select-dropdown';
 // import dropDownIcon from '../../../../../assets/Icons/arrow-right.png';
 
 const style = StyleSheet.create({
@@ -119,18 +119,21 @@ export default function PersonalDataView({
             />
           </View>
 
-          {/* User Input Data */}
-          <Text style={styles.subtitle1}>Email</Text>
-          <InputField
-            labelText={emailLabel}
-            editable={false} // disabled, user should not edit this
-            inputStyle={{
-              marginTop: 10,
-              marginBottom: 30,
-              backgroundColor: theme.colors.backgroundCamel,
-            }}
-            marginLeft={0}
-          />
+          <View style={{ marginBottom: 10 }}>
+            {/* User Input Data */}
+            <Text style={[styles.subtitle1, { marginBottom: 5 }]}>Email</Text>
+            <InputField
+              labelText={emailLabel}
+              editable={false} // disabled, user should not edit this
+              inputStyle={{
+                marginTop: 10,
+                marginBottom: 30,
+                backgroundColor: theme.colors.backgroundCamel,
+              }}
+              marginLeft={0}
+            />
+          </View>
+
           <Text style={styles.subtitle1}>Name</Text>
           {nameError ? <Text style={style.error}>{nameError}</Text> : null}
           <InputField
