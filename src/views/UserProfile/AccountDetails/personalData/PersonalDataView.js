@@ -106,30 +106,35 @@ export default function PersonalDataView({
           />
         </View>
 
-        {/* User Input Data */}
-        <Text style={styles.subtitle1}>Email</Text>
-        <InputField
-          labelText={emailLabel}
-          editable={false} // disabled, user should not edit this
-          inputStyle={{
-            marginTop: 10,
-            marginBottom: 30,
-            backgroundColor: theme.colors.backgroundCamel,
-          }}
-          marginLeft={0}
-        />
-        <Text style={styles.subtitle1}>Name</Text>
-        {nameError ? <Text style={style.error}>{nameError}</Text> : null}
-        <InputField
-          labelText={nameLabel}
-          value={nameValue}
-          onChangeText={onChangeTextName}
-          inputStyle={{ marginTop: 10, marginBottom: 30 }}
-          marginLeft={0}
-        />
+        <View style={{marginBottom: 10}}>
+          {/* User Input Data */}
+          <Text style={[styles.subtitle1, {marginBottom: 5}]}>Email</Text>
+          <InputField
+            labelText={emailLabel}
+            editable={false} // disabled, user should not edit this
+            inputStyle={{
+              marginTop: 10,
+              marginBottom: 30,
+              backgroundColor: theme.colors.backgroundCamel,
+            }}
+            marginLeft={0}
+          />
+        </View>
 
-        <Text style={styles.subtitle1}>Study Programme</Text>
-        <View style={{ paddingBottom: 30 }}>
+        <View style={{marginBottom: 10}}>
+          <Text style={[styles.subtitle1, {marginBottom: 5}]}>Name</Text>
+          {nameError ? <Text style={style.error}>{nameError}</Text> : null}
+          <InputField
+            labelText={nameLabel}
+            value={nameValue}
+            onChangeText={onChangeTextName}
+            inputStyle={{ marginTop: 10, marginBottom: 30 }}
+            marginLeft={0}
+          />
+        </View>
+
+        <Text style={[styles.subtitle1]}>Study Programm</Text>
+        <View style={{ marginBottom: 10 }}>
           <SelectDropdown
             data={studyProgrammeList}
             onSelect={(selectedItem) => {
@@ -144,14 +149,14 @@ export default function PersonalDataView({
             st
           />
         </View>
-        <Text style={styles.subtitle1}>Bibliography</Text>
+        <Text style={[styles.subtitle1, {marginBottom: 5}]}>Biography</Text>
         <LongInputField
           placeholderText={biographyLabel}
           value={biographyValue}
           onChangeText={onChangeTextBiography}
-          inputStyle={{ marginBottom: 30 }}
+          inputStyle={{ marginBottom: 20 }}
         />
-        <Text style={styles.subtitle1}>Password</Text>
+        <Text style={[styles.subtitle1, {marginBottom: 5}]}>Password</Text>
         {passwordError ? (
           <Text style={style.error}>{passwordError}</Text>
         ) : null}
@@ -164,20 +169,22 @@ export default function PersonalDataView({
           marginLeft={0}
         />
 
-        <Text style={styles.subtitle1}>Username</Text>
-        {usernameError ? (
-          <Text style={style.error}>{usernameError}</Text>
-        ) : null}
-        <InputField
-          labelText={usersnameLabel}
-          value={usersnameValue}
-          onChangeText={onChangeTextUsersname}
-          marginLeft={0}
-          inputStyle={{
-            marginTop: 10,
-            marginBottom: 30,
-          }}
-        />
+        <View style={{marginTop: 15, marginBottom: 30}}>
+          <Text style={[styles.subtitle1, {marginBottom: 5}]}>Username</Text>
+          {usernameError ? (
+            <Text style={style.error}>{usernameError}</Text>
+          ) : null}
+          <InputField
+            labelText={usersnameLabel}
+            value={usersnameValue}
+            onChangeText={onChangeTextUsersname}
+            marginLeft={0}
+            inputStyle={{
+              marginTop: 10,
+              marginBottom: 30,
+            }}
+          />
+        </View>
 
         {onChangeValuesButton ? (
           <OrangeButton

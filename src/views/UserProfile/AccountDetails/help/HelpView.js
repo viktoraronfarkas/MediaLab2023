@@ -19,7 +19,7 @@ export default function HelpView({ onQuickTour }) {
         }}
       >
         {/* Header Help */}
-        <View style={{ paddingVertical: 10 }}>
+        <View style={{ paddingVertical: 10, marginTop: 20 }}>
           <TitleArrowHeading
             title="Help"
             arrowImage={arrowImage}

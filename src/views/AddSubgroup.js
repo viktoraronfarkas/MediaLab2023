@@ -54,7 +54,7 @@ function AddSubgroup() {
 
         <View style={{ marginTop: 40 }}>
           <OrangeButton
-            text="Post me!"
+            text="Create"
             styleButton={{ alignSelf: 'center', width: '100%' }}
           />
         </View>

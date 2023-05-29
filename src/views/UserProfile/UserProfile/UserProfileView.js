@@ -154,7 +154,7 @@ export default function UserProfileView({
 
           {/* Settings */}
           <Text style={[styles.headline3, { paddingVertical: 20 }]}>
-            account details
+            Account details
           </Text>
 
           <ListItemOnlyText
