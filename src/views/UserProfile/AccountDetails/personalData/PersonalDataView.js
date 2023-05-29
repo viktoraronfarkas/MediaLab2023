@@ -7,6 +7,7 @@ import {
   Text,
   Platform,
   KeyboardAvoidingView,
+  // Image,
 } from 'react-native';
 // import SelectDropdown from 'react-native-select-dropdown';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -18,6 +19,7 @@ import OrangeButton from '../../../../components/Buttons/OrangeButton';
 import InputField from '../../../../components/Items/InputField';
 import LongInputField from '../../../../components/Items/LongInputField';
 import arrowImage from '../../../../../assets/Images/arrow-image.png';
+// import dropDownIcon from '../../../../../assets/Icons/arrow-right.png';
 
 const style = StyleSheet.create({
   container: {
@@ -67,17 +69,14 @@ export default function PersonalDataView({
   emailLabel,
   onBlur,
 
-  // usernameLabel,
   usernameValue,
   onChangeTextUsername,
   usernameError,
 
-  // nameLabel,
   nameValue,
   onChangeTextName,
   nameError,
 
-  // biographyLabel,
   biographyValue,
   onChangeTextBiography,
 
@@ -142,7 +141,7 @@ export default function PersonalDataView({
             marginLeft={0}
           />
 
-          {/* <Text style={styles.subtitle1}>Study Programme</Text>
+          {/*    <Text style={styles.subtitle1}>Study Programme</Text>
           <View style={{ paddingBottom: 30 }}>
             <SelectDropdown
               data={studyProgrammeList}
