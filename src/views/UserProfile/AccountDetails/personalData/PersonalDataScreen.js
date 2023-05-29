@@ -33,7 +33,6 @@ export default function PersonalDataScreen() {
   // const [confirmPassword, setPasswordConfirmation] = useState('');
 
   // INPUT ERROR HANDLING
-  // const [focused, setFocused] = useState(false);
   const [usernameError, setUsernameError] = useState('');
   const [nameError, setNameError] = useState('');
   // const [passwordError, setPasswordError] = useState('');
@@ -119,8 +118,6 @@ export default function PersonalDataScreen() {
         setHasChanges(false);
         dispatch(setCurrentUser(updatedData));
         setDialogVisible(true);
-
-        console.log(updatedData);
       } catch (error) {
         // Handle error if necessary
         console.error('Error updating user data:', error);
@@ -168,7 +165,6 @@ export default function PersonalDataScreen() {
       // studyProgrammeValue={userData.studyProgramme}
       // onChangeSelectionStudyProgramme={onChangeSelectionStudyProgramme}
       // isPickerOpen={isPickerOpen}
-
       // Birthday
       openDatePicker={() => {
         setShowDatePicker(true);
