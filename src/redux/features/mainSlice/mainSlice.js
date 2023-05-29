@@ -6,7 +6,7 @@ const initialState = {
   selectedMainGroup: 'Feed',
   selectedSubGroup: '',
   currentUser: {},
-  IpAddress: '192.168.0.108',
+  IpAddress: '10.5.13.142',
   loggedIn: '',
   selectedNewJoinedGroups: [],
 };
