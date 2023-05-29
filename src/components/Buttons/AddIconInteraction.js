@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Image, View, TouchableOpacity, Text } from 'react-native';
-import { styles } from '../../constants/myTheme';
+// import { styles } from '../../constants/myTheme';
 
 const style = StyleSheet.create({
   container: {

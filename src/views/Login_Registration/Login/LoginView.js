@@ -1,6 +1,6 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import scribble from '../../../../assets/Images/star-glitter-image.png';
 import BackButton from '../../../components/Buttons/BackButton';
 import OrangeButton from '../../../components/Buttons/OrangeButton';
@@ -30,6 +30,7 @@ export default function LoginView({
   passwordError,
   passwordValue,
   onChangeTextPassword,
+  // onForgotPassword,
   onNavigateText,
   handleSubmit,
 }) {

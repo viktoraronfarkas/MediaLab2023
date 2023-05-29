@@ -135,7 +135,7 @@ export default function JoinNewGroup() {
         const response = await axios.post(
           `http://${clientIpAddress}:3001/user/subscribe/maingroup`,
           {
-            userId: 11,
+            userId: currentUser.user_id,
             mainGroupIds,
           }
         );

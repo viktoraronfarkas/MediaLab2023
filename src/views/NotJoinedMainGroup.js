@@ -3,6 +3,7 @@ import React from 'react';
 import { Image, ImageBackground, SafeAreaView, Text, View } from 'react-native';
 import plusIcon from '../../assets/Icons/plus-icon.png';
 import circleLineImage from '../../assets/Images/circleLine-image.png';
+// import glitterImage from '../../assets/Images/glitter-image.png';
 import heartLeftImage from '../../assets/Images/heart-left-image.png';
 import JoinGroupImage from '../../assets/Images/join-group.png';
 import starImage from '../../assets/Images/star-image.png';
