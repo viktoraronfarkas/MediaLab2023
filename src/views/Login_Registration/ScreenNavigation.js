@@ -22,7 +22,7 @@ import RegistrationScreen from './Registration/RegistrationScreen';
 import BackButtonNavigationContainer from '../../components/Buttons/BackButtonNavigationContainer';
 import Main from '../Main';
 import JoinGroup from '../JoinGroupScreen';
-import JoinedSubgroup from '../JoinedSubgroup';
+import JoinedSubgroup from '../Subgroup';
 import AddSubgroup from '../AddSubgroup';
 import {
   setLoggedIn,
@@ -82,10 +82,10 @@ export default function ScreenNavigation() {
               component={JoinedSubgroup}
               options={{ title: '', headerShown: false }}
             />
-            <Stack.Screen 
-              name="AddSubgroup" 
-              component={AddSubgroup} 
-              options={{ title: '', headerShown: true }} 
+            <Stack.Screen
+              name="AddSubgroup"
+              component={AddSubgroup}
+              options={{ title: '', headerShown: true }}
             />
             <Stack.Screen
               name="UserProfile"

@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native-web';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 import {
   selectedGroup,
   selectedSubGroup,
+  selectedUser,
+  IpAddress,
 } from '../redux/features/mainSlice/mainSlice';
 // import SubGroupsFilter from '../components/Buttons/SubGroupsFilter';
 import BackButton from '../components/Buttons/BackButton';
@@ -119,14 +122,29 @@ function JoinedSubgroup() {
 
   const selectedGroupValue = useSelector(selectedGroup);
   const selectedSubGroupValue = useSelector(selectedSubGroup);
+  const currentUser = useSelector(selectedUser);
+  const clientIpAddress = useSelector(IpAddress);
 
-  const joined = true;
+  const [joined, setJoined] = useState(0);
+
+  const isJoined = () => {
+    const url = `http://${clientIpAddress}:3001/user/${currentUser.user_id}/subscribed-groups`;
+
+    axios.get(url).then((res) => {
+      setJoined(
+        res.data.subGroups.some(
+          (el) => el.subgroup_id === selectedSubGroupValue.subgroupId
+        )
+      );
+    });
+  };
 
   const handlePress = () => {};
+  isJoined();
 
   return (
     <SafeAreaView style={style.container}>
-      <View style={{marginLeft: 15, marginTop: 15}}>
+      <View style={{ marginLeft: 15, marginTop: 15 }}>
         <BackButton
           text={`back ${selectedGroupValue.mainGroupName}`}
           onPress={() => {
@@ -149,16 +167,16 @@ function JoinedSubgroup() {
             <Text style={[styles.headline1, style.headlineStyle]}>
               {selectedSubGroupValue.subgroupName}
             </Text>
-            {!joined ? (
+            {joined ? (
               <TouchableOpacity style={style.menuIcon}>
                 <Image style={style.moreMenuIconImage} source={moreMenuIcon} />
               </TouchableOpacity>
             ) : null}
           </View>
-          {!joined ? (
+          {joined ? (
             <View style={style.addPostContainer}>
               <View style={style.addPostTextContainer}>
-                <Text style={style.addPostText}>add a new post or event</Text>
+                <Text style={style.addPostText}>add a new post</Text>
                 <Image
                   style={style.underlineArrowImage}
                   source={underlineArrowImage}
