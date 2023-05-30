@@ -7,7 +7,7 @@ import { StyleSheet } from 'react-native-web';
 import { useSelector } from 'react-redux';
 import {
   selectedGroup,
-  selectedSupGroup,
+  selectedSubGroup,
 } from '../redux/features/mainSlice/mainSlice';
 // import SubGroupsFilter from '../components/Buttons/SubGroupsFilter';
 import BackButton from '../components/Buttons/BackButton';
@@ -118,7 +118,7 @@ function JoinedSubgroup() {
   const navigation = useNavigation();
 
   const selectedGroupValue = useSelector(selectedGroup);
-  const selectedSubGroupValue = useSelector(selectedSupGroup);
+  const selectedSubGroupValue = useSelector(selectedSubGroup);
 
   const joined = true;
 

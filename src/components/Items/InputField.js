@@ -55,6 +55,7 @@ export default function InputField({
   secureTextEntry,
   width = '100%',
   editable = true,
+  maxLength,
   inputStyle, // leave that inside please! It's for overriding the input-style
 }) {
   const dynamicStyles = StyleSheet.create({
@@ -87,6 +88,7 @@ export default function InputField({
         }}
         secureTextEntry={secureTextEntry}
         editable={editable}
+        maxLength={maxLength}
       />
     </View>
   );

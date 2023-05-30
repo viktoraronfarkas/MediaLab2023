@@ -57,55 +57,6 @@ export default function RegistrationScreen() {
 
   const clientIpAddress = useSelector(IpAddress);
 
-  // Handle Navigation
-  const RegistrationStack = createStackNavigator();
-  const navigation = useNavigation();
-  const handleTextLoginClick = () => {
-    navigation.navigate('LoginScreen');
-  };
-  const handlePage2Click = async (event) => {
-    event.preventDefault();
-    const isEmailValid = validateEmail();
-    const isUsernameValid = validateUsername();
-    const isNameValid = validateName();
-    const isPasswordValid = validatePassword();
-    const isPasswordConfirm = handlePasswordConfirmationChange();
-
-    // Check if email already exists
-    if (isEmailValid) {
-      try {
-        const response = await axios.post(
-          `http://${clientIpAddress}:3001/auth/checkEmailExists`,
-          { email }
-        );
-
-        if (response.data.exists) {
-          setEmailError('Email already exists.');
-          return;
-        }
-        setEmailError('');
-      } catch (error) {
-        console.error('Error checking email:', error);
-      }
-    }
-
-    // Submit registration form if there are no errors
-    if (
-      isEmailValid &&
-      isUsernameValid &&
-      isNameValid &&
-      isPasswordValid &&
-      isPasswordConfirm
-    ) {
-      navigation.navigate('RegistrationTwo');
-    } else {
-      console.log('Cannot proceed');
-    }
-  };
-  const handlePage3Click = () => {
-    navigation.navigate('RegistrationThree');
-  };
-
   const validateEmail = () => {
     const emailRegex = /[a-z]{2}\d{6}@fhstp\.ac\.at/;
 
@@ -159,6 +110,55 @@ export default function RegistrationScreen() {
     }
     setConfirmError('');
     return true;
+  };
+
+  // Handle Navigation
+  const RegistrationStack = createStackNavigator();
+  const navigation = useNavigation();
+  const handleTextLoginClick = () => {
+    navigation.navigate('LoginScreen');
+  };
+  const handlePage2Click = async (event) => {
+    event.preventDefault();
+    const isEmailValid = validateEmail();
+    const isUsernameValid = validateUsername();
+    const isNameValid = validateName();
+    const isPasswordValid = validatePassword();
+    const isPasswordConfirm = handlePasswordConfirmationChange();
+
+    // Check if email already exists
+    if (isEmailValid) {
+      try {
+        const response = await axios.post(
+          `http://${clientIpAddress}:3001/auth/checkEmailExists`,
+          { email }
+        );
+
+        if (response.data.exists) {
+          setEmailError('Email already exists.');
+          return;
+        }
+        setEmailError('');
+      } catch (error) {
+        console.error('Error checking email:', error);
+      }
+    }
+
+    // Submit registration form if there are no errors
+    if (
+      isEmailValid &&
+      isUsernameValid &&
+      isNameValid &&
+      isPasswordValid &&
+      isPasswordConfirm
+    ) {
+      navigation.navigate('RegistrationTwo');
+    } else {
+      console.log('Cannot proceed');
+    }
+  };
+  const handlePage3Click = () => {
+    navigation.navigate('RegistrationThree');
   };
 
   // Choose Profile Picture

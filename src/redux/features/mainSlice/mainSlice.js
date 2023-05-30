@@ -44,7 +44,7 @@ export const {
 } = mainSlice.actions;
 
 export const selectedGroup = (state) => state.main.selectedMainGroup;
-export const selectedSupGroup = (state) => state.main.selectedSubGroup;
+export const selectedSubGroup = (state) => state.main.selectedSubGroup;
 export const selectedUser = (state) => state.main.currentUser;
 export const IpAddress = (state) => state.main.IpAddress;
 export const loggedIn = (state) => state.main.loggedIn;

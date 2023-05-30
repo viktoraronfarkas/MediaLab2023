@@ -9,7 +9,7 @@ import GlitterImage from '../../assets/Images/glitter-image.png';
 import BackButton from '../components/Buttons/BackButton';
 import Filter from '../components/Filter';
 
-function AddSubgroup() {
+function AddPost() {
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.backgroundSand }}>
       <View style={{ margin: 20 }}>
@@ -71,4 +71,4 @@ function AddSubgroup() {
   );
 }
 
-export default AddSubgroup;
+export default AddPost;
