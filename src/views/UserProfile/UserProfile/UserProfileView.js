@@ -25,7 +25,10 @@ import underline from '../../../../assets/Images/under-line-image.png';
 import arrow from '../../../../assets/Images/arrow-image.png';
 import iconImage from '../../../../assets/Icons/arrow-right.png';
 import OrangeButton from '../../../components/Buttons/OrangeButton';
-import { setLoggedIn } from '../../../redux/features/mainSlice/mainSlice';
+import {
+  setLoggedIn,
+  setSelectedMainGroup,
+} from '../../../redux/features/mainSlice/mainSlice';
 
 const style = StyleSheet.create({
   container: {
@@ -67,6 +70,7 @@ export default function UserProfileView({
       await AsyncStorage.removeItem('userID');
       // Set the isUserLoggedIn state to true
       dispatch(setLoggedIn(false));
+      dispatch(setSelectedMainGroup(''));
       return true;
     } catch (exception) {
       return false;
