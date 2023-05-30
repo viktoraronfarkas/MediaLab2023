@@ -24,6 +24,7 @@ import Main from '../Main';
 import JoinGroup from '../JoinGroupScreen';
 import JoinedSubgroup from '../JoinedSubgroup';
 import AddSubgroup from '../AddSubgroup';
+import OnboardingScreens from '../OnboardingScreens';
 import {
   setLoggedIn,
   loggedIn,
@@ -65,6 +66,11 @@ export default function ScreenNavigation() {
           // headerShown: false,
         }}
       >
+        <Stack.Screen
+          name="OnboardingScreens"
+          component={OnboardingScreens}
+          options={{ title: '', headerShown: false }}
+        />
         {isUserLoggedIn ? (
           <>
             <Stack.Screen
@@ -82,10 +88,10 @@ export default function ScreenNavigation() {
               component={JoinedSubgroup}
               options={{ title: '', headerShown: false }}
             />
-            <Stack.Screen 
-              name="AddSubgroup" 
-              component={AddSubgroup} 
-              options={{ title: '', headerShown: true }} 
+            <Stack.Screen
+              name="AddSubgroup"
+              component={AddSubgroup}
+              options={{ title: '', headerShown: true }}
             />
             <Stack.Screen
               name="UserProfile"
