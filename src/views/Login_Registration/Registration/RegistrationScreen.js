@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { theme } from '../../../constants/myTheme';
 import RegistrationPageOneView from './RegistrationPageOneView';
 import RegistrationPageTwoView from './RegistrationPageTwoView';
@@ -13,6 +13,7 @@ import BackButtonNavigationContainer from '../../../components/Buttons/BackButto
 import {
   IpAddress,
   selectedNewJoinedGroups,
+  setNewJoinedGroup,
 } from '../../../redux/features/mainSlice/mainSlice';
 
 const style = StyleSheet.create({
@@ -56,6 +57,7 @@ export default function RegistrationScreen() {
   const NewJoinedGroups = useSelector(selectedNewJoinedGroups);
 
   const clientIpAddress = useSelector(IpAddress);
+  const dispatch = useDispatch();
 
   // Handle Navigation
   const RegistrationStack = createStackNavigator();
@@ -244,6 +246,7 @@ export default function RegistrationScreen() {
 
           // Handle join group response
           console.log(joinGroupResponse.data);
+          dispatch(setNewJoinedGroup([]));
         } catch (error) {
           // Handle error
           console.error('Error joining recommended groups:', error);
