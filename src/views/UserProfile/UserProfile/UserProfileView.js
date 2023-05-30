@@ -1,29 +1,33 @@
 import React from 'react';
 import {
+  Alert,
+  Clipboard,
+  Image,
+  Platform,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
-  SafeAreaView,
-  View,
   Text,
+  ToastAndroid,
   TouchableOpacity,
-  Image,
+  View,
 } from 'react-native';
-import { IconButton } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
-import { theme, styles } from '../../../constants/myTheme';
+import { IconButton } from 'react-native-paper';
+import { styles, theme } from '../../../constants/myTheme';
 
 import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHeading';
 import DialogAction from '../../../components/Dialogs/DialogAction';
 import ListItemOnlyText from '../../../components/Items/ListItemOnlyText';
-import OrangeSubtitleBodyText from '../../../components/Texts/OrangeSubtitleBodyText';
 import ProfileImage from '../../../components/ProfileImageScribble';
+import OrangeSubtitleBodyText from '../../../components/Texts/OrangeSubtitleBodyText';
 
+import iconImage from '../../../../assets/Icons/arrow-right.png';
 import uploadIcon from '../../../../assets/Icons/upload-icon.png';
+import arrow from '../../../../assets/Images/arrow-image.png';
 import scribble from '../../../../assets/Images/heart-right-image.png';
 import underline from '../../../../assets/Images/under-line-image.png';
-import arrow from '../../../../assets/Images/arrow-image.png';
-import iconImage from '../../../../assets/Icons/arrow-right.png';
 import OrangeButton from '../../../components/Buttons/OrangeButton';
 import {
   setLoggedIn,
@@ -49,19 +53,28 @@ export default function UserProfileView({
   onPressCancelDialog,
   alertVisible,
   biography,
-  handleCopy,
-  email,
+  emailUser,
   username,
   name,
+  // studyProgramme,
   onPersonalData,
-  onJoinedGroups,
-  onJoinedEvents,
-  onInteractedPosts,
-  studyProgramme,
-  onYourPostsEvents,
   onHelp,
   onAboutUs,
+  // onJoinedGroups,
+  // onJoinedEvents,
+  // onInteractedPosts,
+  // onYourPostsEvents,
 }) {
+  // copy email to the Clipboard
+  const handleCopy = () => {
+    Clipboard.setString(emailUser);
+    if (Platform.OS === 'android') {
+      ToastAndroid.show('The email has been copied.', ToastAndroid.SHORT);
+    } else if (Platform.OS === 'ios') {
+      Alert.alert('The email has been copied.');
+    }
+  };
+
   // navigate to REGISTRATION Screen
   const dispatch = useDispatch();
 
@@ -80,15 +93,15 @@ export default function UserProfileView({
     <SafeAreaView style={style.container}>
       <ScrollView style={{ paddingHorizontal: 30 }}>
         {/* Header */}
-        <View style={{ paddingVertical: 20 }}>
+        <View style={{ paddingVertical: 10 }}>
           <CaptionScribbleHeading
             subHeading="Only you"
             title="Your Profile"
-            headlineStyle={{ width: 180 }}
+            headlineStyle={{ width: 120 }}
             scribbleSubHeadingImage={scribble}
             underlineImage={underline}
             arrowImage={arrow}
-            underlineStyle={{ height: 140, width: 100 }}
+            underlineStyle={{ height: 120, width: 80, left: 50 }}
           />
         </View>
 
@@ -135,10 +148,8 @@ export default function UserProfileView({
 
         {/* User Info */}
         <View style={{ paddingTop: 130 }}>
-          <OrangeSubtitleBodyText title="Biography" bodyText={biography} />
-
-          <TouchableOpacity onPress={handleCopy}>
-            <OrangeSubtitleBodyText title="Email" bodyText={email} />
+          <TouchableOpacity onPress={() => handleCopy(emailUser)}>
+            <OrangeSubtitleBodyText title="Email" bodyText={emailUser} />
             <IconButton
               icon="content-copy"
               style={{
@@ -151,17 +162,27 @@ export default function UserProfileView({
 
           <OrangeSubtitleBodyText title="Name" bodyText={name} />
 
-          <OrangeSubtitleBodyText
+          <OrangeSubtitleBodyText title="Biography" bodyText={biography} />
+
+          {/* <OrangeSubtitleBodyText
             title="Study Programme"
             bodyText={studyProgramme}
-          />
+          /> */}
 
           {/* Settings */}
           <Text style={[styles.headline3, { paddingVertical: 20 }]}>
-            Account details
+            Account Details
           </Text>
 
           <ListItemOnlyText
+            title="Personal Data"
+            iconImage={iconImage}
+            onPress={onPersonalData}
+            cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
+          />
+
+          {/* Add these when ready */}
+          {/* <ListItemOnlyText
             title="Your Posts/Events"
             iconImage={iconImage}
             onPress={onYourPostsEvents}
@@ -184,13 +205,8 @@ export default function UserProfileView({
             iconImage={iconImage}
             onPress={onJoinedEvents}
             cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
-          />
-          <ListItemOnlyText
-            title="Personal Data"
-            iconImage={iconImage}
-            onPress={onPersonalData}
-            cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
-          />
+          /> */}
+
           <ListItemOnlyText
             title="Help"
             iconImage={iconImage}

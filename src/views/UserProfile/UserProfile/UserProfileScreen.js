@@ -1,30 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { ToastAndroid, Alert, Clipboard, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { useDispatch, useSelector } from 'react-redux';
 import UserProfileView from './UserProfileView';
+import {
+  setCurrentUser,
+  selectedUser,
+} from '../../../redux/features/mainSlice/mainSlice';
+import useFetchUserData from '../../../routes/hooks/useFetchUserData';
 
+// TODO Fetch profile image & edit profile image
 /**
  * This is the main User Profile Screen.
  * General data like profile image, username, email, biography, name are fetched and handled here.
  * Also navigating to the other settings.
  */
 export default function UserProfileScreen() {
-  const [imageUpload, setImage] = useState(null);
+  const { userData, imageUpload } = useFetchUserData();
+  const [imageUploaded, setImage] = useState(null);
   const [dialogVisible, setDialogVisible] = useState(false);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const currentUser = useSelector(selectedUser);
+  // const userId = useFetchUserData();
 
-  // we need to have the user.email declared & defined here for the handleCopy function:
-  const email = 'cc201028@fhstp.ac.at';
+  // Update imageUploaded when imageUpload changes
+  useEffect(() => {
+    setImage(imageUpload);
+  }, [imageUpload]);
 
-  const handleCopy = () => {
-    Clipboard.setString(email);
-    if (Platform.OS === 'android') {
-      ToastAndroid.show('The email has been copied.', ToastAndroid.SHORT);
-    } else if (Platform.OS === 'ios') {
-      Alert.alert('The email has been copied.');
-    }
-  };
+  useEffect(() => {
+    dispatch(setCurrentUser(userData));
+  }, [dispatch, userData]);
 
   // Open Action Dialog to edit, delete profile image
   const handleDialogOpen = () => {
@@ -64,13 +71,12 @@ export default function UserProfileScreen() {
       alertVisible={dialogVisible}
       onPressCancelDialog={handleCancelDialog}
       // User Data
-      profileImage={imageUpload}
-      username="Username"
-      biography="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-      email={email}
-      handleCopy={() => handleCopy(email)}
-      name="Jane Doe"
-      studyProgramme="BCC"
+      profileImage={imageUploaded}
+      username={currentUser.username ?? 'no data'}
+      biography={currentUser.biography ?? 'no data'}
+      emailUser={currentUser.email}
+      name={currentUser.name ?? 'null'}
+      studyProgramme={currentUser.studyProgramme ?? 'no data'}
       // Settings
       onPersonalData={() => navigation.navigate('PersonalData')}
       onJoinedGroups={() => navigation.navigate('JoinedGroups')}

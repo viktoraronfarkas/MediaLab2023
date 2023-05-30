@@ -51,7 +51,7 @@ export default function LoginScreen() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    console.log(clientIpAddress);
     try {
       setLoading(true);
 

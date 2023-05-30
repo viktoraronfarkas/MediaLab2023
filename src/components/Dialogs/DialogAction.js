@@ -71,42 +71,49 @@ export default function DialogAction({
       <View style={StyleSheet.absoluteFill}>
         <View style={style.backgroundColor}>
           <View style={[style.container, containerStyle]}>
-            <Text
-              style={[
-                styles.subtitle1,
-                { textAlign: 'center' },
-                isDialog && style.dialog,
-              ]}
-            >
-              {text}
-            </Text>
-            <Text
-              style={[
-                styles.bodyDefault,
-                { textAlign: 'center' },
-                isDialog && style.dialog,
-              ]}
-            >
-              {subText}
-            </Text>
-            <View style={style.buttonRow}>
-              {actions.map((action) => (
-                <TouchableOpacity
-                  key={action.id}
-                  style={style.buttonContainer}
-                  onPress={action.onPress}
-                >
-                  <Text
-                    style={[
-                      styles.button,
-                      { color: theme.colors.neutralsWhite },
-                    ]}
+            {text && (
+              <Text
+                style={[
+                  styles.subtitle1,
+                  { textAlign: 'center' },
+                  isDialog && style.dialog,
+                ]}
+              >
+                {text}
+              </Text>
+            )}
+            {subText && (
+              <Text
+                style={[
+                  styles.bodyDefault,
+                  { textAlign: 'center' },
+                  isDialog && style.dialog,
+                ]}
+              >
+                {subText}
+              </Text>
+            )}
+
+            {actions && (
+              <View style={style.buttonRow}>
+                {actions.map((action) => (
+                  <TouchableOpacity
+                    key={action.id}
+                    style={style.buttonContainer}
+                    onPress={action.onPress}
                   >
-                    {action.text}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
+                    <Text
+                      style={[
+                        styles.button,
+                        { color: theme.colors.neutralsWhite },
+                      ]}
+                    >
+                      {action.text}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
             {optionalButtonText && (
               <GreyButton
                 text={optionalButtonText}

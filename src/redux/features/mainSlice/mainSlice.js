@@ -2,11 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // Here we pass the intial state of the variables/object
 const initialState = {
-  // FIXME: This code needs to be deleted its just an example
+  // TODO FIXME: This code needs to be deleted its just an example
   selectedMainGroup: 'Feed',
   selectedSubGroup: '',
   currentUser: {},
-  IpAddress: '10.5.13.142',
+  IpAddress: '',
   loggedIn: '',
   selectedNewJoinedGroups: [],
 };
@@ -22,7 +22,8 @@ export const mainSlice = createSlice({
       state.selectedSubGroup = action.payload;
     },
     setCurrentUser: (state, action) => {
-      state.currentUser = action.payload;
+      const updatedProps = action.payload;
+      state.currentUser = { ...state.currentUser, ...updatedProps };
     },
     setLoggedIn: (state, action) => {
       state.loggedIn = action.payload;

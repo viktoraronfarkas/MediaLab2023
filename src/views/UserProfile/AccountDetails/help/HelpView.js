@@ -15,6 +15,7 @@ export default function HelpView({ onQuickTour }) {
       <ScrollView
         style={{
           paddingHorizontal: 15,
+          paddingTop: 30,
           backgroundColor: theme.colors.backgroundSand,
         }}
       >

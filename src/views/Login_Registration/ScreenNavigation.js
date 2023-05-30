@@ -30,6 +30,9 @@ import {
 } from '../../redux/features/mainSlice/mainSlice';
 import JoinNewGroup from '../JoinNewGroup';
 
+/**
+ * This is the main Navigation file of most of the screens.
+ */
 export default function ScreenNavigation() {
   const Stack = createStackNavigator();
   const dispatch = useDispatch();
