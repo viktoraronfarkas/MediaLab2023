@@ -15,11 +15,12 @@ export default function HelpView({ onQuickTour }) {
       <ScrollView
         style={{
           paddingHorizontal: 15,
+          paddingTop: 30,
           backgroundColor: theme.colors.backgroundSand,
         }}
       >
         {/* Header Help */}
-        <View style={{ paddingVertical: 10 }}>
+        <View style={{ paddingVertical: 10, marginTop: 20 }}>
           <TitleArrowHeading
             title="Help"
             arrowImage={arrowImage}

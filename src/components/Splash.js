@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Animation from './animation';
-import FHLogoAnimation from '../../assets/Animation/FHLOGO.json';
+import LandingScreen from '../../assets/Animation/Landing.json';
 
 /**
  * This shows the splash screen animation.
@@ -11,7 +11,7 @@ export default function Splash() {
     <SafeAreaView
       style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
     >
-      <Animation source={FHLogoAnimation} />
+      <Animation source={LandingScreen} />
     </SafeAreaView>
   );
 }

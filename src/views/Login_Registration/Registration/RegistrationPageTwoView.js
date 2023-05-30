@@ -99,6 +99,7 @@ export default function RegistrationPageTwoView() {
             styleButton={{ alignSelf: 'center', width: '100%' }}
           />
         </View>
+        <View style={{height: 40}} />
       </ScrollView>
     </SafeAreaView>
   );

@@ -33,7 +33,7 @@ export default function YourPostsEventsView({
         }}
       >
         {/* Header Events */}
-        <View style={{ paddingVertical: 10 }}>
+        <View style={{ paddingVertical: 10, marginTop: 20 }}>
           <TitleArrowHeading
             title="Your Posts & Events"
             arrowImage={arrowImage}

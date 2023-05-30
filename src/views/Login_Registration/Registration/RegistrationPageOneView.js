@@ -28,7 +28,7 @@ const style = StyleSheet.create({
 
   error: {
     color: theme.colors.primary,
-    width: '50%',
+    width: '100%',
     marginTop: 30,
     marginBottom: 15,
   },

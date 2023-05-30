@@ -32,7 +32,7 @@ export default function JoinedGroupsView({
         }}
       >
         {/* Header Groups */}
-        <View style={{ paddingVertical: 10 }}>
+        <View style={{ paddingVertical: 10, marginTop: 20 }}>
           <TitleArrowHeading
             title="Joined Groups"
             arrowImage={arrowImage}

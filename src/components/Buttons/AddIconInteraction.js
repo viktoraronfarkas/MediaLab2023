@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Image, View, TouchableOpacity, Text } from 'react-native';
-import { styles } from '../../constants/myTheme';
+// import { styles } from '../../constants/myTheme';
 
 const style = StyleSheet.create({
   container: {
@@ -41,7 +41,9 @@ export default function AddIconInteraction({ text, icon, iconStyle, onPress }) {
             resizeMode="contain"
           />
         </TouchableOpacity>
-        <Text style={styles.headline3}> {text} </Text>
+        {text?.length > 0 ? (
+          <Text style={style.headline3}> {text} </Text>
+        ) : null}
       </View>
     </View>
   );
