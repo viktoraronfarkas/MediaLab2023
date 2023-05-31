@@ -16,7 +16,7 @@ import TitleCircleHeadingH2 from './Texts/TitleCircleHeading';
 import ListItem from './Items/ListItem';
 import iconImage from '../../assets/Icons/plus-icon.png';
 import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png';
-import { MoreSvg } from './svgs';
+// import { MoreSvg } from './svgs';
 
 function MainJoinedGroup() {
   const selectedGroupValue = useSelector(selectedGroup);
@@ -103,11 +103,11 @@ function MainJoinedGroup() {
             width: 190,
           }}
         />
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{ position: 'absolute', left: '41%', top: '80%' }}
         >
           <MoreSvg color="#000" width={50} height={50} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       <View
