@@ -1,4 +1,49 @@
+const multer = require('multer');
+// const mime = require('mime-types');
 const pool = require('../config/database');
+
+const upload = multer().single('image');
+
+exports.addImageToMainGroup = (req, res) => {
+  // eslint-disable-next-line consistent-return
+  upload(req, res, (error) => {
+    if (error) {
+      console.error('Error uploading file:', error);
+      return res.status(400).json({ error: 'Failed to upload file' });
+    }
+
+    // Get the file data from req.file
+    const { buffer, mimetype } = req.file;
+
+    // Check if the uploaded file is an image (optional)
+    // You can remove this check if you're allowing any image file type
+    if (!mimetype.startsWith('image/')) {
+      return res
+        .status(400)
+        .json({ error: 'Invalid file type. Only images are allowed.' });
+    }
+
+    const startGroupId = 38;
+    const endGroupId = 38;
+
+    // Store the image data in the title_image column for group IDs 4 to 35
+    const query =
+      'UPDATE maingroup SET title_image = ? WHERE group_id BETWEEN ? AND ?';
+
+    // eslint-disable-next-line no-shadow
+    pool.query(query, [buffer, startGroupId, endGroupId], (error) => {
+      if (error) {
+        console.error('Error querying MySQL:', error);
+        return res.status(500).json({ error: 'Failed to update image data' });
+      }
+
+      return res.json({
+        success: true,
+        message: 'Image data added successfully',
+      });
+    });
+  });
+};
 
 exports.getMainGroupsWithSubgroups = (req, res) => {
   // eslint-disable-next-line consistent-return
@@ -12,9 +57,10 @@ exports.getMainGroupsWithSubgroups = (req, res) => {
       SELECT 
         maingroup.group_id AS mainGroupId, 
         maingroup.name AS mainGroupName, 
+        maingroup.title_image AS mainGroupTitleImage,
         subgroups.group_id AS subgroupId, 
         subgroups.name AS subgroupName, 
-        subgroups.title_image, 
+        subgroups.title_image AS subgroupTitleImage, 
         subgroups.members, 
         subgroups.events, 
         subgroups.threads, 
@@ -40,9 +86,10 @@ exports.getMainGroupsWithSubgroups = (req, res) => {
         const {
           mainGroupId,
           mainGroupName,
+          mainGroupTitleImage,
           subgroupId,
           subgroupName,
-          title_image: titleImage,
+          subgroupTitleImage,
           members,
           events,
           threads,
@@ -53,6 +100,9 @@ exports.getMainGroupsWithSubgroups = (req, res) => {
           mainGroups[mainGroupId] = {
             mainGroupId,
             mainGroupName,
+            mainGroupTitleImage: mainGroupTitleImage
+              ? mainGroupTitleImage.toString('base64')
+              : null, // Convert blob to base64 string
             subgroups: [],
           };
         }
@@ -62,11 +112,13 @@ exports.getMainGroupsWithSubgroups = (req, res) => {
           mainGroups[mainGroupId].subgroups.push({
             subgroupId,
             subgroupName,
-            titleImage, // camel case
+            subgroupTitleImage: subgroupTitleImage
+              ? subgroupTitleImage.toString('base64')
+              : null, // Convert blob to base64 string
             members,
             events,
             threads,
-            createdAt, // camel case
+            createdAt,
           });
         }
       });
