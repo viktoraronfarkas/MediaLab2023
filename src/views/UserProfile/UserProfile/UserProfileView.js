@@ -32,6 +32,7 @@ import OrangeButton from '../../../components/Buttons/OrangeButton';
 import {
   setLoggedIn,
   setSelectedMainGroup,
+  setCurrentUserId,
 } from '../../../redux/features/mainSlice/mainSlice';
 
 const style = StyleSheet.create({
@@ -84,6 +85,8 @@ export default function UserProfileView({
       // Set the isUserLoggedIn state to true
       dispatch(setLoggedIn(false));
       dispatch(setSelectedMainGroup(''));
+      dispatch(setCurrentUserId(''));
+
       return true;
     } catch (exception) {
       return false;
