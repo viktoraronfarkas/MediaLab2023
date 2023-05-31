@@ -2,7 +2,15 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { View, Text, SafeAreaView, Image, ScrollView } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import InputField from '../components/Items/InputField';
 import { styles, theme } from '../constants/myTheme';
 import OrangeButton from '../components/Buttons/OrangeButton';
@@ -22,25 +30,54 @@ function AddSubgroup() {
   const [groupName, setName] = useState('');
   const [groupCaption, setCaption] = useState('');
   const [groupIntro, setIntroduction] = useState('');
-  // const [subgroupImg, setSubgroupImg] = useState('');
+  const [imageUpload, setImage] = useState(null);
 
   const handlePress = async (e) => {
     e.preventDefault();
     const url = `http://${clientIpAddress}:3001/subgroup/add`;
+    const formData = new FormData();
+    formData.append('name', groupName);
+    formData.append('mainGroupId', [currentGroup.mainGroupId]);
+    formData.append('caption', groupCaption);
+    formData.append('introduction', groupIntro);
+
+    if (imageUpload) {
+      try {
+        const response = await fetch(imageUpload);
+        const blob = await response.blob();
+
+        // Append the image blob to FormData object
+        formData.append('subgroupImage', blob, 'subgroup_img.png');
+      } catch (error) {
+        console.error('Error reading image file:', error);
+      }
+    }
+
     try {
-      await axios.post(url, {
-        name: groupName, // Replace with the actual user ID
-        mainGroupId: [currentGroup.mainGroupId], // Pass the main group ID as an array
-        caption: groupCaption,
-        introduction: groupIntro,
-        subgroupImage: '',
-      });
+      await axios.post(url, formData);
       navigation.goBack();
     } catch (err) {
       console.error(
-        'Subscribe to main groups error:',
+        'Add subgroup error:',
         err.response?.data?.message || err.message
       );
+    }
+  };
+
+  // Choose Profile Picture
+  const pickProfilePicture = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      includeBase64: false,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
     }
   };
 
@@ -91,7 +128,12 @@ function AddSubgroup() {
         <View style={{ marginTop: 20 }}>
           <Text style={styles.subtitle2}>Add an Image:</Text>
           <View style={{ marginLeft: 20, marginTop: 15 }}>
-            <Image source={UploadIcon} style={{ width: 60, height: 60 }} />
+            <TouchableOpacity
+              onPress={pickProfilePicture}
+              style={{ paddingTop: 20, paddingBottom: 40 }}
+            >
+              <Image source={UploadIcon} style={{ width: 60, height: 60 }} />
+            </TouchableOpacity>
           </View>
         </View>
 
