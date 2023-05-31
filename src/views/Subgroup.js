@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native-web';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import {
   selectedGroup,
   selectedSubGroup,
   selectedUser,
   IpAddress,
+  setPosts,
 } from '../redux/features/mainSlice/mainSlice';
 // import SubGroupsFilter from '../components/Buttons/SubGroupsFilter';
 import BackButton from '../components/Buttons/BackButton';
@@ -18,11 +19,11 @@ import iconImage from '../../assets/Icons/plus-icon.png';
 import moreMenuIcon from '../../assets/Icons/more-menu-icon.png';
 import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png';
 import AddIconInteraction from '../components/Buttons/AddIconInteraction';
-import EventCard from '../components/Cards/EventCard';
 import PostCard from '../components/Cards/PostCard';
 import { styles, theme } from '../constants/myTheme';
+import useFetchPosts from '../routes/hooks/useFetchPosts';
 
-function JoinedSubgroup() {
+function Subgroup() {
   const style = StyleSheet.create({
     container: {
       flex: 1,
@@ -119,6 +120,7 @@ function JoinedSubgroup() {
   });
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const selectedGroupValue = useSelector(selectedGroup);
   const selectedSubGroupValue = useSelector(selectedSubGroup);
@@ -126,6 +128,8 @@ function JoinedSubgroup() {
   const clientIpAddress = useSelector(IpAddress);
 
   const [joined, setJoined] = useState(0);
+  const posts = useFetchPosts();
+  const [postCards, setPostCards] = useState();
 
   const isJoined = () => {
     const url = `http://${clientIpAddress}:3001/user/${currentUser.user_id}/subscribed-groups`;
@@ -139,8 +143,53 @@ function JoinedSubgroup() {
     });
   };
 
-  const handlePress = () => {};
-  isJoined();
+  const joinSubgroup = () => {
+    const url = `http://${clientIpAddress}:3001/user/subscribe/subgroup`;
+    const data = {
+      userId: currentUser.user_id,
+      subgroupId: selectedSubGroupValue.subgroupId,
+      mainGroupId: selectedGroupValue.mainGroupId,
+    };
+
+    axios
+      .post(url, data)
+      .then(() => setJoined(true))
+      .catch((err) => console.error(err));
+  };
+
+  const handlePress = () => {
+    if (!joined) {
+      joinSubgroup();
+    } else {
+      navigation.navigate('addPost');
+    }
+  };
+
+  useEffect(() => {
+    isJoined();
+  }, []);
+
+  useEffect(() => {
+    dispatch(setPosts(posts));
+  }, [dispatch, posts]);
+
+  useEffect(() => {
+    if (posts.length > 0) {
+      setPostCards(
+        posts.forEach((post) => (
+          <PostCard
+            title="Computer graphics"
+            subTitle="Study Group"
+            content={post.text}
+            coverImage={require('../../assets/media.png')}
+            iconSource={require('../../assets/Application-of-Computer-Graphics-1.png')}
+            disabled
+          />
+        ))
+      );
+      console.log(postCards);
+    }
+  });
 
   return (
     <SafeAreaView style={style.container}>
@@ -200,49 +249,7 @@ function JoinedSubgroup() {
           )}
 
           <View style={style.postsContainer}>
-            <View style={style.postContainer}>
-              <PostCard
-                buttonText="Comment"
-                title="Computer graphics"
-                subTitle="Study Group"
-                content="Heyyy, I am searching for a study group for computer graphics :)"
-                coverImage={require('../../assets/media.png')}
-                iconSource={require('../../assets/Application-of-Computer-Graphics-1.png')}
-                disabled
-              />
-            </View>
-            <View style={style.eventsMainContainer}>
-              <View style={style.eventsSubContainer}>
-                <View style={[style.eventContainer, { marginRight: 10 }]}>
-                  <EventCard
-                    title="Study session"
-                    subTitle="02.04"
-                    cardImage={require('../../assets/media.png')}
-                    joiningNumber={20}
-                    style={{ marginRight: 10 }}
-                  />
-                </View>
-                <View style={style.eventContainer}>
-                  <EventCard
-                    title="Study session"
-                    subTitle="24.04"
-                    cardImage={require('../../assets/study.jpeg')}
-                    joiningNumber={0}
-                    style={{ marginRight: 10 }}
-                  />
-                </View>
-              </View>
-            </View>
-            <View style={style.postContainer}>
-              <PostCard
-                buttonText="Comment"
-                title="Foodshare"
-                subTitle="just comment ;)"
-                coverImage={require('../../assets/food.png')}
-                iconSource={require('../../assets/foodshare.jpg')}
-                disabled
-              />
-            </View>
+            <View style={style.postContainer}>{postCards}</View>
           </View>
         </View>
       </ScrollView>
@@ -250,4 +257,4 @@ function JoinedSubgroup() {
   );
 }
 
-export default JoinedSubgroup;
+export default Subgroup;

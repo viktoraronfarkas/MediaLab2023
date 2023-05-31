@@ -187,7 +187,7 @@ function MainJoinedGroup() {
               iconImage={require('../../assets/Icons/arrow-right.png')}
               onPress={() => {
                 dispatch(SetselectedSubGroup(subgroup));
-                navigation.navigate('JoinedSubgroup');
+                navigation.navigate('Subgroup');
               }}
             />
           ))
