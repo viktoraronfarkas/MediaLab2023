@@ -12,6 +12,7 @@ import {
   selectedUser,
   IpAddress,
   setPosts,
+  posts,
 } from '../redux/features/mainSlice/mainSlice';
 // import SubGroupsFilter from '../components/Buttons/SubGroupsFilter';
 import BackButton from '../components/Buttons/BackButton';
@@ -122,14 +123,15 @@ function Subgroup() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+  const fetchedPosts = useFetchPosts();
+
   const selectedGroupValue = useSelector(selectedGroup);
   const selectedSubGroupValue = useSelector(selectedSubGroup);
   const currentUser = useSelector(selectedUser);
   const clientIpAddress = useSelector(IpAddress);
+  const storedPosts = useSelector(posts);
 
   const [joined, setJoined] = useState(0);
-  const posts = useFetchPosts();
-  const [postCards, setPostCards] = useState();
 
   const isJoined = () => {
     const url = `http://${clientIpAddress}:3001/user/${currentUser.user_id}/subscribed-groups`;
@@ -170,26 +172,28 @@ function Subgroup() {
   }, []);
 
   useEffect(() => {
-    dispatch(setPosts(posts));
-  }, [dispatch, posts]);
+    dispatch(setPosts(fetchedPosts));
+  }, [dispatch, fetchedPosts]);
+
+  let postCards;
+  console.log(storedPosts, storedPosts.length);
 
   useEffect(() => {
-    if (posts.length > 0) {
-      setPostCards(
-        posts.forEach((post) => (
-          <PostCard
-            title={post.heading}
-            subTitle={post.caption}
-            content={post.text}
-            coverImage={require('../../assets/media.png')}
-            iconSource={require('../../assets/Application-of-Computer-Graphics-1.png')}
-            disabled
-          />
-        ))
-      );
+    if (storedPosts.length > 0) {
+      postCards = storedPosts.map((post) => (
+        <PostCard
+          title={post.heading}
+          subTitle={post.caption}
+          content={post.text}
+          coverImage={require('../../assets/media.png')}
+          iconSource={require('../../assets/Application-of-Computer-Graphics-1.png')}
+          disabled
+        />
+      ));
+
       console.log(postCards);
     }
-  });
+  }, [storedPosts]);
 
   return (
     <SafeAreaView style={style.container}>
