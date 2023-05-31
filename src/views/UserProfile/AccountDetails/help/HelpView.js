@@ -28,7 +28,7 @@ export default function HelpView({ onQuickTour }) {
           />
         </View>
         <ListItemOnlyText
-          title="quick-tour"
+          title="Quick-tour"
           iconImage={iconImage}
           onPress={onQuickTour}
           cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}

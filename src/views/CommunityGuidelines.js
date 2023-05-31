@@ -43,12 +43,15 @@ const style = StyleSheet.create({
 export default function CommunityGuidelines() {
   return (
     <SafeAreaView style={[style.container]}>
-      <ScrollView style={{
+      <ScrollView 
+          style={{
           paddingHorizontal: 15,
           paddingVertical: 15,
           margin: 20,
           backgroundColor: theme.colors.backgroundSand,
-        }}>
+        }}
+        showsVerticalScrollIndicator={false}
+        >
         <Text style={[styles.headline1, style.title]}>Our Guidelines</Text>
         <Text
           style={[

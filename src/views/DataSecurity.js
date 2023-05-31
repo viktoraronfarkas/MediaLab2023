@@ -35,7 +35,7 @@ const style = StyleSheet.create({
 export default function DataSecurity() {
   return (
     <SafeAreaView style={[style.container]}>
-      <ScrollView style={{margin: 20}}>
+      <ScrollView style={{margin: 20}} showsVerticalScrollIndicator={false}>
         <Text style={[styles.headline1, style.title]}>
           App Data Privacy Policy
         </Text>

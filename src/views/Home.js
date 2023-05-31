@@ -2,16 +2,19 @@ import axios from 'axios';
 import React, { useEffect, useState, useCallback } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { theme } from '../constants/myTheme';
 import Feed from '../components/Feed';
+
 import GroupsTopBar from '../components/GroupsTopHorizontalBar';
 import MainJoinedGroup from '../components/MainJoinedGroup';
 
 import {
   selectedGroup,
   IpAddress,
+  setCurrentUserId,
 } from '../redux/features/mainSlice/mainSlice';
 
 const styles = StyleSheet.create({
@@ -25,6 +28,7 @@ function HomeContent() {
   const clientIpAddress = useSelector(IpAddress);
 
   const [mainGroups, setMainGroups] = useState([]);
+  const dispatch = useDispatch();
 
   const fetchMainGroups = async () => {
     try {
@@ -65,6 +69,23 @@ function HomeContent() {
   };
 
   useEffect(() => {
+    console.log('fetched');
+    // Retrieve userId from localStorage
+    const retrieveUserId = async () => {
+      try {
+        const value = await AsyncStorage.getItem('userID');
+        if (value !== null) {
+          dispatch(setCurrentUserId(value));
+          console.log(value);
+        }
+      } catch (e) {
+        // handle error
+      }
+    };
+
+    retrieveUserId();
+    // console.log(userId);
+    // dispatch(setCurrentUser(userId));
     fetchMainGroups();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

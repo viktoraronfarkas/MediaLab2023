@@ -6,6 +6,7 @@ const initialState = {
   selectedMainGroup: 'Feed',
   selectedSubGroup: '',
   currentUser: {},
+  currentUserId: '',
   IpAddress: '192.168.1.246',
   loggedIn: '',
   selectedNewJoinedGroups: [],
@@ -25,6 +26,9 @@ export const mainSlice = createSlice({
     setCurrentUser: (state, action) => {
       const updatedProps = action.payload;
       state.currentUser = { ...state.currentUser, ...updatedProps };
+    },
+    setCurrentUserId: (state, action) => {
+      state.currentUserId = action.payload;
     },
     setLoggedIn: (state, action) => {
       state.loggedIn = action.payload;
@@ -46,11 +50,13 @@ export const {
   setLoggedIn,
   setNewJoinedGroup,
   setPosts,
+  setCurrentUserId,
 } = mainSlice.actions;
 
 export const selectedGroup = (state) => state.main.selectedMainGroup;
 export const selectedSubGroup = (state) => state.main.selectedSubGroup;
 export const selectedUser = (state) => state.main.currentUser;
+export const selectedUserId = (state) => state.main.currentUserId;
 export const IpAddress = (state) => state.main.IpAddress;
 export const loggedIn = (state) => state.main.loggedIn;
 export const selectedNewJoinedGroups = (state) =>
