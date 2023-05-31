@@ -172,8 +172,8 @@ export default function JoinNewGroup() {
 
   return (
     <SafeAreaView style={style.container}>
-      <View style={{ paddingHorizontal: 25 }}>
-        <View style={{ marginTop: 10 }}>
+      <View>
+        <View style={{ marginTop: 10, paddingHorizontal: 25 }}>
           <BackButton
             text="back"
             onPress={() => {
@@ -201,11 +201,13 @@ export default function JoinNewGroup() {
             containerStyle={style.dialogContainer}
           />
           <View>
-            <CaptionScribbleHeading
-              subHeading="Join new ?"
-              title="New Groups To Join : "
-              headlineStyle={{ width: 300 }}
-            />
+            <View style={{ paddingHorizontal: 25 }}>
+              <CaptionScribbleHeading
+                subHeading="Join new ?"
+                title="New Groups To Join : "
+                headlineStyle={{ width: 300 }}
+              />
+            </View>
 
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               {unjoinedGroups.map((group) => {
@@ -276,16 +278,18 @@ export default function JoinNewGroup() {
               })}
             </ScrollView>
 
-            <OrangeButton
-              text="Done"
-              onPress={() => handleDone()}
-              styleButton={{
-                alignSelf: 'center',
-                width: '100%',
-                marginTop: 40,
-                opacity: NewJoinedGroups.length > 0 ? 1 : 0.5,
-              }}
-            />
+            <View style={{ paddingHorizontal: 25 }}>
+              <OrangeButton
+                text="Done"
+                onPress={() => handleDone()}
+                styleButton={{
+                  alignSelf: 'center',
+                  width: '100%',
+                  marginTop: 40,
+                  opacity: NewJoinedGroups.length > 0 ? 1 : 0.5,
+                }}
+              />
+            </View>
           </View>
         </ScrollView>
       </View>
