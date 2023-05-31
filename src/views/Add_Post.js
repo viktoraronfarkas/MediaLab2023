@@ -3,18 +3,18 @@ import {
   View,
   Text,
   SafeAreaView,
-  Image,
-  TouchableOpacity,
+  // Image,
+  // TouchableOpacity,
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import * as ImagePicker from 'expo-image-picker';
+// import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import InputField from '../components/Items/InputField';
 import { styles, theme } from '../constants/myTheme';
 import OrangeButton from '../components/Buttons/OrangeButton';
 import CaptionScribbleHeading from '../components/Texts/CaptionScribbleHeading';
-import UploadIcon from '../../assets/Icons/upload-icon.png';
+// import UploadIcon from '../../assets/Icons/upload-icon.png';
 import GlitterImage from '../../assets/Images/glitter-image.png';
 import BackButton from '../components/Buttons/BackButton';
 import Filter from '../components/Filter';
@@ -34,24 +34,24 @@ function AddPost() {
   const [postHeading, setHeading] = useState('');
   const [postCaption, setCaption] = useState('');
   const [postText, setText] = useState('');
-  const [imageUpload, setImage] = useState(null);
+  // const [imageUpload, setImage] = useState(null);
 
-  // Choose Profile Picture
-  const pickProfilePicture = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      includeBase64: false,
-      aspect: [4, 3],
-      quality: 1,
-    });
+  // // Choose Profile Picture
+  // const pickProfilePicture = async () => {
+  //   const result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     allowsEditing: true,
+  //     includeBase64: false,
+  //     aspect: [4, 3],
+  //     quality: 1,
+  //   });
 
-    console.log(result);
+  //   console.log(result);
 
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
+  //   if (!result.canceled) {
+  //     setImage(result.assets[0].uri);
+  //   }
+  // };
 
   const handlePress = async (e) => {
     e.preventDefault();
@@ -60,17 +60,19 @@ function AddPost() {
     const formData = new FormData();
     formData.append('groupId', currentGroup.subgroupId);
 
-    if (imageUpload) {
-      try {
-        const response = await fetch(imageUpload);
-        const blob = await response.blob();
+    // if (imageUpload) {
+    //   try {
+    //     const response = await fetch(imageUpload);
+    //     const blob = await response.blob();
 
-        // Append the image blob to FormData object
-        formData.append('subgroupImage', blob, 'subgroup_img.png');
-      } catch (error) {
-        console.error('Error reading image file:', error);
-      }
-    }
+    //     // Append the image blob to FormData object
+    //     formData.append('titleImage', blob, 'post_img.png');
+    //   } catch (error) {
+    //     console.error('Error reading image file:', error);
+    //   }
+    // }
+
+    formData.append('titleImage', ''); // DELETE when image upload is implemented
 
     formData.append('userId', currentUser.user_id);
     formData.append('heading', postHeading);
@@ -78,14 +80,7 @@ function AddPost() {
     formData.append('text', postText);
 
     try {
-      await axios.post(url, {
-        groupId: currentGroup.subgroupId,
-        titleImage: imageUpload,
-        userId: currentUser.user_id,
-        heading: postHeading,
-        caption: postCaption,
-        text: postText,
-      });
+      await axios.post(url, formData);
       navigation.navigate('Subgroup');
     } catch (err) {
       console.error(
@@ -143,7 +138,7 @@ function AddPost() {
           </View>
         </View>
 
-        <View style={{ marginTop: 20 }}>
+        {/* <View style={{ marginTop: 20 }}>
           <Text style={styles.subtitle2}>Add an Image:</Text>
           <View style={{ marginLeft: 20, marginTop: 15 }}>
             <TouchableOpacity
@@ -153,7 +148,7 @@ function AddPost() {
               <Image source={UploadIcon} style={{ width: 60, height: 60 }} />
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
 
         <View style={{ marginTop: 20 }}>
           <View style={{ marginBottom: 5 }}>

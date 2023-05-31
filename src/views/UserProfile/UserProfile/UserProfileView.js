@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Alert,
   Clipboard,
-  Image,
+  // Image,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -24,7 +24,7 @@ import ProfileImage from '../../../components/ProfileImageScribble';
 import OrangeSubtitleBodyText from '../../../components/Texts/OrangeSubtitleBodyText';
 
 import iconImage from '../../../../assets/Icons/arrow-right.png';
-import uploadIcon from '../../../../assets/Icons/upload-icon.png';
+// import uploadIcon from '../../../../assets/Icons/upload-icon.png';
 import arrow from '../../../../assets/Images/arrow-image.png';
 import scribble from '../../../../assets/Images/heart-right-image.png';
 import underline from '../../../../assets/Images/under-line-image.png';
@@ -48,7 +48,7 @@ const style = StyleSheet.create({
  */
 export default function UserProfileView({
   profileImage,
-  onPressProfileImageEdit,
+  // onPressProfileImageEdit,
   onPressEditImage,
   onPressDeleteImage,
   onPressCancelDialog,
@@ -94,7 +94,10 @@ export default function UserProfileView({
   };
   return (
     <SafeAreaView style={style.container}>
-      <ScrollView style={{ paddingHorizontal: 30 }} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={{ paddingHorizontal: 30 }}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Header */}
         <View style={{ paddingVertical: 10 }}>
           <CaptionScribbleHeading
@@ -110,7 +113,7 @@ export default function UserProfileView({
         {/* Profile Image */}
         <ProfileImage profileImage={profileImage} username={username} />
 
-        <TouchableOpacity onPress={onPressProfileImageEdit}>
+        {/* <TouchableOpacity onPress={onPressProfileImageEdit}>
           <Image
             source={uploadIcon}
             style={{
@@ -122,7 +125,7 @@ export default function UserProfileView({
             }}
             resizeMode="contain"
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         {/* When uploadIcon pressed: show this dialog  */}
         <View>

@@ -21,15 +21,15 @@ export default function UserProfileScreen() {
   const currentUser = useSelector(selectedUser);
   const dispatch = useDispatch();
 
-  const [imageUpload, setImage] = useState(null);
+  // const [imageUpload, setImage] = useState(null);
   const [dialogVisible, setDialogVisible] = useState(false);
   const navigation = useNavigation();
   // const userId = useFetchUserData();
 
-  // Update imageUploaded when imageUpload changes
-  useEffect(() => {
-    setImage(imageUpload);
-  }, [imageUpload]);
+  // // Update imageUploaded when imageUpload changes
+  // useEffect(() => {
+  //   setImage(imageUpload);
+  // }, [imageUpload]);
 
   useEffect(() => {
     dispatch(setCurrentUser(userData));
@@ -44,7 +44,7 @@ export default function UserProfileScreen() {
 
   // Delete Profile Picture (will show default image)
   const handleDeletePicture = () => {
-    setImage(null);
+    // setImage(null);
     setDialogVisible(false);
   };
   // Cancel the Dialog Action
@@ -63,7 +63,7 @@ export default function UserProfileScreen() {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      // setImage(result.assets[0].uri);
       setDialogVisible(false);
     }
 
