@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { theme, styles } from '../../constants/myTheme';
 
 const style = StyleSheet.create({
@@ -22,19 +21,33 @@ const style = StyleSheet.create({
  * EXAMPLE (for a FULL WIDTH BUTTON):
  *
  * <GreyButton text="Comment"  styleButton={{  alignSelf: 'center', width: '100%' }}  />
+ * 
+ * disabled version:
+ *  <GreyButton
+          text="save changes"
+          styleButton={{ alignSelf: 'center', width: '100%' }}
+          disabled
+        />
  */
 
-export default function GreyButton({ text, styleButton, onPress }) {
+export default function GreyButton({
+  styleButtonContainer,
+  text,
+  styleButton,
+  onPress,
+  disabled = false, // to disable the onPress function
+}) {
   return (
-    <SafeAreaView>
+    <View style={[styleButtonContainer]}>
       <TouchableOpacity
         style={[style.styleButton, styleButton]}
         onPress={onPress}
+        disabled={disabled}
       >
         <Text style={[styles.button, { color: theme.colors.neutralsWhite }]}>
           {text}
         </Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 }

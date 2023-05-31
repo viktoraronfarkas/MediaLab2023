@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Image, View, TouchableOpacity, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { styles } from '../../constants/myTheme';
+// import { styles } from '../../constants/myTheme';
 
 const style = StyleSheet.create({
   container: {
@@ -33,7 +32,7 @@ const style = StyleSheet.create({
 
 export default function AddIconInteraction({ text, icon, iconStyle, onPress }) {
   return (
-    <SafeAreaView>
+    <View>
       <View style={style.container}>
         <TouchableOpacity onPress={onPress} style={style.button}>
           <Image
@@ -42,8 +41,10 @@ export default function AddIconInteraction({ text, icon, iconStyle, onPress }) {
             resizeMode="contain"
           />
         </TouchableOpacity>
-        <Text style={styles.headline3}> {text} </Text>
+        {text?.length > 0 ? (
+          <Text style={style.headline3}> {text} </Text>
+        ) : null}
       </View>
-    </SafeAreaView>
+    </View>
   );
 }

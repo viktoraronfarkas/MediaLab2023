@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Image, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text } from 'react-native-paper';
 import { styles } from '../../constants/myTheme';
 
@@ -28,15 +27,15 @@ const style = StyleSheet.create({
 
 export default function TitleCircleHeadingH2({ title, image, lineStyle }) {
   return (
-    <SafeAreaView style={style.container}>
+    <View style={style.container}>
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={styles.headline3}>{title}</Text>
+        <Text style={styles.headline1}>{title}</Text>
         <Image
           style={[style.line, lineStyle]}
           source={image}
           resizeMode="contain"
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }

@@ -1,22 +1,18 @@
 import React from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
-import { TextInput } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, ScrollView, View, TextInput } from 'react-native';
 import { theme } from '../../constants/myTheme';
 
 const style = StyleSheet.create({
   input: {
-    padding: 10,
-    marginLeft: 20,
-    marginRight: 20,
-    borderTopRightRadius: 8,
-    borderTopLeftRadius: 8,
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-    textDecorationColor: 'none',
+    borderRadius: 8,
+    padding: 20,
+    paddingTop: 20,
     fontFamily: theme.fonts.textLink,
-    backgroundColor: theme.colors.backgroundSand,
+    backgroundColor: theme.colors.backgroundWhite,
     height: 250,
+  },
+  placeholder: {
+    color: theme.colors.primary,
   },
 });
 
@@ -26,19 +22,25 @@ const style = StyleSheet.create({
  *
  * EXAMPLE:
  *
- * < InputField labelText="Write something here..." />
+ * < InputField placeholderText="Write something here..." />
  */
-export default function LongInputField({ labelText, value, onChangeText }) {
+export default function LongInputField({
+  inputStyle,
+  placeholderText,
+  value,
+  onChangeText,
+}) {
   return (
-    <SafeAreaView>
+    <View>
       <ScrollView keyboardShouldPersistTaps="handled">
         <TextInput
-          style={style.input}
-          label={labelText}
+          style={[style.input, inputStyle]}
+          textAlignVertical="top"
+          placeholder={placeholderText}
+          placeholderTextColor={theme.colors.onBackgroundWhite}
           value={value}
           onChangeText={onChangeText}
           underlineColor="transparent"
-          textAlignVertical="top"
           multiline
           keyboardType="default"
           blurOnSubmit
@@ -51,6 +53,6 @@ export default function LongInputField({ labelText, value, onChangeText }) {
           }}
         />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }

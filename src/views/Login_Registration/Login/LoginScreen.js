@@ -1,63 +1,99 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, StyleSheet } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
+import { theme } from '../../../constants/myTheme';
 import LoginView from './LoginView';
-import firebase from '../../../../config';
-// import Home from '../Home_Test';
+import {
+  setCurrentUser,
+  IpAddress,
+  setLoggedIn,
+} from '../../../redux/features/mainSlice/mainSlice';
 
-// TODO Validation / Authentication for available User inside DB
-/**
- * This is the main representation of the Login Screen for User to login in their account
- */
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-
-  // navigate to REGISTRATION Screen
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const clientIpAddress = useSelector(IpAddress);
   const navigation = useNavigation();
+
   const handleTextClick = () => {
     navigation.navigate('RegistrationOne');
   };
 
-  const validateEmail = () => {
-    // const emailRegex = /[a-z]{2}\d{6}@fhstp\.ac\.at/;
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-
-    if (!emailRegex.test(email)) {
-      setEmailError('Please enter your FH email address.');
-      return false;
+  // saving user_id in local storage
+  const storeUserId = async (value) => {
+    try {
+      await AsyncStorage.setItem('userID', String(value));
+    } catch (e) {
+      // saving error
     }
-    setEmailError('');
-    return true;
-  };
-
-  const validatePassword = () => {
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
-
-    if (!passwordRegex.test(password)) {
-      setPasswordError(
-        'Please enter a password that is at least 8 characters long and contains at least one uppercase letter, one lowercase letter, and one number.'
-      );
-      return false;
-    }
-    setPasswordError('');
-    return true;
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const isEmailValid = validateEmail(email);
-    const isPasswordValid = validatePassword(password);
 
-    // submit registration form if there are no errors
-    if (isEmailValid && isPasswordValid) {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
-      console.log('FH Student is login');
-      navigation.navigate('Home');
-    } else {
-      // if the input is not valid show this
-      console.log('email or password is incorrect');
+    try {
+      setLoading(true);
+
+      const response = await axios.post(
+        `http://${clientIpAddress}:3001/auth/login`,
+        {
+          email,
+          password,
+        }
+      );
+
+      const { message, user } = response.data;
+
+      // Optional: Display success message
+      console.log(message);
+
+      // TODO: Store user data or token in the app state or local storage
+      console.log(user);
+      navigation.navigate('MainScreen');
+      dispatch(setCurrentUser(user));
+
+      // Set the isUserLoggedIn state to true
+      dispatch(setLoggedIn(true));
+
+      // Store user_id in local storage
+      storeUserId(user.user_id);
+    } catch (error) {
+      console.error(
+        'Login error:',
+        error.response?.data?.error || error.message
+      );
+      const errorMessage = error.response?.data?.error;
+
+      if (errorMessage === 'invalidEmail') {
+        setEmailError('Invalid email');
+      } else if (errorMessage === 'invalidPassword') {
+        setPasswordError('Invalid password');
+      } else {
+        // Handle other login errors here
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,16 +108,22 @@ export default function LoginScreen() {
   // }, [navigation]);
 
   return (
-    <LoginView
-      emailError={emailError}
-      emailValue={email}
-      onChangeTextEmail={(value) => setEmail(value)}
-      passwordError={passwordError}
-      passwordValue={password}
-      onChangeTextPassword={(value) => setPassword(value)}
-      onNavigateText={handleTextClick}
-      handleSubmit={handleSubmit}
-      // onForgotPassword={handleForgotPassword}
-    />
+    <View style={styles.container}>
+      {loading && (
+        <View style={styles.overlay}>
+          <ActivityIndicator animating color={theme.colors.primary} />
+        </View>
+      )}
+      <LoginView
+        emailError={emailError}
+        emailValue={email}
+        onChangeTextEmail={(value) => setEmail(value)}
+        passwordError={passwordError}
+        passwordValue={password}
+        onChangeTextPassword={(value) => setPassword(value)}
+        handleSubmit={handleSubmit}
+        onNavigateText={handleTextClick}
+      />
+    </View>
   );
 }

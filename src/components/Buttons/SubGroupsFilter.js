@@ -1,35 +1,148 @@
-import * as React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
-import { SegmentedButtons } from 'react-native-paper';
+import React, { useState } from 'react';
+import { View, TouchableOpacity, Text } from 'react-native';
+import { theme } from '../../constants/myTheme';
 
-const SubGroupsFilter = () => {
-  const [value, setValue] = React.useState('');
+function SubGroupsFilter({
+  firstFilterLabel,
+  secondFilterLabel,
+  thirdFilterLabel,
+  disabled,
+  onFilterChange, // New prop to handle filter selection change
+}) {
+  const [selected, setSelected] = useState(firstFilterLabel)
+
+  const handleFilterChange = (filter) => {
+    setSelected(filter);
+    onFilterChange(filter);
+  };
 
   return (
-    <SegmentedButtons
-      style={{ width: '100%' }}
-      value={value}
-      onValueChange={setValue}
-      buttons={[
-        {
-          value: 'all',
-          label: 'all',
-        },
-        {
-          value: 'joined',
-          label: 'joined',
-        },
-        { value: 'unjoined', label: 'unjoined' },
-      ]}
-    />
-  );
-};
+    <View
+      style={{
+        backgroundColor: 'white',
+        flexDirection: 'row',
+        borderRadius: 12,
+        justifyContent: 'center',
+        alignContent: 'center',
+        width: '80%',
+        padding: '2%',
+      }}
+    >
+      <View
+        style={{
+          marginLeft: '3%',
+          marginRight: '3%',
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            backgroundColor:
+              // eslint-disable-next-line no-nested-ternary
+              disabled
+                ? theme.colors.neutralsGrey500
+                : selected === firstFilterLabel
+                ? theme.colors.primary
+                : theme.colors.backgroundCamel,
+            borderColor:
+              // eslint-disable-next-line no-nested-ternary
+              disabled
+                ? theme.colors.neutralsGrey500
+                : selected === firstFilterLabel
+                ? theme.colors.primary
+                : theme.colors.backgroundCamel,
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-  },
-});
+            justifyContent: 'center', // align text vertically
+            alignItems: 'center', // align text horizontally
+            width: 88,
+            height: 30,
+            borderRadius: 12,
+          }}
+          onPress={() => (disabled ? null : handleFilterChange(firstFilterLabel))}
+        >
+          <Text
+            style={{
+              textAlign: 'center',
+              color:
+                selected === firstFilterLabel || disabled
+                  ? '#fff'
+                  : theme.colors.neutralsGrey800,
+            }}
+          >
+            {firstFilterLabel}
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <View>
+        <TouchableOpacity
+          style={{
+            backgroundColor:
+              selected === secondFilterLabel
+                ? theme.colors.primary
+                : theme.colors.backgroundCamel,
+            borderColor:
+              selected === secondFilterLabel
+                ? theme.colors.primary
+                : theme.colors.backgroundCamel,
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: 88,
+            height: 30,
+            borderRadius: 12,
+          }}
+          onPress={() => (disabled ? null : handleFilterChange(secondFilterLabel))}
+        >
+          <Text
+            style={{
+              textAlign: 'center',
+              color:
+                selected === secondFilterLabel
+                  ? '#fff'
+                  : theme.colors.neutralsGrey800,
+            }}
+          >
+            {secondFilterLabel}
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          marginLeft: '3%',
+          marginRight: '3%',
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            backgroundColor:
+              selected === thirdFilterLabel
+                ? theme.colors.primary
+                : theme.colors.backgroundCamel,
+            borderColor:
+              selected === thirdFilterLabel
+                ? theme.colors.primary
+                : theme.colors.backgroundCamel,
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: 88,
+            height: 30,
+            borderRadius: 12,
+          }}
+          onPress={() => (disabled ? null : handleFilterChange(thirdFilterLabel))}
+        >
+          <Text
+            style={{
+              textAlign: 'center',
+              color:
+                selected === thirdFilterLabel
+                  ? '#fff'
+                  : theme.colors.neutralsGrey800,
+            }}
+          >
+            {thirdFilterLabel}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}
 
 export default SubGroupsFilter;

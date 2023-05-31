@@ -30,6 +30,25 @@ export default function ListItemOrange({
   const listLabel = (title) =>
     // return title.match(/\b\w/g).join('');
     title.split(' ').map((i) => i.charAt(0)); // Inherit case of each letter
+
+  const avatarText = (props) => (
+    <Avatar.Text
+      {...props}
+      size={40}
+      label={listLabel(mainTitle)}
+      style={{ backgroundColor: theme.colors.backgroundWhite }}
+    />
+  );
+
+  const iconButton = (props) => (
+    <IconButton
+      {...props}
+      size={40}
+      icon={iconImage}
+      iconColor={theme.colors.onPrimary}
+      resizeMode="contain"
+    />
+  );
   return (
     <TouchableOpacity onPress={onPress}>
       <Card contentStyle={style.cardContainer} elevation={0}>
@@ -38,23 +57,8 @@ export default function ListItemOrange({
           titleStyle={[styles.headline3, { color: theme.colors.onPrimary }]}
           subtitle={subtitle}
           subtitleStyle={[styles.subtitle2, { color: theme.colors.onPrimary }]}
-          left={(props) => (
-            <Avatar.Text
-              {...props}
-              size={40}
-              label={listLabel(mainTitle)}
-              style={{ backgroundColor: theme.colors.backgroundWhite }}
-            />
-          )}
-          right={(props) => (
-            <IconButton
-              {...props}
-              size={40}
-              icon={iconImage}
-              iconColor={theme.colors.onPrimary}
-              resizeMode="contain"
-            />
-          )}
+          left={avatarText}
+          right={iconButton}
         />
       </Card>
     </TouchableOpacity>

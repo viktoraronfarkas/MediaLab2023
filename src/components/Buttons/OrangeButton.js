@@ -1,12 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { theme, styles } from '../../constants/myTheme';
 
 const style = StyleSheet.create({
   styleButton: {
     alignSelf: 'flex-end', // Override this for position --> 'center'
-    backgroundColor: theme.colors.primary,
     paddingVertical: 17,
     paddingHorizontal: 33,
     borderRadius: 100,
@@ -24,17 +22,26 @@ const style = StyleSheet.create({
  * <OrangeButton text="join event!"  styleButton={{  alignSelf: 'center', width: '100%' }}  />
  */
 
-export default function OrangeButton({ text, styleButton, onPress }) {
+export default function OrangeButton({
+  text,
+  styleButton,
+  onPress,
+  buttonBackgroundColor = theme.colors.primary,
+}) {
   return (
-    <SafeAreaView>
+    <View>
       <TouchableOpacity
-        style={[style.styleButton, styleButton]}
+        style={[
+          style.styleButton,
+          styleButton,
+          { backgroundColor: buttonBackgroundColor },
+        ]}
         onPress={onPress}
       >
         <Text style={[styles.button, { color: theme.colors.neutralsWhite }]}>
           {text}
         </Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 }

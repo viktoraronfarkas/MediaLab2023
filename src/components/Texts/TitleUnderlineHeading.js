@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Image, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text } from 'react-native-paper';
 import { styles } from '../../constants/myTheme';
 
@@ -21,8 +20,8 @@ const style = StyleSheet.create({
  */
 export default function TitleUnderlineHeading({ title, image, lineStyle }) {
   return (
-    <SafeAreaView style={style.container}>
-      <Text style={styles.headline3}> {title} </Text>
+    <View style={style.container}>
+      <Text style={[styles.headline3, { textAlign: 'center' }]}> {title} </Text>
       <View>
         <Image
           style={[style.line, lineStyle]}
@@ -30,6 +29,6 @@ export default function TitleUnderlineHeading({ title, image, lineStyle }) {
           resizeMode="contain"
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
