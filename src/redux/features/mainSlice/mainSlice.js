@@ -6,9 +6,11 @@ const initialState = {
   selectedMainGroup: 'Feed',
   selectedSubGroup: '',
   currentUser: {},
-  IpAddress: '',
+  currentUserId: '',
+  IpAddress: '192.168.1.246',
   loggedIn: '',
   selectedNewJoinedGroups: [],
+  posts: [],
 };
 
 export const mainSlice = createSlice({
@@ -25,11 +27,17 @@ export const mainSlice = createSlice({
       const updatedProps = action.payload;
       state.currentUser = { ...state.currentUser, ...updatedProps };
     },
+    setCurrentUserId: (state, action) => {
+      state.currentUserId = action.payload;
+    },
     setLoggedIn: (state, action) => {
       state.loggedIn = action.payload;
     },
     setNewJoinedGroup: (state, action) => {
       state.selectedNewJoinedGroups = action.payload;
+    },
+    setPosts: (state, action) => {
+      state.posts = action.payload;
     },
   },
 });
@@ -41,14 +49,18 @@ export const {
   setCurrentUser,
   setLoggedIn,
   setNewJoinedGroup,
+  setPosts,
+  setCurrentUserId,
 } = mainSlice.actions;
 
 export const selectedGroup = (state) => state.main.selectedMainGroup;
 export const selectedSubGroup = (state) => state.main.selectedSubGroup;
 export const selectedUser = (state) => state.main.currentUser;
+export const selectedUserId = (state) => state.main.currentUserId;
 export const IpAddress = (state) => state.main.IpAddress;
 export const loggedIn = (state) => state.main.loggedIn;
 export const selectedNewJoinedGroups = (state) =>
   state.main.selectedNewJoinedGroups;
+export const posts = (state) => state.main.posts;
 
 export default mainSlice.reducer;

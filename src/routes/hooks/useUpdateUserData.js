@@ -2,19 +2,19 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  selectedUser,
+  selectedUserId,
   IpAddress,
 } from '../../redux/features/mainSlice/mainSlice';
 
 function useUpdateUserData() {
   const [userId, setUserId] = useState({});
-  const currentUser = useSelector(selectedUser);
+  const currentSelectedUserId = useSelector(selectedUserId);
   const clientIpAddress = useSelector(IpAddress);
 
   const updateUser = async (updatedData) => {
     try {
       const response = await axios.put(
-        `http://${clientIpAddress}:3001/user/${currentUser.user_id}`,
+        `http://${clientIpAddress}:3001/user/${currentSelectedUserId}`,
         updatedData
       );
 

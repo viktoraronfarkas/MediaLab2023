@@ -10,23 +10,24 @@ import AddIconInteraction from './Buttons/AddIconInteraction';
 import {
   setSelectedMainGroup,
   selectedGroup,
-  selectedUser,
   IpAddress,
+  selectedUserId,
 } from '../redux/features/mainSlice/mainSlice';
 
 export default function GroupsTopBar({ preDefinedGroups }) {
   const selectedGroupValue = useSelector(selectedGroup);
-  const currentUser = useSelector(selectedUser);
   const clientIpAddress = useSelector(IpAddress);
   const [subscribedGroups, setSubscribedGroups] = useState([]);
+  const currentSelectedUserId = useSelector(selectedUserId);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(currentSelectedUserId);
     const fetchSubscribedGroups = async () => {
       try {
         const response = await axios.get(
-          `http://${clientIpAddress}:3001/user/${currentUser.user_id}/subscribed-groups`
+          `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/subscribed-groups`
         );
         const { mainGroups } = response.data;
 
@@ -45,7 +46,7 @@ export default function GroupsTopBar({ preDefinedGroups }) {
 
     fetchSubscribedGroups();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser.user_id, preDefinedGroups]);
+  }, [currentSelectedUserId, preDefinedGroups]);
 
   // navigate to REGISTRATION Screen
   const navigation = useNavigation();

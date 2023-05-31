@@ -18,10 +18,10 @@ import CaptionScribbleHeading from '../components/Texts/CaptionScribbleHeading';
 import { styles, theme } from '../constants/myTheme';
 import {
   IpAddress,
-  selectedUser,
   setSelectedMainGroup,
   selectedNewJoinedGroups,
   setNewJoinedGroup,
+  selectedUserId,
 } from '../redux/features/mainSlice/mainSlice';
 import BackButton from '../components/Buttons/BackButton';
 import { AcceptedSvg, RejectedSvg } from '../components/svgs';
@@ -52,10 +52,10 @@ export default function JoinNewGroup() {
   const [subscribedGroups, setSubscribedGroups] = useState([]);
   const [allMainGroups, setMainGroups] = useState([]);
   const clientIpAddress = useSelector(IpAddress);
-  const currentUser = useSelector(selectedUser);
   const NewJoinedGroups = useSelector(selectedNewJoinedGroups);
   const [showDialog, setShowDialog] = useState(false);
   const [rejectedGroups, setRejectedGroups] = useState([]);
+  const currentSelectedUserId = useSelector(selectedUserId);
 
   const dispatch = useDispatch();
   // navigate to REGISTRATION Screen
@@ -65,7 +65,7 @@ export default function JoinNewGroup() {
     const fetchSubscribedGroups = async () => {
       try {
         const response = await axios.get(
-          `http://${clientIpAddress}:3001/user/${currentUser.user_id}/subscribed-groups`
+          `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/subscribed-groups`
         );
         const { mainGroups } = response.data;
         setSubscribedGroups(mainGroups || []); // Ensure initialization with an empty array if data is undefined
@@ -96,7 +96,7 @@ export default function JoinNewGroup() {
     fetchSubscribedGroups();
     fetchMainGroups();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser.user_id]);
+  }, [currentSelectedUserId]);
 
   const unjoinedGroups = allMainGroups.filter(
     (mainGroup) =>
@@ -140,7 +140,7 @@ export default function JoinNewGroup() {
         const response = await axios.post(
           `http://${clientIpAddress}:3001/user/subscribe/maingroup`,
           {
-            userId: currentUser.user_id,
+            userId: currentSelectedUserId,
             mainGroupIds,
           }
         );
@@ -172,8 +172,8 @@ export default function JoinNewGroup() {
 
   return (
     <SafeAreaView style={style.container}>
-      <View style={{ paddingHorizontal: 25 }}>
-        <View style={{ marginTop: 10 }}>
+      <View>
+        <View style={{ marginTop: 10, paddingHorizontal: 25 }}>
           <BackButton
             text="back"
             onPress={() => {
@@ -201,11 +201,13 @@ export default function JoinNewGroup() {
             containerStyle={style.dialogContainer}
           />
           <View>
-            <CaptionScribbleHeading
-              subHeading="Join new ?"
-              title="New Groups To Join : "
-              headlineStyle={{ width: 300 }}
-            />
+            <View style={{ paddingHorizontal: 25 }}>
+              <CaptionScribbleHeading
+                subHeading="Join new ?"
+                title="New Groups To Join : "
+                headlineStyle={{ width: 300 }}
+              />
+            </View>
 
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               {unjoinedGroups.map((group) => {
@@ -276,16 +278,18 @@ export default function JoinNewGroup() {
               })}
             </ScrollView>
 
-            <OrangeButton
-              text="Done"
-              onPress={() => handleDone()}
-              styleButton={{
-                alignSelf: 'center',
-                width: '100%',
-                marginTop: 40,
-                opacity: NewJoinedGroups.length > 0 ? 1 : 0.5,
-              }}
-            />
+            <View style={{ paddingHorizontal: 25 }}>
+              <OrangeButton
+                text="Done"
+                onPress={() => handleDone()}
+                styleButton={{
+                  alignSelf: 'center',
+                  width: '100%',
+                  marginTop: 40,
+                  opacity: NewJoinedGroups.length > 0 ? 1 : 0.5,
+                }}
+              />
+            </View>
           </View>
         </ScrollView>
       </View>

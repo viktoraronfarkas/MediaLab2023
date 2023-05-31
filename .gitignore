@@ -256,3 +256,4 @@ google-services.json
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/reactnative
+package-lock.json

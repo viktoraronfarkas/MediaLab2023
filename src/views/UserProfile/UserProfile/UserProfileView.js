@@ -32,6 +32,7 @@ import OrangeButton from '../../../components/Buttons/OrangeButton';
 import {
   setLoggedIn,
   setSelectedMainGroup,
+  setCurrentUserId,
 } from '../../../redux/features/mainSlice/mainSlice';
 
 const style = StyleSheet.create({
@@ -84,6 +85,8 @@ export default function UserProfileView({
       // Set the isUserLoggedIn state to true
       dispatch(setLoggedIn(false));
       dispatch(setSelectedMainGroup(''));
+      dispatch(setCurrentUserId(''));
+
       return true;
     } catch (exception) {
       return false;
@@ -91,13 +94,12 @@ export default function UserProfileView({
   };
   return (
     <SafeAreaView style={style.container}>
-      <ScrollView style={{ paddingHorizontal: 30 }}>
+      <ScrollView style={{ paddingHorizontal: 30 }} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={{ paddingVertical: 10 }}>
           <CaptionScribbleHeading
             subHeading="Only you"
             title="Your Profile"
-            headlineStyle={{ width: 120 }}
             scribbleSubHeadingImage={scribble}
             underlineImage={underline}
             arrowImage={arrow}

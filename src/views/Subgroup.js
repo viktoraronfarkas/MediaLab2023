@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native-web';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import {
   selectedGroup,
   selectedSubGroup,
+  selectedUser,
+  IpAddress,
+  setPosts,
+  posts,
 } from '../redux/features/mainSlice/mainSlice';
 // import SubGroupsFilter from '../components/Buttons/SubGroupsFilter';
 import BackButton from '../components/Buttons/BackButton';
@@ -15,11 +20,11 @@ import iconImage from '../../assets/Icons/plus-icon.png';
 import moreMenuIcon from '../../assets/Icons/more-menu-icon.png';
 import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png';
 import AddIconInteraction from '../components/Buttons/AddIconInteraction';
-import EventCard from '../components/Cards/EventCard';
 import PostCard from '../components/Cards/PostCard';
 import { styles, theme } from '../constants/myTheme';
+import useFetchPosts from '../routes/hooks/useFetchPosts';
 
-function JoinedSubgroup() {
+function Subgroup() {
   const style = StyleSheet.create({
     container: {
       flex: 1,
@@ -116,17 +121,67 @@ function JoinedSubgroup() {
   });
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const fetchedPosts = useFetchPosts();
 
   const selectedGroupValue = useSelector(selectedGroup);
   const selectedSubGroupValue = useSelector(selectedSubGroup);
+  const currentUser = useSelector(selectedUser);
+  const clientIpAddress = useSelector(IpAddress);
+  let storedPosts = useSelector(posts);
 
-  const joined = true;
+  const [joined, setJoined] = useState(0);
 
-  const handlePress = () => {};
+  const isJoined = () => {
+    const url = `http://${clientIpAddress}:3001/user/${currentUser.user_id}/subscribed-groups`;
+
+    axios.get(url).then((res) => {
+      setJoined(
+        res.data.subGroups.some(
+          (el) => el.subgroup_id === selectedSubGroupValue.subgroupId
+        )
+      );
+    });
+  };
+
+  const joinSubgroup = () => {
+    const url = `http://${clientIpAddress}:3001/user/subscribe/subgroup`;
+    const data = {
+      userId: currentUser.user_id,
+      subgroupId: selectedSubGroupValue.subgroupId,
+      mainGroupId: selectedGroupValue.mainGroupId,
+    };
+
+    axios
+      .post(url, data)
+      .then(() => setJoined(true))
+      .catch((err) => console.error(err));
+  };
+
+  const handlePress = () => {
+    if (!joined) {
+      joinSubgroup();
+    } else {
+      navigation.navigate('addPost');
+    }
+  };
+
+  useEffect(() => {
+    isJoined();
+  }, []);
+
+  useEffect(() => {
+    dispatch(setPosts(fetchedPosts));
+  }, [dispatch, fetchedPosts]);
+
+  if (Object.keys(storedPosts).length === 0) {
+    storedPosts = [];
+  }
 
   return (
     <SafeAreaView style={style.container}>
-      <View style={{marginLeft: 15, marginTop: 15}}>
+      <View style={{ marginLeft: 15, marginTop: 15 }}>
         <BackButton
           text={`back ${selectedGroupValue.mainGroupName}`}
           onPress={() => {
@@ -149,16 +204,16 @@ function JoinedSubgroup() {
             <Text style={[styles.headline1, style.headlineStyle]}>
               {selectedSubGroupValue.subgroupName}
             </Text>
-            {!joined ? (
+            {joined ? (
               <TouchableOpacity style={style.menuIcon}>
                 <Image style={style.moreMenuIconImage} source={moreMenuIcon} />
               </TouchableOpacity>
             ) : null}
           </View>
-          {!joined ? (
+          {joined ? (
             <View style={style.addPostContainer}>
               <View style={style.addPostTextContainer}>
-                <Text style={style.addPostText}>add a new post or event</Text>
+                <Text style={style.addPostText}>add a new post</Text>
                 <Image
                   style={style.underlineArrowImage}
                   source={underlineArrowImage}
@@ -183,47 +238,16 @@ function JoinedSubgroup() {
 
           <View style={style.postsContainer}>
             <View style={style.postContainer}>
-              <PostCard
-                buttonText="Comment"
-                title="Computer graphics"
-                subTitle="Study Group"
-                content="Heyyy, I am searching for a study group for computer graphics :)"
-                coverImage={require('../../assets/media.png')}
-                iconSource={require('../../assets/Application-of-Computer-Graphics-1.png')}
-                disabled
-              />
-            </View>
-            <View style={style.eventsMainContainer}>
-              <View style={style.eventsSubContainer}>
-                <View style={[style.eventContainer, { marginRight: 10 }]}>
-                  <EventCard
-                    title="Study session"
-                    subTitle="02.04"
-                    cardImage={require('../../assets/media.png')}
-                    joiningNumber={20}
-                    style={{ marginRight: 10 }}
-                  />
-                </View>
-                <View style={style.eventContainer}>
-                  <EventCard
-                    title="Study session"
-                    subTitle="24.04"
-                    cardImage={require('../../assets/study.jpeg')}
-                    joiningNumber={0}
-                    style={{ marginRight: 10 }}
-                  />
-                </View>
-              </View>
-            </View>
-            <View style={style.postContainer}>
-              <PostCard
-                buttonText="Comment"
-                title="Foodshare"
-                subTitle="just comment ;)"
-                coverImage={require('../../assets/food.png')}
-                iconSource={require('../../assets/foodshare.jpg')}
-                disabled
-              />
+              {storedPosts.map((post) => (
+                <PostCard
+                  title={post.heading}
+                  subTitle={post.caption}
+                  content={post.text}
+                  coverImage={require('../../assets/media.png')}
+                  iconSource={require('../../assets/Application-of-Computer-Graphics-1.png')}
+                  disabled
+                />
+              ))}
             </View>
           </View>
         </View>
@@ -232,4 +256,4 @@ function JoinedSubgroup() {
   );
 }
 
-export default JoinedSubgroup;
+export default Subgroup;

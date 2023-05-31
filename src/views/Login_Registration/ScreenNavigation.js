@@ -23,8 +23,9 @@ import RegistrationScreen from './Registration/RegistrationScreen';
 import BackButtonNavigationContainer from '../../components/Buttons/BackButtonNavigationContainer';
 import Main from '../Main';
 import JoinGroup from '../JoinGroupScreen';
-import JoinedSubgroup from '../JoinedSubgroup';
+import Subgroup from '../Subgroup';
 import AddSubgroup from '../AddSubgroup';
+import AddPost from '../Add_Post';
 import {
   setLoggedIn,
   loggedIn,
@@ -79,8 +80,8 @@ export default function ScreenNavigation() {
               options={{ title: '', headerShown: false }}
             />
             <Stack.Screen
-              name="JoinedSubgroup"
-              component={JoinedSubgroup}
+              name="Subgroup"
+              component={Subgroup}
               options={{ title: '', headerShown: false }}
             />
             <Stack.Screen
@@ -126,6 +127,11 @@ export default function ScreenNavigation() {
             <Stack.Screen
               name="aboutUs"
               component={AboutUsScreen}
+              options={{ title: '' }}
+            />
+            <Stack.Screen
+              name="addPost"
+              component={AddPost}
               options={{ title: '' }}
             />
             <Stack.Screen

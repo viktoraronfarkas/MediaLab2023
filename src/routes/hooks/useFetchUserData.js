@@ -4,6 +4,7 @@ import axios from 'axios';
 import {
   selectedUser,
   IpAddress,
+  selectedUserId
 } from '../../redux/features/mainSlice/mainSlice';
 
 // Custom hook for fetching user data
@@ -12,12 +13,14 @@ export default function useFetchUserData() {
   const clientIpAddress = useSelector(IpAddress);
   const [userData, setUserData] = useState({});
   const [imageUpload, setImage] = useState(null);
+  const currentSelectedUserId = useSelector(selectedUserId);
+
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `http://${clientIpAddress}:3001/user/${currentUser.user_id}`
+          `http://${clientIpAddress}:3001/user/${currentSelectedUserId}`
         );
 
         // Convert Blob to Base64 string

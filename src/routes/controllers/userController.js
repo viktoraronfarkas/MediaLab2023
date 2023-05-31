@@ -74,7 +74,7 @@ exports.subscribeToSubgroup = (req, res) => {
     }
 
     connection.query(
-      'INSERT INTO subscribedsubgroups (user_id, group_id, main_group_id) VALUES (?, ?, ?)',
+      'INSERT INTO subscribedsubgroups (user_id, subgroup_id, main_group_id) VALUES (?, ?, ?)',
       [userId, subgroupId, mainGroupId],
       (error) => {
         connection.release();
