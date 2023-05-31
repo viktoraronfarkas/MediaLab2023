@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, Image } from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import InputField from '../components/Items/InputField';
 import { styles, theme } from '../constants/myTheme';
@@ -27,14 +34,53 @@ function AddPost() {
   const [postHeading, setHeading] = useState('');
   const [postCaption, setCaption] = useState('');
   const [postText, setText] = useState('');
+  const [imageUpload, setImage] = useState(null);
+
+  // Choose Profile Picture
+  const pickProfilePicture = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      includeBase64: false,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
   const handlePress = async (e) => {
     e.preventDefault();
     const url = `http://${clientIpAddress}:3001/subgroup/posts/add`;
+
+    const formData = new FormData();
+    formData.append('groupId', currentGroup.subgroupId);
+
+    if (imageUpload) {
+      try {
+        const response = await fetch(imageUpload);
+        const blob = await response.blob();
+
+        // Append the image blob to FormData object
+        formData.append('subgroupImage', blob, 'subgroup_img.png');
+      } catch (error) {
+        console.error('Error reading image file:', error);
+      }
+    }
+
+    formData.append('userId', currentUser.user_id);
+    formData.append('heading', postHeading);
+    formData.append('caption', postCaption);
+    formData.append('text', postText);
+
     try {
       await axios.post(url, {
         groupId: currentGroup.subgroupId,
-        titleImage: '',
+        titleImage: imageUpload,
         userId: currentUser.user_id,
         heading: postHeading,
         caption: postCaption,
@@ -100,7 +146,12 @@ function AddPost() {
         <View style={{ marginTop: 20 }}>
           <Text style={styles.subtitle2}>Add an Image:</Text>
           <View style={{ marginLeft: 20, marginTop: 15 }}>
-            <Image source={UploadIcon} style={{ width: 60, height: 60 }} />
+            <TouchableOpacity
+              onPress={pickProfilePicture}
+              style={{ paddingTop: 20, paddingBottom: 40 }}
+            >
+              <Image source={UploadIcon} style={{ width: 60, height: 60 }} />
+            </TouchableOpacity>
           </View>
         </View>
 
