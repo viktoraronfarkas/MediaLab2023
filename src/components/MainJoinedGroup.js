@@ -7,8 +7,8 @@ import circleLineImage from '../../assets/Images/circleLine-image.png';
 import {
   selectedGroup,
   SetselectedSubGroup,
-  selectedUser,
   IpAddress,
+  selectedUserId,
 } from '../redux/features/mainSlice/mainSlice';
 import SubGroupsFilter from './Buttons/SubGroupsFilter';
 import { styles } from '../constants/myTheme';
@@ -20,11 +20,11 @@ import { MoreSvg } from './svgs';
 
 function MainJoinedGroup() {
   const selectedGroupValue = useSelector(selectedGroup);
-  const currentUser = useSelector(selectedUser);
   const clientIpAddress = useSelector(IpAddress);
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [subscribedGroups, setSubscribedGroups] = useState([]);
   const [filteredSubgroups, setFilteredSubgroups] = useState([]);
+  const currentSelectedUserId = useSelector(selectedUserId);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -62,7 +62,7 @@ function MainJoinedGroup() {
     const fetchSubscribedGroups = async () => {
       try {
         const response = await axios.get(
-          `http://${clientIpAddress}:3001/user/${currentUser.user_id}/subscribed-groups`
+          `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/subscribed-groups`
         );
         const { mainGroups, subGroups } = response.data;
 
@@ -80,7 +80,7 @@ function MainJoinedGroup() {
     fetchSubscribedGroups();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    currentUser.user_id,
+    currentSelectedUserId,
     selectedFilter,
     selectedGroupValue,
     clientIpAddress,
