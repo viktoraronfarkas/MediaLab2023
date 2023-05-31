@@ -129,7 +129,7 @@ function Subgroup() {
   const selectedSubGroupValue = useSelector(selectedSubGroup);
   const currentUser = useSelector(selectedUser);
   const clientIpAddress = useSelector(IpAddress);
-  const storedPosts = useSelector(posts);
+  let storedPosts = useSelector(posts);
 
   const [joined, setJoined] = useState(0);
 
@@ -175,25 +175,9 @@ function Subgroup() {
     dispatch(setPosts(fetchedPosts));
   }, [dispatch, fetchedPosts]);
 
-  let postCards;
-  console.log(storedPosts, storedPosts.length);
-
-  useEffect(() => {
-    if (storedPosts.length > 0) {
-      postCards = storedPosts.map((post) => (
-        <PostCard
-          title={post.heading}
-          subTitle={post.caption}
-          content={post.text}
-          coverImage={require('../../assets/media.png')}
-          iconSource={require('../../assets/Application-of-Computer-Graphics-1.png')}
-          disabled
-        />
-      ));
-
-      console.log(postCards);
-    }
-  }, [storedPosts]);
+  if (Object.keys(storedPosts).length === 0) {
+    storedPosts = [];
+  }
 
   return (
     <SafeAreaView style={style.container}>
@@ -253,7 +237,18 @@ function Subgroup() {
           )}
 
           <View style={style.postsContainer}>
-            <View style={style.postContainer}>{postCards}</View>
+            <View style={style.postContainer}>
+              {storedPosts.map((post) => (
+                <PostCard
+                  title={post.heading}
+                  subTitle={post.caption}
+                  content={post.text}
+                  coverImage={require('../../assets/media.png')}
+                  iconSource={require('../../assets/Application-of-Computer-Graphics-1.png')}
+                  disabled
+                />
+              ))}
+            </View>
           </View>
         </View>
       </ScrollView>
