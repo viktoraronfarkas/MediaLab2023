@@ -91,13 +91,12 @@ export default function UserProfileView({
   };
   return (
     <SafeAreaView style={style.container}>
-      <ScrollView style={{ paddingHorizontal: 30 }}>
+      <ScrollView style={{ paddingHorizontal: 30 }} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={{ paddingVertical: 10 }}>
           <CaptionScribbleHeading
             subHeading="Only you"
             title="Your Profile"
-            headlineStyle={{ width: 120 }}
             scribbleSubHeadingImage={scribble}
             underlineImage={underline}
             arrowImage={arrow}

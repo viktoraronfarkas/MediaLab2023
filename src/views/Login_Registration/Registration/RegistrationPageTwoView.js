@@ -36,12 +36,11 @@ export default function RegistrationPageTwoView() {
           <CaptionScribbleHeading
             subHeading="Our concept"
             title="We use a system of main groups, inside those are subgroups that relate to the main groups. Inside the subgroups there are posts and events that you and others can create and interact with."
-            headlineStyle={{ width: 320 }}
           />
 
           <CaptionScribbleHeading
             title="Main Groups"
-            headlineStyle={{ fontSize: 32, width: 180 }}
+            headlineStyle={{ fontSize: 32}}
             underlineImage={underline}
             arrowImage={arrow}
             underlineStyle={{ width: 100, top: 45, left: 70 }}
@@ -56,10 +55,10 @@ export default function RegistrationPageTwoView() {
 
           <CaptionScribbleHeadingMirror
             title="Sub Groups"
-            headlineStyle={{ width: 160 }}
             underlineImage={underline}
             arrowImage={arrow}
             underlineStyle={{ width: 130, top: 52 }}
+            headlineStyle={{ width: 300 }}
           />
 
           <View style={{ paddingVertical: 30 }}>
@@ -76,7 +75,7 @@ export default function RegistrationPageTwoView() {
           </View>
           <CaptionScribbleHeading
             title="Posts & Events"
-            headlineStyle={{ fontSize: 32, width: 200 }}
+            headlineStyle={{ fontSize: 32 }}
             underlineImage={underline}
             arrowImage={arrow}
             underlineStyle={{ width: 180, top: 48, left: 10 }}
