@@ -15,7 +15,7 @@ import {
  */
 export default function PersonalDataScreen() {
   const [hasChanges, setHasChanges] = useState(false);
-  const userData = useFetchUserData();
+  const { userData, studyCourses } = useFetchUserData();
   const dispatch = useDispatch();
   const currentUser = useSelector(selectedUser);
   const [usernameData, setUsername] = useState(currentUser.username);
@@ -23,12 +23,14 @@ export default function PersonalDataScreen() {
   const [biographyData, setBiography] = useState(currentUser.biography);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [birthday, setSelectedDate] = useState(
-    new Date(currentUser.birthday) ?? new Date(1900, 1, 1)
+    new Date(currentUser.birthday) ?? new Date(1, 1, 1900)
   );
   const [dialogVisible, setDialogVisible] = useState(false);
+  const [isPickerOpen, setIsPickerOpen] = useState(false);
+  const [studyProgramme, setStudyProgramme] = useState(currentUser.studyCourse);
 
-  // const [isPickerOpen, setIsPickerOpen] = useState(false);
-  // const [studyProgramme, setStudyProgramme] = useState('');
+  // const studyProgrammeList = ['Bcc', 'BMT'];
+  // const studyProgrammeList = currentUser.studyProgramme.st;
   // const [password, setPassword] = useState('');
   // const [confirmPassword, setPasswordConfirmation] = useState('');
 
@@ -91,10 +93,10 @@ export default function PersonalDataScreen() {
     }
   };
 
-  // const onChangeSelectionStudyProgramme = (value) => {
-  //   setStudyProgramme(value);
-  //   setIsPickerOpen(true);
-  // };
+  const onChangeSelectionStudyProgramme = (value) => {
+    setStudyProgramme(value);
+    setIsPickerOpen(true);
+  };
 
   const handleSaveChanges = async (event) => {
     const isUsernameValid = !usernameData || validateUsername();
@@ -110,6 +112,7 @@ export default function PersonalDataScreen() {
         name: nameData || currentUser.name,
         biography: biographyData || currentUser.biography,
         birthday: birthday.toISOString() || currentUser.birthday,
+        studyProgramme: studyProgramme || currentUser.studyProgramme,
       };
 
       // Call the updateUser function to update the data in the database
@@ -123,6 +126,7 @@ export default function PersonalDataScreen() {
         console.error('Error updating user data:', error);
         throw error;
       }
+      console.log(updatedData);
     }
   };
 
@@ -160,11 +164,10 @@ export default function PersonalDataScreen() {
         }
       }}
       // Study Programme
-      // studyProgrammeLabel={userData.studyProgramme}
-      // studyProgrammeList={studyProgrammeList}
-      // studyProgrammeValue={userData.studyProgramme}
-      // onChangeSelectionStudyProgramme={onChangeSelectionStudyProgramme}
-      // isPickerOpen={isPickerOpen}
+      studyProgrammeList={studyCourses}
+      studyProgrammeValue={userData.studyProgramme}
+      onChangeSelectionStudyProgramme={onChangeSelectionStudyProgramme}
+      isPickerOpen={isPickerOpen}
       // Birthday
       openDatePicker={() => {
         setShowDatePicker(true);

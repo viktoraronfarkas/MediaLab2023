@@ -3,25 +3,27 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { useDispatch, useSelector } from 'react-redux';
 import UserProfileView from './UserProfileView';
+
 import {
   setCurrentUser,
   selectedUser,
 } from '../../../redux/features/mainSlice/mainSlice';
 import useFetchUserData from '../../../routes/hooks/useFetchUserData';
 
-// TODO Fetch profile image & edit profile image
+// TODO edit profile image
 /**
  * This is the main User Profile Screen.
  * General data like profile image, username, email, biography, name are fetched and handled here.
  * Also navigating to the other settings.
  */
 export default function UserProfileScreen() {
-  const { userData, imageUpload } = useFetchUserData();
-  const [imageUploaded, setImage] = useState(null);
+  const { userData, studyCourse } = useFetchUserData();
+  const currentUser = useSelector(selectedUser);
+  const dispatch = useDispatch();
+
+  const [imageUpload, setImage] = useState(null);
   const [dialogVisible, setDialogVisible] = useState(false);
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-  const currentUser = useSelector(selectedUser);
   // const userId = useFetchUserData();
 
   // Update imageUploaded when imageUpload changes
@@ -31,7 +33,9 @@ export default function UserProfileScreen() {
 
   useEffect(() => {
     dispatch(setCurrentUser(userData));
+    dispatch(setCurrentUser(studyCourse));
   }, [dispatch, userData]);
+  // const { updateUser } = useUpdateUserData();
 
   // Open Action Dialog to edit, delete profile image
   const handleDialogOpen = () => {
@@ -62,7 +66,21 @@ export default function UserProfileScreen() {
       setImage(result.assets[0].uri);
       setDialogVisible(false);
     }
+
+    // const updatedData = {
+    //   profileImage: imageUpload || currentUser.profileImage,
+    // };
+
+    // try {
+    //   await updateUser(updatedData);
+    //   dispatch(setCurrentUser(updatedData));
+    // } catch (error) {
+    //   // Handle error if necessary
+    //   console.error('Error updating user data:', error);
+    //   throw error;
+    // }
   };
+
   return (
     <UserProfileView
       onPressEditImage={pickProfilePicture}
@@ -71,12 +89,12 @@ export default function UserProfileScreen() {
       alertVisible={dialogVisible}
       onPressCancelDialog={handleCancelDialog}
       // User Data
-      profileImage={imageUploaded}
-      username={currentUser.username ?? 'no data'}
-      biography={currentUser.biography ?? 'no data'}
+      profileImage={currentUser.profileImage}
       emailUser={currentUser.email}
+      username={currentUser.username ?? 'no data'}
       name={currentUser.name ?? 'null'}
-      studyProgramme={currentUser.studyProgramme ?? 'no data'}
+      biography={currentUser.biography ?? 'no data'}
+      studyCourse={currentUser.studyCourse || 'no data'}
       // Settings
       onPersonalData={() => navigation.navigate('PersonalData')}
       onJoinedGroups={() => navigation.navigate('JoinedGroups')}

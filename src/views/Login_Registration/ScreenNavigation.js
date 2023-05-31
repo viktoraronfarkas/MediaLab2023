@@ -15,6 +15,7 @@ import HelpScreen from '../UserProfile/AccountDetails/help/HelpScreen';
 import AboutUsScreen from '../UserProfile/AccountDetails/aboutUs/AboutUsScreen';
 import DataSecurity from '../DataSecurity';
 import CommunityGuidelines from '../CommunityGuidelines';
+import QuickTour from '../UserProfile/AccountDetails/help/quickTour/QuickTourScreen';
 
 import LandingScreen from '../LandingScreen';
 import LoginScreen from './Login/LoginScreen';
@@ -82,10 +83,10 @@ export default function ScreenNavigation() {
               component={JoinedSubgroup}
               options={{ title: '', headerShown: false }}
             />
-            <Stack.Screen 
-              name="AddSubgroup" 
-              component={AddSubgroup} 
-              options={{ title: '', headerShown: true }} 
+            <Stack.Screen
+              name="AddSubgroup"
+              component={AddSubgroup}
+              options={{ title: '', headerShown: true }}
             />
             <Stack.Screen
               name="UserProfile"
@@ -127,11 +128,11 @@ export default function ScreenNavigation() {
               component={AboutUsScreen}
               options={{ title: '' }}
             />
-            {/*  <Stack.Screen
-          name="quickTour"
-          component={QuickTour}
-         
-        /> */}
+            <Stack.Screen
+              name="quickTour"
+              component={QuickTour}
+              options={{ title: 'Quick Tour' }}
+            />
             <Stack.Screen
               name="communityGuidelines"
               component={CommunityGuidelines}
