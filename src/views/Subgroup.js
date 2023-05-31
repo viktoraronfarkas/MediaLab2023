@@ -17,7 +17,7 @@ import {
 // import SubGroupsFilter from '../components/Buttons/SubGroupsFilter';
 import BackButton from '../components/Buttons/BackButton';
 import iconImage from '../../assets/Icons/plus-icon.png';
-import moreMenuIcon from '../../assets/Icons/more-menu-icon.png';
+// import moreMenuIcon from '../../assets/Icons/more-menu-icon.png';
 import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png';
 import AddIconInteraction from '../components/Buttons/AddIconInteraction';
 import PostCard from '../components/Cards/PostCard';
@@ -101,6 +101,7 @@ function Subgroup() {
       paddingBottom: 10,
       padding: 15,
       width: '100%',
+      marginTop: 50,
     },
     postContainer: {
       marginBottom: 10,
@@ -204,11 +205,11 @@ function Subgroup() {
             <Text style={[styles.headline1, style.headlineStyle]}>
               {selectedSubGroupValue.subgroupName}
             </Text>
-            {joined ? (
+            {/* {joined ? (
               <TouchableOpacity style={style.menuIcon}>
                 <Image style={style.moreMenuIconImage} source={moreMenuIcon} />
               </TouchableOpacity>
-            ) : null}
+            ) : null} */}
           </View>
           {joined ? (
             <View style={style.addPostContainer}>
@@ -238,8 +239,10 @@ function Subgroup() {
 
           <View style={style.postsContainer}>
             <View style={style.postContainer}>
-              {storedPosts.map((post) => (
+              {storedPosts.map((post, index) => (
                 <PostCard
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={index}
                   title={post.heading}
                   subTitle={post.caption}
                   content={post.text}

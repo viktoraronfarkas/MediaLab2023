@@ -10,6 +10,7 @@ const style = StyleSheet.create({
     width: '100%',
     paddingTop: 10,
     paddingBottom: 10,
+    marginBottom: 25,
     backgroundColor: theme.colors.backgroundWhite,
   },
 });
@@ -78,13 +79,17 @@ export default function PostCard({
         </Text>
       </Card.Content>
       <Card.Actions>
-        <OrangeButton
-          buttonBackgroundColor={
-            disabled ? theme.colors.neutralsGrey500 : theme.colors.primary
-          }
-          text={buttonText}
-          onPress={disabled ? null : handlePress}
-        />
+        {buttonText ? (
+          <OrangeButton
+            buttonBackgroundColor={
+              disabled ? theme.colors.neutralsGrey500 : theme.colors.primary
+            }
+            text={buttonText}
+            onPress={disabled ? null : handlePress}
+          />
+        ) : (
+          ''
+        )}
       </Card.Actions>
     </Card>
   );

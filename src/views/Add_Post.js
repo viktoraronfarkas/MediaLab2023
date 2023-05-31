@@ -6,11 +6,11 @@ import axios from 'axios';
 import InputField from '../components/Items/InputField';
 import { styles, theme } from '../constants/myTheme';
 import OrangeButton from '../components/Buttons/OrangeButton';
-import CaptionScribbleHeading from '../components/Texts/CaptionScribbleHeading';
+// import CaptionScribbleHeading from '../components/Texts/CaptionScribbleHeading';
 import UploadIcon from '../../assets/Icons/upload-icon.png';
-import GlitterImage from '../../assets/Images/glitter-image.png';
-import BackButton from '../components/Buttons/BackButton';
-import Filter from '../components/Filter';
+// import GlitterImage from '../../assets/Images/glitter-image.png';
+// import BackButton from '../components/Buttons/BackButton';
+// import Filter from '../components/Filter';
 import {
   selectedSubGroup,
   selectedUser,
@@ -52,18 +52,14 @@ function AddPost() {
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.backgroundSand }}>
       <View style={{ margin: 20 }}>
-        <View style={{ marginBottom: 10, marginTop: 10 }}>
-          <BackButton text="back" />
-        </View>
-
-        <Filter options={['posts', 'events']} activeButton="posts" />
+        {/* <Filter options={['posts', 'events']} activeButton="posts" />
 
         <CaptionScribbleHeading
           subHeading="Give it all to me"
           title="Enter all the post infos that are important for people:"
           scribbleSubHeadingImage={GlitterImage}
           scribbleStyle={{ width: 35, height: 35 }}
-        />
+        /> */}
 
         <View style={{ marginTop: 40 }}>
           <View style={{ marginBottom: 5 }}>
