@@ -178,8 +178,8 @@ function Subgroup() {
       setPostCards(
         posts.forEach((post) => (
           <PostCard
-            title="Computer graphics"
-            subTitle="Study Group"
+            title={post.heading}
+            subTitle={post.caption}
             content={post.text}
             coverImage={require('../../assets/media.png')}
             iconSource={require('../../assets/Application-of-Computer-Graphics-1.png')}
