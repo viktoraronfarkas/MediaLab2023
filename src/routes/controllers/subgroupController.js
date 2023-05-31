@@ -60,7 +60,7 @@ exports.createPost = (req, res) => {
     }
 
     // Retrieve user registration data from the request body
-    const { groupId, userId, text } = req.body;
+    const { groupId, userId, heading, caption, text } = req.body;
 
     // Validate required fields
     if (!groupId) {
@@ -69,8 +69,11 @@ exports.createPost = (req, res) => {
     if (!userId) {
       return res.status(400).json({ message: 'User ID not provided' });
     }
-    if (!text) {
-      return res.status(400).json({ message: 'Text not provided' });
+    if (!heading) {
+      return res.status(400).json({ message: 'Heading not provided' });
+    }
+    if (!caption) {
+      return res.status(400).json({ message: 'Caption not provided' });
     }
 
     // Access the file buffer instead of the file path
@@ -85,8 +88,8 @@ exports.createPost = (req, res) => {
       }
 
       connection.query(
-        'INSERT INTO posts (group_id, title_image, user_id, text) VALUES (?, ?, ?, ?)',
-        [groupId, titleImage, userId, text],
+        'INSERT INTO posts (group_id, title_image, user_id, heading, caption, text) VALUES (?, ?, ?, ?, ?, ?)',
+        [groupId, titleImage, userId, heading, caption, text],
         (insertErr) => {
           connection.release();
 

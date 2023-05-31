@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, SafeAreaView, Image } from 'react-native';
+import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 import InputField from '../components/Items/InputField';
 import { styles, theme } from '../constants/myTheme';
 import OrangeButton from '../components/Buttons/OrangeButton';
@@ -8,8 +11,44 @@ import UploadIcon from '../../assets/Icons/upload-icon.png';
 import GlitterImage from '../../assets/Images/glitter-image.png';
 import BackButton from '../components/Buttons/BackButton';
 import Filter from '../components/Filter';
+import {
+  selectedSubGroup,
+  selectedUser,
+  IpAddress,
+} from '../redux/features/mainSlice/mainSlice';
 
 function AddPost() {
+  const navigation = useNavigation();
+  const currentGroup = useSelector(selectedSubGroup);
+  const clientIpAddress = useSelector(IpAddress);
+  const currentUser = useSelector(selectedUser);
+
+  // const [postImg, setImg] = useState('');
+  const [postHeading, setHeading] = useState('');
+  const [postCaption, setCaption] = useState('');
+  const [postText, setText] = useState('');
+
+  const handlePress = async (e) => {
+    e.preventDefault();
+    const url = `http://${clientIpAddress}:3001/subgroup/posts/add`;
+    try {
+      await axios.post(url, {
+        groupId: currentGroup.subgroupId,
+        titleImage: '',
+        userId: currentUser.user_id,
+        heading: postHeading,
+        caption: postCaption,
+        text: postText,
+      });
+      navigation.navigate('Subgroup');
+    } catch (err) {
+      console.error(
+        'Subscribe to main groups error:',
+        err.response?.data?.message || err.message
+      );
+    }
+  };
+
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.backgroundSand }}>
       <View style={{ margin: 20 }}>
@@ -30,7 +69,13 @@ function AddPost() {
           <View style={{ marginBottom: 5 }}>
             <Text style={styles.subtitle2}>Give us a great heading:</Text>
           </View>
-          <InputField labelText="Name" padding={2} marginLeft={0} />
+          <InputField
+            labelText="Name"
+            value={postHeading}
+            onChangeText={setHeading}
+            padding={2}
+            marginLeft={0}
+          />
           <View style={{ marginLeft: 20 }}>
             <Text style={styles.navLabel}>Limit to 15 Characters</Text>
           </View>
@@ -40,7 +85,13 @@ function AddPost() {
           <View style={{ marginBottom: 5 }}>
             <Text style={styles.subtitle2}>Give us a great Subheading:</Text>
           </View>
-          <InputField labelText="Caption" padding={2} marginLeft={0} />
+          <InputField
+            labelText="Caption"
+            value={postCaption}
+            onChangeText={setCaption}
+            padding={2}
+            marginLeft={0}
+          />
           <View style={{ marginLeft: 20 }}>
             <Text style={styles.navLabel}>Limit to 15 Characters</Text>
           </View>
@@ -57,13 +108,20 @@ function AddPost() {
           <View style={{ marginBottom: 5 }}>
             <Text style={styles.subtitle2}>Write what is important:</Text>
           </View>
-          <InputField labelText="Introduction" padding={2} marginLeft={0} />
+          <InputField
+            labelText="Introduction"
+            value={postText}
+            onChangeText={setText}
+            padding={2}
+            marginLeft={0}
+          />
         </View>
 
         <View style={{ marginTop: 40 }}>
           <OrangeButton
             text="Create"
             styleButton={{ alignSelf: 'center', width: '100%' }}
+            onPress={handlePress}
           />
         </View>
       </View>
