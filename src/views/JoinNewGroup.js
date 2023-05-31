@@ -80,7 +80,12 @@ export default function JoinNewGroup() {
         const response = await axios.get(
           `http://${clientIpAddress}:3001/maingroup`
         );
-        const mainGroupsData = response.data;
+        const mainGroupsData = response.data.map((mainGroup) => ({
+          ...mainGroup,
+          mainGroupTitleImage: mainGroup.mainGroupTitleImage
+            ? `data:image/png;base64,${mainGroup.mainGroupTitleImage}`
+            : null,
+        }));
         setMainGroups(mainGroupsData || []); // Ensure initialization with an empty array if data is undefined
       } catch (error) {
         console.error('Error retrieving main groups:', error);
