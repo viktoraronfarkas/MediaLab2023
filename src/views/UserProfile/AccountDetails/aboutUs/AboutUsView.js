@@ -29,13 +29,13 @@ export default function AboutUsView({ onCommunityGuidelines, onDataSecurity }) {
           />
         </View>
         <ListItemOnlyText
-          title="community guidelines"
+          title="Community Guidelines"
           iconImage={iconImage}
           onPress={onCommunityGuidelines}
           cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
         />
         <ListItemOnlyText
-          title="data security"
+          title="Data Security"
           iconImage={iconImage}
           onPress={onDataSecurity}
           cardContainerStyle={{ marginVertical: 7, paddingVertical: 1 }}
