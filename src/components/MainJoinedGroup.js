@@ -7,8 +7,8 @@ import circleLineImage from '../../assets/Images/circleLine-image.png';
 import {
   selectedGroup,
   SetselectedSubGroup,
-  selectedUser,
   IpAddress,
+  selectedUserId,
 } from '../redux/features/mainSlice/mainSlice';
 import SubGroupsFilter from './Buttons/SubGroupsFilter';
 import { styles } from '../constants/myTheme';
@@ -16,15 +16,15 @@ import TitleCircleHeadingH2 from './Texts/TitleCircleHeading';
 import ListItem from './Items/ListItem';
 import iconImage from '../../assets/Icons/plus-icon.png';
 import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png';
-import { MoreSvg } from './svgs';
+// import { MoreSvg } from './svgs';
 
 function MainJoinedGroup() {
   const selectedGroupValue = useSelector(selectedGroup);
-  const currentUser = useSelector(selectedUser);
   const clientIpAddress = useSelector(IpAddress);
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [subscribedGroups, setSubscribedGroups] = useState([]);
   const [filteredSubgroups, setFilteredSubgroups] = useState([]);
+  const currentSelectedUserId = useSelector(selectedUserId);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -62,7 +62,7 @@ function MainJoinedGroup() {
     const fetchSubscribedGroups = async () => {
       try {
         const response = await axios.get(
-          `http://${clientIpAddress}:3001/user/${currentUser.user_id}/subscribed-groups`
+          `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/subscribed-groups`
         );
         const { mainGroups, subGroups } = response.data;
 
@@ -80,7 +80,7 @@ function MainJoinedGroup() {
     fetchSubscribedGroups();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    currentUser.user_id,
+    currentSelectedUserId,
     selectedFilter,
     selectedGroupValue,
     clientIpAddress,
@@ -103,11 +103,11 @@ function MainJoinedGroup() {
             width: 190,
           }}
         />
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{ position: 'absolute', left: '41%', top: '80%' }}
         >
           <MoreSvg color="#000" width={50} height={50} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       <View
@@ -145,7 +145,7 @@ function MainJoinedGroup() {
               left: '12%',
               top: '90%',
               height: 50,
-              width: 200,
+              width: 210,
               position: 'absolute',
             }}
             source={underlineArrowImage}
@@ -187,7 +187,7 @@ function MainJoinedGroup() {
               iconImage={require('../../assets/Icons/arrow-right.png')}
               onPress={() => {
                 dispatch(SetselectedSubGroup(subgroup));
-                navigation.navigate('JoinedSubgroup');
+                navigation.navigate('Subgroup');
               }}
             />
           ))

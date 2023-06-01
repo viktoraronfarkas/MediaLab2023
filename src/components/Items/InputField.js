@@ -44,7 +44,10 @@ const style = StyleSheet.create({
  */
 
 export default function InputField({
+  placeholderText,
   labelText,
+  onFocus,
+  onBlur,
   value,
   onChangeText,
   padding,
@@ -52,7 +55,8 @@ export default function InputField({
   secureTextEntry,
   width = '100%',
   editable = true,
-  placeholderText,
+  maxLength,
+  inputStyle, // leave that inside please! It's for overriding the input-style
 }) {
   const dynamicStyles = StyleSheet.create({
     input: {
@@ -67,10 +71,12 @@ export default function InputField({
       <TextInput
         placeholder={placeholderText}
         label={labelText}
+        onFocus={onFocus}
+        onBlur={onBlur}
         value={value}
         onChangeText={onChangeText}
         style={[
-          [style.input, dynamicStyles.input, { width }],
+          [style.input, dynamicStyles.input, { width }, inputStyle],
           secureTextEntry && { secureTextEntry: true },
         ]}
         underlineColor="transparent"
@@ -82,6 +88,7 @@ export default function InputField({
         }}
         secureTextEntry={secureTextEntry}
         editable={editable}
+        maxLength={maxLength}
       />
     </View>
   );

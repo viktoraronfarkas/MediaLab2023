@@ -4,19 +4,22 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  Image,
+  // Image,
   View,
-  TouchableOpacity,
+  // TouchableOpacity,
 } from 'react-native';
 import ClickableText from '../../../components/ClickableText';
-import { theme, styles } from '../../../constants/myTheme';
+import {
+  theme,
+  // styles
+} from '../../../constants/myTheme';
 import InputField from '../../../components/Items/InputField';
 import OrangeButton from '../../../components/Buttons/OrangeButton';
 import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHeading';
 import scribble from '../../../../assets/Images/star-glitter-image.png';
-import uploadIcon from '../../../../assets/Icons/upload-icon.png';
-import cancelIcon from '../../../../assets/Icons/cancel-icon.png';
-import checkIcon from '../../../../assets/Icons/check-icon.png';
+// import uploadIcon from '../../../../assets/Icons/upload-icon.png';
+// import cancelIcon from '../../../../assets/Icons/cancel-icon.png';
+// import checkIcon from '../../../../assets/Icons/check-icon.png';
 
 const style = StyleSheet.create({
   container: {
@@ -86,9 +89,9 @@ export default function RegistrationPageOneView({
   confirmPasswordValue,
   onPasswordConfirmation,
 
-  onPressProfileImageUpload,
-  imageUpload,
-  onPressDeletePicture,
+  // onPressProfileImageUpload,
+  // imageUpload,
+  // onPressDeletePicture,
   // fileNameImage,
 
   onNavigateText,
@@ -167,7 +170,7 @@ export default function RegistrationPageOneView({
               marginLeft={0}
             />
           </View>
-          <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
+          {/* <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
             <Text style={styles.subtitle1}>
               Upload your profile picture here (optional):
             </Text>
@@ -196,7 +199,7 @@ export default function RegistrationPageOneView({
 
                 <View style={style.infoImageContainer}>
                   <Image source={checkIcon} style={style.iconCheck} />
-                  {/* <Text>File: Name:{imageUpload.fileNameImage}</Text> */}
+                  <Text>File: Name:{imageUpload.fileNameImage}</Text>
 
                   <TouchableOpacity onPress={onPressDeletePicture}>
                     <Image source={cancelIcon} style={style.iconCancel} />
@@ -204,7 +207,7 @@ export default function RegistrationPageOneView({
                 </View>
               </View>
             )}
-          </View>
+          </View> */}
 
           <OrangeButton
             text="Next"

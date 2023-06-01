@@ -1,30 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { ToastAndroid, Alert, Clipboard, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { useDispatch, useSelector } from 'react-redux';
 import UserProfileView from './UserProfileView';
 
+import {
+  setCurrentUser,
+  selectedUser,
+} from '../../../redux/features/mainSlice/mainSlice';
+import useFetchUserData from '../../../routes/hooks/useFetchUserData';
+
+// TODO edit profile image
 /**
  * This is the main User Profile Screen.
  * General data like profile image, username, email, biography, name are fetched and handled here.
  * Also navigating to the other settings.
  */
 export default function UserProfileScreen() {
-  const [imageUpload, setImage] = useState(null);
+  const { userData, studyCourse } = useFetchUserData();
+  const currentUser = useSelector(selectedUser);
+  const dispatch = useDispatch();
+
+  // const [imageUpload, setImage] = useState(null);
   const [dialogVisible, setDialogVisible] = useState(false);
   const navigation = useNavigation();
+  // const userId = useFetchUserData();
 
-  // we need to have the user.email declared & defined here for the handleCopy function:
-  const email = 'cc201028@fhstp.ac.at';
+  // // Update imageUploaded when imageUpload changes
+  // useEffect(() => {
+  //   setImage(imageUpload);
+  // }, [imageUpload]);
 
-  const handleCopy = () => {
-    Clipboard.setString(email);
-    if (Platform.OS === 'android') {
-      ToastAndroid.show('The email has been copied.', ToastAndroid.SHORT);
-    } else if (Platform.OS === 'ios') {
-      Alert.alert('The email has been copied.');
-    }
-  };
+  useEffect(() => {
+    dispatch(setCurrentUser(userData));
+    dispatch(setCurrentUser(studyCourse));
+  }, [dispatch, userData]);
+  // const { updateUser } = useUpdateUserData();
 
   // Open Action Dialog to edit, delete profile image
   const handleDialogOpen = () => {
@@ -33,7 +44,7 @@ export default function UserProfileScreen() {
 
   // Delete Profile Picture (will show default image)
   const handleDeletePicture = () => {
-    setImage(null);
+    // setImage(null);
     setDialogVisible(false);
   };
   // Cancel the Dialog Action
@@ -52,10 +63,24 @@ export default function UserProfileScreen() {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      // setImage(result.assets[0].uri);
       setDialogVisible(false);
     }
+
+    // const updatedData = {
+    //   profileImage: imageUpload || currentUser.profileImage,
+    // };
+
+    // try {
+    //   await updateUser(updatedData);
+    //   dispatch(setCurrentUser(updatedData));
+    // } catch (error) {
+    //   // Handle error if necessary
+    //   console.error('Error updating user data:', error);
+    //   throw error;
+    // }
   };
+
   return (
     <UserProfileView
       onPressEditImage={pickProfilePicture}
@@ -64,13 +89,12 @@ export default function UserProfileScreen() {
       alertVisible={dialogVisible}
       onPressCancelDialog={handleCancelDialog}
       // User Data
-      profileImage={imageUpload}
-      username="Username"
-      biography="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-      email={email}
-      handleCopy={() => handleCopy(email)}
-      name="Jane Doe"
-      studyProgramme="BCC"
+      profileImage={currentUser.profileImage}
+      emailUser={currentUser.email}
+      username={currentUser.username ?? 'no data'}
+      name={currentUser.name ?? 'null'}
+      biography={currentUser.biography ?? 'no data'}
+      studyCourse={currentUser.studyCourse || 'no data'}
       // Settings
       onPersonalData={() => navigation.navigate('PersonalData')}
       onJoinedGroups={() => navigation.navigate('JoinedGroups')}

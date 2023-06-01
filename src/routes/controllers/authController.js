@@ -115,7 +115,7 @@ exports.signup = async (req, res) => {
       }
 
       // Insert the user data into the database
-      const result = await new Promise((resolve, reject) => {
+      const queryResult = await new Promise((resolve, reject) => {
         pool.query(
           'INSERT INTO users (email, name, username, password, profile_image, role_id) VALUES (?, ?, ?, ?, ?, ?)',
           [email, name, username, passwordHash, profileImageData, roleId],
@@ -131,7 +131,7 @@ exports.signup = async (req, res) => {
 
       return res
         .status(200)
-        .json({ message: 'User created', userId: result.insertId });
+        .json({ message: 'User created', userId: queryResult.insertId });
     } catch (error) {
       console.error('Error creating user:', error);
       // If an error occurred, delete the uploaded profile image

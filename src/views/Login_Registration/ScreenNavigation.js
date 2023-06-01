@@ -15,6 +15,7 @@ import HelpScreen from '../UserProfile/AccountDetails/help/HelpScreen';
 import AboutUsScreen from '../UserProfile/AccountDetails/aboutUs/AboutUsScreen';
 import DataSecurity from '../DataSecurity';
 import CommunityGuidelines from '../CommunityGuidelines';
+import QuickTour from '../UserProfile/AccountDetails/help/quickTour/QuickTourScreen';
 
 import LandingScreen from '../LandingScreen';
 import LoginScreen from './Login/LoginScreen';
@@ -22,14 +23,18 @@ import RegistrationScreen from './Registration/RegistrationScreen';
 import BackButtonNavigationContainer from '../../components/Buttons/BackButtonNavigationContainer';
 import Main from '../Main';
 import JoinGroup from '../JoinGroupScreen';
-import JoinedSubgroup from '../JoinedSubgroup';
+import Subgroup from '../Subgroup';
 import AddSubgroup from '../AddSubgroup';
+import AddPost from '../Add_Post';
 import {
   setLoggedIn,
   loggedIn,
 } from '../../redux/features/mainSlice/mainSlice';
 import JoinNewGroup from '../JoinNewGroup';
 
+/**
+ * This is the main Navigation file of most of the screens.
+ */
 export default function ScreenNavigation() {
   const Stack = createStackNavigator();
   const dispatch = useDispatch();
@@ -75,8 +80,8 @@ export default function ScreenNavigation() {
               options={{ title: '', headerShown: false }}
             />
             <Stack.Screen
-              name="JoinedSubgroup"
-              component={JoinedSubgroup}
+              name="Subgroup"
+              component={Subgroup}
               options={{ title: '', headerShown: false }}
             />
             <Stack.Screen
@@ -124,11 +129,16 @@ export default function ScreenNavigation() {
               component={AboutUsScreen}
               options={{ title: '' }}
             />
-            {/*  <Stack.Screen
-          name="quickTour"
-          component={QuickTour}
-         
-        /> */}
+            <Stack.Screen
+              name="addPost"
+              component={AddPost}
+              options={{ title: '' }}
+            />
+            <Stack.Screen
+              name="quickTour"
+              component={QuickTour}
+              options={{ title: 'Quick Tour' }}
+            />
             <Stack.Screen
               name="communityGuidelines"
               component={CommunityGuidelines}

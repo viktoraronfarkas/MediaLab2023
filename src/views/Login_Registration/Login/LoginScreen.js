@@ -11,6 +11,7 @@ import {
   setCurrentUser,
   IpAddress,
   setLoggedIn,
+  setCurrentUserId,
 } from '../../../redux/features/mainSlice/mainSlice';
 
 const styles = StyleSheet.create({
@@ -44,6 +45,7 @@ export default function LoginScreen() {
   const storeUserId = async (value) => {
     try {
       await AsyncStorage.setItem('userID', String(value));
+      dispatch(setCurrentUserId(value));
     } catch (e) {
       // saving error
     }
@@ -51,7 +53,7 @@ export default function LoginScreen() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    console.log(clientIpAddress);
     try {
       setLoading(true);
 

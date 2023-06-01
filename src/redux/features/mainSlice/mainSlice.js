@@ -2,13 +2,15 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // Here we pass the intial state of the variables/object
 const initialState = {
-  // FIXME: This code needs to be deleted its just an example
+  // TODO FIXME: This code needs to be deleted its just an example
   selectedMainGroup: 'Feed',
   selectedSubGroup: '',
   currentUser: {},
+  currentUserId: '',
   IpAddress: '10.55.103.74',
   loggedIn: '',
   selectedNewJoinedGroups: [],
+  posts: [],
 };
 
 export const mainSlice = createSlice({
@@ -22,13 +24,20 @@ export const mainSlice = createSlice({
       state.selectedSubGroup = action.payload;
     },
     setCurrentUser: (state, action) => {
-      state.currentUser = action.payload;
+      const updatedProps = action.payload;
+      state.currentUser = { ...state.currentUser, ...updatedProps };
+    },
+    setCurrentUserId: (state, action) => {
+      state.currentUserId = action.payload;
     },
     setLoggedIn: (state, action) => {
       state.loggedIn = action.payload;
     },
     setNewJoinedGroup: (state, action) => {
       state.selectedNewJoinedGroups = action.payload;
+    },
+    setPosts: (state, action) => {
+      state.posts = action.payload;
     },
   },
 });
@@ -40,14 +49,18 @@ export const {
   setCurrentUser,
   setLoggedIn,
   setNewJoinedGroup,
+  setPosts,
+  setCurrentUserId,
 } = mainSlice.actions;
 
 export const selectedGroup = (state) => state.main.selectedMainGroup;
-export const selectedSupGroup = (state) => state.main.selectedSubGroup;
+export const selectedSubGroup = (state) => state.main.selectedSubGroup;
 export const selectedUser = (state) => state.main.currentUser;
+export const selectedUserId = (state) => state.main.currentUserId;
 export const IpAddress = (state) => state.main.IpAddress;
 export const loggedIn = (state) => state.main.loggedIn;
 export const selectedNewJoinedGroups = (state) =>
   state.main.selectedNewJoinedGroups;
+export const posts = (state) => state.main.posts;
 
 export default mainSlice.reducer;

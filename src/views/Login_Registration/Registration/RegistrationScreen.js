@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import firebase from '../../../../config';
 import { theme } from '../../../constants/myTheme';
 import RegistrationPageOneView from './RegistrationPageOneView';
@@ -17,6 +17,7 @@ import BackButtonNavigationContainer from '../../../components/Buttons/BackButto
 import {
   IpAddress,
   selectedNewJoinedGroups,
+  setNewJoinedGroup,
 } from '../../../redux/features/mainSlice/mainSlice';
 
 const style = StyleSheet.create({
@@ -67,6 +68,7 @@ export default function RegistrationScreen() {
   const handleTextLoginClick = () => {
     navigation.navigate('LoginScreen');
   };
+  const dispatch = useDispatch();
 
   const validateEmail = () => {
     // const emailRegex = /[a-z]{2}\d{6}@fhstp\.ac\.at/;
@@ -292,6 +294,7 @@ export default function RegistrationScreen() {
 
           // Handle join group response
           console.log(joinGroupResponse.data);
+          dispatch(setNewJoinedGroup([]));
         } catch (error) {
           // Handle error
           console.error('Error joining recommended groups:', error);
