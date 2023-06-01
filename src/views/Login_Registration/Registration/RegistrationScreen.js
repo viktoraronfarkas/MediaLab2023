@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { /* useDispatch, */ useSelector } from 'react-redux';
 import firebase from '../../../../config';
 import { theme } from '../../../constants/myTheme';
 import RegistrationPageOneView from './RegistrationPageOneView';
@@ -16,8 +16,8 @@ import VerifyEmailScreen from '../VerifyEmailScreen';
 import BackButtonNavigationContainer from '../../../components/Buttons/BackButtonNavigationContainer';
 import {
   IpAddress,
-  selectedNewJoinedGroups,
-  setNewJoinedGroup,
+  // selectedNewJoinedGroups,
+  // setNewJoinedGroup,
 } from '../../../redux/features/mainSlice/mainSlice';
 
 const style = StyleSheet.create({
@@ -57,8 +57,8 @@ export default function RegistrationScreen() {
   const [confirmError, setConfirmError] = useState('');
   const [imageUpload, setImage] = useState(null);
   const [selectedNames, setSelectedNames] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const NewJoinedGroups = useSelector(selectedNewJoinedGroups);
+  // const [loading, setLoading] = useState(false);
+  // const NewJoinedGroups = useSelector(selectedNewJoinedGroups);
 
   const clientIpAddress = useSelector(IpAddress);
 
@@ -68,7 +68,7 @@ export default function RegistrationScreen() {
   const handleTextLoginClick = () => {
     navigation.navigate('LoginScreen');
   };
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const validateEmail = () => {
     // const emailRegex = /[a-z]{2}\d{6}@fhstp\.ac\.at/;
@@ -199,19 +199,19 @@ export default function RegistrationScreen() {
 
     // submit registration form if there are no errors
     try {
-      await firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
+      await firebase.auth().createUserWithEmailAndPassword(email, password);
 
-        // Send the verification email
-        // await firebase.auth().currentUser.sendEmailVerification({
-        //   handleCodeInApp: true,
-        // url: 'https://uasync-8e7a4.firebaseapp.com',
-        // });
-        // Prompt the user to verify their email address
-        // alert(
-        //   'A verification email has been sent to your email address. Please verify your email address to complete the registration process.'
-        // );
+      // Send the verification email
+      await firebase.auth().currentUser.sendEmailVerification({
+        handleCodeInApp: true,
+        url: 'https://uasync-8e7a4.firebaseapp.com',
+      });
+      // Prompt the user to verify their email address
+      alert(
+        'A verification email has been sent to your email address. Please verify your email address to complete the registration process.'
+      );
+      navigation
+        .navigate('VerifyEmailScreen')
 
         // Update the user's password once they have verified their email address
 
@@ -233,81 +233,80 @@ export default function RegistrationScreen() {
         .catch((error) => {
           alert(error.message);
         });
-      navigation.navigate('VerifyEmailScreen');
     } catch (error) {
       alert(error.message);
     }
 
     console.log(selectedNames);
-    // Create FormData object
-    const formData = new FormData();
+    // // Create FormData object
+    // const formData = new FormData();
 
-    // Append form fields to FormData object
-    formData.append('email', email);
-    formData.append('username', username);
-    formData.append('name', name);
-    formData.append('password', password);
+    // // Append form fields to FormData object
+    // formData.append('email', email);
+    // formData.append('username', username);
+    // formData.append('name', name);
+    // formData.append('password', password);
 
     // Check if an image is uploaded
-    if (imageUpload) {
-      try {
-        setLoading(true);
-        const response = await fetch(imageUpload);
-        const blob = await response.blob();
+    // if (imageUpload) {
+    //   try {
+    //     setLoading(true);
+    //     const response = await fetch(imageUpload);
+    //     const blob = await response.blob();
 
-        // Append the image blob to FormData object
-        formData.append('profile_image', blob, 'profile_image.png');
-      } catch (error) {
-        console.error('Error reading image file:', error);
-      }
-    }
+    //     // Append the image blob to FormData object
+    //     formData.append('profile_image', blob, 'profile_image.png');
+    //   } catch (error) {
+    //     console.error('Error reading image file:', error);
+    //   }
+    // }
 
     // Make the API request using Axios or any other HTTP client library
-    try {
-      const response = await axios.post(
-        `http://${clientIpAddress}:3001/auth/signup`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
+    // try {
+    //   const response = await axios.post(
+    //     `http://${clientIpAddress}:3001/auth/signup`,
+    //     formData,
+    //     {
+    //       headers: {
+    //         'Content-Type': 'multipart/form-data',
+    //       },
+    //     }
+    //   );
 
-      // Handle response
-      console.log(response.data);
+    //   // Handle response
+    //   console.log(response.data);
 
-      // Retrieve the user ID from the response
-      const { userId } = response.data;
-      const mainGroupIds = [...NewJoinedGroups];
+    // Retrieve the user ID from the response
+    //   const { userId } = response.data;
+    //   const mainGroupIds = [...NewJoinedGroups];
 
-      // Join the recommended groups with the user ID
-      if (userId) {
-        try {
-          const joinGroupResponse = await axios.post(
-            `http://${clientIpAddress}:3001/user/subscribe/maingroup`,
-            {
-              userId,
-              mainGroupIds,
-            }
-          );
+    //   // Join the recommended groups with the user ID
+    //   if (userId) {
+    //     try {
+    //       const joinGroupResponse = await axios.post(
+    //         `http://${clientIpAddress}:3001/user/subscribe/maingroup`,
+    //         {
+    //           userId,
+    //           mainGroupIds,
+    //         }
+    //       );
 
-          // Handle join group response
-          console.log(joinGroupResponse.data);
-          dispatch(setNewJoinedGroup([]));
-        } catch (error) {
-          // Handle error
-          console.error('Error joining recommended groups:', error);
-        }
-      }
+    //       // Handle join group response
+    //       console.log(joinGroupResponse.data);
+    //       dispatch(setNewJoinedGroup([]));
+    //     } catch (error) {
+    //       // Handle error
+    //       console.error('Error joining recommended groups:', error);
+    //     }
+    //   }
 
-      navigation.navigate('LoginScreen');
-    } catch (error) {
-      // Handle error
-      console.error('Error sending form data:', error);
-    } finally {
-      setLoading(false);
-    }
+    //   // navigation.navigate('LoginScreen');
+    // } catch (error) {
+    //   // Handle error
+    //   console.error('Error sending form data:', error);
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (
@@ -389,7 +388,7 @@ export default function RegistrationScreen() {
             selectedGroups={selectedNames}
             // Submit form
             handleSubmit={handleSubmit}
-            loading={loading}
+            // loading={loading}
           />
         )}
       </RegistrationStack.Screen>

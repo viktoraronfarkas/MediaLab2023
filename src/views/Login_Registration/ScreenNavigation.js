@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch, useSelector } from 'react-redux';
 import { theme } from '../../constants/myTheme';
-
+import VerifyEmailScreen from './VerifyEmailScreen';
 import UserProfileScreen from '../UserProfile/UserProfile/UserProfileScreen';
 import PersonalDataScreen from '../UserProfile/AccountDetails/personalData/PersonalDataScreen';
 import InteractedPostsScreen from '../UserProfile/AccountDetails/interactedPosts/InteractedPostsScreen';
@@ -152,6 +152,11 @@ export default function ScreenNavigation() {
             <Stack.Screen
               name="JoinNewGroup"
               component={JoinNewGroup}
+              options={{ title: '', headerShown: false }}
+            />
+            <Stack.Screen
+              name="VerifyEmailScreen"
+              component={VerifyEmailScreen}
               options={{ title: '', headerShown: false }}
             />
           </>

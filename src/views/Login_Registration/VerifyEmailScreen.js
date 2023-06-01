@@ -13,7 +13,7 @@ export default function VerifyEmailScreen() {
   async function sendVerificationEmail() {
     const user = firebase.auth().currentUser;
     await user.sendEmailVerification({
-      handleCodeInApp: true,
+      // handleCodeInApp: true,
       // url: 'https://uasync-8e7a4.firebaseapp.com',
     });
   }
