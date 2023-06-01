@@ -4,9 +4,9 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  // Image,
   View,
-  // TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import ClickableText from '../../../components/ClickableText';
 import {
@@ -98,79 +98,85 @@ export default function RegistrationPageOneView({
   onNavigatePage2,
 }) {
   return (
-    <SafeAreaView style={style.container}>
-      <ScrollView>
-        <View style={{ paddingHorizontal: 25 }}>
-          <View style={{ paddingTop: 30 }}>
-            <CaptionScribbleHeading
-              subHeading="Sign up"
-              title="Please register below"
-              headlineStyle={{ width: 300 }}
-              scribbleSubHeadingImage={scribble}
-              scribbleStyle={{
-                width: 50,
-                height: 50,
-                right: 0,
-                position: 'absolute',
-                alignSelf: 'flex-end',
-              }}
-            />
-          </View>
-          {emailError ? <Text style={style.error}>{emailError}</Text> : null}
-          <View style={style.inputStyle}>
-            <InputField
-              labelText="Enter Email"
-              value={emailValue}
-              onChangeText={onChangeTextEmail}
-              marginLeft={0}
-            />
-          </View>
-          {usernameError ? (
-            <Text style={style.error}>{usernameError}</Text>
-          ) : null}
-          <View style={style.inputStyle}>
-            <InputField
-              labelText="Your Username"
-              value={usernameValue}
-              onChangeText={onChangeTextUsername}
-              marginLeft={0}
-            />
-          </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
+    >
+      <SafeAreaView style={style.container}>
+        <ScrollView>
+          <View style={{ paddingHorizontal: 25 }}>
+            <View style={{ paddingTop: 30 }}>
+              <CaptionScribbleHeading
+                subHeading="Sign up"
+                title="Please register below"
+                headlineStyle={{ width: 300 }}
+                scribbleSubHeadingImage={scribble}
+                scribbleStyle={{
+                  width: 50,
+                  height: 50,
+                  right: 0,
+                  position: 'absolute',
+                  alignSelf: 'flex-end',
+                }}
+              />
+            </View>
+            {emailError ? <Text style={style.error}>{emailError}</Text> : null}
+            <View style={style.inputStyle}>
+              <InputField
+                labelText="Enter Email"
+                value={emailValue}
+                onChangeText={onChangeTextEmail}
+                marginLeft={0}
+              />
+            </View>
+            {usernameError ? (
+              <Text style={style.error}>{usernameError}</Text>
+            ) : null}
+            <View style={style.inputStyle}>
+              <InputField
+                labelText="Your Username"
+                value={usernameValue}
+                onChangeText={onChangeTextUsername}
+                marginLeft={0}
+              />
+            </View>
 
-          {nameError ? <Text style={style.error}>{usernameError}</Text> : null}
-          <View style={style.inputStyle}>
-            <InputField
-              labelText="Your Name"
-              value={nameValue}
-              onChangeText={onChangeTextName}
-              marginLeft={0}
-            />
-          </View>
-          {passwordError ? (
-            <Text style={style.error}>{passwordError}</Text>
-          ) : null}
-          <View style={style.inputStyle}>
-            <InputField
-              labelText="Enter Password"
-              value={passwordValue}
-              onChangeText={onChangeTextPassword}
-              secureTextEntry
-              marginLeft={0}
-            />
-          </View>
-          {confirmError ? (
-            <Text style={style.error}>{confirmError}</Text>
-          ) : null}
-          <View style={style.inputStyle}>
-            <InputField
-              labelText="Confirm Password"
-              value={confirmPasswordValue}
-              onChangeText={onPasswordConfirmation}
-              secureTextEntry
-              marginLeft={0}
-            />
-          </View>
-          {/* <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
+            {nameError ? (
+              <Text style={style.error}>{usernameError}</Text>
+            ) : null}
+            <View style={style.inputStyle}>
+              <InputField
+                labelText="Your Name"
+                value={nameValue}
+                onChangeText={onChangeTextName}
+                marginLeft={0}
+              />
+            </View>
+            {passwordError ? (
+              <Text style={style.error}>{passwordError}</Text>
+            ) : null}
+            <View style={style.inputStyle}>
+              <InputField
+                labelText="Enter Password"
+                value={passwordValue}
+                onChangeText={onChangeTextPassword}
+                secureTextEntry
+                marginLeft={0}
+              />
+            </View>
+            {confirmError ? (
+              <Text style={style.error}>{confirmError}</Text>
+            ) : null}
+            <View style={style.inputStyle}>
+              <InputField
+                labelText="Confirm Password"
+                value={confirmPasswordValue}
+                onChangeText={onPasswordConfirmation}
+                secureTextEntry
+                marginLeft={0}
+              />
+            </View>
+            {/* <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
             <Text style={styles.subtitle1}>
               Upload your profile picture here (optional):
             </Text>
@@ -209,18 +215,19 @@ export default function RegistrationPageOneView({
             )}
           </View> */}
 
-          <OrangeButton
-            text="Next"
-            onPress={onNavigatePage2}
-            styleButton={{ alignSelf: 'center', width: '100%' }}
-          />
+            <OrangeButton
+              text="Next"
+              onPress={onNavigatePage2}
+              styleButton={{ alignSelf: 'center', width: '100%' }}
+            />
 
-          <ClickableText
-            onPress={onNavigateText}
-            text="Already have an account? Sign in here!"
-          />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+            <ClickableText
+              onPress={onNavigateText}
+              text="Already have an account? Sign in here!"
+            />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }
