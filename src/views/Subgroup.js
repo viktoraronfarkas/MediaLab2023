@@ -13,6 +13,7 @@ import {
   IpAddress,
   setPosts,
   posts,
+  selectedUserId,
 } from '../redux/features/mainSlice/mainSlice';
 // import SubGroupsFilter from '../components/Buttons/SubGroupsFilter';
 import BackButton from '../components/Buttons/BackButton';
@@ -131,6 +132,7 @@ function Subgroup() {
   const currentUser = useSelector(selectedUser);
   const clientIpAddress = useSelector(IpAddress);
   let storedPosts = useSelector(posts);
+  const currentSelectedUserId = useSelector(selectedUserId);
 
   const [joined, setJoined] = useState(0);
 
@@ -149,7 +151,7 @@ function Subgroup() {
   const joinSubgroup = () => {
     const url = `http://${clientIpAddress}:3001/user/subscribe/subgroup`;
     const data = {
-      userId: currentUser.user_id,
+      userId: currentSelectedUserId,
       subgroupId: selectedSubGroupValue.subgroupId,
       mainGroupId: selectedGroupValue.mainGroupId,
     };
