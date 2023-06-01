@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { View, Image, TouchableOpacity, Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import iconImage from '../../assets/Icons/plus-icon.png';
 import circleLineImage from '../../assets/Images/circleLine-image.png';
+import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png';
+import { styles } from '../constants/myTheme';
 import {
-  selectedGroup,
-  SetselectedSubGroup,
   IpAddress,
+  SetselectedSubGroup,
+  selectedGroup,
   selectedUserId,
 } from '../redux/features/mainSlice/mainSlice';
 import SubGroupsFilter from './Buttons/SubGroupsFilter';
-import { styles } from '../constants/myTheme';
-import TitleCircleHeadingH2 from './Texts/TitleCircleHeading';
 import ListItem from './Items/ListItem';
-import iconImage from '../../assets/Icons/plus-icon.png';
-import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png';
+import TitleCircleHeadingH2 from './Texts/TitleCircleHeading';
+
 // import { MoreSvg } from './svgs';
 
 function MainJoinedGroup() {
@@ -25,9 +26,32 @@ function MainJoinedGroup() {
   const [subscribedGroups, setSubscribedGroups] = useState([]);
   const [filteredSubgroups, setFilteredSubgroups] = useState([]);
   const currentSelectedUserId = useSelector(selectedUserId);
+  const isFocused = useIsFocused();
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
+  let message = '';
+
+  console.log(subscribedGroups.length);
+  if (selectedGroupValue.subgroups.length === 0) {
+    message =
+      'There are no subgroups here yet. Click on the plus button above to create your own subgroups!';
+  } else if (subscribedGroups.length === 0) {
+    message = 'You have not joined any subgroups yet.';
+  } else {
+    const unjoinedSubgroups = selectedGroupValue.subgroups.filter(
+      (subgroup) =>
+        !subscribedGroups.some(
+          (group) => group.subgroup_id === subgroup.subgroupId
+        )
+    );
+    if (unjoinedSubgroups.length === 0) {
+      message = 'You have already joined all available subgroups.';
+    } else {
+      message = 'You have not joined any subgroups yet.';
+    }
+  }
 
   const filterSubgroups = (filter) => {
     // eslint-disable-next-line no-shadow
@@ -38,18 +62,19 @@ function MainJoinedGroup() {
     } else if (filter === 'joined') {
       filteredSubgroups = selectedGroupValue.subgroups.filter((subgroup) =>
         subscribedGroups.some(
-          (group) => group.main_group_id === subgroup.main_group_id
+          (group) => group.subgroup_id === subgroup.subgroupId
         )
       );
     } else if (filter === 'unjoined') {
       filteredSubgroups = selectedGroupValue.subgroups.filter(
         (subgroup) =>
           !subscribedGroups.some(
-            (group) => group.main_group_id === subgroup.main_group_id
+            (group) => group.subgroup_id === subgroup.subgroupId
           )
       );
     }
 
+    // console.log(filteredSubgroups);
     setFilteredSubgroups(filteredSubgroups);
   };
 
@@ -58,25 +83,24 @@ function MainJoinedGroup() {
     filterSubgroups(filter);
   };
 
+  const fetchSubscribedGroups = async () => {
+    try {
+      const response = await axios.get(
+        `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/subscribed-groups`
+      );
+      const { mainGroups, subGroups } = response.data;
+
+      const fetchedSubscribedGroups = mainGroups.concat(subGroups);
+      setSubscribedGroups(fetchedSubscribedGroups);
+
+      // Filter the subgroups based on the initial filter value
+      filterSubgroups(selectedFilter);
+    } catch (error) {
+      console.error('Error retrieving subscribed groups:', error);
+      // Handle the error
+    }
+  };
   useEffect(() => {
-    const fetchSubscribedGroups = async () => {
-      try {
-        const response = await axios.get(
-          `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/subscribed-groups`
-        );
-        const { mainGroups, subGroups } = response.data;
-
-        const fetchedSubscribedGroups = mainGroups.concat(subGroups);
-        setSubscribedGroups(fetchedSubscribedGroups);
-
-        // Filter the subgroups based on the initial filter value
-        filterSubgroups(selectedFilter);
-      } catch (error) {
-        console.error('Error retrieving subscribed groups:', error);
-        // Handle the error
-      }
-    };
-
     fetchSubscribedGroups();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -85,6 +109,17 @@ function MainJoinedGroup() {
     selectedGroupValue,
     clientIpAddress,
   ]);
+
+  useEffect(() => {
+    if (isFocused) {
+      fetchSubscribedGroups();
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    // Update the filter when subscribedGroups change
+    filterSubgroups(selectedFilter);
+  }, [subscribedGroups]);
 
   return (
     <View
@@ -124,6 +159,8 @@ function MainJoinedGroup() {
           secondFilterLabel="joined"
           thirdFilterLabel="unjoined"
           onFilterChange={handleFilterChange}
+          selectedValue={selectedFilter}
+          disabled={selectedGroupValue.subgroups.length === 0}
         />
       </View>
       <View
@@ -173,10 +210,8 @@ function MainJoinedGroup() {
       >
         {/** FIXME : a place holder should take place here instead */}
         {filteredSubgroups.length === 0 ? (
-          <Text style={{ textAlign: 'center' }}>
-            {selectedGroupValue.subgroups.length === 0
-              ? 'There are no subgroups added for this group yet.'
-              : 'You have not joined any subgroups yet.'}
+          <Text style={[styles.bodyDefault, { textAlign: 'center' }]}>
+            {message}
           </Text>
         ) : (
           filteredSubgroups.map((subgroup) => (
