@@ -32,14 +32,24 @@ function MainJoinedGroup() {
   const dispatch = useDispatch();
 
   let message = '';
-  if (filteredSubgroups.length === 0) {
-    if (selectedGroupValue.subgroups.length === 0) {
-      message =
-        'There are no subgroups here yet. Click on the plus button above to create your own subgroups!';
-    } else if (subscribedGroups.length === 0) {
-      message = 'You have not joined any subgroups yet.';
-    } else {
+
+  console.log(subscribedGroups.length);
+  if (selectedGroupValue.subgroups.length === 0) {
+    message =
+      'There are no subgroups here yet. Click on the plus button above to create your own subgroups!';
+  } else if (subscribedGroups.length === 0) {
+    message = 'You have not joined any subgroups yet.';
+  } else {
+    const unjoinedSubgroups = selectedGroupValue.subgroups.filter(
+      (subgroup) =>
+        !subscribedGroups.some(
+          (group) => group.subgroup_id === subgroup.subgroupId
+        )
+    );
+    if (unjoinedSubgroups.length === 0) {
       message = 'You have already joined all available subgroups.';
+    } else {
+      message = 'You have not joined any subgroups yet.';
     }
   }
 
