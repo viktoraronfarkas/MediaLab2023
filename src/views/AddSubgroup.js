@@ -29,7 +29,7 @@ function AddSubgroup() {
 
   const [groupName, setName] = useState('');
   const [groupCaption, setCaption] = useState('');
-  const [groupIntro, setIntroduction] = useState('');
+  // const [groupIntro, setIntroduction] = useState('');
   // const [imageUpload, setImage] = useState(null);
 
   const handlePress = async (e) => {
@@ -39,7 +39,7 @@ function AddSubgroup() {
     formData.append('name', groupName);
     formData.append('mainGroupId', [currentGroup.mainGroupId]);
     formData.append('caption', groupCaption);
-    formData.append('introduction', groupIntro);
+    // formData.append('introduction', groupIntro);
 
     // if (imageUpload) {
     //   try {
@@ -95,10 +95,10 @@ function AddSubgroup() {
 
         <View style={{ marginTop: 40 }}>
           <View style={{ marginBottom: 5 }}>
-            <Text style={styles.subtitle2}>Name your Subgroup:</Text>
+            <Text style={styles.subtitle2}>Name your subgroup:</Text>
           </View>
           <InputField
-            labelText="Name"
+            labelText="Subgroup Name"
             value={groupName}
             onChangeText={setName}
             padding={2}
@@ -112,10 +112,10 @@ function AddSubgroup() {
 
         <View style={{ marginTop: 20 }}>
           <View style={{ marginBottom: 5 }}>
-            <Text style={styles.subtitle2}>Write a great caption:</Text>
+            <Text style={styles.subtitle2}>Write a great subtitle:</Text>
           </View>
           <InputField
-            labelText="Caption"
+            labelText="Subtitle"
             value={groupCaption}
             onChangeText={setCaption}
             padding={2}
@@ -138,7 +138,7 @@ function AddSubgroup() {
             </TouchableOpacity>
           </View>
         </View> */}
-
+        {/* 
         <View style={{ marginTop: 20 }}>
           <View style={{ marginBottom: 5 }}>
             <Text style={styles.subtitle2}>Write a small Introduction:</Text>
@@ -150,7 +150,7 @@ function AddSubgroup() {
             padding={2}
             marginLeft={0}
           />
-        </View>
+        </View> */}
 
         <View style={{ marginTop: 40 }}>
           <OrangeButton

@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   // Image,
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+// import DateTimePicker from '@react-native-community/datetimepicker';
 import DialogAction from '../../../../components/Dialogs/DialogAction';
 import { theme, styles } from '../../../../constants/myTheme';
 import TitleArrowHeading from '../../../../components/Texts/TitleArrowHeading';
@@ -90,12 +90,12 @@ export default function PersonalDataView({
   alertVisible,
   onPressCancelDialog,
 
-  openDatePicker,
-  showDatePicker,
-  formattedDate,
-  birthdayValue,
-  handleDateChange,
-  applyChangesAndClose,
+  // openDatePicker,
+  // showDatePicker,
+  // formattedDate,
+  // birthdayValue,
+  // handleDateChange,
+  // applyChangesAndClose,
 
   onSaveChanges,
   onChangeValuesButton,
@@ -134,7 +134,7 @@ export default function PersonalDataView({
             />
           </View>
 
-          <Text style={styles.subtitle1}>Name</Text>
+          <Text style={styles.subtitle1}>Full Name</Text>
           {nameError ? <Text style={style.error}>{nameError}</Text> : null}
           <InputField
             onBlur={onBlur}
@@ -179,7 +179,7 @@ export default function PersonalDataView({
             marginLeft={0}
           />
 
-          <Text style={styles.subtitle1}>Username</Text>
+          <Text style={styles.subtitle1}>Displayed Name</Text>
           {usernameError ? (
             <Text style={style.error}>{usernameError}</Text>
           ) : null}
@@ -191,7 +191,7 @@ export default function PersonalDataView({
             marginLeft={0}
           />
 
-          <Text style={styles.subtitle1}>Birthday</Text>
+          {/* <Text style={styles.subtitle1}>Birthday</Text>
           {showDatePicker && (
             <View>
               <DateTimePicker
@@ -227,7 +227,7 @@ export default function PersonalDataView({
               onPress={openDatePicker}
               styleButton={{ marginBottom: 20 }}
             />
-          </View>
+          </View> */}
 
           <Text style={styles.subtitle1}>Biography</Text>
           <LongInputField

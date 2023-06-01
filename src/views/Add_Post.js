@@ -107,7 +107,7 @@ function AddPost() {
             <Text style={styles.subtitle2}>Give us a great heading:</Text>
           </View>
           <InputField
-            labelText="Name"
+            labelText="Post Name"
             value={postHeading}
             onChangeText={setHeading}
             padding={2}
@@ -120,10 +120,10 @@ function AddPost() {
 
         <View style={{ marginTop: 20 }}>
           <View style={{ marginBottom: 5 }}>
-            <Text style={styles.subtitle2}>Give us a great Subheading:</Text>
+            <Text style={styles.subtitle2}>Give us a great subtitle:</Text>
           </View>
           <InputField
-            labelText="Caption"
+            labelText="Subtitle"
             value={postCaption}
             onChangeText={setCaption}
             padding={2}
@@ -161,7 +161,7 @@ function AddPost() {
 
         <View style={{ marginTop: 40 }}>
           <OrangeButton
-            text="Create"
+            text="Post"
             styleButton={{ alignSelf: 'center', width: '100%' }}
             onPress={handlePress}
           />

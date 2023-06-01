@@ -290,9 +290,9 @@ exports.createSubgroup = (req, res) => {
     if (!caption) {
       return res.status(400).json({ message: 'Caption not provided' });
     }
-    if (!introduction) {
-      return res.status(400).json({ message: 'Introduction not provided' });
-    }
+    // if (!introduction) {
+    //   return res.status(400).json({ message: 'Introduction not provided' });
+    // }
 
     // Access the file buffer instead of the file path
     const subgroupImage = req.file ? req.file.buffer : null;
