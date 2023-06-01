@@ -130,7 +130,7 @@ export default function RegistrationPageOneView({
           ) : null}
           <View style={style.inputStyle}>
             <InputField
-              labelText="Your Username"
+              labelText="Your Displayed Name"
               value={usernameValue}
               onChangeText={onChangeTextUsername}
               marginLeft={0}
@@ -140,7 +140,7 @@ export default function RegistrationPageOneView({
           {nameError ? <Text style={style.error}>{usernameError}</Text> : null}
           <View style={style.inputStyle}>
             <InputField
-              labelText="Your Name"
+              labelText="Your Full Name"
               value={nameValue}
               onChangeText={onChangeTextName}
               marginLeft={0}
