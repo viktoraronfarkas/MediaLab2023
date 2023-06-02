@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   // Image,
 } from 'react-native';
-// import DateTimePicker from '@react-native-community/datetimepicker';
+// import DateTimePicker from '@react-native-community/datetimepicker'; // For Birthday
 import DialogAction from '../../../../components/Dialogs/DialogAction';
 import { theme, styles } from '../../../../constants/myTheme';
 import TitleArrowHeading from '../../../../components/Texts/TitleArrowHeading';
@@ -18,8 +18,8 @@ import OrangeButton from '../../../../components/Buttons/OrangeButton';
 import InputField from '../../../../components/Items/InputField';
 import LongInputField from '../../../../components/Items/LongInputField';
 import arrowImage from '../../../../../assets/Images/arrow-image.png';
-// import SelectDropdown from 'react-native-select-dropdown';
-// import dropDownIcon from '../../../../../assets/Icons/arrow-right.png';
+// import SelectDropdown from 'react-native-select-dropdown'; // For Study Programme Selection
+// import dropDownIcon from '../../../../../assets/Icons/arrow-right.png'; // For Study Programme Selection
 
 const style = StyleSheet.create({
   container: {
@@ -84,6 +84,7 @@ export default function PersonalDataView({
   // onChangeSelectionStudyProgramme,
 
   passwordValue,
+  passwordLabel,
   onChangeTextPassword,
   passwordError,
 
@@ -167,6 +168,7 @@ export default function PersonalDataView({
           ) : null}
           <InputField
             onBlur={onBlur}
+            labelText={passwordLabel}
             value={passwordValue}
             onChangeText={onChangeTextPassword}
             secureTextEntry

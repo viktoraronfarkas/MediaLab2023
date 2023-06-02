@@ -1,20 +1,22 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector, useDispatch } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { theme } from '../constants/myTheme';
+import { useDispatch, useSelector } from 'react-redux';
 import Feed from '../components/Feed';
+import { theme } from '../constants/myTheme';
 
 import GroupsTopBar from '../components/GroupsTopHorizontalBar';
 import MainJoinedGroup from '../components/MainJoinedGroup';
 
 import {
-  selectedGroup,
   IpAddress,
+  mainGroups,
+  selectedGroup,
   setCurrentUserId,
+  setMianGroups,
 } from '../redux/features/mainSlice/mainSlice';
 
 const styles = StyleSheet.create({
@@ -27,8 +29,8 @@ function HomeContent() {
   const selectedGroupValue = useSelector(selectedGroup);
   const clientIpAddress = useSelector(IpAddress);
 
-  const [mainGroups, setMainGroups] = useState([]);
   const dispatch = useDispatch();
+  const fetechedMainGroups = useSelector(mainGroups);
 
   const fetchMainGroups = async () => {
     try {
@@ -36,40 +38,13 @@ function HomeContent() {
         `http://${clientIpAddress}:3001/maingroup`
       );
       const mainGroupsData = response.data;
-
-      // Fetch posts and events for each subgroup
-      const mainGroupsWithData = await Promise.all(
-        mainGroupsData.map(async (mainGroup) => {
-          const subgroupsWithData = await Promise.all(
-            mainGroup.subgroups.map(async (subgroup) => {
-              const postsResponse = await axios.get(
-                `http://${clientIpAddress}:3001/subgroup/${subgroup.subgroup_id}/posts`
-              );
-              const eventsResponse = await axios.get(
-                `http://${clientIpAddress}:3001/subgroup/${subgroup.subgroup_id}/events`
-              );
-
-              subgroup.posts = postsResponse.data;
-              subgroup.events = eventsResponse.data;
-
-              return subgroup;
-            })
-          );
-
-          mainGroup.subgroups = subgroupsWithData;
-
-          return mainGroup;
-        })
-      );
-
-      setMainGroups(mainGroupsWithData);
+      dispatch(setMianGroups(mainGroupsData));
     } catch (error) {
       console.error('Error fetching main groups:', error);
     }
   };
 
   useEffect(() => {
-    console.log('fetched');
     // Retrieve userId from localStorage
     const retrieveUserId = async () => {
       try {
@@ -84,8 +59,6 @@ function HomeContent() {
     };
 
     retrieveUserId();
-    // console.log(userId);
-    // dispatch(setCurrentUser(userId));
     fetchMainGroups();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -99,7 +72,7 @@ function HomeContent() {
 
   return (
     <SafeAreaView edges={['left', 'right']} style={styles.container}>
-      <GroupsTopBar preDefinedGroups={mainGroups} />
+      <GroupsTopBar preDefinedGroups={fetechedMainGroups} />
 
       <ScrollView style={{ flex: 1 }}>
         {!selectedGroupValue.mainGroupName ? <Feed /> : <MainJoinedGroup />}

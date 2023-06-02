@@ -60,6 +60,7 @@ export default function RegistrationScreen() {
   const dispatch = useDispatch();
 
   const validateEmail = () => {
+    // Users can only use two small letters, 6 numbers and the fh-email ending --> student emails.
     const emailRegex = /[a-z]{2}\d{6}@fhstp\.ac\.at/;
 
     if (!emailRegex.test(email)) {
@@ -70,6 +71,7 @@ export default function RegistrationScreen() {
     return true;
   };
   const validateUsername = () => {
+    // Users can only use letters and numbers.
     const usernameRegex = /^[a-zA-Z0-9]+$/;
 
     if (!usernameRegex.test(username)) {
@@ -82,10 +84,13 @@ export default function RegistrationScreen() {
     return true;
   };
   const validateName = () => {
-    const nameRegex = /^[a-zA-Z]+$/;
+    /// Users can user only letters, space and hyphen (-).
+    const nameRegex = /^[A-Za-z -]+$/;
 
     if (!nameRegex.test(name)) {
-      setNameError('Please enter a name that contains only letters.');
+      setNameError(
+        'Please enter a name that contains only letters. Space and hyphens are also allowed.'
+      );
       return false;
     }
     setNameError('');

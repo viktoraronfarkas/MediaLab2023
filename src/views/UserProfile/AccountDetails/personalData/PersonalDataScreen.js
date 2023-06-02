@@ -11,7 +11,6 @@ import {
 // TODO Editing StudyCourse, Password is not working
 /**
  * This is the main Personal Data Screen
- *
  */
 export default function PersonalDataScreen() {
   const [hasChanges, setHasChanges] = useState(false);
@@ -26,8 +25,8 @@ export default function PersonalDataScreen() {
     new Date(currentUser.birthday) ?? new Date(1, 1, 1900)
   );
   const [dialogVisible, setDialogVisible] = useState(false);
-  const [isPickerOpen, setIsPickerOpen] = useState(false);
-  const [studyProgramme, setStudyProgramme] = useState(currentUser.studyCourse);
+  // const [isPickerOpen, setIsPickerOpen] = useState(false);
+  // const [studyProgramme, setStudyProgramme] = useState(currentUser.studyCourse);
 
   // const studyProgrammeList = ['Bcc', 'BMT'];
   // const studyProgrammeList = currentUser.studyProgramme.st;
@@ -93,10 +92,10 @@ export default function PersonalDataScreen() {
     }
   };
 
-  const onChangeSelectionStudyProgramme = (value) => {
-    setStudyProgramme(value);
-    setIsPickerOpen(true);
-  };
+  // const onChangeSelectionStudyProgramme = () => {
+  //   setStudyProgramme(value);
+  //   setIsPickerOpen(true);
+  // };
 
   const handleSaveChanges = async (event) => {
     const isUsernameValid = !usernameData || validateUsername();
@@ -112,7 +111,7 @@ export default function PersonalDataScreen() {
         name: nameData || currentUser.name,
         biography: biographyData || currentUser.biography,
         birthday: birthday.toISOString() || currentUser.birthday,
-        studyProgramme: studyProgramme || currentUser.studyProgramme,
+        // studyProgramme: studyProgramme || currentUser.studyProgramme,
       };
 
       // Call the updateUser function to update the data in the database
@@ -166,8 +165,8 @@ export default function PersonalDataScreen() {
       // Study Programme
       studyProgrammeList={studyCourses}
       studyProgrammeValue={userData.studyProgramme}
-      onChangeSelectionStudyProgramme={onChangeSelectionStudyProgramme}
-      isPickerOpen={isPickerOpen}
+      // onChangeSelectionStudyProgramme={onChangeSelectionStudyProgramme}
+      // isPickerOpen={isPickerOpen}
       // Birthday
       openDatePicker={() => {
         setShowDatePicker(true);
