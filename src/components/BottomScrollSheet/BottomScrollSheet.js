@@ -35,13 +35,10 @@ export default function BottomScrollSheet({
     <View>
       <RBSheet
         ref={bottomSheetRef}
-        height={400}
+        height={300}
         animationType="fade"
         closeOnDragDown
         customStyles={{
-          wrapper: {
-            backgroundColor: theme.colors.neutralsGrey800,
-          },
           container: style.container,
           draggableIcon: {
             backgroundColor: theme.colors.neutralsGrey800,
