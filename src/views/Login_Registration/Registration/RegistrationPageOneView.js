@@ -97,9 +97,11 @@ export default function RegistrationPageOneView({
   onNavigateText,
   onNavigatePage2,
 }) {
+  const scrollViewRef = React.useRef(null);
+
   return (
     <SafeAreaView style={style.container}>
-      <ScrollView>
+      <ScrollView ref={scrollViewRef} contentContainerStyle={{ flexGrow: 1 }}>
         <View style={{ paddingHorizontal: 25 }}>
           <View style={{ paddingTop: 30 }}>
             <CaptionScribbleHeading
