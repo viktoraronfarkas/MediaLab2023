@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -27,11 +27,24 @@ function AddSubgroup() {
   const navigation = useNavigation();
   const currentGroup = useSelector(selectedGroup);
   const clientIpAddress = useSelector(IpAddress);
+  
 
   const [groupName, setName] = useState('');
   const [groupCaption, setCaption] = useState('');
   const [groupIntro, setIntroduction] = useState('');
   // const [imageUpload, setImage] = useState(null);
+
+  // For focussing on the Input field
+  const nameOfSubGroup = useRef(null);
+  const captionOfSubGroup = useRef(null);
+
+  const focusNameOfSubInput = () => {
+    nameOfSubGroup.current?.focus();
+  };
+
+  const focusCaptionInput = () => {
+    captionOfSubGroup.current?.focus();
+  };
 
   const handlePress = async (e) => {
     e.preventDefault();
@@ -117,6 +130,8 @@ function AddSubgroup() {
             padding={2}
             marginLeft={0}
             maxLength={15}
+            inputRef={nameOfSubGroup}
+            onFocus={focusNameOfSubInput}
           />
           <View style={{ marginLeft: 20 }}>
             <Text style={styles.navLabel}>Limit to 15 Characters</Text>
@@ -134,6 +149,8 @@ function AddSubgroup() {
             padding={2}
             marginLeft={0}
             maxLength={15}
+            inputRef={captionOfSubGroup}
+            onFocus={focusCaptionInput}
           />
           <View style={{ marginLeft: 20 }}>
             <Text style={styles.navLabel}>Limit to 15 Characters</Text>
