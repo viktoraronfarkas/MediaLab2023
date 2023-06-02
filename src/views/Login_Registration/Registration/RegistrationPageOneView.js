@@ -6,6 +6,8 @@ import {
   ScrollView,
   // Image,
   View,
+  KeyboardAvoidingView,
+  Platform,
   // TouchableOpacity,
 } from 'react-native';
 import ClickableText from '../../../components/ClickableText';
@@ -101,7 +103,12 @@ export default function RegistrationPageOneView({
 
   return (
     <SafeAreaView style={style.container}>
-      <ScrollView ref={scrollViewRef} contentContainerStyle={{ flexGrow: 1 }}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0} // Adjust the offset if needed
+      >
+        <ScrollView ref={scrollViewRef} contentContainerStyle={{ flexGrow: 1 }}>
         <View style={{ paddingHorizontal: 25 }}>
           <View style={{ paddingTop: 30 }}>
             <CaptionScribbleHeading
@@ -223,6 +230,7 @@ export default function RegistrationPageOneView({
           />
         </View>
       </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
