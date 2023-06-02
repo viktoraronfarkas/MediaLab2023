@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 // import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import InputField from '../components/Items/InputField';
@@ -35,6 +36,23 @@ function AddPost() {
   const [postCaption, setCaption] = useState('');
   const [postText, setText] = useState('');
   // const [imageUpload, setImage] = useState(null);
+
+  const nameOfPost = useRef(null);
+  const captionOfPost = useRef(null);
+  const introductionOfPost = useRef(null);
+
+
+  const focusNameOfPost = () => {
+    nameOfPost.current?.focus();
+  };
+
+  const focusCaptionOfPost = () => {
+    captionOfPost.current?.focus();
+  };
+
+  const focusIntroductionOfPost = () => {
+    introductionOfPost.current?.focus();
+  };
 
   // // Choose Profile Picture
   // const pickProfilePicture = async () => {
@@ -81,18 +99,30 @@ function AddPost() {
 
     try {
       await axios.post(url, formData);
+      Toast.show({
+        type: 'success',
+        text1: 'Subgroup created',
+        visibilityTime: 2000,
+        autoHide: true,
+      });
       navigation.navigate('Subgroup');
     } catch (err) {
       console.error(
         'Subscribe to main groups error:',
         err.response?.data?.message || err.message
       );
+      Toast.show({
+        type: 'error',
+        text1: 'Failed to create subgroup',
+        visibilityTime: 2000,
+        autoHide: true,
+      });
     }
   };
 
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.backgroundSand }}>
-      <View style={{ margin: 20 }}>
+        <View style={{ margin: 20 }}>
         {/* <Filter options={['posts', 'events']} activeButton="posts" />
 
         <CaptionScribbleHeading
@@ -112,6 +142,8 @@ function AddPost() {
             onChangeText={setHeading}
             padding={2}
             marginLeft={0}
+            inputRef={nameOfPost}
+            onFocus={focusNameOfPost}
           />
           <View style={{ marginLeft: 20 }}>
             <Text style={styles.navLabel}>Limit to 15 Characters</Text>
@@ -128,6 +160,8 @@ function AddPost() {
             onChangeText={setCaption}
             padding={2}
             marginLeft={0}
+            inputRef={captionOfPost}
+            onFocus={focusCaptionOfPost}
           />
           <View style={{ marginLeft: 20 }}>
             <Text style={styles.navLabel}>Limit to 15 Characters</Text>
@@ -156,6 +190,8 @@ function AddPost() {
             onChangeText={setText}
             padding={2}
             marginLeft={0}
+            inputRef={introductionOfPost}
+            onFocus={focusIntroductionOfPost}
           />
         </View>
 
@@ -167,6 +203,7 @@ function AddPost() {
           />
         </View>
       </View>
+      <Toast />
     </SafeAreaView>
   );
 }

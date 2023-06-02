@@ -64,7 +64,7 @@ export default function RegistrationScreen() {
     const emailRegex = /[a-z]{2}\d{6}@fhstp\.ac\.at/;
 
     if (!emailRegex.test(email)) {
-      setEmailError('Please enter a valid FH email address.');
+      setEmailError('Please enter a valid student FH email address.');
       return false;
     }
     setEmailError('');

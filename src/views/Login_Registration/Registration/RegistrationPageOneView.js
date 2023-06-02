@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   SafeAreaView,
   Text,
@@ -97,9 +97,36 @@ export default function RegistrationPageOneView({
   onNavigateText,
   onNavigatePage2,
 }) {
+  const scrollViewRef = useRef(null);
+  const emailInputRef = useRef(null);
+  const usernameInputRef = useRef(null);
+  const nameInputRef = useRef(null);
+  const passwordInputRef = useRef(null);
+  const confirmPasswordInputRef = useRef(null);
+
+  const focusEmailInput = () => {
+    emailInputRef.current?.focus();
+  };
+
+  const focusUsernameInput = () => {
+    usernameInputRef.current?.focus();
+  };
+
+  const focusNameInput = () => {
+    nameInputRef.current?.focus();
+  };
+
+  const focusPasswordInput = () => {
+    passwordInputRef.current?.focus();
+  };
+
+  const focusConfirmPasswordInput = () => {
+    confirmPasswordInputRef.current?.focus();
+  };
+
   return (
     <SafeAreaView style={style.container}>
-      <ScrollView>
+        <ScrollView ref={scrollViewRef} contentContainerStyle={{ flexGrow: 1 }}>
         <View style={{ paddingHorizontal: 25 }}>
           <View style={{ paddingTop: 30 }}>
             <CaptionScribbleHeading
@@ -123,6 +150,8 @@ export default function RegistrationPageOneView({
               value={emailValue}
               onChangeText={onChangeTextEmail}
               marginLeft={0}
+              inputRef={emailInputRef}
+              onFocus={focusEmailInput}
             />
           </View>
           {usernameError ? (
@@ -134,6 +163,8 @@ export default function RegistrationPageOneView({
               value={usernameValue}
               onChangeText={onChangeTextUsername}
               marginLeft={0}
+              inputRef={usernameInputRef}
+              onFocus={focusUsernameInput}
             />
           </View>
 
@@ -144,6 +175,8 @@ export default function RegistrationPageOneView({
               value={nameValue}
               onChangeText={onChangeTextName}
               marginLeft={0}
+              inputRef={nameInputRef}
+              onFocus={focusNameInput}
             />
           </View>
           {passwordError ? (
@@ -156,6 +189,8 @@ export default function RegistrationPageOneView({
               onChangeText={onChangeTextPassword}
               secureTextEntry
               marginLeft={0}
+              inputRef={passwordInputRef}
+              onFocus={focusPasswordInput}
             />
           </View>
           {confirmError ? (
@@ -168,6 +203,8 @@ export default function RegistrationPageOneView({
               onChangeText={onPasswordConfirmation}
               secureTextEntry
               marginLeft={0}
+              inputRef={confirmPasswordInputRef}
+              onFocus={focusConfirmPasswordInput}
             />
           </View>
           {/* <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
