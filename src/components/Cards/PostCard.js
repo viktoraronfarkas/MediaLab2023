@@ -57,7 +57,7 @@ export default function PostCard({
     <Card elevation={0} style={style.container}>
       <Card.Title
         titleStyle={[styles.subtitle1, { marginLeft: 10 }]}
-        subtitleStyle={[styles.caption, { marginLeft: 10 }]}
+        subtitleStyle={[styles.captionBold, { marginLeft: 10 }]}
         title={title}
         subtitle={subTitle}
         left={() => LeftContent({ iconImage })}
