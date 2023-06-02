@@ -129,7 +129,7 @@ function Subgroup() {
 
   const selectedGroupValue = useSelector(selectedGroup);
   const selectedSubGroupValue = useSelector(selectedSubGroup);
-  const currentUser = useSelector(selectedUser);
+  // const currentUser = useSelector(selectedUser);
   const clientIpAddress = useSelector(IpAddress);
   let storedPosts = useSelector(posts);
   const currentSelectedUserId = useSelector(selectedUserId);
@@ -137,7 +137,7 @@ function Subgroup() {
   const [joined, setJoined] = useState(0);
 
   const isJoined = () => {
-    const url = `http://${clientIpAddress}:3001/user/${currentUser.user_id}/subscribed-groups`;
+    const url = `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/subscribed-groups`;
 
     axios.get(url).then((res) => {
       setJoined(

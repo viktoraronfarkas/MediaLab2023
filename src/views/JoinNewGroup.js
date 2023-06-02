@@ -22,6 +22,8 @@ import {
   selectedNewJoinedGroups,
   setNewJoinedGroup,
   selectedUserId,
+  mainGroups,
+  setMianGroups,
 } from '../redux/features/mainSlice/mainSlice';
 import BackButton from '../components/Buttons/BackButton';
 import { AcceptedSvg, RejectedSvg } from '../components/svgs';
@@ -50,12 +52,12 @@ const style = StyleSheet.create({
 
 export default function JoinNewGroup() {
   const [subscribedGroups, setSubscribedGroups] = useState([]);
-  const [allMainGroups, setMainGroups] = useState([]);
   const clientIpAddress = useSelector(IpAddress);
   const NewJoinedGroups = useSelector(selectedNewJoinedGroups);
   const [showDialog, setShowDialog] = useState(false);
   const [rejectedGroups, setRejectedGroups] = useState([]);
   const currentSelectedUserId = useSelector(selectedUserId);
+  const fetechedMainGroups = useSelector(mainGroups);
 
   const dispatch = useDispatch();
   // navigate to REGISTRATION Screen
@@ -86,7 +88,7 @@ export default function JoinNewGroup() {
             ? `data:image/png;base64,${mainGroup.mainGroupTitleImage}`
             : null,
         }));
-        setMainGroups(mainGroupsData || []); // Ensure initialization with an empty array if data is undefined
+        dispatch(setMianGroups(mainGroupsData || {}));
       } catch (error) {
         console.error('Error retrieving main groups:', error);
         // Handle the error
@@ -98,7 +100,7 @@ export default function JoinNewGroup() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSelectedUserId]);
 
-  const unjoinedGroups = allMainGroups.filter(
+  const unjoinedGroups = fetechedMainGroups.filter(
     (mainGroup) =>
       !subscribedGroups.some(
         (group) => group.main_group_id === mainGroup.mainGroupId
