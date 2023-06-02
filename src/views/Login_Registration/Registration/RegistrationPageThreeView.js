@@ -18,6 +18,8 @@ import {
   IpAddress,
   selectedNewJoinedGroups,
   setNewJoinedGroup,
+  mainGroups,
+  setMianGroups,
 } from '../../../redux/features/mainSlice/mainSlice';
 
 const styles = StyleSheet.create({
@@ -37,12 +39,12 @@ const styles = StyleSheet.create({
 });
 
 export default function RegistrationPageThreeView({ handleSubmit, loading }) {
-  const [allMainGroups, setMainGroups] = useState([]);
   const clientIpAddress = useSelector(IpAddress);
   // const currentUser = useSelector(selectedUser);
   const NewJoinedGroups = useSelector(selectedNewJoinedGroups);
   const [rejectedGroups, setRejectedGroups] = useState([]);
   const dispatch = useDispatch();
+  const fetechedMainGroups = useSelector(mainGroups);
 
   useEffect(() => {
     const fetchMainGroups = async () => {
@@ -51,7 +53,7 @@ export default function RegistrationPageThreeView({ handleSubmit, loading }) {
           `http://${clientIpAddress}:3001/maingroup`
         );
         const mainGroupsData = response.data;
-        setMainGroups(mainGroupsData || []); // Ensure initialization with an empty array if data is undefined
+        dispatch(setMianGroups(mainGroupsData));
       } catch (error) {
         console.error('Error retrieving main groups:', error);
         // Handle the error
@@ -87,6 +89,7 @@ export default function RegistrationPageThreeView({ handleSubmit, loading }) {
     }
   }
 
+
   return (
     <SafeAreaView style={styles.container}>
       {loading && (
@@ -102,7 +105,7 @@ export default function RegistrationPageThreeView({ handleSubmit, loading }) {
             headlineStyle={{ width: 300 }}
           />
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {allMainGroups.map((group) => {
+            {fetechedMainGroups.map((group) => {
               const isNewlyJoined = NewJoinedGroups.includes(group.mainGroupId);
               const isRejected = rejectedGroups.includes(group.mainGroupId);
 
