@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { theme } from '../../constants/myTheme';
 
@@ -39,6 +39,11 @@ function SubGroupsFilter({
       borderColor: theme.colors.backgroundCamel,
     };
   };
+
+  useEffect(() => {
+    // Update the selected state when the disabled prop changes
+    setSelected(disabled ? '' : selectedValue);
+  }, [disabled, selectedValue]);
 
   return (
     <View
