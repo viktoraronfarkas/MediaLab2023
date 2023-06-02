@@ -7,7 +7,6 @@ export default function Animation({
   style,
   onAnimationFinish,
   autoplay = true,
-  loop = true,
   speed,
 }) {
   // temp ios fix begin
