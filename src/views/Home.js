@@ -16,7 +16,7 @@ import {
   mainGroups,
   selectedGroup,
   setCurrentUserId,
-  setMianGroups,
+  setMainGroups,
 } from '../redux/features/mainSlice/mainSlice';
 
 const styles = StyleSheet.create({
@@ -38,7 +38,7 @@ function HomeContent() {
         `http://${clientIpAddress}:3001/maingroup`
       );
       const mainGroupsData = response.data;
-      dispatch(setMianGroups(mainGroupsData));
+      dispatch(setMainGroups(mainGroupsData));
     } catch (error) {
       console.error('Error fetching main groups:', error);
     }

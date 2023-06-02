@@ -99,6 +99,16 @@ export default function LoginScreen() {
     }
   };
 
+  // useEffect(() => {
+  //   const subscribe = firebase.auth().onAuthStateChanged((user) => {
+  //     if (user) {
+  //       navigation.navigate('Home');
+  //     }
+  //   });
+
+  //   return subscribe;
+  // }, [navigation]);
+
   return (
     <View style={styles.container}>
       {loading && (

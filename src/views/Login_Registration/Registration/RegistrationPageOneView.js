@@ -1,13 +1,5 @@
 import React, { useRef } from 'react';
-import {
-  SafeAreaView,
-  Text,
-  StyleSheet,
-  ScrollView,
-  // Image,
-  View,
-  // TouchableOpacity,
-} from 'react-native';
+import { SafeAreaView, Text, StyleSheet, ScrollView, View } from 'react-native';
 import ClickableText from '../../../components/ClickableText';
 import {
   theme,
@@ -126,7 +118,7 @@ export default function RegistrationPageOneView({
 
   return (
     <SafeAreaView style={style.container}>
-        <ScrollView ref={scrollViewRef} contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView ref={scrollViewRef} contentContainerStyle={{ flexGrow: 1 }}>
         <View style={{ paddingHorizontal: 25 }}>
           <View style={{ paddingTop: 30 }}>
             <CaptionScribbleHeading

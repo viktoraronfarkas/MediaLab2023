@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
+
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import firebase from '../../../../config';
 import { theme } from '../../../constants/myTheme';
 import RegistrationPageOneView from './RegistrationPageOneView';
 import RegistrationPageTwoView from './RegistrationPageTwoView';
 import RegistrationPageThreeView from './RegistrationPageThreeView';
+import VerifyEmailScreen from '../VerifyEmailScreen';
+// import Home from '../../Home_Test';
 import BackButtonNavigationContainer from '../../../components/Buttons/BackButtonNavigationContainer';
 import {
   IpAddress,
@@ -30,11 +34,8 @@ const style = StyleSheet.create({
     color: theme.colors.primary,
   },
 });
-
-// TODO Check if username already exists in the DB
-// TODO onSubmit it should direct to authentication Screen and User should receive an Email to authenticate
+// TODO Add Regular Expression Email: for gmail, outlook etc (Demo)
 // TODO DELETE Console logs
-// TODO After Authentication create new User to DB
 // TODO delete console log after backend implementation
 
 /**
@@ -53,15 +54,23 @@ export default function RegistrationScreen() {
   const [confirmError, setConfirmError] = useState('');
   const [imageUpload, setImage] = useState(null);
   const [selectedNames, setSelectedNames] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const NewJoinedGroups = useSelector(selectedNewJoinedGroups);
 
   const clientIpAddress = useSelector(IpAddress);
+
+  // Handle Navigation
+  const RegistrationStack = createStackNavigator();
+  const navigation = useNavigation();
+  const handleTextLoginClick = () => {
+    navigation.navigate('LoginScreen');
+  };
   const dispatch = useDispatch();
 
   const validateEmail = () => {
     // Users can only use two small letters, 6 numbers and the fh-email ending --> student emails.
     const emailRegex = /[a-z]{2}\d{6}@fhstp\.ac\.at/;
+    // const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
     if (!emailRegex.test(email)) {
       setEmailError('Please enter a valid student FH email address.');
@@ -119,12 +128,6 @@ export default function RegistrationScreen() {
     return true;
   };
 
-  // Handle Navigation
-  const RegistrationStack = createStackNavigator();
-  const navigation = useNavigation();
-  const handleTextLoginClick = () => {
-    navigation.navigate('LoginScreen');
-  };
   const handlePage2Click = async (event) => {
     event.preventDefault();
     const isEmailValid = validateEmail();
@@ -196,74 +199,91 @@ export default function RegistrationScreen() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Create FormData object
-    const formData = new FormData();
-
-    // Append form fields to FormData object
-    formData.append('email', email);
-    formData.append('username', username);
-    formData.append('name', name);
-    formData.append('password', password);
-
-    // Check if an image is uploaded
-    if (imageUpload) {
-      try {
-        setLoading(true);
-        const response = await fetch(imageUpload);
-        const blob = await response.blob();
-
-        // Append the image blob to FormData object
-        formData.append('profile_image', blob, 'profile_image.png');
-      } catch (error) {
-        console.error('Error reading image file:', error);
-      }
-    }
-
-    // Make the API request using Axios or any other HTTP client library
+    // submit registration form if there are no errors
     try {
-      const response = await axios.post(
-        `http://${clientIpAddress}:3001/auth/signup`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
+      await firebase.auth().createUserWithEmailAndPassword(email, password);
+
+      // Send the verification email
+      await firebase.auth().currentUser.sendEmailVerification({
+        handleCodeInApp: true,
+        url: 'https://uasync-8e7a4.firebaseapp.com',
+      });
+      // Prompt the user to verify their email address
+      alert(
+        'A verification email has been sent to your email address. Please verify your email address to complete the registration process.'
       );
+      navigation.navigate('VerifyEmailScreen');
 
-      // Handle response
-      console.log(response.data);
+      // Update the user's password once they have verified their email address
+      // Create FormData object
+      const formData = new FormData();
 
-      // Retrieve the user ID from the response
-      const { userId } = response.data;
-      const mainGroupIds = [...NewJoinedGroups];
+      // Append form fields to FormData object
+      formData.append('email', email);
+      formData.append('username', username);
+      formData.append('name', name);
+      formData.append('password', password);
 
-      // Join the recommended groups with the user ID
-      if (userId) {
+      // Check if an image is uploaded
+      if (imageUpload) {
         try {
-          const joinGroupResponse = await axios.post(
-            `http://${clientIpAddress}:3001/user/subscribe/maingroup`,
-            {
-              userId,
-              mainGroupIds,
-            }
-          );
+          // setLoading(true);
+          const response = await fetch(imageUpload);
+          const blob = await response.blob();
 
-          // Handle join group response
-          console.log(joinGroupResponse.data);
-          dispatch(setNewJoinedGroup([]));
+          // Append the image blob to FormData object
+          formData.append('profile_image', blob, 'profile_image.png');
         } catch (error) {
-          // Handle error
-          console.error('Error joining recommended groups:', error);
+          console.error('Error reading image file:', error);
         }
       }
 
-      navigation.navigate('LoginScreen');
+      // Make the API request using Axios or any other HTTP client library
+      try {
+        const response = await axios.post(
+          `http://${clientIpAddress}:3001/auth/signup`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+
+        // Handle response
+        console.log(response.data);
+
+        // Retrieve the user ID from the response
+        const { userId } = response.data;
+        const mainGroupIds = [...NewJoinedGroups];
+
+        // Join the recommended groups with the user ID
+        if (userId) {
+          try {
+            const joinGroupResponse = await axios.post(
+              `http://${clientIpAddress}:3001/user/subscribe/maingroup`,
+              {
+                userId,
+                mainGroupIds,
+              }
+            );
+
+            // Handle join group response
+            console.log(joinGroupResponse.data);
+            dispatch(setNewJoinedGroup([]));
+          } catch (error) {
+            // Handle error
+            console.error('Error joining recommended groups:', error);
+          }
+        }
+      } catch (error) {
+        // Handle error
+        console.error('Error sending form data:', error);
+      } finally {
+        // setLoading(false);
+      }
     } catch (error) {
-      // Handle error
-      console.error('Error sending form data:', error);
-    } finally {
-      setLoading(false);
+      alert(error.message);
     }
   };
 
@@ -346,10 +366,15 @@ export default function RegistrationScreen() {
             selectedGroups={selectedNames}
             // Submit form
             handleSubmit={handleSubmit}
-            loading={loading}
+            // loading={loading}
           />
         )}
       </RegistrationStack.Screen>
+
+      <RegistrationStack.Screen
+        name="VerifyEmailScreen"
+        component={VerifyEmailScreen}
+      />
     </RegistrationStack.Navigator>
   );
 }
