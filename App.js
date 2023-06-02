@@ -9,7 +9,7 @@ import Splash from './src/components/Splash';
 import store from './src/redux/app/store';
 import {
   IpAddress,
-  setMianGroups,
+  setMainGroups,
 } from './src/redux/features/mainSlice/mainSlice';
 
 function RootComponent() {
@@ -23,7 +23,7 @@ function RootComponent() {
         `http://${clientIpAddress}:3001/maingroup`
       );
       const mainGroupsData = response.data;
-      dispatch(setMianGroups(mainGroupsData));
+      dispatch(setMainGroups(mainGroupsData));
     } catch (error) {
       console.error('Error retrieving main groups:', error);
       // Handle the error

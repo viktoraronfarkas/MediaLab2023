@@ -10,11 +10,11 @@ import { styles } from '../constants/myTheme';
 import { MoreSvg } from './svgs';
 import {
   IpAddress,
-  SetselectedSubGroup,
+  SetSelectedSubGroup,
   selectedGroup,
   selectedUserId,
   setSelectedMainGroup,
-  setMianGroups,
+  setMainGroups,
 } from '../redux/features/mainSlice/mainSlice';
 import SubGroupsFilter from './Buttons/SubGroupsFilter';
 import ListItem from './Items/ListItem';
@@ -115,7 +115,7 @@ function MainJoinedGroup() {
         `http://${clientIpAddress}:3001/maingroup`
       );
       const mainGroupsData = response.data;
-      dispatch(setMianGroups(mainGroupsData));
+      dispatch(setMainGroups(mainGroupsData));
     } catch (error) {
       console.error('Error fetching main groups:', error);
     }
@@ -294,7 +294,7 @@ function MainJoinedGroup() {
               subtitle={subgroup.subTitle || subgroup.subgroupName}
               iconImage={require('../../assets/Icons/arrow-right.png')}
               onPress={() => {
-                dispatch(SetselectedSubGroup(subgroup));
+                dispatch(SetSelectedSubGroup(subgroup));
                 navigation.navigate('Subgroup');
               }}
             />
