@@ -1,8 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { Avatar } from 'react-native-paper';
+import {
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+} from 'react-native';
+import { Avatar, ActivityIndicator } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { theme } from '../constants/myTheme';
 import iconImage from '../../assets/Icons/plus-icon.png';
@@ -14,18 +20,30 @@ import {
   selectedUserId,
 } from '../redux/features/mainSlice/mainSlice';
 
+const styles = StyleSheet.create({
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
 export default function GroupsTopBar({ preDefinedGroups }) {
   const selectedGroupValue = useSelector(selectedGroup);
   const clientIpAddress = useSelector(IpAddress);
   const [subscribedGroups, setSubscribedGroups] = useState([]);
   const currentSelectedUserId = useSelector(selectedUserId);
+  const [loading, setLoading] = useState(true); // New loading state
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(currentSelectedUserId);
     const fetchSubscribedGroups = async () => {
       try {
+        setLoading(true); // Start loading spinner
+
         const response = await axios.get(
           `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/subscribed-groups`
         );
@@ -41,12 +59,14 @@ export default function GroupsTopBar({ preDefinedGroups }) {
       } catch (error) {
         console.error('Error retrieving subscribed groups:', error);
         // Handle the error
+      } finally {
+        setLoading(false); // Stop loading spinner
       }
     };
 
     fetchSubscribedGroups();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentSelectedUserId, preDefinedGroups]);
+  }, [preDefinedGroups]);
 
   // navigate to REGISTRATION Screen
   const navigation = useNavigation();
@@ -77,6 +97,11 @@ export default function GroupsTopBar({ preDefinedGroups }) {
 
   return (
     <View>
+      {loading && (
+        <View style={styles.overlay}>
+          <ActivityIndicator animating color={theme.colors.primary} />
+        </View>
+      )}
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}

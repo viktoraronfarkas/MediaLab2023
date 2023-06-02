@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { Card, Text } from 'react-native-paper';
+import { Card, Text, Divider } from 'react-native-paper';
 import { theme, styles } from '../../constants/myTheme';
 import OrangeButton from '../Buttons/OrangeButton';
 import IconImageDefault from '../../../assets/Icons/group-default-icon.png';
@@ -12,6 +12,11 @@ const style = StyleSheet.create({
     paddingBottom: 10,
     marginBottom: 25,
     backgroundColor: theme.colors.backgroundWhite,
+  },
+  separator: {
+    borderBottomWidth: 10,
+    borderBottomColor: theme.colors.neutralsBlack,
+    marginVertical: 10,
   },
 });
 
@@ -57,7 +62,7 @@ export default function PostCard({
     <Card elevation={0} style={style.container}>
       <Card.Title
         titleStyle={[styles.subtitle1, { marginLeft: 10 }]}
-        subtitleStyle={[styles.caption, { marginLeft: 10 }]}
+        subtitleStyle={[styles.captionBold, { marginLeft: 10 }]}
         title={title}
         subtitle={subTitle}
         left={() => LeftContent({ iconImage })}
@@ -65,6 +70,7 @@ export default function PostCard({
       {coverImage ? (
         <Card.Cover source={coverImage} resizeMode="cover" />
       ) : null}
+      {!coverImage && <Divider />}
       <Card.Content>
         <Text
           style={[

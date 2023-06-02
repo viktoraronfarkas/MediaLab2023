@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   // Image,
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+// import DateTimePicker from '@react-native-community/datetimepicker'; // For Birthday
 import DialogAction from '../../../../components/Dialogs/DialogAction';
 import { theme, styles } from '../../../../constants/myTheme';
 import TitleArrowHeading from '../../../../components/Texts/TitleArrowHeading';
@@ -18,8 +18,8 @@ import OrangeButton from '../../../../components/Buttons/OrangeButton';
 import InputField from '../../../../components/Items/InputField';
 import LongInputField from '../../../../components/Items/LongInputField';
 import arrowImage from '../../../../../assets/Images/arrow-image.png';
-// import SelectDropdown from 'react-native-select-dropdown';
-// import dropDownIcon from '../../../../../assets/Icons/arrow-right.png';
+// import SelectDropdown from 'react-native-select-dropdown'; // For Study Programme Selection
+// import dropDownIcon from '../../../../../assets/Icons/arrow-right.png'; // For Study Programme Selection
 
 const style = StyleSheet.create({
   container: {
@@ -84,18 +84,19 @@ export default function PersonalDataView({
   // onChangeSelectionStudyProgramme,
 
   passwordValue,
+  passwordLabel,
   onChangeTextPassword,
   passwordError,
 
   alertVisible,
   onPressCancelDialog,
 
-  openDatePicker,
-  showDatePicker,
-  formattedDate,
-  birthdayValue,
-  handleDateChange,
-  applyChangesAndClose,
+  // openDatePicker,
+  // showDatePicker,
+  // formattedDate,
+  // birthdayValue,
+  // handleDateChange,
+  // applyChangesAndClose,
 
   onSaveChanges,
   onChangeValuesButton,
@@ -134,7 +135,7 @@ export default function PersonalDataView({
             />
           </View>
 
-          <Text style={styles.subtitle1}>Name</Text>
+          <Text style={styles.subtitle1}>Full Name</Text>
           {nameError ? <Text style={style.error}>{nameError}</Text> : null}
           <InputField
             onBlur={onBlur}
@@ -167,6 +168,7 @@ export default function PersonalDataView({
           ) : null}
           <InputField
             onBlur={onBlur}
+            labelText={passwordLabel}
             value={passwordValue}
             onChangeText={onChangeTextPassword}
             secureTextEntry
@@ -179,7 +181,7 @@ export default function PersonalDataView({
             marginLeft={0}
           />
 
-          <Text style={styles.subtitle1}>Username</Text>
+          <Text style={styles.subtitle1}>Displayed Name</Text>
           {usernameError ? (
             <Text style={style.error}>{usernameError}</Text>
           ) : null}
@@ -191,7 +193,7 @@ export default function PersonalDataView({
             marginLeft={0}
           />
 
-          <Text style={styles.subtitle1}>Birthday</Text>
+          {/* <Text style={styles.subtitle1}>Birthday</Text>
           {showDatePicker && (
             <View>
               <DateTimePicker
@@ -227,7 +229,7 @@ export default function PersonalDataView({
               onPress={openDatePicker}
               styleButton={{ marginBottom: 20 }}
             />
-          </View>
+          </View> */}
 
           <Text style={styles.subtitle1}>Biography</Text>
           <LongInputField

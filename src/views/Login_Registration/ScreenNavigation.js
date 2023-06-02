@@ -31,6 +31,7 @@ import {
   loggedIn,
 } from '../../redux/features/mainSlice/mainSlice';
 import JoinNewGroup from '../JoinNewGroup';
+import OnboardingViews from '../OnboardingViews';
 
 /**
  * This is the main Navigation file of most of the screens.
@@ -162,6 +163,11 @@ export default function ScreenNavigation() {
           </>
         ) : (
           <>
+            <Stack.Screen
+              name="OnboardingViews"
+              component={OnboardingViews}
+              options={{ title: '', headerShown: false }}
+            />
             <Stack.Screen
               name="LandingScreen"
               component={LandingScreen}

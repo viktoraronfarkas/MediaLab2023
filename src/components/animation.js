@@ -7,7 +7,6 @@ export default function Animation({
   style,
   onAnimationFinish,
   autoplay = true,
-  loop = true,
   speed,
 }) {
   // temp ios fix begin
@@ -25,7 +24,6 @@ export default function Animation({
     <AnimatedLottieView
       source={source}
       autoPlay={autoplay}
-      loop={loop}
       style={style}
       speed={speed}
       onAnimationFinish={onAnimationFinish}

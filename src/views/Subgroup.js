@@ -13,6 +13,7 @@ import {
   IpAddress,
   setPosts,
   posts,
+  selectedUserId,
 } from '../redux/features/mainSlice/mainSlice';
 // import SubGroupsFilter from '../components/Buttons/SubGroupsFilter';
 import BackButton from '../components/Buttons/BackButton';
@@ -128,14 +129,15 @@ function Subgroup() {
 
   const selectedGroupValue = useSelector(selectedGroup);
   const selectedSubGroupValue = useSelector(selectedSubGroup);
-  const currentUser = useSelector(selectedUser);
+  // const currentUser = useSelector(selectedUser);
   const clientIpAddress = useSelector(IpAddress);
   let storedPosts = useSelector(posts);
+  const currentSelectedUserId = useSelector(selectedUserId);
 
   const [joined, setJoined] = useState(0);
 
   const isJoined = () => {
-    const url = `http://${clientIpAddress}:3001/user/${currentUser.user_id}/subscribed-groups`;
+    const url = `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/subscribed-groups`;
 
     axios.get(url).then((res) => {
       setJoined(
@@ -149,7 +151,7 @@ function Subgroup() {
   const joinSubgroup = () => {
     const url = `http://${clientIpAddress}:3001/user/subscribe/subgroup`;
     const data = {
-      userId: currentUser.user_id,
+      userId: currentSelectedUserId,
       subgroupId: selectedSubGroupValue.subgroupId,
       mainGroupId: selectedGroupValue.mainGroupId,
     };

@@ -92,6 +92,115 @@ exports.subscribeToSubgroup = (req, res) => {
   });
 };
 
+exports.unsubscribeFromMainGroup = (req, res) => {
+  const { userId, mainGroupId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ message: 'User ID not provided' });
+  }
+
+  if (!mainGroupId) {
+    return res.status(400).json({ message: 'Main Group ID not provided' });
+  }
+
+  // eslint-disable-next-line consistent-return
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error('Error getting MySQL connection:', err);
+      return res.status(500).json({ message: 'Failed to connect to MySQL' });
+    }
+
+    // Begin a transaction to perform atomic operations
+    // eslint-disable-next-line consistent-return
+    connection.beginTransaction((transactionError) => {
+      if (transactionError) {
+        connection.release();
+        console.error('Error beginning transaction:', transactionError);
+        return res.status(500).json({ message: 'Failed to begin transaction' });
+      }
+
+      // Delete subscriptions from the subgroups table only if there are associated subgroups
+      connection.query(
+        'SELECT subgroup_id FROM subscribedsubgroups WHERE main_group_id = ?',
+        [mainGroupId],
+        (error, results) => {
+          if (error) {
+            connection.rollback(() => {
+              connection.release();
+              console.error('Error retrieving subgroups:', error);
+              return res
+                .status(500)
+                .json({ message: 'Failed to retrieve subgroups' });
+            });
+          }
+
+          const subgroups = results.map((result) => result.subgroup_id);
+
+          if (subgroups.length > 0) {
+            // Delete subscriptions from the subgroups table
+            connection.query(
+              'DELETE FROM subscribedsubgroups WHERE user_id = ? AND subgroup_id IN (?)',
+              [userId, subgroups],
+              (subgroupsDeleteError) => {
+                if (subgroupsDeleteError) {
+                  connection.rollback(() => {
+                    connection.release();
+                    console.error(
+                      'Error deleting subgroups subscriptions:',
+                      subgroupsDeleteError
+                    );
+                    return res.status(500).json({
+                      message: 'Failed to delete subgroups subscriptions',
+                    });
+                  });
+                }
+              }
+            );
+          }
+
+          // Delete subscriptions from the maingroups table
+          connection.query(
+            'DELETE FROM subscribedmaingroups WHERE user_id = ? AND main_group_id = ?',
+            [userId, mainGroupId],
+            (mainGroupDeleteError) => {
+              if (mainGroupDeleteError) {
+                connection.rollback(() => {
+                  connection.release();
+                  console.error(
+                    'Error deleting main group subscription:',
+                    mainGroupDeleteError
+                  );
+                  return res.status(500).json({
+                    message: 'Failed to delete main group subscription',
+                  });
+                });
+              }
+
+              // Commit the transaction if all deletions were successful
+              connection.commit((commitError) => {
+                if (commitError) {
+                  connection.rollback(() => {
+                    connection.release();
+                    console.error('Error committing transaction:', commitError);
+                    return res
+                      .status(500)
+                      .json({ message: 'Failed to commit transaction' });
+                  });
+                }
+
+                connection.release();
+                return res.status(200).json({
+                  message: 'User unsubscribed from main group and subgroups',
+                });
+              });
+            }
+          );
+        }
+      );
+    });
+  });
+};
+
 // Retrieve all joined groups (main and subgroups) for a user
 // eslint-disable-next-line consistent-return
 exports.getSubscribedGroups = (req, res) => {
