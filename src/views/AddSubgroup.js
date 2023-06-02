@@ -11,6 +11,7 @@ import {
   ScrollView,
   // TouchableOpacity,
 } from 'react-native';
+import Toast from 'react-native-toast-message';
 import InputField from '../components/Items/InputField';
 import { styles, theme } from '../constants/myTheme';
 import OrangeButton from '../components/Buttons/OrangeButton';
@@ -57,12 +58,24 @@ function AddSubgroup() {
 
     try {
       await axios.post(url, formData);
+      Toast.show({
+        type: 'success',
+        text1: 'Subgroup created',
+        visibilityTime: 2000,
+        autoHide: true,
+      });
       navigation.goBack();
     } catch (err) {
       console.error(
         'Add subgroup error:',
         err.response?.data?.message || err.message
       );
+      Toast.show({
+        type: 'error',
+        text1: 'Failed to create subgroup',
+        visibilityTime: 2000,
+        autoHide: true,
+      });
     }
   };
 
@@ -160,6 +173,7 @@ function AddSubgroup() {
           />
         </View>
       </ScrollView>
+      <Toast />
     </SafeAreaView>
   );
 }
