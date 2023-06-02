@@ -27,7 +27,6 @@ function AddSubgroup() {
   const navigation = useNavigation();
   const currentGroup = useSelector(selectedGroup);
   const clientIpAddress = useSelector(IpAddress);
-  
 
   const [groupName, setName] = useState('');
   const [groupCaption, setCaption] = useState('');
@@ -70,14 +69,17 @@ function AddSubgroup() {
     formData.append('subgroupImage', ''); // DELETE when image upload is implemented
 
     try {
-      await axios.post(url, formData);
-      Toast.show({
-        type: 'success',
-        text1: 'Subgroup created',
-        visibilityTime: 2000,
-        autoHide: true,
+      await axios.post(url, formData).then((response) => {
+        Toast.show({
+          type: 'success',
+          text1: 'Subgroup created',
+          visibilityTime: 2000,
+          autoHide: true,
+        });
+        navigation.navigate('Subgroup', {
+          createdGroupId: response.data.groupId,
+        });
       });
-      navigation.goBack();
     } catch (err) {
       console.error(
         'Add subgroup error:',

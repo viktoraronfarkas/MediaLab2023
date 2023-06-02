@@ -92,6 +92,7 @@ exports.subscribeToSubgroup = (req, res) => {
   });
 };
 
+// eslint-disable-next-line consistent-return
 exports.unsubscribeFromMainGroup = (req, res) => {
   const { userId, mainGroupId } = req.body;
 
@@ -198,6 +199,46 @@ exports.unsubscribeFromMainGroup = (req, res) => {
         }
       );
     });
+  });
+};
+
+// eslint-disable-next-line consistent-return
+exports.unsubscribeFromSubGroup = (req, res) => {
+  const { userId, subGroupId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ message: 'User ID not provided' });
+  }
+
+  if (!subGroupId) {
+    return res.status(400).json({ message: 'Subgroup ID not provided' });
+  }
+
+  // eslint-disable-next-line consistent-return
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error('Error getting MySQL connection:', err);
+      return res.status(500).json({ message: 'Failed to connect to MySQL' });
+    }
+
+    connection.query(
+      'DELETE FROM subscribedsubgroups WHERE user_id = (?) AND subgroup_id = (?)',
+      [userId, subGroupId],
+      (error) => {
+        connection.release();
+
+        if (error) {
+          console.error('Error unsubscribing user from subgroup:', error);
+          return res
+            .status(500)
+            .json({ message: 'Error while unsubscribing user from subgroup' });
+        }
+
+        return res
+          .status(200)
+          .json({ message: 'User unsubscribed from subgroup' });
+      }
+    );
   });
 };
 
