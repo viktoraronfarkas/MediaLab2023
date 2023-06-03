@@ -32,6 +32,7 @@ import {
 } from '../../redux/features/mainSlice/mainSlice';
 import JoinNewGroup from '../JoinNewGroup';
 import OnboardingViews from '../OnboardingViews';
+import PostInteraction from '../PostInteraction';
 
 /**
  * This is the main Navigation file of most of the screens.
@@ -158,6 +159,11 @@ export default function ScreenNavigation() {
             <Stack.Screen
               name="VerifyEmailScreen"
               component={VerifyEmailScreen}
+              options={{ title: '', headerShown: false }}
+            />
+            <Stack.Screen
+              name="PostInteraction"
+              component={PostInteraction}
               options={{ title: '', headerShown: false }}
             />
           </>

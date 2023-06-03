@@ -5,9 +5,10 @@ const initialState = {
   // TODO FIXME: This code needs to be deleted its just an example
   selectedMainGroup: 'Feed',
   selectedSubGroup: '',
+  selectedPost: {},
   currentUser: {},
   currentUserId: '',
-  IpAddress: '192.168.1.246',
+  IpAddress: '192.168.1.107',
   loggedIn: '',
   selectedNewJoinedGroups: [],
   posts: [],
@@ -23,6 +24,9 @@ export const mainSlice = createSlice({
     },
     SetSelectedSubGroup: (state, action) => {
       state.selectedSubGroup = action.payload;
+    },
+    setSelectedPost: (state, action) => {
+      state.selectedPost = action.payload;
     },
     setCurrentUser: (state, action) => {
       const updatedProps = action.payload;
@@ -50,6 +54,7 @@ export const mainSlice = createSlice({
 export const {
   setSelectedMainGroup,
   SetSelectedSubGroup,
+  setSelectedPost,
   setCurrentUser,
   setLoggedIn,
   setNewJoinedGroup,
@@ -60,6 +65,7 @@ export const {
 
 export const selectedGroup = (state) => state.main.selectedMainGroup;
 export const selectedSubGroup = (state) => state.main.selectedSubGroup;
+export const selectedPost = (state) => state.main.selectedPost;
 export const selectedUser = (state) => state.main.currentUser;
 export const selectedUserId = (state) => state.main.currentUserId;
 export const IpAddress = (state) => state.main.IpAddress;

@@ -308,6 +308,7 @@ function Subgroup({ route }) {
                 <PostCard
                   // eslint-disable-next-line react/no-array-index-key
                   key={index}
+                  postId={post.post_id}
                   title={post.heading}
                   subTitle={post.caption}
                   content={post.text}

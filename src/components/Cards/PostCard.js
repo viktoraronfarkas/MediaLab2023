@@ -1,9 +1,12 @@
 import React from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { Card, Text, Divider } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 import { theme, styles } from '../../constants/myTheme';
 import OrangeButton from '../Buttons/OrangeButton';
 import IconImageDefault from '../../../assets/Icons/group-default-icon.png';
+import { setSelectedPost } from '../../redux/features/mainSlice/mainSlice';
 
 const style = StyleSheet.create({
   container: {
@@ -56,47 +59,71 @@ export default function PostCard({
   coverImage,
   iconImage,
   disabled,
+  postId,
 }) {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   const handlePress = () => {};
+
+  const clickPost = () => {
+    dispatch(
+      setSelectedPost({
+        title,
+        subTitle,
+        buttonText,
+        content,
+        coverImage,
+        iconImage,
+        disabled,
+        postId,
+      })
+    );
+
+    navigation.navigate('PostInteraction');
+  };
+
   return (
-    <Card elevation={0} style={style.container}>
-      <Card.Title
-        titleStyle={[styles.subtitle1, { marginLeft: 10 }]}
-        subtitleStyle={[styles.captionBold, { marginLeft: 10 }]}
-        title={title}
-        subtitle={subTitle}
-        left={() => LeftContent({ iconImage })}
-      />
-      {coverImage ? (
-        <Card.Cover source={coverImage} resizeMode="cover" />
-      ) : null}
-      {!coverImage && <Divider />}
-      <Card.Content>
-        <Text
-          style={[
-            styles.bodyDefault,
-            {
-              marginTop: content && content.length ? 15 : 0,
-              marginBottom: content && content.length > 0 ? 15 : 0,
-            },
-          ]}
-        >
-          {content}
-        </Text>
-      </Card.Content>
-      <Card.Actions>
-        {buttonText ? (
-          <OrangeButton
-            buttonBackgroundColor={
-              disabled ? theme.colors.neutralsGrey500 : theme.colors.primary
-            }
-            text={buttonText}
-            onPress={disabled ? null : handlePress}
-          />
-        ) : (
-          ''
-        )}
-      </Card.Actions>
-    </Card>
+    <TouchableOpacity onPress={clickPost}>
+      <Card elevation={0} style={style.container}>
+        <Card.Title
+          titleStyle={[styles.subtitle1, { marginLeft: 10 }]}
+          subtitleStyle={[styles.captionBold, { marginLeft: 10 }]}
+          title={title}
+          subtitle={subTitle}
+          left={() => LeftContent({ iconImage })}
+        />
+        {coverImage ? (
+          <Card.Cover source={coverImage} resizeMode="cover" />
+        ) : null}
+        {!coverImage && <Divider />}
+        <Card.Content>
+          <Text
+            style={[
+              styles.bodyDefault,
+              {
+                marginTop: content && content.length ? 15 : 0,
+                marginBottom: content && content.length > 0 ? 15 : 0,
+              },
+            ]}
+          >
+            {content}
+          </Text>
+        </Card.Content>
+        <Card.Actions>
+          {buttonText ? (
+            <OrangeButton
+              buttonBackgroundColor={
+                disabled ? theme.colors.neutralsGrey500 : theme.colors.primary
+              }
+              text={buttonText}
+              onPress={disabled ? null : handlePress}
+            />
+          ) : (
+            ''
+          )}
+        </Card.Actions>
+      </Card>
+    </TouchableOpacity>
   );
 }
