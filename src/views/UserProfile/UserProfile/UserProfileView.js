@@ -165,7 +165,7 @@ export default function UserProfileView({
             />
           </TouchableOpacity>
 
-          <OrangeSubtitleBodyText title="Name" bodyText={name} />
+          <OrangeSubtitleBodyText title="Full Name" bodyText={name} />
 
           <OrangeSubtitleBodyText title="Biography" bodyText={biography} />
 

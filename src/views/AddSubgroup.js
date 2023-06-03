@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -11,6 +11,7 @@ import {
   ScrollView,
   // TouchableOpacity,
 } from 'react-native';
+import Toast from 'react-native-toast-message';
 import InputField from '../components/Items/InputField';
 import { styles, theme } from '../constants/myTheme';
 import OrangeButton from '../components/Buttons/OrangeButton';
@@ -29,8 +30,20 @@ function AddSubgroup() {
 
   const [groupName, setName] = useState('');
   const [groupCaption, setCaption] = useState('');
-  const [groupIntro, setIntroduction] = useState('');
+  // const [groupIntro, setIntroduction] = useState('');
   // const [imageUpload, setImage] = useState(null);
+
+  // For focussing on the Input field
+  const nameOfSubGroup = useRef(null);
+  const captionOfSubGroup = useRef(null);
+
+  const focusNameOfSubInput = () => {
+    nameOfSubGroup.current?.focus();
+  };
+
+  const focusCaptionInput = () => {
+    captionOfSubGroup.current?.focus();
+  };
 
   const handlePress = async (e) => {
     e.preventDefault();
@@ -39,7 +52,7 @@ function AddSubgroup() {
     formData.append('name', groupName);
     formData.append('mainGroupId', [currentGroup.mainGroupId]);
     formData.append('caption', groupCaption);
-    formData.append('introduction', groupIntro);
+    // formData.append('introduction', groupIntro);
 
     // if (imageUpload) {
     //   try {
@@ -56,13 +69,28 @@ function AddSubgroup() {
     formData.append('subgroupImage', ''); // DELETE when image upload is implemented
 
     try {
-      await axios.post(url, formData);
-      navigation.goBack();
+      await axios.post(url, formData).then((response) => {
+        Toast.show({
+          type: 'success',
+          text1: 'Subgroup created',
+          visibilityTime: 2000,
+          autoHide: true,
+        });
+        navigation.navigate('Subgroup', {
+          createdGroupId: response.data.groupId,
+        });
+      });
     } catch (err) {
       console.error(
         'Add subgroup error:',
         err.response?.data?.message || err.message
       );
+      Toast.show({
+        type: 'error',
+        text1: 'Failed to create subgroup',
+        visibilityTime: 2000,
+        autoHide: true,
+      });
     }
   };
 
@@ -95,15 +123,17 @@ function AddSubgroup() {
 
         <View style={{ marginTop: 40 }}>
           <View style={{ marginBottom: 5 }}>
-            <Text style={styles.subtitle2}>Name your Subgroup:</Text>
+            <Text style={styles.subtitle2}>Name your subgroup:</Text>
           </View>
           <InputField
-            labelText="Name"
+            labelText="Subgroup Name"
             value={groupName}
             onChangeText={setName}
             padding={2}
             marginLeft={0}
             maxLength={15}
+            inputRef={nameOfSubGroup}
+            onFocus={focusNameOfSubInput}
           />
           <View style={{ marginLeft: 20 }}>
             <Text style={styles.navLabel}>Limit to 15 Characters</Text>
@@ -112,15 +142,17 @@ function AddSubgroup() {
 
         <View style={{ marginTop: 20 }}>
           <View style={{ marginBottom: 5 }}>
-            <Text style={styles.subtitle2}>Write a great caption:</Text>
+            <Text style={styles.subtitle2}>Write a great subtitle:</Text>
           </View>
           <InputField
-            labelText="Caption"
+            labelText="Subtitle"
             value={groupCaption}
             onChangeText={setCaption}
             padding={2}
             marginLeft={0}
             maxLength={15}
+            inputRef={captionOfSubGroup}
+            onFocus={focusCaptionInput}
           />
           <View style={{ marginLeft: 20 }}>
             <Text style={styles.navLabel}>Limit to 15 Characters</Text>
@@ -138,7 +170,7 @@ function AddSubgroup() {
             </TouchableOpacity>
           </View>
         </View> */}
-
+        {/* 
         <View style={{ marginTop: 20 }}>
           <View style={{ marginBottom: 5 }}>
             <Text style={styles.subtitle2}>Write a small Introduction:</Text>
@@ -150,7 +182,7 @@ function AddSubgroup() {
             padding={2}
             marginLeft={0}
           />
-        </View>
+        </View> */}
 
         <View style={{ marginTop: 40 }}>
           <OrangeButton
@@ -160,6 +192,7 @@ function AddSubgroup() {
           />
         </View>
       </ScrollView>
+      <Toast />
     </SafeAreaView>
   );
 }

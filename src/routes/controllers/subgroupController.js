@@ -290,9 +290,9 @@ exports.createSubgroup = (req, res) => {
     if (!caption) {
       return res.status(400).json({ message: 'Caption not provided' });
     }
-    if (!introduction) {
-      return res.status(400).json({ message: 'Introduction not provided' });
-    }
+    // if (!introduction) {
+    //   return res.status(400).json({ message: 'Introduction not provided' });
+    // }
 
     // Access the file buffer instead of the file path
     const subgroupImage = req.file ? req.file.buffer : null;
@@ -308,7 +308,7 @@ exports.createSubgroup = (req, res) => {
       connection.query(
         'INSERT INTO subgroups (name, main_group_id, caption, Description, title_image) VALUES (?, ?, ?, ?, ?)',
         [name, mainGroupId, caption, introduction, subgroupImage],
-        (insertErr) => {
+        (insertErr, result) => {
           connection.release();
 
           if (insertErr) {
@@ -318,7 +318,9 @@ exports.createSubgroup = (req, res) => {
               .json({ message: 'Error while creating subgroup' });
           }
 
-          return res.status(200).json({ message: 'Subgroup created' });
+          return res
+            .status(200)
+            .json({ message: 'Subgroup created', groupId: result.insertId });
         }
       );
     });

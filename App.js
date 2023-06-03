@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import loadFonts from './assets/fonts/FontList'; // import fonts
+// import ScreenNavigation from './src/views/Login_Registration/ScreenNavigation';
+import UserAuthentication from './src/views/Login_Registration/UserAuthentication';
 import Splash from './src/components/Splash';
 import store from './src/redux/app/store';
 import {
   IpAddress,
-  setMianGroups,
+  setMainGroups,
 } from './src/redux/features/mainSlice/mainSlice';
-import ScreenNavigation from './src/views/Login_Registration/ScreenNavigation';
 
 function RootComponent() {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,7 +23,7 @@ function RootComponent() {
         `http://${clientIpAddress}:3001/maingroup`
       );
       const mainGroupsData = response.data;
-      dispatch(setMianGroups(mainGroupsData));
+      dispatch(setMainGroups(mainGroupsData));
     } catch (error) {
       console.error('Error retrieving main groups:', error);
       // Handle the error
@@ -46,7 +47,8 @@ function RootComponent() {
   if (isLoading) {
     return <Splash />;
   }
-  return <ScreenNavigation />;
+  // return <ScreenNavigation />;
+  return <UserAuthentication />;
 }
 export default function App() {
   return (

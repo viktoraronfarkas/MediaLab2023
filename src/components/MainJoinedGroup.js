@@ -1,21 +1,26 @@
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import iconImage from '../../assets/Icons/plus-icon.png';
 import circleLineImage from '../../assets/Images/circleLine-image.png';
 import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png';
 import { styles } from '../constants/myTheme';
+import { MoreSvg } from './svgs';
 import {
   IpAddress,
-  SetselectedSubGroup,
+  SetSelectedSubGroup,
   selectedGroup,
   selectedUserId,
+  setSelectedMainGroup,
+  setMainGroups,
 } from '../redux/features/mainSlice/mainSlice';
 import SubGroupsFilter from './Buttons/SubGroupsFilter';
 import ListItem from './Items/ListItem';
 import TitleCircleHeadingH2 from './Texts/TitleCircleHeading';
+import BottomScrollSheet from './BottomScrollSheet/BottomScrollSheet';
+import OptionsLeaveGroupSheet from './BottomScrollSheet/OptionsLeaveGroupSheet';
 
 // import { MoreSvg } from './svgs';
 
@@ -27,6 +32,7 @@ function MainJoinedGroup() {
   const [filteredSubgroups, setFilteredSubgroups] = useState([]);
   const currentSelectedUserId = useSelector(selectedUserId);
   const isFocused = useIsFocused();
+  const refRBSheet = useRef();
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -100,6 +106,20 @@ function MainJoinedGroup() {
       // Handle the error
     }
   };
+
+  const fetchMainGroups = async () => {
+    // Implement the logic to fetch main groups here
+    // Replace this with your actual implementation
+    try {
+      const response = await axios.get(
+        `http://${clientIpAddress}:3001/maingroup`
+      );
+      const mainGroupsData = response.data;
+      dispatch(setMainGroups(mainGroupsData));
+    } catch (error) {
+      console.error('Error fetching main groups:', error);
+    }
+  };
   useEffect(() => {
     fetchSubscribedGroups();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -121,6 +141,35 @@ function MainJoinedGroup() {
     filterSubgroups(selectedFilter);
   }, [subscribedGroups]);
 
+  useEffect(() => {
+    // Fetch main groups when component mounts
+    fetchMainGroups();
+
+    // Cleanup function to be called when component unmounts
+    return () => {
+      // Fetch main groups when component unmounts (leaving the component)
+      fetchMainGroups();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const unsubscribeFromMainGroup = async (userId, mainGroupId) => {
+    try {
+      const response = await axios.post(
+        `http://${clientIpAddress}:3001/user/${userId}/unsubscribe/maingroup`,
+        { userId, mainGroupId }
+      );
+      // Handle successful response
+      console.log(response.data);
+      // TODO: Update the UI or perform any other necessary actions
+    } catch (error) {
+      // Handle error
+      console.error(error);
+      // TODO: Show an error message to the user or perform any other necessary actions
+      console.log('error');
+    }
+  };
+
   return (
     <View
       style={{
@@ -129,6 +178,29 @@ function MainJoinedGroup() {
         alignItems: 'center',
       }}
     >
+      <BottomScrollSheet
+        bottomSheetRef={refRBSheet}
+        contentComponent={
+          <OptionsLeaveGroupSheet
+            sheetTitle={`Leave ${selectedGroupValue.mainGroupName} Group?`}
+            leaveText="Yes"
+            cancelText="Nevermind"
+            onCancel={() => {
+              refRBSheet.current.close(); // Close the bottom sheet
+            }}
+            onLeave={() => {
+              unsubscribeFromMainGroup(
+                currentSelectedUserId,
+                selectedGroupValue.mainGroupId
+              ).then(() => {
+                // Close the bottom sheet
+                refRBSheet.current.close();
+                dispatch(setSelectedMainGroup(''));
+              });
+            }}
+          />
+        }
+      />
       <View style={{ position: 'relative', paddingTop: 40 }}>
         <TitleCircleHeadingH2
           title={selectedGroupValue.name || selectedGroupValue.mainGroupName}
@@ -138,11 +210,12 @@ function MainJoinedGroup() {
             width: 190,
           }}
         />
-        {/* <TouchableOpacity
+        <TouchableOpacity
           style={{ position: 'absolute', left: '41%', top: '80%' }}
+          onPress={() => refRBSheet.current.open()}
         >
           <MoreSvg color="#000" width={50} height={50} />
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
 
       <View
@@ -182,7 +255,7 @@ function MainJoinedGroup() {
               left: '12%',
               top: '90%',
               height: 50,
-              width: 210,
+              width: 205,
               position: 'absolute',
             }}
             source={underlineArrowImage}
@@ -221,7 +294,7 @@ function MainJoinedGroup() {
               subtitle={subgroup.subTitle || subgroup.subgroupName}
               iconImage={require('../../assets/Icons/arrow-right.png')}
               onPress={() => {
-                dispatch(SetselectedSubGroup(subgroup));
+                dispatch(SetSelectedSubGroup(subgroup));
                 navigation.navigate('Subgroup');
               }}
             />

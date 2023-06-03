@@ -135,7 +135,7 @@ export default function PersonalDataView({
             />
           </View>
 
-          <Text style={styles.subtitle1}>Name</Text>
+          <Text style={styles.subtitle1}>Full Name</Text>
           {nameError ? <Text style={style.error}>{nameError}</Text> : null}
           <InputField
             onBlur={onBlur}
@@ -181,7 +181,7 @@ export default function PersonalDataView({
             marginLeft={0}
           />
 
-          <Text style={styles.subtitle1}>Username</Text>
+          <Text style={styles.subtitle1}>Displayed Name</Text>
           {usernameError ? (
             <Text style={style.error}>{usernameError}</Text>
           ) : null}

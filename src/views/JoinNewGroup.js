@@ -23,7 +23,7 @@ import {
   setNewJoinedGroup,
   selectedUserId,
   mainGroups,
-  setMianGroups,
+  setMainGroups,
 } from '../redux/features/mainSlice/mainSlice';
 import BackButton from '../components/Buttons/BackButton';
 import { AcceptedSvg, RejectedSvg } from '../components/svgs';
@@ -88,7 +88,7 @@ export default function JoinNewGroup() {
             ? `data:image/png;base64,${mainGroup.mainGroupTitleImage}`
             : null,
         }));
-        dispatch(setMianGroups(mainGroupsData || {}));
+        dispatch(setMainGroups(mainGroupsData || {}));
       } catch (error) {
         console.error('Error retrieving main groups:', error);
         // Handle the error
