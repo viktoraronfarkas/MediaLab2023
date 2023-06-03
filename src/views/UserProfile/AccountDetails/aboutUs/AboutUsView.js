@@ -21,7 +21,7 @@ export default function AboutUsView({ onCommunityGuidelines, onDataSecurity }) {
         }}
       >
         {/* Header Help */}
-        <View style={{ paddingVertical: 10 }}>
+        <View style={{ paddingVertical: 10, marginTop: 20 }}>
           <TitleArrowHeading
             title="About Us"
             arrowImage={arrowImage}

@@ -83,7 +83,7 @@ function Subgroup({ route }) {
       left: '30%',
       top: '90%',
       height: 50,
-      width: 200,
+      width: 205,
       position: 'absolute',
     },
     addIconContainer: {
