@@ -11,6 +11,7 @@ import RegistrationPageTwoView from './RegistrationPageTwoView';
 import RegistrationPageThreeView from './RegistrationPageThreeView';
 import BackButtonNavigationContainer from '../../../components/Buttons/BackButtonNavigationContainer';
 import {
+  setPreventBack,
   IpAddress,
   selectedNewJoinedGroups,
   setNewJoinedGroup,
@@ -257,7 +258,7 @@ export default function RegistrationScreen() {
           console.error('Error joining recommended groups:', error);
         }
       }
-
+      dispatch(setPreventBack(true));
       navigation.navigate('LoginScreen');
     } catch (error) {
       // Handle error

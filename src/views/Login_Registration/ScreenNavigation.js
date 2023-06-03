@@ -29,6 +29,7 @@ import AddPost from '../Add_Post';
 import {
   setLoggedIn,
   loggedIn,
+  preventBack,
 } from '../../redux/features/mainSlice/mainSlice';
 import JoinNewGroup from '../JoinNewGroup';
 import OnboardingViews from '../OnboardingViews';
@@ -40,6 +41,7 @@ export default function ScreenNavigation() {
   const Stack = createStackNavigator();
   const dispatch = useDispatch();
   const isUserLoggedIn = useSelector(loggedIn);
+  const isBackPrevented = useSelector(preventBack);
 
   useEffect(() => {
     AsyncStorage.getItem('userID')
@@ -54,134 +56,145 @@ export default function ScreenNavigation() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerBackTitleVisible: false,
-          headerBackImage: () => <BackButtonNavigationContainer text="back" />,
-          headerStyle: {
-            backgroundColor: theme.colors.backgroundSand,
-            borderBottomWidth: 0,
-            borderBottomColor: theme.colors.backgroundSand,
-          },
-          // headerShown: false,
-        }}
-      >
-        {isUserLoggedIn ? (
-          <>
-            <Stack.Screen
-              name="MainScreen"
-              component={Main}
-              options={{ title: '', headerShown: false }}
-            />
-            <Stack.Screen
-              name="JoinGroupScreen"
-              component={JoinGroup}
-              options={{ title: '', headerShown: false }}
-            />
-            <Stack.Screen
-              name="Subgroup"
-              component={Subgroup}
-              options={{ title: '', headerShown: false }}
-            />
-            <Stack.Screen
-              name="AddSubgroup"
-              component={AddSubgroup}
-              options={{ title: '', headerShown: true }}
-            />
-            <Stack.Screen
-              name="UserProfile"
-              component={UserProfileScreen}
-              options={{ title: '', headerShown: false }}
-            />
-            <Stack.Screen
-              name="PersonalData"
-              component={PersonalDataScreen}
-              options={{ title: '' }}
-            />
-            <Stack.Screen
-              name="YourPostsEvents"
-              component={YourPostsEventsScreen}
-              options={{ title: '' }}
-            />
-            <Stack.Screen
-              name="InteractedPosts"
-              component={InteractedPostsScreen}
-              options={{ title: '' }}
-            />
-            <Stack.Screen
-              name="JoinedEvents"
-              component={JoinedEventsScreen}
-              options={{ title: '' }}
-            />
-            <Stack.Screen
-              name="JoinedGroups"
-              component={JoinedGroupsScreen}
-              options={{ title: '' }}
-            />
-            <Stack.Screen
-              name="help"
-              component={HelpScreen}
-              options={{ title: '' }}
-            />
-            <Stack.Screen
-              name="aboutUs"
-              component={AboutUsScreen}
-              options={{ title: '' }}
-            />
-            <Stack.Screen
-              name="addPost"
-              component={AddPost}
-              options={{ title: '' }}
-            />
-            <Stack.Screen
-              name="quickTour"
-              component={QuickTour}
-              options={{ title: 'Quick Tour' }}
-            />
-            <Stack.Screen
-              name="communityGuidelines"
-              component={CommunityGuidelines}
-              options={{ title: '' }}
-            />
-            <Stack.Screen
-              name="dataSecurity"
-              component={DataSecurity}
-              options={{ title: '' }}
-            />
-            <Stack.Screen
-              name="JoinNewGroup"
-              component={JoinNewGroup}
-              options={{ title: '', headerShown: false }}
-            />
-          </>
-        ) : (
-          <>
-            <Stack.Screen
-              name="OnboardingViews"
-              component={OnboardingViews}
-              options={{ title: '', headerShown: false }}
-            />
-            <Stack.Screen
-              name="LandingScreen"
-              component={LandingScreen}
-              options={{ title: '', headerShown: false }}
-            />
+  if (AsyncStorage.getItem('userID'))
+    return (
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerBackTitleVisible: false,
+            headerBackImage: () => (
+              <BackButtonNavigationContainer text="back" />
+            ),
+            headerStyle: {
+              backgroundColor: theme.colors.backgroundSand,
+              borderBottomWidth: 0,
+              borderBottomColor: theme.colors.backgroundSand,
+            },
+            // headerShown: false,
+          }}
+        >
+          {isUserLoggedIn ? (
+            <>
+              <Stack.Screen
+                name="MainScreen"
+                component={Main}
+                options={{ title: '', headerShown: false }}
+              />
+              <Stack.Screen
+                name="JoinGroupScreen"
+                component={JoinGroup}
+                options={{ title: '', headerShown: false }}
+              />
+              <Stack.Screen
+                name="Subgroup"
+                component={Subgroup}
+                options={{ title: '', headerShown: false }}
+              />
+              <Stack.Screen
+                name="AddSubgroup"
+                component={AddSubgroup}
+                options={{ title: '', headerShown: true }}
+              />
+              <Stack.Screen
+                name="UserProfile"
+                component={UserProfileScreen}
+                options={{ title: '', headerShown: false }}
+              />
+              <Stack.Screen
+                name="PersonalData"
+                component={PersonalDataScreen}
+                options={{ title: '' }}
+              />
+              <Stack.Screen
+                name="YourPostsEvents"
+                component={YourPostsEventsScreen}
+                options={{ title: '' }}
+              />
+              <Stack.Screen
+                name="InteractedPosts"
+                component={InteractedPostsScreen}
+                options={{ title: '' }}
+              />
+              <Stack.Screen
+                name="JoinedEvents"
+                component={JoinedEventsScreen}
+                options={{ title: '' }}
+              />
+              <Stack.Screen
+                name="JoinedGroups"
+                component={JoinedGroupsScreen}
+                options={{ title: '' }}
+              />
+              <Stack.Screen
+                name="help"
+                component={HelpScreen}
+                options={{ title: '' }}
+              />
+              <Stack.Screen
+                name="aboutUs"
+                component={AboutUsScreen}
+                options={{ title: '' }}
+              />
+              <Stack.Screen
+                name="addPost"
+                component={AddPost}
+                options={{ title: '' }}
+              />
+              <Stack.Screen
+                name="quickTour"
+                component={QuickTour}
+                options={{ title: 'Quick Tour' }}
+              />
+              <Stack.Screen
+                name="communityGuidelines"
+                component={CommunityGuidelines}
+                options={{ title: '' }}
+              />
+              <Stack.Screen
+                name="dataSecurity"
+                component={DataSecurity}
+                options={{ title: '' }}
+              />
+              <Stack.Screen
+                name="JoinNewGroup"
+                component={JoinNewGroup}
+                options={{ title: '', headerShown: false }}
+              />
+            </>
+          ) : (
+            <>
+              <Stack.Screen
+                name="OnboardingViews"
+                component={OnboardingViews}
+                options={{ title: '', headerShown: false }}
+              />
+              <Stack.Screen
+                name="LandingScreen"
+                component={LandingScreen}
+                options={{
+                  title: '',
+                  headerShown: false,
+                  gestureEnabled: false,
+                }}
+              />
 
-            <Stack.Screen
-              name="LoginScreen"
-              component={LoginScreen}
-              options={{ title: '', headerShown: false }}
-            />
-            <Stack.Screen
-              name="RegistrationOne"
-              component={RegistrationScreen}
-              options={{ title: '', headerShown: false }}
-            />
-          </>
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+              <Stack.Screen
+                name="LoginScreen"
+                component={LoginScreen}
+                options={{
+                  title: '',
+                  headerShown: false,
+                  gestureEnabled: !isBackPrevented && false,
+                }}
+              />
+              <Stack.Screen
+                name="RegistrationOne"
+                component={RegistrationScreen}
+                options={{ title: '', headerShown: false }}
+              />
+            </>
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
 }
