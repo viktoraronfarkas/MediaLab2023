@@ -1,15 +1,19 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, Text, ImageBackground, Image } from 'react-native';
+import { useSelector } from 'react-redux';
 import { styles, theme } from '../constants/myTheme';
 import BackButton from '../components/Buttons/BackButton';
-import OrangeButton from '../components/Buttons/OrangeButton';
+// import OrangeButton from '../components/Buttons/OrangeButton';
 import underlineImage from '../../assets/Images/thin-underline-image.png';
 import circleLineImage from '../../assets/Images/circleLine-image.png';
 import UnderlineImageSmall from '../../assets/Images/under-line-image.png';
-import Foodshare from '../../assets/foodshare.jpg';
+// import Foodshare from '../../assets/foodshare.jpg';
+import { selectedPost } from '../redux/features/mainSlice/mainSlice';
 
 function PostInteraction() {
+  const postData = useSelector(selectedPost);
+
   return (
     <SafeAreaView
       style={{ backgroundColor: theme.colors.backgroundSand, flex: 1 }}
@@ -20,7 +24,7 @@ function PostInteraction() {
         </View>
         <View style={{ alignItems: 'center', marginTop: 50 }}>
           <Text style={[styles.headline1, { textAlign: 'center' }]}>
-            Study Session
+            {postData.title}
           </Text>
           <Image source={underlineImage} style={{ width: 340, height: 30 }} />
         </View>
@@ -40,7 +44,7 @@ function PostInteraction() {
               marginRight: 80,
             }}
           >
-            <Text style={[styles.headline2]}>02.07</Text>
+            <Text style={[styles.headline2]}>{postData.subTitle}</Text>
             <Image
               source={UnderlineImageSmall}
               style={{
@@ -58,18 +62,16 @@ function PostInteraction() {
               alignItems: 'center',
             }}
           >
-            <Text style={[styles.headline2]}>15:30</Text>
+            {/* <Text style={[styles.headline2]}>15:30</Text> */}
           </ImageBackground>
         </View>
         <Text style={[styles.bodyDefault, { marginTop: 50 }]}>
-          Hey everyone we will meet up in the cafeteria and will study there or
-          move somewhere else. It is gonna be open end. The more the better! if
-          you need to contact me my number is: +43 000 0000000
+          {postData.content}
         </Text>
 
-        <OrangeButton text="Join Event" style={{ marginTop: 20 }} />
+        {/* <OrangeButton text="Join Event" style={{ marginTop: 20 }} /> */}
 
-        <View style={{ flexDirection: 'row', marginTop: 80 }}>
+        {/* <View style={{ flexDirection: 'row', marginTop: 80 }}>
           <Text style={[styles.headline3]}>Organised by:</Text>
           <View
             style={{
@@ -101,9 +103,9 @@ function PostInteraction() {
               Username
             </Text>
           </View>
-        </View>
+        </View> */}
 
-        <View style={{ flexDirection: 'row', marginTop: 30 }}>
+        {/* <View style={{ flexDirection: 'row', marginTop: 30 }}>
           <Text style={[styles.headline3]}>People joining:</Text>
           <View
             style={{
@@ -115,7 +117,7 @@ function PostInteraction() {
           >
             <Text style={[styles.subtitle1, { marginLeft: 10 }]}>33</Text>
           </View>
-        </View>
+        </View> */}
       </View>
     </SafeAreaView>
   );
