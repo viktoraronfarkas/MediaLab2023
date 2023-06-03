@@ -12,6 +12,7 @@ const initialState = {
   selectedNewJoinedGroups: [],
   posts: [],
   mainGroups: {},
+  feed: [],
 };
 
 export const mainSlice = createSlice({
@@ -43,6 +44,9 @@ export const mainSlice = createSlice({
     setMainGroups: (state, action) => {
       state.mainGroups = action.payload;
     },
+    setFeed: (state, action) => {
+      state.feed = action.payload;
+    },
   },
 });
 
@@ -56,6 +60,7 @@ export const {
   setPosts,
   setCurrentUserId,
   setMainGroups,
+  setFeed,
 } = mainSlice.actions;
 
 export const selectedGroup = (state) => state.main.selectedMainGroup;
@@ -68,5 +73,6 @@ export const selectedNewJoinedGroups = (state) =>
   state.main.selectedNewJoinedGroups;
 export const posts = (state) => state.main.posts;
 export const mainGroups = (state) => state.main.mainGroups;
+export const feed = (state) => state.main.feed;
 
 export default mainSlice.reducer;
