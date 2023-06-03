@@ -9,11 +9,15 @@ import { setFeed, feed } from '../redux/features/mainSlice/mainSlice';
 function Feed() {
   const fetchedFeed = useFetchFeed();
   const dispatch = useDispatch();
-  const storedFeed = useSelector(feed);
+  let storedFeed = useSelector(feed);
 
   useEffect(() => {
     dispatch(setFeed(fetchedFeed));
   }, [dispatch, fetchedFeed]);
+
+  if (Object.keys(storedFeed).length === 0) {
+    storedFeed = [];
+  }
 
   return (
     <View

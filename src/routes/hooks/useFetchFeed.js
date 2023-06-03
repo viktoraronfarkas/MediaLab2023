@@ -25,7 +25,7 @@ export default function useFetchUserData() {
     };
 
     fetchPosts();
-  }, [clientIpAddress, selectedUserId]);
+  }, [clientIpAddress, userId]);
 
   return feed;
 }
