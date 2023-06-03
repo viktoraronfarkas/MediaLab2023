@@ -308,7 +308,7 @@ exports.createSubgroup = (req, res) => {
       connection.query(
         'INSERT INTO subgroups (name, main_group_id, caption, Description, title_image) VALUES (?, ?, ?, ?, ?)',
         [name, mainGroupId, caption, introduction, subgroupImage],
-        (insertErr) => {
+        (insertErr, result) => {
           connection.release();
 
           if (insertErr) {
@@ -318,7 +318,9 @@ exports.createSubgroup = (req, res) => {
               .json({ message: 'Error while creating subgroup' });
           }
 
-          return res.status(200).json({ message: 'Subgroup created' });
+          return res
+            .status(200)
+            .json({ message: 'Subgroup created', groupId: result.insertId });
         }
       );
     });

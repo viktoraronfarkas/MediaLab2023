@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native-web';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,23 +8,27 @@ import axios from 'axios';
 import {
   selectedGroup,
   selectedSubGroup,
-  selectedUser,
   IpAddress,
   setPosts,
   posts,
   selectedUserId,
+  SetSelectedSubGroup,
+  setMainGroups,
+  setSelectedMainGroup,
 } from '../redux/features/mainSlice/mainSlice';
 // import SubGroupsFilter from '../components/Buttons/SubGroupsFilter';
 import BackButton from '../components/Buttons/BackButton';
 import iconImage from '../../assets/Icons/plus-icon.png';
-// import moreMenuIcon from '../../assets/Icons/more-menu-icon.png';
+import { MoreSvg } from '../components/svgs';
 import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png';
 import AddIconInteraction from '../components/Buttons/AddIconInteraction';
 import PostCard from '../components/Cards/PostCard';
 import { styles, theme } from '../constants/myTheme';
 import useFetchPosts from '../routes/hooks/useFetchPosts';
+import BottomScrollSheet from '../components/BottomScrollSheet/BottomScrollSheet';
+import OptionsLeaveGroupSheet from '../components/BottomScrollSheet/OptionsLeaveGroupSheet';
 
-function Subgroup() {
+function Subgroup({ route }) {
   const style = StyleSheet.create({
     container: {
       flex: 1,
@@ -80,7 +83,7 @@ function Subgroup() {
       left: '30%',
       top: '90%',
       height: 50,
-      width: 200,
+      width: 205,
       position: 'absolute',
     },
     addIconContainer: {
@@ -133,6 +136,7 @@ function Subgroup() {
   const clientIpAddress = useSelector(IpAddress);
   let storedPosts = useSelector(posts);
   const currentSelectedUserId = useSelector(selectedUserId);
+  const refRBSheet = useRef();
 
   const [joined, setJoined] = useState(0);
 
@@ -147,6 +151,7 @@ function Subgroup() {
       );
     });
   };
+  console.log(route);
 
   const joinSubgroup = () => {
     const url = `http://${clientIpAddress}:3001/user/subscribe/subgroup`;
@@ -162,6 +167,22 @@ function Subgroup() {
       .catch((err) => console.error(err));
   };
 
+  const unsubscribeFromSubGroup = () => {
+    const url = `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/unsubscribe/subgroup`;
+    const data = {
+      userId: currentSelectedUserId,
+      subGroupId: selectedSubGroupValue.subgroupId,
+    };
+
+    axios
+      .post(url, data)
+      .then(() => {
+        setJoined(false);
+        refRBSheet.current.close();
+      })
+      .catch((err) => console.error(err));
+  };
+
   const handlePress = () => {
     if (!joined) {
       joinSubgroup();
@@ -169,6 +190,38 @@ function Subgroup() {
       navigation.navigate('addPost');
     }
   };
+
+  useEffect(() => {
+    if (route.params && route.params.createdGroupId) {
+      try {
+        // fetch main groups again
+        axios
+          .get(`http://${clientIpAddress}:3001/maingroup`)
+          .then((response) => {
+            const mainGroupsData = response.data;
+            dispatch(setMainGroups(mainGroupsData));
+
+            // set updated main group in store
+            const updatedGroupValue = mainGroupsData.filter(
+              (item) => item.mainGroupId === selectedGroupValue.mainGroupId
+            );
+            dispatch(setSelectedMainGroup(updatedGroupValue[0]));
+
+            // update subgroup in store
+            const createdGroup = updatedGroupValue[0].subgroups.filter(
+              (item) => item.subgroupId === route.params.createdGroupId
+            );
+            dispatch(SetSelectedSubGroup(createdGroup[0]));
+
+            // refresh page, loading and joining new subgroup
+            joinSubgroup();
+            navigation.navigate('Subgroup');
+          });
+      } catch (error) {
+        console.error('Error fetching main groups:', error);
+      }
+    }
+  }, [route]);
 
   useEffect(() => {
     isJoined();
@@ -192,26 +245,36 @@ function Subgroup() {
           }}
         />
       </View>
+      <BottomScrollSheet
+        bottomSheetRef={refRBSheet}
+        contentComponent={
+          <OptionsLeaveGroupSheet
+            sheetTitle={`Leave ${selectedSubGroupValue.subgroupName} Group?`}
+            leaveText="Yes"
+            cancelText="Nevermind"
+            onCancel={() => {
+              refRBSheet.current.close(); // Close the bottom sheet
+            }}
+            onLeave={() => {
+              unsubscribeFromSubGroup();
+            }}
+          />
+        }
+      />
       <ScrollView style={{ flex: 1 }}>
         <View style={style.column}>
-          {/* <View style={style.subGroupsFilterContainer}>
-            <SubGroupsFilter
-              firstFilterLabel="all"
-              secondFilterLabel="posts"
-              thirdFilterLabel="events"
-              disabled
-            />
-      </View> */}
-
           <View style={style.headingContainer}>
             <Text style={[styles.headline1, style.headlineStyle]}>
               {selectedSubGroupValue.subgroupName}
             </Text>
-            {/* {joined ? (
-              <TouchableOpacity style={style.menuIcon}>
-                <Image style={style.moreMenuIconImage} source={moreMenuIcon} />
+            {joined ? (
+              <TouchableOpacity
+                style={{ position: 'absolute', left: '85%', top: '-10%' }}
+                onPress={() => refRBSheet.current.open()}
+              >
+                <MoreSvg color="#000" width={50} height={50} />
               </TouchableOpacity>
-            ) : null} */}
+            ) : null}
           </View>
           {joined ? (
             <View style={style.addPostContainer}>

@@ -13,6 +13,10 @@ router.post(
   '/:userId/unsubscribe/maingroup',
   userController.unsubscribeFromMainGroup
 );
+router.post(
+  '/:userId/unsubscribe/subgroup',
+  userController.unsubscribeFromSubGroup
+);
 // router.post('/signup', userController.signup);
 router.get('/:userId', userController.getUserById); // New route
 router.put('/:userId', userController.updateUserById); // New route

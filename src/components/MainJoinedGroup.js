@@ -255,7 +255,7 @@ function MainJoinedGroup() {
               left: '12%',
               top: '90%',
               height: 50,
-              width: 210,
+              width: 205,
               position: 'absolute',
             }}
             source={underlineArrowImage}
