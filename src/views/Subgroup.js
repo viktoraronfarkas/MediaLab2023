@@ -249,7 +249,7 @@ function Subgroup({ route }) {
         bottomSheetRef={refRBSheet}
         contentComponent={
           <OptionsLeaveGroupSheet
-            sheetTitle={`Leave ${selectedGroupValue.mainGroupName} Group?`}
+            sheetTitle={`Leave ${selectedSubGroupValue.subgroupName} Group?`}
             leaveText="Yes"
             cancelText="Nevermind"
             onCancel={() => {
@@ -269,7 +269,7 @@ function Subgroup({ route }) {
             </Text>
             {joined ? (
               <TouchableOpacity
-                style={{ position: 'absolute', left: '41%', top: '80%' }}
+                style={{ position: 'absolute', left: '85%', top: '-10%' }}
                 onPress={() => refRBSheet.current.open()}
               >
                 <MoreSvg color="#000" width={50} height={50} />
