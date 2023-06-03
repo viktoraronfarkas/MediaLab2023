@@ -7,11 +7,12 @@ const initialState = {
   selectedSubGroup: '',
   currentUser: {},
   currentUserId: '',
-  IpAddress: '192.168.1.246',
+  IpAddress: '10.5.13.148',
   loggedIn: '',
   selectedNewJoinedGroups: [],
   posts: [],
   mainGroups: {},
+  preventBack: false,
   feed: [],
 };
 
@@ -44,6 +45,9 @@ export const mainSlice = createSlice({
     setMainGroups: (state, action) => {
       state.mainGroups = action.payload;
     },
+    setPreventBack: (state, action) => {
+      state.preventBack = action.payload;
+    },
     setFeed: (state, action) => {
       state.feed = action.payload;
     },
@@ -59,6 +63,8 @@ export const {
   setNewJoinedGroup,
   setPosts,
   setCurrentUserId,
+  setMianGroups,
+  setPreventBack,
   setMainGroups,
   setFeed,
 } = mainSlice.actions;
@@ -73,6 +79,7 @@ export const selectedNewJoinedGroups = (state) =>
   state.main.selectedNewJoinedGroups;
 export const posts = (state) => state.main.posts;
 export const mainGroups = (state) => state.main.mainGroups;
+export const preventBack = (state) => state.main.preventBack;
 export const feed = (state) => state.main.feed;
 
 export default mainSlice.reducer;

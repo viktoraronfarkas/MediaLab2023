@@ -15,6 +15,7 @@ import VerifyEmailScreen from '../VerifyEmailScreen';
 // import Home from '../../Home_Test';
 import BackButtonNavigationContainer from '../../../components/Buttons/BackButtonNavigationContainer';
 import {
+  setPreventBack,
   IpAddress,
   selectedNewJoinedGroups,
   setNewJoinedGroup,
@@ -276,6 +277,7 @@ export default function RegistrationScreen() {
             console.error('Error joining recommended groups:', error);
           }
         }
+        dispatch(setPreventBack(true));
       } catch (error) {
         // Handle error
         console.error('Error sending form data:', error);

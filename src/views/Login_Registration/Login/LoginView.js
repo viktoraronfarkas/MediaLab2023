@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 import scribble from '../../../../assets/Images/star-glitter-image.png';
 import BackButton from '../../../components/Buttons/BackButton';
 import OrangeButton from '../../../components/Buttons/OrangeButton';
@@ -8,6 +9,7 @@ import ClickableText from '../../../components/ClickableText';
 import InputField from '../../../components/Items/InputField';
 import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHeading';
 import { theme } from '../../../constants/myTheme';
+import { preventBack } from '../../../redux/features/mainSlice/mainSlice';
 
 const style = StyleSheet.create({
   container: {
@@ -38,11 +40,17 @@ export default function LoginView({
   const handlePress = () => {
     navigation.goBack(null);
   };
+  const isBackPrevented = useSelector(preventBack);
+
+  console.log(isBackPrevented);
+
   return (
     <SafeAreaView style={style.container}>
-      <View style={{ paddingHorizontal: 25, paddingTop: 10 }}>
-        <BackButton text="back" onPress={handlePress} />
-      </View>
+      {!isBackPrevented && (
+        <View style={{ paddingHorizontal: 25, paddingTop: 10 }}>
+          <BackButton text="back" onPress={handlePress} />
+        </View>
+      )}
       <View style={{ paddingHorizontal: 25, paddingTop: 35 }}>
         <CaptionScribbleHeading
           subHeading="Sign in"
