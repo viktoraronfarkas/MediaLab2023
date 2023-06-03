@@ -41,7 +41,6 @@ function AddPost() {
   const captionOfPost = useRef(null);
   const introductionOfPost = useRef(null);
 
-
   const focusNameOfPost = () => {
     nameOfPost.current?.focus();
   };
@@ -122,7 +121,7 @@ function AddPost() {
 
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.backgroundSand }}>
-        <View style={{ margin: 20 }}>
+      <View style={{ margin: 20 }}>
         {/* <Filter options={['posts', 'events']} activeButton="posts" />
 
         <CaptionScribbleHeading
