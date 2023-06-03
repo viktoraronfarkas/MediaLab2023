@@ -1,25 +1,37 @@
-import React from 'react';
-import { SafeAreaView, View, Dimensions } from 'react-native';
-import { Video } from 'expo-av';
+/* eslint-disable no-unused-vars */
+import React, { useState } from 'react';
+import { View, StyleSheet, Dimensions } from 'react-native';
+import { Video, ResizeMode } from 'expo-av';
 import { theme } from '../../../../../constants/myTheme';
 
-/**
- * This is the main Help View
- */
+const { width, height } = Dimensions.get('window');
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  video: {
+    flex: 1,
+    width: '100%',
+  },
+});
+
 export default function QuickTourView({ source }) {
-  const { width, height } = Dimensions.get('window');
+  const video = React.useRef(null);
+  const [status, setStatus] = useState({});
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.backgroundCamel }}>
-        <View style={{ margin: 0, paddingBottom: 30 }}>
-          <Video
-            source={source}
-            shouldPlay
-            isLooping
-            resizeMode="cover"
-            style={{ width, height }}
-          />
-        </View>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <Video
+        ref={video}
+        style={styles.video}
+        source={source}
+        useNativeControls
+        resizeMode={ResizeMode.COVER}
+        isLooping
+        // eslint-disable-next-line no-shadow
+        onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+      />
+    </View>
   );
 }
