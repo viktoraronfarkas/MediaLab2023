@@ -100,7 +100,7 @@ function AddPost() {
       await axios.post(url, formData);
       Toast.show({
         type: 'success',
-        text1: 'Subgroup created',
+        text1: 'Post created',
         visibilityTime: 2000,
         autoHide: true,
       });
@@ -112,7 +112,7 @@ function AddPost() {
       );
       Toast.show({
         type: 'error',
-        text1: 'Failed to create subgroup',
+        text1: 'Failed to create Post',
         visibilityTime: 2000,
         autoHide: true,
       });
