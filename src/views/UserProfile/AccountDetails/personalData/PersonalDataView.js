@@ -242,7 +242,8 @@ export default function PersonalDataView({
           <View>
             <DialogAction
               containerStyle={{
-                marginVertical: 200,
+                marginTop: 'auto', 
+                marginBottom: 'auto', 
                 marginHorizontal: 15,
                 paddingRight: 20,
               }}
