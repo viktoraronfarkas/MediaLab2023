@@ -84,7 +84,7 @@ export default function LandingScreen() {
               { textAlign: 'center', paddingHorizontal: 20 },
             ]}
           >
-            Welcome to UASync! To join our community and start to connect. Just
+            Welcome to UASync! To join our community and start to connect, just
             register below or log in and get going:
           </Text>
         </View>
