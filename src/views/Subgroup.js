@@ -304,18 +304,22 @@ function Subgroup({ route }) {
 
           <View style={style.postsContainer}>
             <View style={style.postContainer}>
-              {storedPosts.map((post, index) => (
-                <PostCard
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={index}
-                  title={post.heading}
-                  subTitle={post.caption}
-                  content={post.text}
-                  coverImage={require('../../assets/media.png')}
-                  iconSource={require('../../assets/Application-of-Computer-Graphics-1.png')}
-                  disabled
-                />
-              ))}
+              {storedPosts
+                .slice() // Create a copy of the array
+                .sort((a, b) => b.timestamp - a.timestamp) // Sort the copied array in descending order based on timestamp
+                .reverse() // Reverse the sorted array to display the most recent post at the top
+                .map((post, index) => (
+                  <PostCard
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={index}
+                    title={post.heading}
+                    subTitle={post.caption}
+                    content={post.text}
+                    coverImage={require('../../assets/media.png')}
+                    iconSource={require('../../assets/Application-of-Computer-Graphics-1.png')}
+                    disabled
+                  />
+                ))}
             </View>
           </View>
         </View>

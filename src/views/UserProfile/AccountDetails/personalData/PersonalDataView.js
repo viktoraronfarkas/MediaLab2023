@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -104,6 +104,32 @@ export default function PersonalDataView({
   // const renderDropdownIcon = () => (
   //   <Image source={dropDownIcon} style={style.dropdownIcon} />
   // );
+
+  const emailOfData = useRef(null);
+  const nameOfData = useRef(null);
+  const passwordOfData = useRef(null);
+  const usernameOfData = useRef(null);
+  const biographyOfData = useRef(null);
+
+  const focusEmailOfData = () => {
+    emailOfData.current?.focus();
+  };
+
+  const focusNameOfData = () => {
+    nameOfData.current?.focus();
+  };
+
+  const focusPasswordOfData = () => {
+    passwordOfData.current?.focus();
+  };
+
+  const focusUsernameOfData = () => {
+    usernameOfData.current?.focus();
+  };
+
+  const focusBiographyOfData = () => {
+    biographyOfData.current?.focus();
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -132,6 +158,8 @@ export default function PersonalDataView({
                 backgroundColor: theme.colors.backgroundCamel,
               }}
               marginLeft={0}
+              inputRef={emailOfData}
+              onFocus={focusEmailOfData}
             />
           </View>
 
@@ -179,6 +207,8 @@ export default function PersonalDataView({
               backgroundColor: theme.colors.backgroundCamel,
             }}
             marginLeft={0}
+            inputRef={passwordOfData}
+            onFocus={focusPasswordOfData}
           />
 
           <Text style={styles.subtitle1}>Displayed Name</Text>
@@ -191,6 +221,8 @@ export default function PersonalDataView({
             onChangeText={onChangeTextUsername}
             inputStyle={{ marginTop: 10, marginBottom: 30 }}
             marginLeft={0}
+            inputRef={usernameOfData}
+            onFocus={focusUsernameOfData}
           />
 
           {/* <Text style={styles.subtitle1}>Birthday</Text>
@@ -236,6 +268,8 @@ export default function PersonalDataView({
             value={biographyValue}
             onChangeText={onChangeTextBiography}
             inputStyle={{ marginBottom: 30, marginTop: 10 }}
+            inputRef={biographyOfData}
+            onFocus={focusBiographyOfData}
           />
 
           {/* When Save: show this dialog  */}
