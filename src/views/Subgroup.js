@@ -281,7 +281,7 @@ function Subgroup({ route }) {
           <BackButton
             text={`back ${selectedGroupValue.mainGroupName}`}
             onPress={() => {
-              navigation.goBack(null);
+              navigation.navigate('MainScreen');
             }}
           />
         </View>
