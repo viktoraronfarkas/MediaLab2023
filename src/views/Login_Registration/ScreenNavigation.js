@@ -143,7 +143,7 @@ export default function ScreenNavigation() {
               <Stack.Screen
                 name="quickTour"
                 component={QuickTour}
-                options={{ title: 'Quick Tour' }}
+                options={{ title: '' }}
               />
               <Stack.Screen
                 name="communityGuidelines"
