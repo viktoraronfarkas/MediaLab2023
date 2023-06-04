@@ -1,6 +1,6 @@
 import React from 'react';
-import { Image, StyleSheet } from 'react-native';
-import { Card, Text, Divider } from 'react-native-paper';
+import { Image, StyleSheet, Text } from 'react-native';
+import { Card, Divider } from 'react-native-paper';
 import { theme, styles } from '../../constants/myTheme';
 import OrangeButton from '../Buttons/OrangeButton';
 import IconImageDefault from '../../../assets/Icons/group-default-icon.png';
@@ -94,7 +94,7 @@ export default function PostCard({
             onPress={disabled ? null : handlePress}
           />
         ) : (
-          ''
+          <Text />
         )}
       </Card.Actions>
     </Card>
