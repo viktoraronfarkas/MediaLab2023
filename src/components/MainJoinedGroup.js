@@ -295,8 +295,8 @@ function MainJoinedGroup() {
           filteredSubgroups.map((subgroup) => (
             <ListItem
               key={subgroup.subgroupId}
-              mainTitle={subgroup.name || subgroup.subgroupName}
-              subtitle={subgroup.subTitle || subgroup.subgroupName}
+              mainTitle={subgroup.subgroupName}
+              subtitle={subgroup.subgroupCaption || subgroup.subgroupName}
               iconImage={require('../../assets/Icons/arrow-right.png')}
               onPress={() => {
                 dispatch(SetSelectedSubGroup(subgroup));
