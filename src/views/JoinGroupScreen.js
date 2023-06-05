@@ -46,7 +46,7 @@ function JoinGroup() {
         // Navigate after a delay to allow the animation to play
         navigation.navigate('JoinNewGroup');
         setShowOverlay(false); // Hide the overlay animation
-      }, 2000); // Adjust the delay as per your animation duration
+      }, 1000); // Adjust the delay as per your animation duration
     }
   };
 
