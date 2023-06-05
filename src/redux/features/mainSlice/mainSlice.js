@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // Here we pass the initial state of the variables/object
 const initialState = {
-  // TODO FIXME: This code needs to be deleted its just an example
   selectedMainGroup: 'Feed',
   selectedSubGroup: '',
   selectedPost: {},
