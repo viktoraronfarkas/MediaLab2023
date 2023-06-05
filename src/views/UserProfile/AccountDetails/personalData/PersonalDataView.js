@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -106,7 +106,7 @@ export default function PersonalDataView({
   // );
 
   const emailOfData = useRef(null);
-  const nameOfData = useRef(null);
+  // const nameOfData = useRef(null);
   const passwordOfData = useRef(null);
   const usernameOfData = useRef(null);
   const biographyOfData = useRef(null);
@@ -115,9 +115,9 @@ export default function PersonalDataView({
     emailOfData.current?.focus();
   };
 
-  const focusNameOfData = () => {
-    nameOfData.current?.focus();
-  };
+  // const focusNameOfData = () => {
+  //   nameOfData.current?.focus();
+  // };
 
   const focusPasswordOfData = () => {
     passwordOfData.current?.focus();
@@ -276,8 +276,8 @@ export default function PersonalDataView({
           <View>
             <DialogAction
               containerStyle={{
-                marginTop: 'auto', 
-                marginBottom: 'auto', 
+                marginTop: 'auto',
+                marginBottom: 'auto',
                 marginHorizontal: 15,
                 paddingRight: 20,
               }}
