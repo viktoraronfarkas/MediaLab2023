@@ -296,7 +296,7 @@ function MainJoinedGroup() {
             <ListItem
               key={subgroup.subgroupId}
               mainTitle={subgroup.subgroupName}
-              subtitle={subgroup.subgroupCaption || subgroup.subgroupName}
+              subtitle={subgroup.subgroupCaption}
               iconImage={require('../../assets/Icons/arrow-right.png')}
               onPress={() => {
                 dispatch(SetSelectedSubGroup(subgroup));
