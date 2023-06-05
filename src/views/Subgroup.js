@@ -227,16 +227,24 @@ function Subgroup({ route }) {
               (item) => item.subgroupId === route.params.createdGroupId
             );
             dispatch(SetSelectedSubGroup(createdGroup[0]));
-
-            // refresh page, loading and joining new subgroup
-            joinSubgroup();
-            navigation.navigate('Subgroup');
           });
       } catch (error) {
         console.error('Error fetching main groups:', error);
       }
     }
   }, [route]);
+
+  useEffect(() => {
+    if (
+      route.params &&
+      route.params.createdGroupId &&
+      selectedSubGroupValue.subgroupId
+    ) {
+      // refresh page, loading and joining new subgroup
+      joinSubgroup();
+      navigation.navigate('Subgroup');
+    }
+  }, [route, selectedSubGroupValue.subgroupId]);
 
   useEffect(() => {
     isJoined();
