@@ -37,6 +37,11 @@ function MainJoinedGroup() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+  // Sort the subgroups based on the number of members in descending order
+  // const sortedSubgroups = [...filteredSubgroups].sort(
+  //   (a, b) => b.members.length - a.members.length
+  // );
+
   let message = '';
 
   console.log(subscribedGroups.length);
@@ -299,6 +304,19 @@ function MainJoinedGroup() {
               }}
             />
           ))
+          // If we want to sort the subgroups based on the number of members.
+          // sortedSubgroups.map((subgroup) => (
+          //   <ListItem
+          //     key={subgroup.subgroupId}
+          //     mainTitle={subgroup.name || subgroup.subgroupName}
+          //     subtitle={subgroup.subTitle || subgroup.subgroupName}
+          //     iconImage={require('../../assets/Icons/arrow-right.png')}
+          //     onPress={() => {
+          //       dispatch(SetSelectedSubGroup(subgroup));
+          //       navigation.navigate('Subgroup');
+          //     }}
+          //   />
+          // ))
         )}
       </View>
     </View>

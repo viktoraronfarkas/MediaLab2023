@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Image, Text, View, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,57 +18,35 @@ import {
 } from '../redux/features/mainSlice/mainSlice';
 
 function JoinGroup() {
-  const selectedGroupvalue = useSelector(selectedGroup);
+  const selectedGroupValue = useSelector(selectedGroup);
   const NewJoinedGroups = useSelector(selectedNewJoinedGroups);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [showOverlay, setShowOverlay] = useState(false);
-  const [mainGroupImage, setMainGroupImage] = useState(null); // State to store the main group image
-
-  useEffect(() => {
-    const fetchMainGroupImage = async () => {
-      try {
-        // Replace the `fetchImageData` function with your own logic to retrieve the image data from the database
-        const imageData = selectedGroupvalue.mainGroupTitleImage;
-
-        // Convert Blob to Base64 string
-        const blobImage = await fetch(imageData);
-        const base64Image = await blobImage
-          .blob()
-          .then((blob) => URL.createObjectURL(blob));
-
-        setMainGroupImage(base64Image);
-      } catch (error) {
-        console.error('Error fetching main group image:', error);
-      }
-    };
-
-    fetchMainGroupImage();
-  }, [selectedGroupvalue.mainGroupTitleImage]);
 
   const handlePress = () => {
     setShowOverlay(true); // Show the overlay animation
     const isNewlyJoined = NewJoinedGroups.includes(
-      selectedGroupvalue.mainGroupId
+      selectedGroupValue.mainGroupId
     );
 
     if (isNewlyJoined) {
       const updatedGroups = NewJoinedGroups.filter(
-        (groupId) => groupId !== selectedGroupvalue.mainGroupId
+        (groupId) => groupId !== selectedGroupValue.mainGroupId
       );
       dispatch(setNewJoinedGroup(updatedGroups));
     } else {
       const updatedGroups = [
         ...NewJoinedGroups,
-        selectedGroupvalue.mainGroupId,
+        selectedGroupValue.mainGroupId,
       ];
       dispatch(setNewJoinedGroup(updatedGroups));
-      dispatch(setSelectedMainGroup(selectedGroupvalue));
+      dispatch(setSelectedMainGroup(selectedGroupValue));
       setTimeout(() => {
         // Navigate after a delay to allow the animation to play
         navigation.navigate('JoinNewGroup');
         setShowOverlay(false); // Hide the overlay animation
-      }, 2000); // Adjust the delay as per your animation duration
+      }, 1000); // Adjust the delay as per your animation duration
     }
   };
 
@@ -101,7 +79,7 @@ function JoinGroup() {
           >
             <View style={{ marginTop: 30 }}>
               <TitleCircleHeadingH2
-                title={selectedGroupvalue.mainGroupName}
+                title={selectedGroupValue.mainGroupName}
                 image={circleLineImage}
                 lineStyle={{
                   height: 70,
@@ -109,7 +87,6 @@ function JoinGroup() {
                 }}
               />
             </View>
-
             <View
               style={{
                 marginTop: '10%',
@@ -123,16 +100,15 @@ function JoinGroup() {
                   { width: '100%', textAlign: 'center' },
                 ]}
               >
-                Join the {selectedGroupvalue.mainGroupName} group to get all the
+                Join the {selectedGroupValue.mainGroupName} group to get all the
                 infos about this study programme!
               </Text>
             </View>
             <View
-              style={
-                {
-                  // marginTop: '10%',
-                }
-              }
+              style={{
+                // marginTop: '10%',
+                marginTop: 20,
+              }}
             >
               <AddIconInteraction
                 text="join me!"
@@ -140,12 +116,18 @@ function JoinGroup() {
                 onPress={handlePress}
               />
             </View>
-            {mainGroupImage && (
+            {selectedGroupValue.mainGroupTitleImage ? (
               <Image
-                style={{ width: 338, height: 338 }}
-                source={{ uri: mainGroupImage }}
+                style={{ width: 338, height: 338, marginTop: 20 }}
+                source={{
+                  uri: selectedGroupValue.mainGroupTitleImage.startsWith(
+                    'data:image'
+                  )
+                    ? selectedGroupValue.mainGroupTitleImage
+                    : `data:image/png;base64,${selectedGroupValue.mainGroupTitleImage}`,
+                }}
               />
-            )}
+            ) : null}
           </View>
         </View>
       )}

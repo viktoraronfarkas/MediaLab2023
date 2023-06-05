@@ -1,7 +1,7 @@
 import React from 'react';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { Card, Text, Divider } from 'react-native-paper';
+import { Card, Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { theme, styles } from '../../constants/myTheme';
 import OrangeButton from '../Buttons/OrangeButton';
@@ -120,7 +120,7 @@ export default function PostCard({
               onPress={disabled ? null : handlePress}
             />
           ) : (
-            ''
+            <Text />
           )}
         </Card.Actions>
       </Card>

@@ -20,5 +20,6 @@ router.post(
 // router.post('/signup', userController.signup);
 router.get('/:userId', userController.getUserById); // New route
 router.put('/:userId', userController.updateUserById); // New route
+router.get('/:userId/feed', userController.fetchFeed);
 
 module.exports = router;

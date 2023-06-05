@@ -21,7 +21,7 @@ import OrangeButton from '../components/Buttons/OrangeButton';
 // import Filter from '../components/Filter';
 import {
   selectedSubGroup,
-  selectedUser,
+  selectedUserId,
   IpAddress,
 } from '../redux/features/mainSlice/mainSlice';
 
@@ -29,7 +29,7 @@ function AddPost() {
   const navigation = useNavigation();
   const currentGroup = useSelector(selectedSubGroup);
   const clientIpAddress = useSelector(IpAddress);
-  const currentUser = useSelector(selectedUser);
+  const currentUser = useSelector(selectedUserId);
 
   // const [postImg, setImg] = useState('');
   const [postHeading, setHeading] = useState('');
@@ -91,7 +91,7 @@ function AddPost() {
 
     formData.append('titleImage', ''); // DELETE when image upload is implemented
 
-    formData.append('userId', currentUser.user_id);
+    formData.append('userId', currentUser);
     formData.append('heading', postHeading);
     formData.append('caption', postCaption);
     formData.append('text', postText);
