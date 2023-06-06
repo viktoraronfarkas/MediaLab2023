@@ -290,9 +290,6 @@ exports.createSubgroup = (req, res) => {
     if (!caption) {
       return res.status(400).json({ message: 'Caption not provided' });
     }
-    // if (!introduction) {
-    //   return res.status(400).json({ message: 'Introduction not provided' });
-    // }
 
     // Access the file buffer instead of the file path
     const subgroupImage = req.file ? req.file.buffer : null;
@@ -305,24 +302,48 @@ exports.createSubgroup = (req, res) => {
         return res.status(500).json({ message: 'Failed to connect to MySQL' });
       }
 
+      // Check if subgroup with the same name already exists in the main group
       connection.query(
-        'INSERT INTO subgroups (name, main_group_id, caption, Description, title_image) VALUES (?, ?, ?, ?, ?)',
-        [name, mainGroupId, caption, introduction, subgroupImage],
-        (insertErr, result) => {
-          connection.release();
-
-          if (insertErr) {
-            console.error('Error creating subgroup:', insertErr);
+        'SELECT COUNT(*) AS count FROM subgroups WHERE name = ? AND main_group_id = ?',
+        [name, mainGroupId],
+        // eslint-disable-next-line consistent-return
+        (selectErr, selectResult) => {
+          if (selectErr) {
+            console.error('Error selecting subgroups:', selectErr);
+            connection.release();
             return res
               .status(500)
-              .json({ message: 'Error while creating subgroup' });
+              .json({ message: 'Error while checking subgroups' });
           }
 
-          return res
-            .status(200)
-            .json({ message: 'Subgroup created', groupId: result.insertId });
+          const subgroupCount = selectResult[0].count;
+          if (subgroupCount > 0) {
+            connection.release();
+            return res.status(400).json({ message: 'Subgroup with the same name already exists in the main group' });
+          }
+
+          // Insert the subgroup into the database
+          connection.query(
+            'INSERT INTO subgroups (name, main_group_id, caption, Description, title_image) VALUES (?, ?, ?, ?, ?)',
+            [name, mainGroupId, caption, introduction, subgroupImage],
+            (insertErr, result) => {
+              connection.release();
+
+              if (insertErr) {
+                console.error('Error creating subgroup:', insertErr);
+                return res
+                  .status(500)
+                  .json({ message: 'Error while creating subgroup' });
+              }
+
+              return res
+                .status(200)
+                .json({ message: 'Subgroup created', groupId: result.insertId });
+            }
+          );
         }
       );
     });
   });
 };
+
