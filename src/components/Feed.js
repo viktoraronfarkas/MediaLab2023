@@ -30,7 +30,11 @@ function Feed() {
       }}
     >
       <View style={{ marginBottom: 10, width: '100%', alignItems: 'center' }}>
-        {storedFeed.map((post, index) => (
+        {storedFeed
+                  .slice() // Create a copy of the array
+                  .sort((a, b) => b.timestamp - a.timestamp) // Sort the copied array in descending order based on timestamp
+                  .reverse() // Reverse the sorted array to display the most recent post at the top
+                  .map((post, index) => (
           <PostCard
             // eslint-disable-next-line react/no-array-index-key
             key={index}

@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Image, Text, View, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,7 +46,7 @@ function JoinGroup() {
         // Navigate after a delay to allow the animation to play
         navigation.navigate('JoinNewGroup');
         setShowOverlay(false); // Hide the overlay animation
-      }, 2000); // Adjust the delay as per your animation duration
+      }, 1000); // Adjust the delay as per your animation duration
     }
   };
 

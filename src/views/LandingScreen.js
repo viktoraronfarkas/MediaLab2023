@@ -5,13 +5,16 @@ import {
   SafeAreaView,
   Image,
   StyleSheet,
-  ScrollView,
+  Dimensions,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { styles, theme } from '../constants/myTheme';
 import OrangeButton from '../components/Buttons/OrangeButton';
 import SingeFrameImage from '../../assets/Images/single-frame.png';
 import LetsConnectImage from '../../assets/Images/lets-connect-image.png';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const style = StyleSheet.create({
   mainTitle: { textAlign: 'center', fontSize: 40, paddingTop: 30 },
@@ -22,14 +25,17 @@ const style = StyleSheet.create({
   },
 
   frameImage: {
-    height: 350,
-    width: 350,
+    height: windowHeight * 0.4, // Adjust the height based on the screen height
+    width: windowHeight * 0.4, 
   },
 
   LetsConnectContainer: {
     alignItems: 'center',
   },
-  LetsConnectImage: { height: 420, width: 420 },
+  LetsConnectImage: { 
+    height: windowHeight * 0.5, // Adjust the height based on the screen height
+    width: windowHeight * 0.5, 
+  },
 
   buttonStyle: {
     alignSelf: 'center',
@@ -54,8 +60,7 @@ export default function LandingScreen() {
     <SafeAreaView
       style={{ flex: 1, backgroundColor: theme.colors.backgroundSand }}
     >
-      <ScrollView>
-        <View style={style.frameContainer}>
+      <View style={style.frameContainer}>
           <Image
             style={style.frameImage}
             source={SingeFrameImage}
@@ -103,7 +108,6 @@ export default function LandingScreen() {
             onPress={navigateRegister}
           />
         </View>
-      </ScrollView>
     </SafeAreaView>
   );
 }

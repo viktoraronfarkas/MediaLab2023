@@ -32,7 +32,7 @@ export default function RegistrationPageTwoView() {
   return (
     <SafeAreaView style={style.container}>
       <ScrollView>
-        <View style={{ paddingHorizontal: 25 }}>
+        <View style={{ paddingHorizontal: 10 }}>
           <CaptionScribbleHeading
             subHeading="Our concept"
             title="We use a system of main groups, inside those are subgroups that relate to the main groups. Inside the subgroups there are posts and events that you and others can create and interact with."
@@ -40,7 +40,7 @@ export default function RegistrationPageTwoView() {
 
           <CaptionScribbleHeading
             title="Main Groups"
-            headlineStyle={{ fontSize: 32}}
+            headlineStyle={{ fontSize: 32 }}
             underlineImage={underline}
             arrowImage={arrow}
             underlineStyle={{ width: 100, top: 45, left: 70 }}
@@ -98,7 +98,7 @@ export default function RegistrationPageTwoView() {
             styleButton={{ alignSelf: 'center', width: '100%' }}
           />
         </View>
-        <View style={{height: 40}} />
+        <View style={{ height: 40 }} />
       </ScrollView>
     </SafeAreaView>
   );
