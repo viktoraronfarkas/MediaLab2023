@@ -72,9 +72,9 @@ exports.createPost = (req, res) => {
     if (!heading) {
       return res.status(400).json({ message: 'Heading not provided' });
     }
-    if (!caption) {
-      return res.status(400).json({ message: 'Caption not provided' });
-    }
+    // if (!caption) {
+    //   return res.status(400).json({ message: 'Caption not provided' });
+    // }
 
     // Access the file buffer instead of the file path
     const titleImage = req.file ? req.file.buffer : null;
