@@ -64,7 +64,8 @@ exports.getMainGroupsWithSubgroups = (req, res) => {
         subgroups.members, 
         subgroups.events, 
         subgroups.threads, 
-        subgroups.created_at 
+        subgroups.created_at,
+        subgroups.caption AS subgroupCaption
       FROM maingroup 
       LEFT JOIN subgroups ON maingroup.group_id = subgroups.main_group_id
     `;
@@ -93,7 +94,8 @@ exports.getMainGroupsWithSubgroups = (req, res) => {
           members,
           events,
           threads,
-          created_at: createdAt,
+          createdAt,
+          subgroupCaption,
         } = row;
 
         if (!mainGroups[mainGroupId]) {
@@ -119,6 +121,7 @@ exports.getMainGroupsWithSubgroups = (req, res) => {
             events,
             threads,
             createdAt,
+            subgroupCaption,
           });
         }
       });

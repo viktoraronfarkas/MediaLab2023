@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-// Here we pass the intial state of the variables/object
+// Here we pass the initial state of the variables/object
 const initialState = {
   // TODO FIXME: This code needs to be deleted its just an example
   selectedMainGroup: 'Feed',
@@ -12,6 +12,8 @@ const initialState = {
   selectedNewJoinedGroups: [],
   posts: [],
   mainGroups: {},
+  preventBack: false,
+  feed: [],
 };
 
 export const mainSlice = createSlice({
@@ -21,7 +23,7 @@ export const mainSlice = createSlice({
     setSelectedMainGroup: (state, action) => {
       state.selectedMainGroup = action.payload;
     },
-    SetselectedSubGroup: (state, action) => {
+    SetSelectedSubGroup: (state, action) => {
       state.selectedSubGroup = action.payload;
     },
     setCurrentUser: (state, action) => {
@@ -40,8 +42,14 @@ export const mainSlice = createSlice({
     setPosts: (state, action) => {
       state.posts = action.payload;
     },
-    setMianGroups: (state, action) => {
+    setMainGroups: (state, action) => {
       state.mainGroups = action.payload;
+    },
+    setPreventBack: (state, action) => {
+      state.preventBack = action.payload;
+    },
+    setFeed: (state, action) => {
+      state.feed = action.payload;
     },
   },
 });
@@ -49,13 +57,16 @@ export const mainSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   setSelectedMainGroup,
-  SetselectedSubGroup,
+  SetSelectedSubGroup,
   setCurrentUser,
   setLoggedIn,
   setNewJoinedGroup,
   setPosts,
   setCurrentUserId,
   setMianGroups,
+  setPreventBack,
+  setMainGroups,
+  setFeed,
 } = mainSlice.actions;
 
 export const selectedGroup = (state) => state.main.selectedMainGroup;
@@ -68,5 +79,7 @@ export const selectedNewJoinedGroups = (state) =>
   state.main.selectedNewJoinedGroups;
 export const posts = (state) => state.main.posts;
 export const mainGroups = (state) => state.main.mainGroups;
+export const preventBack = (state) => state.main.preventBack;
+export const feed = (state) => state.main.feed;
 
 export default mainSlice.reducer;

@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
 import { theme, styles } from '../constants/myTheme';
 import { IconStudyProgram, ResearchIcon, NewsIcon } from '../components/svgs';
+import { setPreventBack } from '../redux/features/mainSlice/mainSlice';
 
 function Dots({ selected }) {
   let backgroundColor;
@@ -51,15 +53,18 @@ function Done({ ...props }) {
 }
 
 function OnboardingViews({ navigation }) {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const isFirstLaunch = async () => {
       try {
-        const value = await AsyncStorage.getItem('launched');
+        const value = await AsyncStorage.getItem('Firstlaunched');
         if (value === null) {
           // First launch, show onboarding screens
-          await AsyncStorage.setItem('launched', 'true');
+          await AsyncStorage.setItem('Firstlaunched', 'true');
         } else {
-          // Not the first launch, navigate to the landing screen
+          // Not the first launch,set Firstlaunched to false and  navigate to the landing screen
+          await AsyncStorage.setItem('Firstlaunched', 'false');
           navigation.navigate('LandingScreen');
         }
       } catch (error) {
@@ -93,6 +98,7 @@ function OnboardingViews({ navigation }) {
       onSkip={() => navigation.replace('LandingScreen')}
       onDone={() => {
         navigation.replace('LandingScreen');
+        dispatch(setPreventBack(true));
       }}
       bottomBarColor={theme.colors.backgroundCamel}
       pages={[

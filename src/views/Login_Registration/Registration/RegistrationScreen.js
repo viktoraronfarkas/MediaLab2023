@@ -14,6 +14,7 @@ import RegistrationPageThreeView from './RegistrationPageThreeView';
 import VerifyEmailScreen from '../VerifyEmailScreen';
 import BackButtonNavigationContainer from '../../../components/Buttons/BackButtonNavigationContainer';
 import {
+  setPreventBack,
   IpAddress,
   selectedNewJoinedGroups,
   setNewJoinedGroup,
@@ -263,6 +264,7 @@ export default function RegistrationScreen() {
                   console.error('Error joining recommended groups:', error);
                 }
               }
+              dispatch(setPreventBack(true));
             } catch (error) {
               console.error('Error sending form data:', error);
             } finally {

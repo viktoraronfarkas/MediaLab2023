@@ -10,11 +10,11 @@ import { styles } from '../constants/myTheme';
 import { MoreSvg } from './svgs';
 import {
   IpAddress,
-  SetselectedSubGroup,
+  SetSelectedSubGroup,
   selectedGroup,
   selectedUserId,
   setSelectedMainGroup,
-  setMianGroups,
+  setMainGroups,
 } from '../redux/features/mainSlice/mainSlice';
 import SubGroupsFilter from './Buttons/SubGroupsFilter';
 import ListItem from './Items/ListItem';
@@ -36,6 +36,11 @@ function MainJoinedGroup() {
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
+  // Sort the subgroups based on the number of members in descending order
+  // const sortedSubgroups = [...filteredSubgroups].sort(
+  //   (a, b) => b.members.length - a.members.length
+  // );
 
   let message = '';
 
@@ -115,7 +120,7 @@ function MainJoinedGroup() {
         `http://${clientIpAddress}:3001/maingroup`
       );
       const mainGroupsData = response.data;
-      dispatch(setMianGroups(mainGroupsData));
+      dispatch(setMainGroups(mainGroupsData));
     } catch (error) {
       console.error('Error fetching main groups:', error);
     }
@@ -255,7 +260,7 @@ function MainJoinedGroup() {
               left: '12%',
               top: '90%',
               height: 50,
-              width: 210,
+              width: 205,
               position: 'absolute',
             }}
             source={underlineArrowImage}
@@ -290,15 +295,28 @@ function MainJoinedGroup() {
           filteredSubgroups.map((subgroup) => (
             <ListItem
               key={subgroup.subgroupId}
-              mainTitle={subgroup.name || subgroup.subgroupName}
-              subtitle={subgroup.subTitle || subgroup.subgroupName}
+              mainTitle={subgroup.subgroupName}
+              subtitle={subgroup.subgroupCaption}
               iconImage={require('../../assets/Icons/arrow-right.png')}
               onPress={() => {
-                dispatch(SetselectedSubGroup(subgroup));
+                dispatch(SetSelectedSubGroup(subgroup));
                 navigation.navigate('Subgroup');
               }}
             />
           ))
+          // If we want to sort the subgroups based on the number of members.
+          // sortedSubgroups.map((subgroup) => (
+          //   <ListItem
+          //     key={subgroup.subgroupId}
+          //     mainTitle={subgroup.name || subgroup.subgroupName}
+          //     subtitle={subgroup.subTitle || subgroup.subgroupName}
+          //     iconImage={require('../../assets/Icons/arrow-right.png')}
+          //     onPress={() => {
+          //       dispatch(SetSelectedSubGroup(subgroup));
+          //       navigation.navigate('Subgroup');
+          //     }}
+          //   />
+          // ))
         )}
       </View>
     </View>

@@ -23,7 +23,7 @@ import {
   setNewJoinedGroup,
   selectedUserId,
   mainGroups,
-  setMianGroups,
+  setMainGroups,
 } from '../redux/features/mainSlice/mainSlice';
 import BackButton from '../components/Buttons/BackButton';
 import { AcceptedSvg, RejectedSvg } from '../components/svgs';
@@ -69,8 +69,8 @@ export default function JoinNewGroup() {
         const response = await axios.get(
           `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/subscribed-groups`
         );
-        const { mainGroups } = response.data;
-        setSubscribedGroups(mainGroups || []); // Ensure initialization with an empty array if data is undefined
+        const { groups } = response.data;
+        setSubscribedGroups(groups || []); // Ensure initialization with an empty array if data is undefined
       } catch (error) {
         console.error('Error retrieving subscribed groups:', error);
         // Handle the error
@@ -88,7 +88,7 @@ export default function JoinNewGroup() {
             ? `data:image/png;base64,${mainGroup.mainGroupTitleImage}`
             : null,
         }));
-        dispatch(setMianGroups(mainGroupsData || {}));
+        dispatch(setMainGroups(mainGroupsData || {}));
       } catch (error) {
         console.error('Error retrieving main groups:', error);
         // Handle the error

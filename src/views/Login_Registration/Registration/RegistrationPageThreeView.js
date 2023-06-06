@@ -19,7 +19,7 @@ import {
   selectedNewJoinedGroups,
   setNewJoinedGroup,
   mainGroups,
-  setMianGroups,
+  setMainGroups,
 } from '../../../redux/features/mainSlice/mainSlice';
 
 const styles = StyleSheet.create({
@@ -53,7 +53,7 @@ export default function RegistrationPageThreeView({ handleSubmit, loading }) {
           `http://${clientIpAddress}:3001/maingroup`
         );
         const mainGroupsData = response.data;
-        dispatch(setMianGroups(mainGroupsData));
+        dispatch(setMainGroups(mainGroupsData));
       } catch (error) {
         console.error('Error retrieving main groups:', error);
         // Handle the error
@@ -88,7 +88,6 @@ export default function RegistrationPageThreeView({ handleSubmit, loading }) {
       dispatch(setNewJoinedGroup(updatedGroups));
     }
   }
-
 
   return (
     <SafeAreaView style={styles.container}>
