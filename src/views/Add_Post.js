@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -34,6 +34,7 @@ function AddPost() {
   // const [postImg, setImg] = useState('');
   const [postHeading, setHeading] = useState('');
   const [postText, setText] = useState('');
+  const [disableButton, setDisableButton] = useState(true);
   // const [imageUpload, setImage] = useState(null);
 
   const nameOfPost = useRef(null);
@@ -46,6 +47,18 @@ function AddPost() {
   const focusIntroductionOfPost = () => {
     introductionOfPost.current?.focus();
   };
+
+  useEffect(() => {
+    if (
+      postHeading.trim() === '' ||
+      postCaption.trim() === '' ||
+      postText.trim() === ''
+    ) {
+      setDisableButton(true);
+    } else {
+      setDisableButton(false);
+    }
+  });
 
   // // Choose Profile Picture
   // const pickProfilePicture = async () => {
@@ -171,7 +184,14 @@ function AddPost() {
           <OrangeButton
             text="Post"
             styleButton={{ alignSelf: 'center', width: '100%' }}
+            buttonBackgroundColor={
+              disableButton
+                ? theme.colors.neutralsGrey500
+                : theme.colors.primary
+            }
             onPress={handlePress}
+            // eslint-disable-next-line no-unneeded-ternary
+            disable={disableButton ? true : false}
           />
         </View>
       </View>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -30,6 +30,7 @@ function AddSubgroup() {
 
   const [groupName, setName] = useState('');
   const [groupCaption, setCaption] = useState('');
+  const [disableButton, setDisableButton] = useState(true);
   // const [groupIntro, setIntroduction] = useState('');
   // const [imageUpload, setImage] = useState(null);
 
@@ -44,6 +45,14 @@ function AddSubgroup() {
   const focusCaptionInput = () => {
     captionOfSubGroup.current?.focus();
   };
+
+  useEffect(() => {
+    if (groupCaption.trim() === '' || groupCaption.trim() === '') {
+      setDisableButton(true);
+    } else {
+      setDisableButton(false);
+    }
+  });
 
   const handlePress = async (e) => {
     e.preventDefault();
@@ -188,7 +197,14 @@ function AddSubgroup() {
           <OrangeButton
             text="Create"
             styleButton={{ alignSelf: 'center', width: '100%' }}
+            buttonBackgroundColor={
+              disableButton
+                ? theme.colors.neutralsGrey500
+                : theme.colors.primary
+            }
             onPress={handlePress}
+            // eslint-disable-next-line no-unneeded-ternary
+            disable={disableButton ? true : false}
           />
         </View>
       </ScrollView>

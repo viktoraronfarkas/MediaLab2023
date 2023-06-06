@@ -27,6 +27,7 @@ export default function OrangeButton({
   styleButton,
   onPress,
   buttonBackgroundColor = theme.colors.primary,
+  disable,
 }) {
   return (
     <View>
@@ -37,6 +38,7 @@ export default function OrangeButton({
           { backgroundColor: buttonBackgroundColor },
         ]}
         onPress={onPress}
+        disabled={disable}
       >
         <Text style={[styles.button, { color: theme.colors.neutralsWhite }]}>
           {text}
