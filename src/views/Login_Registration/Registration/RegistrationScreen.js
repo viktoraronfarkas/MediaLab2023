@@ -12,7 +12,6 @@ import RegistrationPageOneView from './RegistrationPageOneView';
 import RegistrationPageTwoView from './RegistrationPageTwoView';
 import RegistrationPageThreeView from './RegistrationPageThreeView';
 import VerifyEmailScreen from '../VerifyEmailScreen';
-// import Home from '../../Home_Test';
 import BackButtonNavigationContainer from '../../../components/Buttons/BackButtonNavigationContainer';
 import {
   IpAddress,
@@ -34,13 +33,15 @@ const style = StyleSheet.create({
     color: theme.colors.primary,
   },
 });
-// TODO Add Regular Expression Email: for gmail, outlook etc (Demo)
+
 // TODO DELETE Console logs
 // TODO delete console log after backend implementation
 
 /**
- * This is the main representation of the Registration Screen for User to create an account
- * */
+ * This is the main representation of the Registration Screen for User to create an account.
+ * For Demo purposes use "emailRegex".
+ * For actual App: use the "emailRegexFH" Value
+ */
 export default function RegistrationScreen() {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -69,10 +70,11 @@ export default function RegistrationScreen() {
 
   const validateEmail = () => {
     // Users can only use two small letters, 6 numbers and the fh-email ending --> student emails.
-    const emailRegex = /[a-z]{2}\d{6}@fhstp\.ac\.at/;
-    // const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    // Only for FH Students
+    // const emailRegexFH = /[a-z]{2}\d{6}@fhstp\.ac\.at/;
+    const emailRegexDEMO = /^.+@(gmail|hotmail|gmx|fhstp\.ac\.at)$/i; // FOR DEMO
 
-    if (!emailRegex.test(email)) {
+    if (!emailRegexDEMO.test(email)) {
       setEmailError('Please enter a valid student FH email address.');
       return false;
     }
@@ -199,89 +201,78 @@ export default function RegistrationScreen() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // submit registration form if there are no errors
     try {
       await firebase.auth().createUserWithEmailAndPassword(email, password);
 
-      // Send the verification email
       await firebase.auth().currentUser.sendEmailVerification({
         handleCodeInApp: true,
         url: 'https://uasync-8e7a4.firebaseapp.com',
       });
-      // Prompt the user to verify their email address
-      alert(
-        'A verification email has been sent to your email address. Please verify your email address to complete the registration process.'
-      );
-      navigation.navigate('VerifyEmailScreen');
 
-      // Update the user's password once they have verified their email address
-      // Create FormData object
-      const formData = new FormData();
+      // Wait until the user verifies --> then add data to Database
+      const unsubscribe = firebase.auth().onIdTokenChanged(async (user) => {
+        if (user) {
+          if (user.emailVerified) {
+            // Email verification completed, add user data to the database
+            const formData = new FormData();
 
-      // Append form fields to FormData object
-      formData.append('email', email);
-      formData.append('username', username);
-      formData.append('name', name);
-      formData.append('password', password);
+            formData.append('email', email);
+            formData.append('username', username);
+            formData.append('name', name);
+            formData.append('password', password);
 
-      // Check if an image is uploaded
-      if (imageUpload) {
-        try {
-          // setLoading(true);
-          const response = await fetch(imageUpload);
-          const blob = await response.blob();
-
-          // Append the image blob to FormData object
-          formData.append('profile_image', blob, 'profile_image.png');
-        } catch (error) {
-          console.error('Error reading image file:', error);
-        }
-      }
-
-      // Make the API request using Axios or any other HTTP client library
-      try {
-        const response = await axios.post(
-          `http://${clientIpAddress}:3001/auth/signup`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        );
-
-        // Handle response
-        console.log(response.data);
-
-        // Retrieve the user ID from the response
-        const { userId } = response.data;
-        const mainGroupIds = [...NewJoinedGroups];
-
-        // Join the recommended groups with the user ID
-        if (userId) {
-          try {
-            const joinGroupResponse = await axios.post(
-              `http://${clientIpAddress}:3001/user/subscribe/maingroup`,
-              {
-                userId,
-                mainGroupIds,
+            if (imageUpload) {
+              try {
+                const response = await fetch(imageUpload);
+                const blob = await response.blob();
+                formData.append('profile_image', blob, 'profile_image.png');
+              } catch (error) {
+                console.error('Error reading image file:', error);
               }
-            );
+            }
 
-            // Handle join group response
-            console.log(joinGroupResponse.data);
-            dispatch(setNewJoinedGroup([]));
-          } catch (error) {
-            // Handle error
-            console.error('Error joining recommended groups:', error);
+            try {
+              const response = await axios.post(
+                `http://${clientIpAddress}:3001/auth/signup`,
+                formData,
+                {
+                  headers: {
+                    'Content-Type': 'multipart/form-data',
+                  },
+                }
+              );
+
+              console.log(response.data);
+
+              const { userId } = response.data;
+              const mainGroupIds = [...NewJoinedGroups];
+
+              if (userId) {
+                try {
+                  const joinGroupResponse = await axios.post(
+                    `http://${clientIpAddress}:3001/user/subscribe/maingroup`,
+                    {
+                      userId,
+                      mainGroupIds,
+                    }
+                  );
+
+                  console.log(joinGroupResponse.data);
+                  dispatch(setNewJoinedGroup([]));
+                } catch (error) {
+                  console.error('Error joining recommended groups:', error);
+                }
+              }
+            } catch (error) {
+              console.error('Error sending form data:', error);
+            } finally {
+              unsubscribe();
+            }
+          } else {
+            navigation.navigate('VerifyEmailScreen');
           }
         }
-      } catch (error) {
-        // Handle error
-        console.error('Error sending form data:', error);
-      } finally {
-        // setLoading(false);
-      }
+      });
     } catch (error) {
       alert(error.message);
     }
@@ -371,9 +362,11 @@ export default function RegistrationScreen() {
         )}
       </RegistrationStack.Screen>
 
+      {/* This is used */}
       <RegistrationStack.Screen
         name="VerifyEmailScreen"
         component={VerifyEmailScreen}
+        options={{ title: '', headerShown: false }}
       />
     </RegistrationStack.Navigator>
   );

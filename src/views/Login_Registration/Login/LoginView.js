@@ -1,8 +1,6 @@
 import React from 'react';
 import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import scribble from '../../../../assets/Images/star-glitter-image.png';
-import BackButton from '../../../components/Buttons/BackButton';
 import OrangeButton from '../../../components/Buttons/OrangeButton';
 import ClickableText from '../../../components/ClickableText';
 import InputField from '../../../components/Items/InputField';
@@ -34,15 +32,8 @@ export default function LoginView({
   onNavigateText,
   handleSubmit,
 }) {
-  const navigation = useNavigation();
-  const handlePress = () => {
-    navigation.goBack(null);
-  };
   return (
     <SafeAreaView style={style.container}>
-      <View style={{ paddingHorizontal: 25, paddingTop: 10 }}>
-        <BackButton text="back" onPress={handlePress} />
-      </View>
       <View style={{ paddingHorizontal: 25, paddingTop: 35 }}>
         <CaptionScribbleHeading
           subHeading="Sign in"

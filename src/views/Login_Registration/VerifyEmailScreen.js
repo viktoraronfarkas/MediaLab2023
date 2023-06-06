@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, ScrollView, Text, Button } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { theme, styles } from '../../constants/myTheme';
+import GreyButton from '../../components/Buttons/GreyButton';
+import OrangeButton from '../../components/Buttons/OrangeButton';
 import firebase from '../../../config';
 
 export default function VerifyEmailScreen() {
   const navigation = useNavigation();
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const timerRef = useRef(null);
+  const maxTimeInSeconds = 60;
 
   async function sendVerificationEmail() {
     const user = firebase.auth().currentUser;
@@ -16,55 +19,85 @@ export default function VerifyEmailScreen() {
 
   async function checkEmailVerified() {
     await firebase.auth().currentUser.reload();
+    const isVerified = firebase.auth().currentUser.emailVerified;
 
-    const isVerified = firebase.auth().currentUser;
-
-    // When it's turned to true, cancel the timer
     if (isVerified) {
-      clearInterval(timerRef);
+      clearInterval(timerRef.current);
       setIsEmailVerified(true);
     }
   }
 
   useEffect(() => {
-    // account needs to be created before
-    setIsEmailVerified(firebase.auth().currentUser.emailVerified);
+    async function handleEmailVerification() {
+      const { currentUser } = firebase.auth();
 
-    if (!isEmailVerified) {
-      sendVerificationEmail();
+      setIsEmailVerified(currentUser.emailVerified);
 
-      // executes every 3 sec and checks if email is verified
-      timerRef.current = setInterval(async () => {
-        // update the ref with the new value
-        await checkEmailVerified();
-      }, 5000);
+      if (!currentUser.emailVerified) {
+        sendVerificationEmail();
 
-      // When it's turned to true, cancel the timer
-      if (isEmailVerified) clearInterval(timerRef.current);
+        timerRef.current = setInterval(() => {
+          checkEmailVerified();
+        }, 5000);
+      }
     }
+
+    handleEmailVerification();
 
     return () => {
       clearInterval(timerRef.current);
     };
-  }, [isEmailVerified]);
+  }, []);
 
   useEffect(() => {
     if (isEmailVerified) {
+      clearInterval(timerRef.current);
       navigation.navigate('LoginScreen');
     }
   }, [isEmailVerified, navigation]);
 
+  // eslint-disable-next-line consistent-return
+  useEffect(() => {
+    // Redirect to login screen if the maximum time limit is reached
+    if (!isEmailVerified) {
+      const timeoutRef = setTimeout(() => {
+        navigation.navigate('LoginScreen');
+      }, maxTimeInSeconds * 1000000);
+
+      return () => {
+        clearTimeout(timeoutRef);
+      };
+    }
+  }, [isEmailVerified, navigation]);
+
   return (
-    <View style={{ backgroundColor: theme.colors.backgroundSand }}>
+    <View style={{ flex: 1, backgroundColor: theme.colors.backgroundSand }}>
       <ScrollView>
-        <View style={{ padding: 70 }}>
-          <Text style={styles.headline1}>Verify Email</Text>
-          <Text style={styles.subtitle2}>Email has been sent to you</Text>
-          <Button
+        <View
+          style={{
+            paddingHorizontal: 30,
+            paddingVertical: 70,
+          }}
+        >
+          <Text style={[styles.headline1, { paddingBottom: 10 }]}>
+            Verify Email
+          </Text>
+          <Text style={[styles.subtitle2, { paddingBottom: 200 }]}>
+            A Verification-Email has been sent to you. This can take a few
+            moments. {'\n'}Don´t forget to check your spam folder.
+          </Text>
+          <OrangeButton
+            text="Resend Email"
             onPress={() => sendVerificationEmail()}
-            title="Resend Email"
+            styleButton={{ alignSelf: 'center', width: '100%' }}
           />
-          <Button onPress={() => firebase.instance.signOut()} title="Cancel" />
+          <View style={{ paddingTop: 20 }}>
+            <GreyButton
+              text="Cancel"
+              onPress={() => firebase.instance.signOut()}
+              styleButton={{ alignSelf: 'center', width: '100%' }}
+            />
+          </View>
         </View>
       </ScrollView>
     </View>
