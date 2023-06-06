@@ -35,9 +35,6 @@ const style = StyleSheet.create({
   },
 });
 
-// TODO DELETE Console logs
-// TODO delete console log after backend implementation
-
 /**
  * This is the main representation of the Registration Screen for User to create an account.
  * For Demo purposes use "emailRegex".
@@ -56,7 +53,6 @@ export default function RegistrationScreen() {
   const [confirmError, setConfirmError] = useState('');
   const [imageUpload, setImage] = useState(null);
   const [selectedNames, setSelectedNames] = useState([]);
-  // const [loading, setLoading] = useState(false);
   const NewJoinedGroups = useSelector(selectedNewJoinedGroups);
 
   const clientIpAddress = useSelector(IpAddress);
@@ -65,7 +61,7 @@ export default function RegistrationScreen() {
   const RegistrationStack = createStackNavigator();
   const navigation = useNavigation();
   const handleTextLoginClick = () => {
-    navigation.navigate('LoginScreen');
+    navigation.navigate('RegistrationOne');
   };
   const dispatch = useDispatch();
 
@@ -88,7 +84,7 @@ export default function RegistrationScreen() {
 
     if (!usernameRegex.test(username)) {
       setUsernameError(
-        'Please enter a username that contains only letters or / and numbers.'
+        'Please enter a username that contains only letters or / and numbers. Please avoid spaces.'
       );
       return false;
     }
@@ -96,12 +92,12 @@ export default function RegistrationScreen() {
     return true;
   };
   const validateName = () => {
-    /// Users can user only letters, space and hyphen (-).
+    // Users can user only letters, space and hyphen (-).
     const nameRegex = /^[A-Za-z -]+$/;
 
     if (!nameRegex.test(name)) {
       setNameError(
-        'Please enter a name that contains only letters. Space and hyphens are also allowed.'
+        'Please enter a name that contains only letters. Spaces and hyphens are also allowed.'
       );
       return false;
     }
@@ -170,6 +166,7 @@ export default function RegistrationScreen() {
       console.log('Cannot proceed');
     }
   };
+
   const handlePage3Click = () => {
     navigation.navigate('RegistrationThree');
   };
@@ -205,10 +202,7 @@ export default function RegistrationScreen() {
     try {
       await firebase.auth().createUserWithEmailAndPassword(email, password);
 
-      await firebase.auth().currentUser.sendEmailVerification({
-        handleCodeInApp: true,
-        url: 'https://uasync-8e7a4.firebaseapp.com',
-      });
+      await firebase.auth().currentUser.sendEmailVerification();
 
       // Wait until the user verifies --> then add data to Database
       const unsubscribe = firebase.auth().onIdTokenChanged(async (user) => {
@@ -354,12 +348,9 @@ export default function RegistrationScreen() {
         {(props) => (
           <RegistrationPageThreeView
             {...props}
-            // Selection of the Main Groups
-            onGroupsSelected={handleGroupSelection}
+            onGroupsSelected={handleGroupSelection} // Selection of the Main Groups
             selectedGroups={selectedNames}
-            // Submit form
-            handleSubmit={handleSubmit}
-            // loading={loading}
+            handleSubmit={handleSubmit} // Submit form
           />
         )}
       </RegistrationStack.Screen>

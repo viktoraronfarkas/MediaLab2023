@@ -193,6 +193,11 @@ export default function ScreenNavigation() {
                 }}
               />
               <Stack.Screen
+                name="VerifyEmailScreen"
+                component={VerifyEmailScreen}
+                options={{ title: '', headerShown: false }}
+              />
+              <Stack.Screen
                 name="RegistrationOne"
                 component={RegistrationScreen}
                 options={{ title: '', headerShown: false }}
