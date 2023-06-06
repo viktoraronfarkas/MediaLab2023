@@ -14,9 +14,9 @@ import axios from 'axios';
 import InputField from '../components/Items/InputField';
 import { styles, theme } from '../constants/myTheme';
 import OrangeButton from '../components/Buttons/OrangeButton';
-// import CaptionScribbleHeading from '../components/Texts/CaptionScribbleHeading';
+import CaptionScribbleHeading from '../components/Texts/CaptionScribbleHeading';
 // import UploadIcon from '../../assets/Icons/upload-icon.png';
-// import GlitterImage from '../../assets/Images/glitter-image.png';
+import GlitterImage from '../../assets/Images/glitter-image.png';
 // import BackButton from '../components/Buttons/BackButton';
 // import Filter from '../components/Filter';
 import {
@@ -33,20 +33,14 @@ function AddPost() {
 
   // const [postImg, setImg] = useState('');
   const [postHeading, setHeading] = useState('');
-  const [postCaption, setCaption] = useState('');
   const [postText, setText] = useState('');
   // const [imageUpload, setImage] = useState(null);
 
   const nameOfPost = useRef(null);
-  const captionOfPost = useRef(null);
   const introductionOfPost = useRef(null);
 
   const focusNameOfPost = () => {
     nameOfPost.current?.focus();
-  };
-
-  const focusCaptionOfPost = () => {
-    captionOfPost.current?.focus();
   };
 
   const focusIntroductionOfPost = () => {
@@ -93,7 +87,6 @@ function AddPost() {
 
     formData.append('userId', currentUser);
     formData.append('heading', postHeading);
-    formData.append('caption', postCaption);
     formData.append('text', postText);
 
     try {
@@ -122,45 +115,25 @@ function AddPost() {
   return (
     <SafeAreaView style={{ backgroundColor: theme.colors.backgroundSand }}>
       <View style={{ margin: 20 }}>
-        {/* <Filter options={['posts', 'events']} activeButton="posts" />
-
         <CaptionScribbleHeading
           subHeading="Give it all to me"
           title="Enter all the post infos that are important for people:"
           scribbleSubHeadingImage={GlitterImage}
           scribbleStyle={{ width: 35, height: 35 }}
-        /> */}
+        />
 
         <View style={{ marginTop: 40 }}>
           <View style={{ marginBottom: 5 }}>
-            <Text style={styles.subtitle2}>Give us a great heading:</Text>
+            <Text style={styles.subtitle2}>Give us a great title:</Text>
           </View>
           <InputField
-            labelText="Post Name"
+            labelText="Title"
             value={postHeading}
             onChangeText={setHeading}
             padding={2}
             marginLeft={0}
             inputRef={nameOfPost}
             onFocus={focusNameOfPost}
-          />
-          <View style={{ marginLeft: 20 }}>
-            <Text style={styles.navLabel}>Limit to 15 Characters</Text>
-          </View>
-        </View>
-
-        <View style={{ marginTop: 20 }}>
-          <View style={{ marginBottom: 5 }}>
-            <Text style={styles.subtitle2}>Give us a great subtitle:</Text>
-          </View>
-          <InputField
-            labelText="Subtitle"
-            value={postCaption}
-            onChangeText={setCaption}
-            padding={2}
-            marginLeft={0}
-            inputRef={captionOfPost}
-            onFocus={focusCaptionOfPost}
           />
           <View style={{ marginLeft: 20 }}>
             <Text style={styles.navLabel}>Limit to 15 Characters</Text>
@@ -184,7 +157,7 @@ function AddPost() {
             <Text style={styles.subtitle2}>Write what is important:</Text>
           </View>
           <InputField
-            labelText="Introduction"
+            labelText="What's on your mind..."
             value={postText}
             onChangeText={setText}
             padding={2}
