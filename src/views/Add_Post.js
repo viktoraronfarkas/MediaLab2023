@@ -51,7 +51,6 @@ function AddPost() {
   useEffect(() => {
     if (
       postHeading.trim() === '' ||
-      postCaption.trim() === '' ||
       postText.trim() === ''
     ) {
       setDisableButton(true);
