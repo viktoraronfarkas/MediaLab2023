@@ -9,14 +9,32 @@ import underlineImage from '../../assets/Images/thin-underline-image.png';
 import circleLineImage from '../../assets/Images/circleLine-image.png';
 import UnderlineImageSmall from '../../assets/Images/under-line-image.png';
 import { selectedPost } from '../redux/features/mainSlice/mainSlice';
+import BottomScrollSheet from '../components/BottomScrollSheet/BottomScrollSheet';
 
 function PostInteraction() {
   const postData = useSelector(selectedPost);
+  // const refRBSheet = useRef();
 
   return (
     <SafeAreaView
       style={{ backgroundColor: theme.colors.backgroundSand, flex: 1 }}
     >
+      {/* <BottomScrollSheet
+          bottomSheetRef={refRBSheet}
+          contentComponent={
+            <OptionsLeaveGroupSheet
+              sheetTitle={`Delete Post?`}
+              leaveText="Yes"
+              cancelText="Nevermind"
+              onCancel={() => {
+                refRBSheet.current.close(); // Close the bottom sheet
+              }}
+              onLeave={() => {
+                unsubscribeFromSubGroup();
+              }}
+            />
+          }
+        /> */}
       <View style={{ margin: 20 }}>
         <View style={{ alignItems: 'center', marginTop: 20 }}>
           <Text style={[styles.headline1, { textAlign: 'center' }]}>
