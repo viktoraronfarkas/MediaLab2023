@@ -168,6 +168,17 @@ function Subgroup({ route }) {
     });
   };
 
+  const [noPosts, setNoPosts] = useState(false);
+
+  useEffect(() => {
+    // Check if there are no posts
+    if (storedPosts.length === 0) {
+      setNoPosts(true);
+    } else {
+      setNoPosts(false);
+    }
+  }, [storedPosts]);
+
   const joinSubgroup = () => {
     const url = `http://${clientIpAddress}:3001/user/subscribe/subgroup`;
     const data = {
@@ -352,23 +363,26 @@ function Subgroup({ route }) {
 
             <View style={style.postsContainer}>
               <View style={style.postContainer}>
-                {storedPosts
-                  .slice() // Create a copy of the array
-                  .sort((a, b) => b.timestamp - a.timestamp) // Sort the copied array in descending order based on timestamp
-                  .reverse() // Reverse the sorted array to display the most recent post at the top
-                  .map((post, index) => (
-                    <PostCard
-                      // eslint-disable-next-line react/no-array-index-key
-                      key={index}
-                      postId={post.post_id}
-                      title={post.heading}
-                      subTitle={post.caption}
-                      content={post.text}
-                      coverImage={require('../../assets/media.png')}
-                      iconSource={require('../../assets/Application-of-Computer-Graphics-1.png')}
-                      disabled
-                    />
-                  ))}
+              {noPosts ?  (
+                  <Text style={[styles.bodyDefault, { textAlign: 'center', justifyContent: 'center', }]}>There are no posts here yet. Click on the plus button above to create your own!</Text>
+                ) : (
+                  storedPosts
+                    .slice()
+                    .sort((a, b) => b.timestamp - a.timestamp)
+                    .reverse()
+                    .map((post, index) => (
+                      <PostCard
+                        key={index}
+                        postId={post.post_id}
+                        title={post.heading}
+                        subTitle={post.caption}
+                        content={post.text}
+                        coverImage={require('../../assets/media.png')}
+                        iconSource={require('../../assets/Application-of-Computer-Graphics-1.png')}
+                        disabled
+                      />
+                    ))
+                )}
               </View>
             </View>
           </View>
