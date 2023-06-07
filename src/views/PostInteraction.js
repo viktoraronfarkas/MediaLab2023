@@ -8,7 +8,6 @@ import BackButton from '../components/Buttons/BackButton';
 import underlineImage from '../../assets/Images/thin-underline-image.png';
 import circleLineImage from '../../assets/Images/circleLine-image.png';
 import UnderlineImageSmall from '../../assets/Images/under-line-image.png';
-// import Foodshare from '../../assets/foodshare.jpg';
 import { selectedPost } from '../redux/features/mainSlice/mainSlice';
 
 function PostInteraction() {
@@ -19,10 +18,7 @@ function PostInteraction() {
       style={{ backgroundColor: theme.colors.backgroundSand, flex: 1 }}
     >
       <View style={{ margin: 20 }}>
-        <View style={{ marginBottom: 15, marginTop: 20 }}>
-          <BackButton text="back" />
-        </View>
-        <View style={{ alignItems: 'center', marginTop: 50 }}>
+        <View style={{ alignItems: 'center', marginTop: 20 }}>
           <Text style={[styles.headline1, { textAlign: 'center' }]}>
             {postData.title}
           </Text>
@@ -44,7 +40,8 @@ function PostInteraction() {
               marginRight: 80,
             }}
           >
-            <Text style={[styles.headline2]}>{postData.subTitle}</Text>
+            <Text style={[styles.headline3]}>DisplayName</Text>
+            {/* <Text style={[styles.headline2]}>{postData.subTitle}</Text> */}
             <Image
               source={UnderlineImageSmall}
               style={{
@@ -62,10 +59,10 @@ function PostInteraction() {
               alignItems: 'center',
             }}
           >
-            {/* <Text style={[styles.headline2]}>15:30</Text> */}
+            <Text style={[styles.headline3]}>15:30</Text>
           </ImageBackground>
         </View>
-        <Text style={[styles.bodyDefault, { marginTop: 50 }]}>
+        <Text style={[styles.bodyDefault, { marginTop: 50, paddingHorizontal: 20 }]}>
           {postData.content}
         </Text>
 

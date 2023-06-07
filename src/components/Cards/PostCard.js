@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Card, Divider } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -84,31 +84,38 @@ export default function PostCard({
   };
 
   return (
-    <TouchableOpacity onPress={clickPost}>
-      <Card elevation={0} style={style.container}>
-        <Card.Title
-          titleStyle={[styles.subtitle1, { marginLeft: 10 }]}
-          subtitleStyle={[styles.captionBold, { marginLeft: 10 }]}
-          title={title}
-          subtitle={subTitle}
-          left={() => LeftContent({ iconImage })}
-        />
+    <Card elevation={0} style={style.container}>
+      <TouchableOpacity onPress={clickPost}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{ flex: 1 }}>
+            <Card.Title
+              titleStyle={[styles.subtitle1, { marginLeft: 10, marginBottom: 0 }]}
+              subtitleStyle={[styles.captionBold, { marginLeft: 10, marginTop: -5 }]}
+              title={title}
+              subtitle={'by Author'}
+              left={() => LeftContent({ iconImage })}
+            />
+          </View>
+          <View style={{ marginRight: 20 }}>
+            <Text style={styles.navLabel}>00:00:00 </Text>
+          </View>
+        </View>
         {coverImage ? (
           <Card.Cover source={coverImage} resizeMode="cover" />
         ) : null}
         {!coverImage && <Divider />}
         <Card.Content>
-          <Text
-            style={[
-              styles.bodyDefault,
-              {
-                marginTop: content && content.length ? 15 : 0,
-                marginBottom: content && content.length > 0 ? 15 : 0,
-              },
-            ]}
-          >
-            {content}
-          </Text>
+        <Text
+          style={[
+            styles.bodyDefault,
+            {
+              marginTop: content && content.length ? 15 : 0,
+              marginBottom: content && content.length > 0 ? 15 : 0,
+            },
+          ]}
+        >
+          {content && content.length > 80 ? `${content.slice(0, 80)}...` : content}
+        </Text>
         </Card.Content>
         <Card.Actions>
           {buttonText ? (
@@ -123,7 +130,7 @@ export default function PostCard({
             <Text />
           )}
         </Card.Actions>
-      </Card>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </Card>
   );
 }

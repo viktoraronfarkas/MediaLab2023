@@ -169,7 +169,7 @@ export default function ScreenNavigation() {
               <Stack.Screen
                 name="PostInteraction"
                 component={PostInteraction}
-                options={{ title: '', headerShown: false }}
+                options={{ title: '', headerShown: true }}
               />
             </>
           ) : (
