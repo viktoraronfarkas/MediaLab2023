@@ -171,9 +171,7 @@ export default function RegistrationPageOneView({
               />
             </View>
 
-            {nameError ? (
-              <Text style={style.error}>{usernameError}</Text>
-            ) : null}
+            {nameError ? <Text style={style.error}>{nameError}</Text> : null}
             <View style={style.inputStyle}>
               <InputField
                 labelText="Your Full Name"
