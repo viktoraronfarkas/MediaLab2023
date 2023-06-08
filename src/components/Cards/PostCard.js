@@ -28,7 +28,7 @@ function LeftContent({ iconImage }) {
         height: 55,
         borderRadius: 35,
       }}
-      source={iconImage}
+      source={{ uri: iconImage }}
     />
   ) : (
     <Image
@@ -58,6 +58,7 @@ export default function PostCard({
   disabled,
 }) {
   const handlePress = () => {};
+
   return (
     <Card elevation={0} style={style.container}>
       <Card.Title
@@ -68,7 +69,7 @@ export default function PostCard({
         left={() => LeftContent({ iconImage })}
       />
       {coverImage ? (
-        <Card.Cover source={coverImage} resizeMode="cover" />
+        <Card.Cover source={{ uri: coverImage }} resizeMode="cover" />
       ) : null}
       {!coverImage && <Divider />}
       <Card.Content>
