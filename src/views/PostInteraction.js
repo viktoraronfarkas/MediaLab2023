@@ -29,7 +29,7 @@ function PostInteraction() {
 
 
           <View style={{ flexDirection: 'row', marginTop: 80, justifyContent: 'center', }}>
-            <Text style={[styles.headline3]}>created by:</Text>
+            <Text style={[styles.headline3, {marginLeft: 10}]}>created by:</Text>
             <View
               style={{
                 flex: 1,
@@ -48,11 +48,7 @@ function PostInteraction() {
                   marginTop: -10,
                 }}
               />
-              <Text
-                style={[styles.subtitle1, { marginLeft: 10, marginBottom: 5 }]}
-              >
-                Username
-              </Text>
+
             </View>
           </View> 
           <View style={{ marginTop: 30}}>
@@ -69,7 +65,7 @@ function PostInteraction() {
               <Text  style={[styles.subtitle1, { marginLeft: 10, marginBottom: 5, color: theme.colors.primary }]}>
                 Full Name
               </Text>
-              <Text style={[styles.bodyDefault, { marginLeft: 10, marginBottom: 20 }]}>
+              <Text style={[styles.bodyDefault, { marginLeft: 10, marginBottom: 15 }]}>
                 Name
               </Text>
             </View>
@@ -79,7 +75,7 @@ function PostInteraction() {
               <Text  style={[styles.subtitle1, { marginLeft: 10, marginBottom: 5, color: theme.colors.primary }]}>
                 Email
               </Text>
-              <Text style={[styles.bodyDefault, { marginLeft: 10, marginBottom: 20 }]}>
+              <Text style={[styles.bodyDefault, { marginLeft: 10, marginBottom: 15 }]}>
                 test.test@fhstp.ac.at
               </Text>
             </View>
