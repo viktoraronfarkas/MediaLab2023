@@ -7,16 +7,18 @@ import {
   View,
   Platform,
   KeyboardAvoidingView,
+  Image,
+  TouchableOpacity,
 } from 'react-native';
 import ClickableText from '../../../components/ClickableText';
-import { theme } from '../../../constants/myTheme';
+import { theme, styles } from '../../../constants/myTheme';
 import InputField from '../../../components/Items/InputField';
 import OrangeButton from '../../../components/Buttons/OrangeButton';
 import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHeading';
 import scribble from '../../../../assets/Images/star-glitter-image.png';
-// import uploadIcon from '../../../../assets/Icons/upload-icon.png';
-// import cancelIcon from '../../../../assets/Icons/cancel-icon.png';
-// import checkIcon from '../../../../assets/Icons/check-icon.png';
+import uploadIcon from '../../../../assets/Icons/upload-icon.png';
+import cancelIcon from '../../../../assets/Icons/cancel-icon.png';
+import checkIcon from '../../../../assets/Icons/check-icon.png';
 
 const style = StyleSheet.create({
   container: {
@@ -86,9 +88,9 @@ export default function RegistrationPageOneView({
   confirmPasswordValue,
   onPasswordConfirmation,
 
-  // onPressProfileImageUpload,
-  // imageUpload,
-  // onPressDeletePicture,
+  onPressProfileImageUpload,
+  imageUpload,
+  onPressDeletePicture,
   // fileNameImage,
 
   onNavigateText,
@@ -212,44 +214,44 @@ export default function RegistrationPageOneView({
             </View>
 
             {/* UPLOAD PROFILE IMAGE */}
-            {/* <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-            <Text style={styles.subtitle1}>
-              Upload your profile picture here (optional):
-            </Text>
+            <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
+              <Text style={styles.subtitle1}>
+                Upload your profile picture here (optional):
+              </Text>
 
-            <TouchableOpacity
-              onPress={onPressProfileImageUpload}
-              style={{ paddingTop: 20, paddingBottom: 40 }}
-            >
-              <Image
-                source={uploadIcon}
-                style={{ width: 50, height: 50 }}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={onPressProfileImageUpload}
+                style={{ paddingTop: 20, paddingBottom: 40 }}
+              >
+                <Image
+                  source={uploadIcon}
+                  style={{ width: 50, height: 50 }}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
 
-            {imageUpload && (
-              <View style={style.imageUploadedContainer}>
-                <View
-                  style={{ justifyContent: 'center', alignItems: 'center' }}
-                >
-                  <Image
-                    source={{ uri: imageUpload }}
-                    style={style.profileImage}
-                  />
+              {imageUpload && (
+                <View style={style.imageUploadedContainer}>
+                  <View
+                    style={{ justifyContent: 'center', alignItems: 'center' }}
+                  >
+                    <Image
+                      source={{ uri: imageUpload }}
+                      style={style.profileImage}
+                    />
+                  </View>
+
+                  <View style={style.infoImageContainer}>
+                    <Image source={checkIcon} style={style.iconCheck} />
+                    {/* <Text>File: Name:{imageUpload.fileNameImage}</Text> */}
+
+                    <TouchableOpacity onPress={onPressDeletePicture}>
+                      <Image source={cancelIcon} style={style.iconCancel} />
+                    </TouchableOpacity>
+                  </View>
                 </View>
-
-                <View style={style.infoImageContainer}>
-                  <Image source={checkIcon} style={style.iconCheck} />
-                  <Text>File: Name:{imageUpload.fileNameImage}</Text>
-
-                  <TouchableOpacity onPress={onPressDeletePicture}>
-                    <Image source={cancelIcon} style={style.iconCancel} />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            )}
-          </View> */}
+              )}
+            </View>
 
             <OrangeButton
               text="Next"
