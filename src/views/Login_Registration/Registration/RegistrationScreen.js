@@ -286,6 +286,7 @@ export default function RegistrationScreen() {
         name="RegistrationPageOneView"
         options={{
           title: 'Step 1 of 3',
+          headerTitleAlign: 'center',
         }}
         style={style.container}
       >
@@ -326,7 +327,7 @@ export default function RegistrationScreen() {
       <RegistrationStack.Screen
         name="RegistrationTwo"
         component={RegistrationPageTwoView}
-        options={{ title: 'Step 2 of 3' }}
+        options={{ title: 'Step 2 of 3', headerTitleAlign: 'center', }}
         initialParams={{
           imageUpload,
           handleImageUpload: pickProfilePicture,
@@ -339,7 +340,7 @@ export default function RegistrationScreen() {
       <RegistrationStack.Screen
         name="RegistrationThree"
         style={style.container}
-        options={{ title: 'Step 3 of 3' }}
+        options={{ title: 'Step 3 of 3', headerTitleAlign: 'center', }}
       >
         {(props) => (
           <RegistrationPageThreeView
