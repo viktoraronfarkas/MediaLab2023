@@ -74,8 +74,10 @@ export default function VerifyEmailScreen() {
   useEffect(() => {
     if (isEmailVerified) {
       clearInterval(timerRef.current);
-      navigation.navigate('LoginScreen');
     }
+    return () => {
+      navigation.navigate('LoginScreen');
+    };
   }, [isEmailVerified, navigation]);
 
   // eslint-disable-next-line consistent-return
@@ -84,6 +86,7 @@ export default function VerifyEmailScreen() {
     if (!isEmailVerified) {
       const timeoutRef = setTimeout(() => {
         navigation.navigate('LandingScreen');
+        deleteIncompleteUserAccount();
       }, maxTimeInSeconds * 10000);
 
       return () => {
@@ -119,6 +122,7 @@ export default function VerifyEmailScreen() {
               text="Cancel"
               onPress={() => {
                 deleteIncompleteUserAccount();
+                navigation.navigate('LandingScreen');
               }}
               styleButton={{ alignSelf: 'center', width: '100%' }}
             />

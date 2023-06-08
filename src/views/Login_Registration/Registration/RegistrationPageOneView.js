@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   Text,
@@ -66,6 +66,12 @@ const style = StyleSheet.create({
 });
 
 export default function RegistrationPageOneView({
+  onBlurEmail,
+  onBlurFullName,
+  onBlurUsername,
+  onBlurPassword,
+  onBlurPasswordConfirm,
+
   emailError,
   emailValue,
   onChangeTextEmail,
@@ -92,43 +98,17 @@ export default function RegistrationPageOneView({
   // fileNameImage,
 
   onNavigateText,
+  onNavigateTextHelp,
   onNavigatePage2,
 }) {
-  const scrollViewRef = useRef(null);
-  const emailInputRef = useRef(null);
-  const usernameInputRef = useRef(null);
-  const nameInputRef = useRef(null);
-  const passwordInputRef = useRef(null);
-  const confirmPasswordInputRef = useRef(null);
-
-  const focusEmailInput = () => {
-    emailInputRef.current?.focus();
-  };
-
-  const focusUsernameInput = () => {
-    usernameInputRef.current?.focus();
-  };
-
-  const focusNameInput = () => {
-    nameInputRef.current?.focus();
-  };
-
-  const focusPasswordInput = () => {
-    passwordInputRef.current?.focus();
-  };
-
-  const focusConfirmPasswordInput = () => {
-    confirmPasswordInputRef.current?.focus();
-  };
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{ flex: 1 }}
     >
       <SafeAreaView style={style.container}>
-        <ScrollView ref={scrollViewRef} contentContainerStyle={{ flexGrow: 1 }}>
-          <View style={{ paddingHorizontal: 25 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <View style={{ paddingHorizontal: 10 }}>
             <View style={{ paddingTop: 30 }}>
               <CaptionScribbleHeading
                 subHeading="Sign up"
@@ -144,15 +124,24 @@ export default function RegistrationPageOneView({
                 }}
               />
             </View>
+            <ClickableText
+              onPress={onNavigateTextHelp}
+              clickableTextStyle={{
+                padding: 10,
+                paddingBottom: 30,
+                alignSelf: 'flex-end',
+                marginLeft: 'auto',
+              }}
+              text="Need Help?!"
+            />
             {emailError ? <Text style={style.error}>{emailError}</Text> : null}
             <View style={style.inputStyle}>
               <InputField
                 labelText="Enter Email"
                 value={emailValue}
+                onBlur={onBlurEmail}
                 onChangeText={onChangeTextEmail}
                 marginLeft={0}
-                inputRef={emailInputRef}
-                onFocus={focusEmailInput}
               />
             </View>
             {usernameError ? (
@@ -162,24 +151,20 @@ export default function RegistrationPageOneView({
               <InputField
                 labelText="Your Displayed Name"
                 value={usernameValue}
+                onBlur={onBlurUsername}
                 onChangeText={onChangeTextUsername}
                 marginLeft={0}
-                inputRef={usernameInputRef}
-                onFocus={focusUsernameInput}
               />
             </View>
 
-            {nameError ? (
-              <Text style={style.error}>{usernameError}</Text>
-            ) : null}
+            {nameError ? <Text style={style.error}>{nameError}</Text> : null}
             <View style={style.inputStyle}>
               <InputField
                 labelText="Your Full Name"
                 value={nameValue}
+                onBlur={onBlurFullName}
                 onChangeText={onChangeTextName}
                 marginLeft={0}
-                inputRef={nameInputRef}
-                onFocus={focusNameInput}
               />
             </View>
             {passwordError ? (
@@ -189,11 +174,10 @@ export default function RegistrationPageOneView({
               <InputField
                 labelText="Enter Password"
                 value={passwordValue}
+                onBlur={onBlurPassword}
                 onChangeText={onChangeTextPassword}
                 secureTextEntry
                 marginLeft={0}
-                inputRef={passwordInputRef}
-                onFocus={focusPasswordInput}
               />
             </View>
             {confirmError ? (
@@ -203,11 +187,10 @@ export default function RegistrationPageOneView({
               <InputField
                 labelText="Confirm Password"
                 value={confirmPasswordValue}
+                onBlur={onBlurPasswordConfirm}
                 onChangeText={onPasswordConfirmation}
                 secureTextEntry
                 marginLeft={0}
-                inputRef={confirmPasswordInputRef}
-                onFocus={focusConfirmPasswordInput}
               />
             </View>
 

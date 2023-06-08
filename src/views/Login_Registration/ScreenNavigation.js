@@ -70,7 +70,6 @@ export default function ScreenNavigation() {
               borderBottomWidth: 0,
               borderBottomColor: theme.colors.backgroundSand,
             },
-            // headerShown: false,
           }}
         >
           {isUserLoggedIn ? (

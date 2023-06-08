@@ -91,9 +91,9 @@ export default function UserProfileScreen() {
       // User Data
       profileImage={currentUser.profileImage}
       emailUser={currentUser.email}
-      username={currentUser.username ?? 'no data'}
+      username={currentUser.username ?? 'null'}
       name={currentUser.name ?? 'null'}
-      biography={currentUser.biography ?? 'no data'}
+      biography={currentUser.biography ?? 'No biography yet...'}
       studyCourse={currentUser.studyCourse || 'no data'}
       // Settings
       onPersonalData={() => navigation.navigate('PersonalData')}

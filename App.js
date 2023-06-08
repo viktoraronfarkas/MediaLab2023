@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import loadFonts from './assets/fonts/FontList'; // import fonts
-// import ScreenNavigation from './src/views/Login_Registration/ScreenNavigation';
-import UserAuthentication from './src/views/Login_Registration/UserAuthentication';
+import ScreenNavigation from './src/views/Login_Registration/ScreenNavigation';
+
+// import UserAuthentication from './src/views/Login_Registration/UserAuthentication';
 import Splash from './src/components/Splash';
 import store from './src/redux/app/store';
 import {
@@ -47,8 +48,7 @@ function RootComponent() {
   if (isLoading) {
     return <Splash />;
   }
-  // return <ScreenNavigation />;
-  return <UserAuthentication />;
+  return <ScreenNavigation />;
 }
 export default function App() {
   return (
