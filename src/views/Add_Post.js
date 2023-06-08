@@ -49,11 +49,7 @@ function AddPost() {
   };
 
   useEffect(() => {
-    if (
-      postHeading.trim() === '' ||
-      postCaption.trim() === '' ||
-      postText.trim() === ''
-    ) {
+    if (postHeading.trim() === '' || postText.trim() === '') {
       setDisableButton(true);
     } else {
       setDisableButton(false);

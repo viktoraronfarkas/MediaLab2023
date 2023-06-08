@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
@@ -30,6 +31,7 @@ import {
   setLoggedIn,
   loggedIn,
   preventBack,
+  showOnboarding,
 } from '../../redux/features/mainSlice/mainSlice';
 import JoinNewGroup from '../JoinNewGroup';
 import OnboardingViews from '../OnboardingViews';
@@ -42,6 +44,7 @@ export default function ScreenNavigation() {
   const dispatch = useDispatch();
   const isUserLoggedIn = useSelector(loggedIn);
   const isBackPrevented = useSelector(preventBack);
+  const isShowOnboarding = useSelector(showOnboarding);
 
   useEffect(() => {
     AsyncStorage.getItem('userID')
@@ -73,7 +76,44 @@ export default function ScreenNavigation() {
             // headerShown: false,
           }}
         >
-          {isUserLoggedIn ? (
+          {isShowOnboarding ? (
+            <>
+              <Stack.Screen
+                name="OnboardingViews"
+                component={OnboardingViews}
+                options={{ title: '', headerShown: false }}
+              />
+              <Stack.Screen
+                name="LandingScreen"
+                component={LandingScreen}
+                options={{
+                  title: '',
+                  headerShown: false,
+                  gestureEnabled: false,
+                }}
+              />
+              <Stack.Screen
+                name="LoginScreen"
+                component={LoginScreen}
+                options={{
+                  title: '',
+                  headerShown: false,
+                  // eslint-disable-next-line no-unneeded-ternary
+                  gestureEnabled: isBackPrevented ? false : true,
+                }}
+              />
+              <Stack.Screen
+                name="VerifyEmailScreen"
+                component={VerifyEmailScreen}
+                options={{ title: '', headerShown: false }}
+              />
+              <Stack.Screen
+                name="RegistrationOne"
+                component={RegistrationScreen}
+                options={{ title: '', headerShown: false }}
+              />
+            </>
+          ) : isUserLoggedIn ? (
             <>
               <Stack.Screen
                 name="MainScreen"
@@ -169,11 +209,6 @@ export default function ScreenNavigation() {
           ) : (
             <>
               <Stack.Screen
-                name="OnboardingViews"
-                component={OnboardingViews}
-                options={{ title: '', headerShown: false }}
-              />
-              <Stack.Screen
                 name="LandingScreen"
                 component={LandingScreen}
                 options={{
@@ -189,7 +224,8 @@ export default function ScreenNavigation() {
                 options={{
                   title: '',
                   headerShown: false,
-                  gestureEnabled: !isBackPrevented && false,
+                  // eslint-disable-next-line no-unneeded-ternary
+                  gestureEnabled: isBackPrevented ? false : true,
                 }}
               />
               <Stack.Screen
