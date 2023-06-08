@@ -1,4 +1,5 @@
 const multer = require('multer');
+const sharp = require('sharp'); // for image manipulation (resizing and format conversion)
 const pool = require('../config/database');
 
 const storage = multer.memoryStorage(); // Use MemoryStorage to store the uploaded file in memory
@@ -13,7 +14,7 @@ const upload = multer({
       cb(new Error('Invalid file type. Only images are allowed.'), false); // Reject the file
     }
   },
-}).single('subgroup_image');
+}).single('title_image');
 
 exports.getPostsBySubgroupId = (req, res) => {
   const { subgroupId } = req.params;
@@ -45,9 +46,9 @@ exports.getPostsBySubgroupId = (req, res) => {
   });
 };
 
-exports.createPost = (req, res) => {
-  // eslint-disable-next-line consistent-return
-  upload(req, res, (uploadErr) => {
+// eslint-disable-next-line consistent-return
+exports.createPost = async (req, res) => {
+  upload(req, res, async (uploadErr) => {
     // Handle file upload errors
     if (uploadErr instanceof multer.MulterError) {
       return res.status(500).json({ message: 'Error uploading file' });
@@ -59,51 +60,58 @@ exports.createPost = (req, res) => {
         .json({ message: 'Error uploading file', error: uploadErr.message });
     }
 
-    // Retrieve user registration data from the request body
-    const { groupId, userId, heading, caption, text } = req.body;
+    // Handle file upload success
+    try {
+      // Retrieve post data from the request body
+      const { groupId, userId, heading, caption, text } = req.body;
 
-    // Validate required fields
-    if (!groupId) {
-      return res.status(400).json({ message: 'Group ID not provided' });
-    }
-    if (!userId) {
-      return res.status(400).json({ message: 'User ID not provided' });
-    }
-    if (!heading) {
-      return res.status(400).json({ message: 'Heading not provided' });
-    }
-    // if (!caption) {
-    //   return res.status(400).json({ message: 'Caption not provided' });
-    // }
-
-    // Access the file buffer instead of the file path
-    const titleImage = req.file ? req.file.buffer : null;
-
-    // Connect to the database pool
-    // eslint-disable-next-line consistent-return
-    pool.getConnection((dbErr, connection) => {
-      if (dbErr) {
-        console.error('Error getting MySQL connection:', dbErr);
-        return res.status(500).json({ message: 'Failed to connect to MySQL' });
+      // Validate required fields
+      if (!groupId) {
+        return res.status(400).json({ message: 'Group ID not provided' });
+      }
+      if (!userId) {
+        return res.status(400).json({ message: 'User ID not provided' });
+      }
+      if (!heading) {
+        return res.status(400).json({ message: 'Heading not provided' });
       }
 
-      connection.query(
-        'INSERT INTO posts (group_id, title_image, user_id, heading, caption, text) VALUES (?, ?, ?, ?, ?, ?)',
-        [groupId, titleImage, userId, heading, caption, text],
-        (insertErr) => {
-          connection.release();
+      // Get the title image file data
+      let titleImageBuffer = null; // Set initial value to null
+      if (req.file) {
+        const compressedImageBuffer = await sharp(req.file.buffer)
+          .resize(800, 800) // Resize the image to a specific size (e.g., 500x500 pixels)
+          .jpeg({ quality: 80 }) // Convert the image to JPEG format with 80% quality
+          .toBuffer();
+        titleImageBuffer = compressedImageBuffer;
+      }
 
-          if (insertErr) {
-            console.error('Error creating post:', insertErr);
-            return res
-              .status(500)
-              .json({ message: 'Error while creating post' });
+      // Insert the post data into the database
+      const queryResult = await new Promise((resolve, reject) => {
+        pool.query(
+          'INSERT INTO posts (group_id, title_image, user_id, heading, caption, text) VALUES (?, ?, ?, ?, ?, ?)',
+          [groupId, titleImageBuffer, userId, heading, caption, text],
+          (err, result) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(result);
+            }
           }
+        );
+      });
 
-          return res.status(200).json({ message: 'Post created' });
-        }
-      );
-    });
+      return res
+        .status(200)
+        .json({ message: 'Post created', postId: queryResult.insertId });
+    } catch (error) {
+      console.error('Error creating post:', error);
+      // If an error occurred, delete the uploaded title image
+      if (req.file) {
+        req.file.buffer = null;
+      }
+      return res.status(500).json({ message: 'Error while creating post' });
+    }
   });
 };
 
@@ -290,9 +298,6 @@ exports.createSubgroup = (req, res) => {
     if (!caption) {
       return res.status(400).json({ message: 'Caption not provided' });
     }
-    // if (!introduction) {
-    //   return res.status(400).json({ message: 'Introduction not provided' });
-    // }
 
     // Access the file buffer instead of the file path
     const subgroupImage = req.file ? req.file.buffer : null;
@@ -305,22 +310,49 @@ exports.createSubgroup = (req, res) => {
         return res.status(500).json({ message: 'Failed to connect to MySQL' });
       }
 
+      // Check if subgroup with the same name already exists in the main group
       connection.query(
-        'INSERT INTO subgroups (name, main_group_id, caption, Description, title_image) VALUES (?, ?, ?, ?, ?)',
-        [name, mainGroupId, caption, introduction, subgroupImage],
-        (insertErr, result) => {
-          connection.release();
-
-          if (insertErr) {
-            console.error('Error creating subgroup:', insertErr);
+        'SELECT COUNT(*) AS count FROM subgroups WHERE name = ? AND main_group_id = ?',
+        [name, mainGroupId],
+        // eslint-disable-next-line consistent-return
+        (selectErr, selectResult) => {
+          if (selectErr) {
+            console.error('Error selecting subgroups:', selectErr);
+            connection.release();
             return res
               .status(500)
-              .json({ message: 'Error while creating subgroup' });
+              .json({ message: 'Error while checking subgroups' });
           }
 
-          return res
-            .status(200)
-            .json({ message: 'Subgroup created', groupId: result.insertId });
+          const subgroupCount = selectResult[0].count;
+          if (subgroupCount > 0) {
+            connection.release();
+            return res.status(400).json({
+              message:
+                'Subgroup with the same name already exists in the main group',
+            });
+          }
+
+          // Insert the subgroup into the database
+          connection.query(
+            'INSERT INTO subgroups (name, main_group_id, caption, Description, title_image) VALUES (?, ?, ?, ?, ?)',
+            [name, mainGroupId, caption, introduction, subgroupImage],
+            (insertErr, result) => {
+              connection.release();
+
+              if (insertErr) {
+                console.error('Error creating subgroup:', insertErr);
+                return res
+                  .status(500)
+                  .json({ message: 'Error while creating subgroup' });
+              }
+
+              return res.status(200).json({
+                message: 'Subgroup created',
+                groupId: result.insertId,
+              });
+            }
+          );
         }
       );
     });

@@ -53,7 +53,6 @@ function AddSubgroup() {
       setDisableButton(false);
     }
   });
-
   const handlePress = async (e) => {
     e.preventDefault();
     const url = `http://${clientIpAddress}:3001/subgroup/add`;
@@ -61,45 +60,45 @@ function AddSubgroup() {
     formData.append('name', groupName);
     formData.append('mainGroupId', [currentGroup.mainGroupId]);
     formData.append('caption', groupCaption);
-    // formData.append('introduction', groupIntro);
-
-    // if (imageUpload) {
-    //   try {
-    //     const response = await fetch(imageUpload);
-    //     const blob = await response.blob();
-
-    //     // Append the image blob to FormData object
-    //     formData.append('subgroupImage', blob, 'subgroup_img.png');
-    //   } catch (error) {
-    //     console.error('Error reading image file:', error);
-    //   }
-    // }
-
     formData.append('subgroupImage', ''); // DELETE when image upload is implemented
 
     try {
-      await axios.post(url, formData).then((response) => {
+      const response = await axios.post(url, formData);
+      const { message, groupId } = response.data;
+      if (message === 'Subgroup created') {
         Toast.show({
           type: 'success',
           text1: 'Subgroup created',
           visibilityTime: 2000,
           autoHide: true,
         });
-        navigation.navigate('Subgroup', {
-          createdGroupId: response.data.groupId,
-        });
-      });
+        navigation.navigate('Subgroup', { createdGroupId: groupId });
+      }
     } catch (err) {
       console.error(
         'Add subgroup error:',
         err.response?.data?.message || err.message
       );
-      Toast.show({
-        type: 'error',
-        text1: 'Failed to create subgroup',
-        visibilityTime: 2000,
-        autoHide: true,
-      });
+      const errorMessage =
+        err.response?.data?.message || 'Failed to create subgroup';
+      if (
+        errorMessage ===
+        'Subgroup with the same name already exists in the main group'
+      ) {
+        Toast.show({
+          type: 'error',
+          text1: 'Subgroup with the same name already exists',
+          visibilityTime: 2000,
+          autoHide: true,
+        });
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: errorMessage,
+          visibilityTime: 2000,
+          autoHide: true,
+        });
+      }
     }
   };
 

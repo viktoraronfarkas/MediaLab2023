@@ -176,14 +176,13 @@ export default function RegistrationScreen() {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      includeBase64: false,
+      includeBase64: true,
+      base64: true, // Set this option to include base64-encoded data URL
       aspect: [4, 3],
       quality: 1,
     });
 
-    console.log(result);
-
-    if (!result.canceled) {
+    if (!result.cancelled) {
       setImage(result.assets[0].uri);
     }
   };
@@ -217,15 +216,12 @@ export default function RegistrationScreen() {
             formData.append('password', password);
 
             if (imageUpload) {
-              try {
-                const response = await fetch(imageUpload);
-                const blob = await response.blob();
-                formData.append('profile_image', blob, 'profile_image.png');
-              } catch (error) {
-                console.error('Error reading image file:', error);
-              }
+              formData.append('profile_image', {
+                uri: imageUpload,
+                type: 'image/jpeg',
+                name: 'user_image.jpg',
+              });
             }
-
             try {
               const response = await axios.post(
                 `http://${clientIpAddress}:3001/auth/signup`,
@@ -290,6 +286,7 @@ export default function RegistrationScreen() {
         name="RegistrationPageOneView"
         options={{
           title: 'Step 1 of 3',
+          headerTitleAlign: 'center',
         }}
         style={style.container}
       >
@@ -330,7 +327,7 @@ export default function RegistrationScreen() {
       <RegistrationStack.Screen
         name="RegistrationTwo"
         component={RegistrationPageTwoView}
-        options={{ title: 'Step 2 of 3' }}
+        options={{ title: 'Step 2 of 3', headerTitleAlign: 'center', }}
         initialParams={{
           imageUpload,
           handleImageUpload: pickProfilePicture,
@@ -343,7 +340,7 @@ export default function RegistrationScreen() {
       <RegistrationStack.Screen
         name="RegistrationThree"
         style={style.container}
-        options={{ title: 'Step 3 of 3' }}
+        options={{ title: 'Step 3 of 3', headerTitleAlign: 'center', }}
       >
         {(props) => (
           <RegistrationPageThreeView

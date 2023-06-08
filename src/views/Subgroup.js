@@ -12,6 +12,7 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { ActivityIndicator } from 'react-native-paper';
+import { Buffer } from 'buffer';
 
 import {
   selectedGroup,
@@ -32,7 +33,8 @@ import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png'
 import AddIconInteraction from '../components/Buttons/AddIconInteraction';
 import PostCard from '../components/Cards/PostCard';
 import { styles, theme } from '../constants/myTheme';
-import useFetchUserData from '../routes/hooks/useFetchPosts';
+import useFetchPosts from '../routes/hooks/useFetchPosts';
+import useFetchUserData from '../routes/hooks/useFetchUserData';
 import BottomScrollSheet from '../components/BottomScrollSheet/BottomScrollSheet';
 import OptionsLeaveGroupSheet from '../components/BottomScrollSheet/OptionsLeaveGroupSheet';
 
@@ -143,12 +145,11 @@ function Subgroup({ route }) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const fetchedPosts = useFetchUserData();
+  const fetchedPosts = useFetchPosts();
   const [loading, setLoading] = useState(true); // Add loading state
 
   const selectedGroupValue = useSelector(selectedGroup);
   const selectedSubGroupValue = useSelector(selectedSubGroup);
-  // const currentUser = useSelector(selectedUser);
   const clientIpAddress = useSelector(IpAddress);
   let storedPosts = useSelector(posts);
   const currentSelectedUserId = useSelector(selectedUserId);
@@ -262,8 +263,9 @@ function Subgroup({ route }) {
       const response = await axios.get(
         `http://${clientIpAddress}:3001/subgroup/${selectedSubGroupValue.subgroupId}/posts`
       );
-      const fetchedUserData = response.data;
-      dispatch(setPosts(fetchedUserData));
+      // eslint-disable-next-line no-shadow
+      const fetchedPosts = response.data;
+      dispatch(setPosts(fetchedPosts));
 
       setLoading(false); // Set loading to false after data is fetched
     } catch (error) {
@@ -280,6 +282,41 @@ function Subgroup({ route }) {
 
   if (Object.keys(storedPosts).length === 0) {
     storedPosts = [];
+  }
+
+  const arrayBufferToBase64 = (buffer) => {
+    const bytes = new Uint8Array(buffer);
+    const binary = Array.from(bytes)
+      .map((byte) => String.fromCharCode(byte))
+      .join('');
+    const base64 = Buffer.from(binary, 'binary').toString('base64');
+    return base64;
+  };
+
+  function PostCardWithUserData({ post }) {
+    const { userData, imageUpload } = useFetchUserData(post.user_id);
+
+    let image = null;
+    if (post.title_image && post.title_image.data) {
+      try {
+        image = `data:image/jpeg;base64,${arrayBufferToBase64(
+          post.title_image.data
+        )}`;
+      } catch (error) {
+        console.error('Error converting ArrayBuffer to base64:', error);
+      }
+    }
+
+    return (
+      <PostCard
+        title={post.heading}
+        subTitle={`created by: ${userData.username}`}
+        content={post.text}
+        coverImage={image}
+        iconImage={imageUpload}
+        disabled
+      />
+    );
   }
 
   return (
@@ -353,20 +390,12 @@ function Subgroup({ route }) {
             <View style={style.postsContainer}>
               <View style={style.postContainer}>
                 {storedPosts
-                  .slice() // Create a copy of the array
-                  .sort((a, b) => b.timestamp - a.timestamp) // Sort the copied array in descending order based on timestamp
-                  .reverse() // Reverse the sorted array to display the most recent post at the top
+                  .slice()
+                  .sort((a, b) => b.timestamp - a.timestamp)
+                  .reverse()
                   .map((post, index) => (
-                    <PostCard
-                      // eslint-disable-next-line react/no-array-index-key
-                      key={index}
-                      title={post.heading}
-                      subTitle={post.caption}
-                      content={post.text}
-                      coverImage={require('../../assets/media.png')}
-                      iconSource={require('../../assets/Application-of-Computer-Graphics-1.png')}
-                      disabled
-                    />
+                    // eslint-disable-next-line react/no-array-index-key
+                    <PostCardWithUserData key={index} post={post} />
                   ))}
               </View>
             </View>

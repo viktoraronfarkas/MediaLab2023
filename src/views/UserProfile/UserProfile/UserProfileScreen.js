@@ -7,6 +7,7 @@ import UserProfileView from './UserProfileView';
 import {
   setCurrentUser,
   selectedUser,
+  selectedUserId,
 } from '../../../redux/features/mainSlice/mainSlice';
 import useFetchUserData from '../../../routes/hooks/useFetchUserData';
 
@@ -17,19 +18,21 @@ import useFetchUserData from '../../../routes/hooks/useFetchUserData';
  * Also navigating to the other settings.
  */
 export default function UserProfileScreen() {
-  const { userData, studyCourse } = useFetchUserData();
   const currentUser = useSelector(selectedUser);
+  const currentUserId = useSelector(selectedUserId);
+  const { userData, studyCourse, imageUpload } =
+    useFetchUserData(currentUserId);
   const dispatch = useDispatch();
 
-  // const [imageUpload, setImage] = useState(null);
+  const [imageUploaded, setImage] = useState(null);
   const [dialogVisible, setDialogVisible] = useState(false);
   const navigation = useNavigation();
   // const userId = useFetchUserData();
 
   // // Update imageUploaded when imageUpload changes
-  // useEffect(() => {
-  //   setImage(imageUpload);
-  // }, [imageUpload]);
+  useEffect(() => {
+    setImage(imageUpload);
+  }, [imageUpload]);
 
   useEffect(() => {
     dispatch(setCurrentUser(userData));
@@ -89,7 +92,7 @@ export default function UserProfileScreen() {
       alertVisible={dialogVisible}
       onPressCancelDialog={handleCancelDialog}
       // User Data
-      profileImage={currentUser.profileImage}
+      profileImage={imageUploaded}
       emailUser={currentUser.email}
       username={currentUser.username ?? 'no data'}
       name={currentUser.name ?? 'null'}
