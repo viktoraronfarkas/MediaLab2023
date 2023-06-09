@@ -12,6 +12,7 @@ import RegistrationPageOneView from './RegistrationPageOneView';
 import RegistrationPageTwoView from './RegistrationPageTwoView';
 import RegistrationPageThreeView from './RegistrationPageThreeView';
 import VerifyEmailScreen from '../VerifyEmailScreen';
+import NeedHelp from '../NeedHelp';
 import BackButtonNavigationContainer from '../../../components/Buttons/BackButtonNavigationContainer';
 import {
   setPreventBack,
@@ -41,10 +42,11 @@ const style = StyleSheet.create({
  * For actual App: use the "emailRegexFH" Value
  */
 export default function RegistrationScreen() {
+  const [isValidInput, setIsValidInput] = useState(true);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
-  const [usernameError, setUsernameError] = useState('');
   const [username, setUsername] = useState('');
+  const [usernameError, setUsernameError] = useState('');
   const [name, setName] = useState('');
   const [nameError, setNameError] = useState('');
   const [password, setPassword] = useState('');
@@ -63,6 +65,9 @@ export default function RegistrationScreen() {
   const handleTextLoginClick = () => {
     navigation.navigate('RegistrationOne');
   };
+  const handleNeedHelpClick = () => {
+    navigation.navigate('NeedHelp');
+  };
   const dispatch = useDispatch();
 
   const validateEmail = () => {
@@ -72,32 +77,34 @@ export default function RegistrationScreen() {
     const emailRegexDEMO = /^.+@(gmail|hotmail|gmx|fhstp\.ac\.at)$/i; // FOR DEMO
 
     if (!emailRegexDEMO.test(email)) {
-      setEmailError('Please enter a valid student FH email address.');
+      setEmailError('Please enter a valid (student FH) email address.');
       return false;
     }
     setEmailError('');
     return true;
   };
+
   const validateUsername = () => {
     // Users can only use letters and numbers.
     const usernameRegex = /^[a-zA-Z0-9]+$/;
 
     if (!usernameRegex.test(username)) {
       setUsernameError(
-        'Please enter a username that contains only letters or / and numbers. Please avoid spaces.'
+        'Please provide a displayed name consisting only of letters and / or numbers. It´s important to avoid including spaces in the displayed name.'
       );
       return false;
     }
     setUsernameError('');
     return true;
   };
+
   const validateName = () => {
     // Users can user only letters, space and hyphen (-).
-    const nameRegex = /^[A-Za-z -]+$/;
+    const nameRegex = /^[A-Za-z][A-Za-z -]*$/;
 
     if (!nameRegex.test(name)) {
       setNameError(
-        'Please enter a name that contains only letters. Spaces and hyphens are also allowed.'
+        'Please ensure that the name you enter consists solely of letters, and please be mindful not to include spaces at the beginning. You may include spaces and hyphens in other parts of the name if needed.'
       );
       return false;
     }
@@ -155,6 +162,7 @@ export default function RegistrationScreen() {
 
     // Submit registration form if there are no errors
     if (
+      isValidInput &&
       isEmailValid &&
       isUsernameValid &&
       isNameValid &&
@@ -293,24 +301,55 @@ export default function RegistrationScreen() {
         {(props) => (
           <RegistrationPageOneView
             {...props}
+            // Check if a valid input is set after clicking out
+            onBlurEmail={() => {
+              validateEmail();
+            }}
+            onBlurFullName={() => {
+              validateName();
+            }}
+            onBlurUsername={() => {
+              validateUsername();
+            }}
+            onBlurPassword={() => {
+              validatePassword();
+            }}
+            onBlurPasswordConfirm={() => {
+              handlePasswordConfirmationChange();
+            }}
             // Email
-            onChangeTextEmail={(value) => setEmail(value)}
+            onChangeTextEmail={(value) => {
+              setEmail(value);
+              setIsValidInput(value.trim().length > 0);
+            }}
             emailValue={email}
             emailError={emailError}
             // Username
-            onChangeTextUsername={(value) => setUsername(value)}
+            onChangeTextUsername={(value) => {
+              setUsername(value);
+              setIsValidInput(value.trim().length > 0);
+            }}
             username={username}
             usernameError={usernameError}
             // Name
-            onChangeTextName={(value) => setName(value)}
+            onChangeTextName={(value) => {
+              setName(value);
+              setIsValidInput(value.trim().length > 0);
+            }}
             nameValue={name}
             nameError={nameError}
             // Password
-            onChangeTextPassword={(value) => setPassword(value)}
+            onChangeTextPassword={(value) => {
+              setPassword(value);
+              setIsValidInput(value.trim().length > 0);
+            }}
             passwordValue={password}
             passwordError={passwordError}
             // Confirm Password
-            onPasswordConfirmation={(value) => setPasswordConfirmation(value)}
+            onPasswordConfirmation={(value) => {
+              setPasswordConfirmation(value);
+              setIsValidInput(value.trim().length > 0);
+            }}
             confirmError={confirmError}
             // Upload Picture
             onPressProfileImageUpload={pickProfilePicture}
@@ -320,6 +359,7 @@ export default function RegistrationScreen() {
             onNavigateText={handleTextLoginClick}
             onNavigatePage2={handlePage2Click}
             onNavigatePage3={handlePage3Click}
+            onNavigateTextHelp={handleNeedHelpClick}
           />
         )}
       </RegistrationStack.Screen>
@@ -357,6 +397,11 @@ export default function RegistrationScreen() {
         name="VerifyEmailScreen"
         component={VerifyEmailScreen}
         options={{ title: '', headerShown: false }}
+      />
+      <RegistrationStack.Screen
+        name="NeedHelp"
+        component={NeedHelp}
+        options={{ title: '' }}
       />
     </RegistrationStack.Navigator>
   );
