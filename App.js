@@ -2,13 +2,11 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider, useDispatch, useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
 import loadFonts from './assets/fonts/FontList'; // import fonts
 import ScreenNavigation from './src/views/Login_Registration/ScreenNavigation';
 
 // import UserAuthentication from './src/views/Login_Registration/UserAuthentication';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
-import loadFonts from './assets/fonts/FontList';
-import UserAuthentication from './src/views/Login_Registration/UserAuthentication';
 import Splash from './src/components/Splash';
 import store from './src/redux/app/store';
 import {
@@ -73,7 +71,7 @@ function RootComponent() {
     return <Splash />;
   }
   return <ScreenNavigation />;
-  //return <UserAuthentication />;
+  // return <UserAuthentication />;
 }
 
 export default function App() {
