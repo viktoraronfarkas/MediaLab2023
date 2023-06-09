@@ -65,8 +65,9 @@ function Feed() {
 
     return (
       <PostCard
+        authorId={post.user_id}
         title={post.heading}
-        subTitle={`created by: ${userData.username}`}
+        subTitle={userData.username ? `by: ${userData.username}` : ''}
         content={post.text}
         coverImage={image}
         iconImage={imageUpload}

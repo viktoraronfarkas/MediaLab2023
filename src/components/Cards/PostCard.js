@@ -60,6 +60,7 @@ export default function PostCard({
   iconImage,
   disabled,
   postId,
+  authorId,
 }) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -69,6 +70,7 @@ export default function PostCard({
   const clickPost = () => {
     dispatch(
       setSelectedPost({
+        authorId,
         title,
         subTitle,
         buttonText,
@@ -98,13 +100,13 @@ export default function PostCard({
                 { marginLeft: 10, marginTop: -5 },
               ]}
               title={title}
-              subtitle="by Author"
+              subtitle={subTitle}
               left={() => LeftContent({ iconImage })}
             />
           </View>
-          <View style={{ marginRight: 20 }}>
+          {/* <View style={{ marginRight: 20 }}>
             <Text style={styles.navLabel}>00:00:00 </Text>
-          </View>
+          </View> */}
         </View>
         {coverImage ? (
           <Card.Cover source={coverImage} resizeMode="cover" />

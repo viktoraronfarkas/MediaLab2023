@@ -1,15 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, Text, Image, ScrollView, } from 'react-native';
+import { View, Text, Image, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 import { styles, theme } from '../constants/myTheme';
 import OrangeButton from '../components/Buttons/OrangeButton';
 import underlineImage from '../../assets/Images/thin-underline-image.png';
-import { selectedPost } from '../redux/features/mainSlice/mainSlice';
+import {
+  selectedPost,
+  IpAddress,
+  selectedUserId,
+} from '../redux/features/mainSlice/mainSlice';
 
 function PostInteraction() {
   const postData = useSelector(selectedPost);
-  // const refRBSheet = useRef();
+  const clientIpAddress = useSelector(IpAddress);
+  const currentUserId = useSelector(selectedUserId);
+  const [author, setAuthor] = useState({});
+  const [hasDeleteRights, setHasDeleteRights] = useState();
+
+  useEffect(() => {
+    if (postData.authorId) {
+      const url = `http://${clientIpAddress}:3001/user/${postData.authorId}`;
+
+      axios.get(url).then((res) => {
+        setAuthor(res.data);
+      });
+    }
+  }, [postData.authorId]);
+
+  useEffect(() => {
+    if (postData?.authorId?.toString() === currentUserId) {
+      setHasDeleteRights(true);
+    } else {
+      setHasDeleteRights(false);
+    }
+  }, [currentUserId, postData.authorId]);
 
   return (
     <SafeAreaView
@@ -23,13 +49,25 @@ function PostInteraction() {
             </Text>
             <Image source={underlineImage} style={{ width: 340, height: 30 }} />
           </View>
-          <Text style={[styles.bodyDefault, { marginTop: 50, paddingHorizontal: 20 }]}>
+          <Text
+            style={[
+              styles.bodyDefault,
+              { marginTop: 50, paddingHorizontal: 20 },
+            ]}
+          >
             {postData.content}
           </Text>
 
-
-          <View style={{ flexDirection: 'row', marginTop: 80, justifyContent: 'center', }}>
-            <Text style={[styles.headline3, {marginLeft: 10}]}>created by:</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: 80,
+              justifyContent: 'center',
+            }}
+          >
+            <Text style={[styles.headline3, { marginLeft: 10 }]}>
+              created by:
+            </Text>
             <View
               style={{
                 flex: 1,
@@ -48,43 +86,87 @@ function PostInteraction() {
                   marginTop: -10,
                 }}
               />
-
             </View>
-          </View> 
-          <View style={{ marginTop: 30}}>
+          </View>
+          <View style={{ marginTop: 30 }}>
             <View>
-              <Text style={[styles.subtitle1, { marginLeft: 10, marginBottom: 5, color: theme.colors.primary }]}>
+              <Text
+                style={[
+                  styles.subtitle1,
+                  {
+                    marginLeft: 10,
+                    marginBottom: 5,
+                    color: theme.colors.primary,
+                  },
+                ]}
+              >
                 Displayed Name
               </Text>
-              <Text style={[styles.bodyDefault, { marginLeft: 10, marginBottom: 20 }]}>
-                Name
+              <Text
+                style={[
+                  styles.bodyDefault,
+                  { marginLeft: 10, marginBottom: 20 },
+                ]}
+              >
+                {author.username}
               </Text>
             </View>
 
             <View>
-              <Text  style={[styles.subtitle1, { marginLeft: 10, marginBottom: 5, color: theme.colors.primary }]}>
+              <Text
+                style={[
+                  styles.subtitle1,
+                  {
+                    marginLeft: 10,
+                    marginBottom: 5,
+                    color: theme.colors.primary,
+                  },
+                ]}
+              >
                 Full Name
               </Text>
-              <Text style={[styles.bodyDefault, { marginLeft: 10, marginBottom: 15 }]}>
-                Name
+              <Text
+                style={[
+                  styles.bodyDefault,
+                  { marginLeft: 10, marginBottom: 15 },
+                ]}
+              >
+                {author.name}
               </Text>
             </View>
 
-
             <View>
-              <Text  style={[styles.subtitle1, { marginLeft: 10, marginBottom: 5, color: theme.colors.primary }]}>
+              <Text
+                style={[
+                  styles.subtitle1,
+                  {
+                    marginLeft: 10,
+                    marginBottom: 5,
+                    color: theme.colors.primary,
+                  },
+                ]}
+              >
                 Email
               </Text>
-              <Text style={[styles.bodyDefault, { marginLeft: 10, marginBottom: 15 }]}>
-                test.test@fhstp.ac.at
+              <Text
+                style={[
+                  styles.bodyDefault,
+                  { marginLeft: 10, marginBottom: 15 },
+                ]}
+              >
+                {author.email}
               </Text>
             </View>
           </View>
           <View style={{ marginTop: 50 }}>
-          <OrangeButton
-              text="Delete"
-              styleButton={{ alignSelf: 'center', width: '30%' }}
-            />
+            {hasDeleteRights === true ? (
+              <OrangeButton
+                text="Delete"
+                styleButton={{ alignSelf: 'center', width: '30%' }}
+              />
+            ) : (
+              ''
+            )}
           </View>
         </View>
       </ScrollView>
