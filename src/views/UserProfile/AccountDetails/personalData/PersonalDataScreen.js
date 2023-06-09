@@ -101,7 +101,13 @@ export default function PersonalDataScreen() {
     const isUsernameValid = !usernameData || validateUsername();
     const isNameValid = !nameData || validateName();
 
-    if (isUsernameValid && isNameValid) {
+    if (
+      isUsernameValid &&
+      isNameValid &&
+      usernameData.trim() !== '' &&
+      nameData.trim() !== '' &&
+      biographyData.trim() !== ''
+    ) {
       event.preventDefault();
 
       // Create an object with the updated data
@@ -110,7 +116,7 @@ export default function PersonalDataScreen() {
         username: usernameData || currentUser.username,
         name: nameData || currentUser.name,
         biography: biographyData || currentUser.biography,
-        birthday: birthday.toISOString() || currentUser.birthday,
+        // birthday: birthday.toISOString() || currentUser.birthday,
         // studyProgramme: studyProgramme || currentUser.studyProgramme,
       };
 

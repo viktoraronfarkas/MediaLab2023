@@ -97,7 +97,7 @@ export default function RegistrationPageThreeView({ handleSubmit, loading }) {
         </View>
       )}
       <ScrollView>
-        <View style={{ paddingHorizontal: 25 }}>
+        <View style={{ paddingHorizontal: 10 }}>
           <CaptionScribbleHeading
             subHeading="Click down below to add groups:"
             title="Before you’re good to go, here are some groups you can join right away:"

@@ -7,7 +7,7 @@ import {
 } from '../../redux/features/mainSlice/mainSlice';
 
 // Custom hook for fetching user data
-export default function useFetchUserData() {
+export default function useFetchPosts() {
   const clientIpAddress = useSelector(IpAddress);
   const selectedSubGroupValue = useSelector(selectedSubGroup);
   const [posts, setPosts] = useState({});

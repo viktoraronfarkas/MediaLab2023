@@ -12,7 +12,7 @@ import RegistrationPageOneView from './RegistrationPageOneView';
 import RegistrationPageTwoView from './RegistrationPageTwoView';
 import RegistrationPageThreeView from './RegistrationPageThreeView';
 import VerifyEmailScreen from '../VerifyEmailScreen';
-// import Home from '../../Home_Test';
+import NeedHelp from '../NeedHelp';
 import BackButtonNavigationContainer from '../../../components/Buttons/BackButtonNavigationContainer';
 import {
   setPreventBack,
@@ -35,18 +35,18 @@ const style = StyleSheet.create({
     color: theme.colors.primary,
   },
 });
-// TODO Add Regular Expression Email: for gmail, outlook etc (Demo)
-// TODO DELETE Console logs
-// TODO delete console log after backend implementation
 
 /**
- * This is the main representation of the Registration Screen for User to create an account
- * */
+ * This is the main representation of the Registration Screen for User to create an account.
+ * For Demo purposes use "emailRegex".
+ * For actual App: use the "emailRegexFH" Value
+ */
 export default function RegistrationScreen() {
+  const [isValidInput, setIsValidInput] = useState(true);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
-  const [usernameError, setUsernameError] = useState('');
   const [username, setUsername] = useState('');
+  const [usernameError, setUsernameError] = useState('');
   const [name, setName] = useState('');
   const [nameError, setNameError] = useState('');
   const [password, setPassword] = useState('');
@@ -55,7 +55,6 @@ export default function RegistrationScreen() {
   const [confirmError, setConfirmError] = useState('');
   const [imageUpload, setImage] = useState(null);
   const [selectedNames, setSelectedNames] = useState([]);
-  // const [loading, setLoading] = useState(false);
   const NewJoinedGroups = useSelector(selectedNewJoinedGroups);
 
   const clientIpAddress = useSelector(IpAddress);
@@ -64,42 +63,48 @@ export default function RegistrationScreen() {
   const RegistrationStack = createStackNavigator();
   const navigation = useNavigation();
   const handleTextLoginClick = () => {
-    navigation.navigate('LoginScreen');
+    navigation.navigate('RegistrationOne');
+  };
+  const handleNeedHelpClick = () => {
+    navigation.navigate('NeedHelp');
   };
   const dispatch = useDispatch();
 
   const validateEmail = () => {
     // Users can only use two small letters, 6 numbers and the fh-email ending --> student emails.
-    const emailRegex = /[a-z]{2}\d{6}@fhstp\.ac\.at/;
-    // const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    // Only for FH Students
+    // const emailRegexFH = /[a-z]{2}\d{6}@fhstp\.ac\.at/;
+    const emailRegexDEMO = /^.+@(gmail|hotmail|gmx|fhstp\.ac\.at)$/i; // FOR DEMO
 
-    if (!emailRegex.test(email)) {
-      setEmailError('Please enter a valid student FH email address.');
+    if (!emailRegexDEMO.test(email)) {
+      setEmailError('Please enter a valid (student FH) email address.');
       return false;
     }
     setEmailError('');
     return true;
   };
+
   const validateUsername = () => {
     // Users can only use letters and numbers.
     const usernameRegex = /^[a-zA-Z0-9]+$/;
 
     if (!usernameRegex.test(username)) {
       setUsernameError(
-        'Please enter a username that contains only letters or / and numbers.'
+        'Please provide a displayed name consisting only of letters and / or numbers. It´s important to avoid including spaces in the displayed name.'
       );
       return false;
     }
     setUsernameError('');
     return true;
   };
+
   const validateName = () => {
-    /// Users can user only letters, space and hyphen (-).
-    const nameRegex = /^[A-Za-z -]+$/;
+    // Users can user only letters, space and hyphen (-).
+    const nameRegex = /^[A-Za-z][A-Za-z -]*$/;
 
     if (!nameRegex.test(name)) {
       setNameError(
-        'Please enter a name that contains only letters. Space and hyphens are also allowed.'
+        'Please ensure that the name you enter consists solely of letters, and please be mindful not to include spaces at the beginning. You may include spaces and hyphens in other parts of the name if needed.'
       );
       return false;
     }
@@ -157,6 +162,7 @@ export default function RegistrationScreen() {
 
     // Submit registration form if there are no errors
     if (
+      isValidInput &&
       isEmailValid &&
       isUsernameValid &&
       isNameValid &&
@@ -168,6 +174,7 @@ export default function RegistrationScreen() {
       console.log('Cannot proceed');
     }
   };
+
   const handlePage3Click = () => {
     navigation.navigate('RegistrationThree');
   };
@@ -177,14 +184,13 @@ export default function RegistrationScreen() {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      includeBase64: false,
+      includeBase64: true,
+      base64: true, // Set this option to include base64-encoded data URL
       aspect: [4, 3],
       quality: 1,
     });
 
-    console.log(result);
-
-    if (!result.canceled) {
+    if (!result.cancelled) {
       setImage(result.assets[0].uri);
     }
   };
@@ -200,90 +206,73 @@ export default function RegistrationScreen() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // submit registration form if there are no errors
     try {
       await firebase.auth().createUserWithEmailAndPassword(email, password);
 
-      // Send the verification email
-      await firebase.auth().currentUser.sendEmailVerification({
-        handleCodeInApp: true,
-        url: 'https://uasync-8e7a4.firebaseapp.com',
-      });
-      // Prompt the user to verify their email address
-      alert(
-        'A verification email has been sent to your email address. Please verify your email address to complete the registration process.'
-      );
-      navigation.navigate('VerifyEmailScreen');
+      await firebase.auth().currentUser.sendEmailVerification();
 
-      // Update the user's password once they have verified their email address
-      // Create FormData object
-      const formData = new FormData();
+      // Wait until the user verifies --> then add data to Database
+      const unsubscribe = firebase.auth().onIdTokenChanged(async (user) => {
+        if (user) {
+          if (user.emailVerified) {
+            // Email verification completed, add user data to the database
+            const formData = new FormData();
 
-      // Append form fields to FormData object
-      formData.append('email', email);
-      formData.append('username', username);
-      formData.append('name', name);
-      formData.append('password', password);
+            formData.append('email', email);
+            formData.append('username', username);
+            formData.append('name', name);
+            formData.append('password', password);
 
-      // Check if an image is uploaded
-      if (imageUpload) {
-        try {
-          // setLoading(true);
-          const response = await fetch(imageUpload);
-          const blob = await response.blob();
+            if (imageUpload) {
+              formData.append('profile_image', {
+                uri: imageUpload,
+                type: 'image/jpeg',
+                name: 'user_image.jpg',
+              });
+            }
+            try {
+              const response = await axios.post(
+                `http://${clientIpAddress}:3001/auth/signup`,
+                formData,
+                {
+                  headers: {
+                    'Content-Type': 'multipart/form-data',
+                  },
+                }
+              );
 
-          // Append the image blob to FormData object
-          formData.append('profile_image', blob, 'profile_image.png');
-        } catch (error) {
-          console.error('Error reading image file:', error);
-        }
-      }
+              console.log(response.data);
 
-      // Make the API request using Axios or any other HTTP client library
-      try {
-        const response = await axios.post(
-          `http://${clientIpAddress}:3001/auth/signup`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        );
+              const { userId } = response.data;
+              const mainGroupIds = [...NewJoinedGroups];
 
-        // Handle response
-        console.log(response.data);
+              if (userId) {
+                try {
+                  const joinGroupResponse = await axios.post(
+                    `http://${clientIpAddress}:3001/user/subscribe/maingroup`,
+                    {
+                      userId,
+                      mainGroupIds,
+                    }
+                  );
 
-        // Retrieve the user ID from the response
-        const { userId } = response.data;
-        const mainGroupIds = [...NewJoinedGroups];
-
-        // Join the recommended groups with the user ID
-        if (userId) {
-          try {
-            const joinGroupResponse = await axios.post(
-              `http://${clientIpAddress}:3001/user/subscribe/maingroup`,
-              {
-                userId,
-                mainGroupIds,
+                  console.log(joinGroupResponse.data);
+                  dispatch(setNewJoinedGroup([]));
+                } catch (error) {
+                  console.error('Error joining recommended groups:', error);
+                }
               }
-            );
-
-            // Handle join group response
-            console.log(joinGroupResponse.data);
-            dispatch(setNewJoinedGroup([]));
-          } catch (error) {
-            // Handle error
-            console.error('Error joining recommended groups:', error);
+              dispatch(setPreventBack(true));
+            } catch (error) {
+              console.error('Error sending form data:', error);
+            } finally {
+              unsubscribe();
+            }
+          } else {
+            navigation.navigate('VerifyEmailScreen');
           }
         }
-        dispatch(setPreventBack(true));
-      } catch (error) {
-        // Handle error
-        console.error('Error sending form data:', error);
-      } finally {
-        // setLoading(false);
-      }
+      });
     } catch (error) {
       alert(error.message);
     }
@@ -305,30 +294,62 @@ export default function RegistrationScreen() {
         name="RegistrationPageOneView"
         options={{
           title: 'Step 1 of 3',
+          headerTitleAlign: 'center',
         }}
         style={style.container}
       >
         {(props) => (
           <RegistrationPageOneView
             {...props}
+            // Check if a valid input is set after clicking out
+            onBlurEmail={() => {
+              validateEmail();
+            }}
+            onBlurFullName={() => {
+              validateName();
+            }}
+            onBlurUsername={() => {
+              validateUsername();
+            }}
+            onBlurPassword={() => {
+              validatePassword();
+            }}
+            onBlurPasswordConfirm={() => {
+              handlePasswordConfirmationChange();
+            }}
             // Email
-            onChangeTextEmail={(value) => setEmail(value)}
+            onChangeTextEmail={(value) => {
+              setEmail(value);
+              setIsValidInput(value.trim().length > 0);
+            }}
             emailValue={email}
             emailError={emailError}
             // Username
-            onChangeTextUsername={(value) => setUsername(value)}
+            onChangeTextUsername={(value) => {
+              setUsername(value);
+              setIsValidInput(value.trim().length > 0);
+            }}
             username={username}
             usernameError={usernameError}
             // Name
-            onChangeTextName={(value) => setName(value)}
+            onChangeTextName={(value) => {
+              setName(value);
+              setIsValidInput(value.trim().length > 0);
+            }}
             nameValue={name}
             nameError={nameError}
             // Password
-            onChangeTextPassword={(value) => setPassword(value)}
+            onChangeTextPassword={(value) => {
+              setPassword(value);
+              setIsValidInput(value.trim().length > 0);
+            }}
             passwordValue={password}
             passwordError={passwordError}
             // Confirm Password
-            onPasswordConfirmation={(value) => setPasswordConfirmation(value)}
+            onPasswordConfirmation={(value) => {
+              setPasswordConfirmation(value);
+              setIsValidInput(value.trim().length > 0);
+            }}
             confirmError={confirmError}
             // Upload Picture
             onPressProfileImageUpload={pickProfilePicture}
@@ -338,6 +359,7 @@ export default function RegistrationScreen() {
             onNavigateText={handleTextLoginClick}
             onNavigatePage2={handlePage2Click}
             onNavigatePage3={handlePage3Click}
+            onNavigateTextHelp={handleNeedHelpClick}
           />
         )}
       </RegistrationStack.Screen>
@@ -345,7 +367,7 @@ export default function RegistrationScreen() {
       <RegistrationStack.Screen
         name="RegistrationTwo"
         component={RegistrationPageTwoView}
-        options={{ title: 'Step 2 of 3' }}
+        options={{ title: 'Step 2 of 3', headerTitleAlign: 'center', }}
         initialParams={{
           imageUpload,
           handleImageUpload: pickProfilePicture,
@@ -358,24 +380,28 @@ export default function RegistrationScreen() {
       <RegistrationStack.Screen
         name="RegistrationThree"
         style={style.container}
-        options={{ title: 'Step 3 of 3' }}
+        options={{ title: 'Step 3 of 3', headerTitleAlign: 'center', }}
       >
         {(props) => (
           <RegistrationPageThreeView
             {...props}
-            // Selection of the Main Groups
-            onGroupsSelected={handleGroupSelection}
+            onGroupsSelected={handleGroupSelection} // Selection of the Main Groups
             selectedGroups={selectedNames}
-            // Submit form
-            handleSubmit={handleSubmit}
-            // loading={loading}
+            handleSubmit={handleSubmit} // Submit form
           />
         )}
       </RegistrationStack.Screen>
 
+      {/* This is used */}
       <RegistrationStack.Screen
         name="VerifyEmailScreen"
         component={VerifyEmailScreen}
+        options={{ title: '', headerShown: false }}
+      />
+      <RegistrationStack.Screen
+        name="NeedHelp"
+        component={NeedHelp}
+        options={{ title: '' }}
       />
     </RegistrationStack.Navigator>
   );

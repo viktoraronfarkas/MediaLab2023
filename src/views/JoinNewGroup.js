@@ -69,8 +69,9 @@ export default function JoinNewGroup() {
         const response = await axios.get(
           `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/subscribed-groups`
         );
-        const { groups } = response.data;
-        setSubscribedGroups(groups || []); // Ensure initialization with an empty array if data is undefined
+        // eslint-disable-next-line no-shadow
+        const { mainGroups } = response.data;
+        setSubscribedGroups(mainGroups || []); // Ensure initialization with an empty array if data is undefined
       } catch (error) {
         console.error('Error retrieving subscribed groups:', error);
         // Handle the error
@@ -106,6 +107,10 @@ export default function JoinNewGroup() {
         (group) => group.main_group_id === mainGroup.mainGroupId
       )
   );
+
+  console.log(fetechedMainGroups);
+  console.log(unjoinedGroups);
+  console.log(subscribedGroups);
 
   function handlePress(selectedMainGroup) {
     const isNewlyJoined = NewJoinedGroups.includes(

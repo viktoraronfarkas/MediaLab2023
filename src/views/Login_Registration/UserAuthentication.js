@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import firebase from '../../../config';
 import ScreenNavigation from './ScreenNavigation';
-import Home from '../Home_Test';
 
+// TODO DELETE
 export default function UserAuthentication() {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
-  const AuthStack = createStackNavigator();
 
   useEffect(() => {
     // Handle user state changes
@@ -29,12 +26,4 @@ export default function UserAuthentication() {
   if (!user) {
     return <ScreenNavigation />;
   }
-
-  return (
-    <NavigationContainer>
-      <AuthStack.Navigator>
-        <AuthStack.Screen name="Home" component={Home} />
-      </AuthStack.Navigator>
-    </NavigationContainer>
-  );
 }

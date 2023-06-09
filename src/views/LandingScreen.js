@@ -5,13 +5,18 @@ import {
   SafeAreaView,
   Image,
   StyleSheet,
-  ScrollView,
+  Dimensions,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
 import { styles, theme } from '../constants/myTheme';
 import OrangeButton from '../components/Buttons/OrangeButton';
 import SingeFrameImage from '../../assets/Images/single-frame.png';
 import LetsConnectImage from '../../assets/Images/lets-connect-image.png';
+import { setPreventBack } from '../redux/features/mainSlice/mainSlice';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const style = StyleSheet.create({
   mainTitle: { textAlign: 'center', fontSize: 40, paddingTop: 30 },
@@ -22,14 +27,17 @@ const style = StyleSheet.create({
   },
 
   frameImage: {
-    height: 350,
-    width: 350,
+    height: windowHeight * 0.4, // Adjust the height based on the screen height
+    width: windowWidth * 0.4,
   },
 
   LetsConnectContainer: {
     alignItems: 'center',
   },
-  LetsConnectImage: { height: 420, width: 420 },
+  LetsConnectImage: {
+    height: windowHeight * 0.5, // Adjust the height based on the screen height
+    width: windowHeight * 0.5,
+  },
 
   buttonStyle: {
     alignSelf: 'center',
@@ -43,9 +51,11 @@ const style = StyleSheet.create({
  */
 export default function LandingScreen() {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const navigateLogin = () => {
     navigation.navigate('LoginScreen');
+    dispatch(setPreventBack(false));
   };
   const navigateRegister = () => {
     navigation.navigate('RegistrationOne');
@@ -54,56 +64,54 @@ export default function LandingScreen() {
     <SafeAreaView
       style={{ flex: 1, backgroundColor: theme.colors.backgroundSand }}
     >
-      <ScrollView>
-        <View style={style.frameContainer}>
-          <Image
-            style={style.frameImage}
-            source={SingeFrameImage}
-            resizeMode="contain"
-          />
-        </View>
+      <View style={style.frameContainer}>
+        <Image
+          style={style.frameImage}
+          source={SingeFrameImage}
+          resizeMode="contain"
+        />
+      </View>
 
-        <Text style={[styles.headline1, style.mainTitle]}>UASync</Text>
+      <Text style={[styles.headline1, style.mainTitle]}>UASync</Text>
 
-        <View style={style.LetsConnectContainer}>
-          <Image
-            style={style.LetsConnectImage}
-            source={LetsConnectImage}
-            resizeMode="contain"
-          />
-        </View>
+      <View style={style.LetsConnectContainer}>
+        <Image
+          style={style.LetsConnectImage}
+          source={LetsConnectImage}
+          resizeMode="contain"
+        />
+      </View>
 
-        <View style={{ marginBottom: 10, alignItems: 'center' }}>
-          <Text style={styles.headline1}>Register Below:</Text>
-        </View>
+      <View style={{ marginBottom: 10, alignItems: 'center' }}>
+        <Text style={styles.headline1}>Register Below:</Text>
+      </View>
 
-        <View style={{ alignItems: 'center' }}>
-          <Text
-            style={[
-              styles.bodyDefault,
-              { textAlign: 'center', paddingHorizontal: 20 },
-            ]}
-          >
-            Welcome to UASync! To join our community and start to connect, just
-            register below or log in and get going:
-          </Text>
-        </View>
+      <View style={{ alignItems: 'center' }}>
+        <Text
+          style={[
+            styles.bodyDefault,
+            { textAlign: 'center', paddingHorizontal: 20 },
+          ]}
+        >
+          Welcome to UASync! To join our community and start to connect, just
+          register below or log in and get going:
+        </Text>
+      </View>
 
-        <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
-          <OrangeButton
-            text="Login"
-            styleButton={style.buttonStyle}
-            onPress={navigateLogin}
-          />
-        </View>
-        <View style={{ paddingHorizontal: 20, paddingVertical: 20 }}>
-          <OrangeButton
-            text="Register"
-            styleButton={style.buttonStyle}
-            onPress={navigateRegister}
-          />
-        </View>
-      </ScrollView>
+      <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
+        <OrangeButton
+          text="Login"
+          styleButton={style.buttonStyle}
+          onPress={navigateLogin}
+        />
+      </View>
+      <View style={{ paddingHorizontal: 20, paddingVertical: 20 }}>
+        <OrangeButton
+          text="Register"
+          styleButton={style.buttonStyle}
+          onPress={navigateRegister}
+        />
+      </View>
     </SafeAreaView>
   );
 }

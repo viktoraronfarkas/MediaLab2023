@@ -31,7 +31,7 @@ function LeftContent({ iconImage }) {
         height: 55,
         borderRadius: 35,
       }}
-      source={iconImage}
+      source={{ uri: iconImage }}
     />
   ) : (
     <Image
@@ -89,10 +89,16 @@ export default function PostCard({
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View style={{ flex: 1 }}>
             <Card.Title
-              titleStyle={[styles.subtitle1, { marginLeft: 10, marginBottom: 0 }]}
-              subtitleStyle={[styles.captionBold, { marginLeft: 10, marginTop: -5 }]}
+              titleStyle={[
+                styles.subtitle1,
+                { marginLeft: 10, marginBottom: 0 },
+              ]}
+              subtitleStyle={[
+                styles.captionBold,
+                { marginLeft: 10, marginTop: -5 },
+              ]}
               title={title}
-              subtitle={'by Author'}
+              subtitle="by Author"
               left={() => LeftContent({ iconImage })}
             />
           </View>
@@ -105,17 +111,19 @@ export default function PostCard({
         ) : null}
         {!coverImage && <Divider />}
         <Card.Content>
-        <Text
-          style={[
-            styles.bodyDefault,
-            {
-              marginTop: content && content.length ? 15 : 0,
-              marginBottom: content && content.length > 0 ? 15 : 0,
-            },
-          ]}
-        >
-          {content && content.length > 80 ? `${content.slice(0, 80)}...` : content}
-        </Text>
+          <Text
+            style={[
+              styles.bodyDefault,
+              {
+                marginTop: content && content.length ? 15 : 0,
+                marginBottom: content && content.length > 0 ? 15 : 0,
+              },
+            ]}
+          >
+            {content && content.length > 80
+              ? `${content.slice(0, 80)}...`
+              : content}
+          </Text>
         </Card.Content>
         <Card.Actions>
           {buttonText ? (
