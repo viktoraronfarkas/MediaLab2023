@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { theme, styles } from '../constants/myTheme';
 import { IconStudyProgram, ResearchIcon, NewsIcon } from '../components/svgs';
-import { setPreventBack } from '../redux/features/mainSlice/mainSlice';
+import {
+  setPreventBack,
+  setShowOnboarding,
+} from '../redux/features/mainSlice/mainSlice';
 
 function Dots({ selected }) {
   let backgroundColor;
@@ -55,29 +57,6 @@ function Done({ ...props }) {
 function OnboardingViews({ navigation }) {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const isFirstLaunch = async () => {
-      try {
-        const value = await AsyncStorage.getItem('Firstlaunched');
-        if (value === null) {
-          // First launch, show onboarding screens
-          await AsyncStorage.setItem('Firstlaunched', 'true');
-        } else {
-          // Not the first launch,set Firstlaunched to false and  navigate to the landing screen
-          await AsyncStorage.setItem('Firstlaunched', 'false');
-          navigation.navigate('LandingScreen');
-        }
-      } catch (error) {
-        console.log(error);
-        // Handle AsyncStorage errors
-        // You may choose to navigate to the landing screen as a fallback
-        navigation.navigate('LandingScreen');
-      }
-    };
-
-    isFirstLaunch();
-  }, [navigation]);
-
   return (
     <Onboarding
       SkipButtonComponent={Skip}
@@ -90,14 +69,21 @@ function OnboardingViews({ navigation }) {
         paddingBottom: 4,
       }}
       containerStyles={{
-        justifyContent: 'flex-start',
-        paddingTop: '40%',
+        justifyContent: 'center',
         alignItems: 'center',
+        // justifyContent: 'flex-start',
+        // paddingTop: '40%',
+        // alignItems: 'center',
         paddingHorizontal: 16,
       }}
-      onSkip={() => navigation.replace('LandingScreen')}
+      onSkip={() => {
+        navigation.replace('LandingScreen');
+        dispatch(setShowOnboarding(false));
+        dispatch(setPreventBack(true));
+      }}
       onDone={() => {
         navigation.replace('LandingScreen');
+        dispatch(setShowOnboarding(false));
         dispatch(setPreventBack(true));
       }}
       bottomBarColor={theme.colors.backgroundCamel}
@@ -119,7 +105,12 @@ function OnboardingViews({ navigation }) {
             <Text
               style={[
                 styles.bodyDefault,
-                { textAlign: 'center', marginTop: 16, paddingHorizontal: 16 },
+                {
+                  textAlign: 'center',
+                  marginTop: 16,
+                  paddingHorizontal: 16,
+                  paddingBottom: 100,
+                },
               ]}
             >
               Explore Study Programs and Free Time Activities
@@ -143,7 +134,12 @@ function OnboardingViews({ navigation }) {
             <Text
               style={[
                 styles.bodyDefault,
-                { textAlign: 'center', marginTop: 16, paddingHorizontal: 16 },
+                {
+                  textAlign: 'center',
+                  marginTop: 16,
+                  paddingHorizontal: 16,
+                  paddingBottom: 100,
+                },
               ]}
             >
               Focused Discussions within Main Groups
@@ -170,7 +166,12 @@ function OnboardingViews({ navigation }) {
             <Text
               style={[
                 styles.bodyDefault,
-                { textAlign: 'center', marginTop: 16, paddingHorizontal: 16 },
+                {
+                  textAlign: 'center',
+                  marginTop: 16,
+                  paddingHorizontal: 16,
+                  paddingBottom: 100,
+                },
               ]}
             >
               Create Posts and Comment in Subgroups
