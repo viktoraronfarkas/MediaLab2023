@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.backgroundCamel,
   },
   overlay: {
-    ...StyleSheet.absoluteFillObject,
+    // ...StyleSheet.absoluteFillObject,
     zIndex: 10,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
@@ -82,38 +82,64 @@ function HomeContent() {
     }, [])
   );
 
+  const fetchPosts = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        `http://${clientIpAddress}:3001/user/${userId}/feed`
+      );
+      if (res.data.length === 0) {
+        setFeed([]); // Set the feed state to an empty array
+        setLoading(false); // Set loading to false if no posts are found
+        return; // Exit the function
+      }
+      dispatch(setFeed(res.data));
+      console.log(res.data);
+      setLoading(false); // Set loading to false after the feed is fetched (whether it succeeds or fails)
+    } catch (error) {
+      console.error('Error retrieving feed:', error);
+    }
+  };
   useEffect(() => {
     setLoading(true); // Set loading to true before fetching the feed
-    const fetchPosts = async () => {
-      try {
-        const res = await axios.get(
-          `http://${clientIpAddress}:3001/user/${userId}/feed`
-        );
-        // setFeed(res.data);
-        dispatch(setFeed(res.data));
-        setLoading(false); // Set loading to false after the feed is fetched (whether it succeeds or fails)
-      } catch (error) {
-        console.error('Error retrieving feed:', error);
-      }
-    };
 
     fetchPosts();
   }, [clientIpAddress, userId]);
 
+  useEffect(() => {
+    if (!selectedGroupValue.mainGroupName) {
+      fetchPosts();
+    }
+  }, [selectedGroupValue]);
+
+  function renderContent() {
+    if (selectedGroupValue.mainGroupName) {
+      return (
+        <ScrollView style={styles.container}>
+          <MainJoinedGroup />
+        </ScrollView>
+      );
+    }
+
+    if (loading) {
+      return (
+        <View style={[styles.overlay, { flex: 1 }]}>
+          <ActivityIndicator animating color={theme.colors.primary} />
+        </View>
+      );
+    }
+
+    return (
+      <ScrollView style={styles.container}>
+        <Feed />
+      </ScrollView>
+    );
+  }
   return (
     <SafeAreaView edges={['left', 'right']} style={styles.container}>
       <GroupsTopBar preDefinedGroups={fetechedMainGroups} />
 
-      <View style={{ flex: 1 }}>
-        <ScrollView style={{ flex: 1 }}>
-          {!selectedGroupValue.mainGroupName ? <Feed /> : <MainJoinedGroup />}
-        </ScrollView>
-        {loading && (
-          <View style={styles.overlay}>
-            <ActivityIndicator animating color={theme.colors.primary} />
-          </View>
-        )}
-      </View>
+      <View style={{ flex: 1 }}>{renderContent()}</View>
     </SafeAreaView>
   );
 }
