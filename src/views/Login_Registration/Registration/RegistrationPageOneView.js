@@ -10,6 +10,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import { HelperText } from 'react-native-paper';
 import ClickableText from '../../../components/ClickableText';
 import { theme, styles } from '../../../constants/myTheme';
 import InputField from '../../../components/Items/InputField';
@@ -136,7 +137,6 @@ export default function RegistrationPageOneView({
               }}
               text="Need Help?!"
             />
-            {emailError ? <Text style={style.error}>{emailError}</Text> : null}
             <View style={style.inputStyle}>
               <InputField
                 labelText="Enter Email"
@@ -145,10 +145,15 @@ export default function RegistrationPageOneView({
                 onChangeText={onChangeTextEmail}
                 marginLeft={0}
               />
+              <HelperText
+                style={{ color: theme.colors.primary }}
+                type="error"
+                visible={emailError}
+              >
+                {emailError}
+              </HelperText>
             </View>
-            {usernameError ? (
-              <Text style={style.error}>{usernameError}</Text>
-            ) : null}
+
             <View style={style.inputStyle}>
               <InputField
                 labelText="Your Displayed Name"
@@ -157,9 +162,16 @@ export default function RegistrationPageOneView({
                 onChangeText={onChangeTextUsername}
                 marginLeft={0}
               />
+
+              <HelperText
+                style={{ color: theme.colors.primary }}
+                type="error"
+                visible={usernameError}
+              >
+                {usernameError}
+              </HelperText>
             </View>
 
-            {nameError ? <Text style={style.error}>{nameError}</Text> : null}
             <View style={style.inputStyle}>
               <InputField
                 labelText="Your Full Name"
@@ -168,10 +180,15 @@ export default function RegistrationPageOneView({
                 onChangeText={onChangeTextName}
                 marginLeft={0}
               />
+              <HelperText
+                style={{ color: theme.colors.primary }}
+                type="error"
+                visible={nameError}
+              >
+                {nameError}
+              </HelperText>
             </View>
-            {passwordError ? (
-              <Text style={style.error}>{passwordError}</Text>
-            ) : null}
+
             <View style={style.inputStyle}>
               <InputField
                 labelText="Enter Password"
@@ -181,10 +198,15 @@ export default function RegistrationPageOneView({
                 secureTextEntry
                 marginLeft={0}
               />
+              <HelperText
+                style={{ color: theme.colors.primary }}
+                type="error"
+                visible={passwordError}
+              >
+                {passwordError}
+              </HelperText>
             </View>
-            {confirmError ? (
-              <Text style={style.error}>{confirmError}</Text>
-            ) : null}
+
             <View style={style.inputStyle}>
               <InputField
                 labelText="Confirm Password"
@@ -194,6 +216,13 @@ export default function RegistrationPageOneView({
                 secureTextEntry
                 marginLeft={0}
               />
+              <HelperText
+                style={{ color: theme.colors.primary }}
+                type="error"
+                visible={confirmError}
+              >
+                {confirmError}
+              </HelperText>
             </View>
 
             {/* UPLOAD PROFILE IMAGE */}
