@@ -85,7 +85,6 @@ function MainJoinedGroup() {
     }, [])
   );
 
-  console.log(subscribedGroups.length);
   if (selectedGroupValue.subgroups.length === 0) {
     message =
       'There are no subgroups here yet. Click on the plus button above to create your own subgroups!';
@@ -126,7 +125,6 @@ function MainJoinedGroup() {
       );
     }
 
-    // console.log(filteredSubgroups);
     setFilteredSubgroups(filteredSubgroups);
   };
 
@@ -207,12 +205,9 @@ function MainJoinedGroup() {
       );
       // Handle successful response
       console.log(response.data);
-      // TODO: Update the UI or perform any other necessary actions
     } catch (error) {
       // Handle error
       console.error(error);
-      // TODO: Show an error message to the user or perform any other necessary actions
-      console.log('error');
     }
   };
 

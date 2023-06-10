@@ -55,7 +55,7 @@ export default function ScreenNavigation() {
         }
       })
       .catch((error) => {
-        console.log('Error retrieving userID:', error);
+        console.error('Error retrieving userID:', error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

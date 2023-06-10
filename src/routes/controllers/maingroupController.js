@@ -130,7 +130,6 @@ exports.getMainGroupsWithSubgroups = (req, res) => {
       });
 
       const response = Object.values(mainGroups);
-      console.log(`responseObject:${response}`);
       return res.json(response); // Return the response
     });
   });

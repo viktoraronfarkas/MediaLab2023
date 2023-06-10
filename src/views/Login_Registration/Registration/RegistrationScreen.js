@@ -171,7 +171,7 @@ export default function RegistrationScreen() {
     ) {
       navigation.navigate('RegistrationTwo');
     } else {
-      console.log('Cannot proceed');
+      console.error('Cannot proceed');
     }
   };
 
@@ -241,14 +241,12 @@ export default function RegistrationScreen() {
                 }
               );
 
-              console.log(response.data);
-
               const { userId } = response.data;
               const mainGroupIds = [...NewJoinedGroups];
 
               if (userId) {
                 try {
-                  const joinGroupResponse = await axios.post(
+                  await axios.post(
                     `http://${clientIpAddress}:3001/user/subscribe/maingroup`,
                     {
                       userId,
@@ -256,7 +254,6 @@ export default function RegistrationScreen() {
                     }
                   );
 
-                  console.log(joinGroupResponse.data);
                   dispatch(setNewJoinedGroup([]));
                 } catch (error) {
                   console.error('Error joining recommended groups:', error);
@@ -367,7 +364,7 @@ export default function RegistrationScreen() {
       <RegistrationStack.Screen
         name="RegistrationTwo"
         component={RegistrationPageTwoView}
-        options={{ title: 'Step 2 of 3', headerTitleAlign: 'center', }}
+        options={{ title: 'Step 2 of 3', headerTitleAlign: 'center' }}
         initialParams={{
           imageUpload,
           handleImageUpload: pickProfilePicture,
@@ -380,7 +377,7 @@ export default function RegistrationScreen() {
       <RegistrationStack.Screen
         name="RegistrationThree"
         style={style.container}
-        options={{ title: 'Step 3 of 3', headerTitleAlign: 'center', }}
+        options={{ title: 'Step 3 of 3', headerTitleAlign: 'center' }}
       >
         {(props) => (
           <RegistrationPageThreeView
