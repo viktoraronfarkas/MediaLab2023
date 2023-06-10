@@ -217,7 +217,7 @@ function Subgroup({ route }) {
       .delete(url)
       .then(() => {
         refRBSheet.current.close();
-        navigation.navigate('MainScreen');
+        navigation.navigate('Subgroup');
       })
       .catch((err) => {
         console.error(err);
