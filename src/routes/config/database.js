@@ -8,5 +8,4 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: 'uasync',
 });
-console.log(process.env.DB_PASSWORD);
 module.exports = pool;

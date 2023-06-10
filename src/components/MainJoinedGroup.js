@@ -1,12 +1,17 @@
-import { useIsFocused, useNavigation } from '@react-navigation/native';
+import {
+  useIsFocused,
+  useNavigation,
+  useFocusEffect,
+} from '@react-navigation/native';
 import axios from 'axios';
-import React, { useEffect, useState, useRef } from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { ActivityIndicator } from 'react-native-paper';
 import iconImage from '../../assets/Icons/plus-icon.png';
 import circleLineImage from '../../assets/Images/circleLine-image.png';
 import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png';
-import { styles } from '../constants/myTheme';
+import { styles, theme } from '../constants/myTheme';
 import { MoreSvg } from './svgs';
 import {
   IpAddress,
@@ -25,11 +30,22 @@ import OptionsLeaveGroupSheet from './BottomScrollSheet/OptionsLeaveGroupSheet';
 // import { MoreSvg } from './svgs';
 
 function MainJoinedGroup() {
+  const style = StyleSheet.create({
+    overlay: {
+      ...StyleSheet.absoluteFillObject,
+      zIndex: 10,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+  });
+
   const selectedGroupValue = useSelector(selectedGroup);
   const clientIpAddress = useSelector(IpAddress);
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [subscribedGroups, setSubscribedGroups] = useState([]);
   const [filteredSubgroups, setFilteredSubgroups] = useState([]);
+  const [loading, setLoading] = useState();
   const currentSelectedUserId = useSelector(selectedUserId);
   const isFocused = useIsFocused();
   const refRBSheet = useRef();
@@ -43,6 +59,31 @@ function MainJoinedGroup() {
   // );
 
   let message = '';
+
+  const fetchGroups = useCallback(async () => {
+    try {
+      setLoading(true); // Set loading to true before fetching data
+
+      // Fetch user data using axios or any other method
+      const response = await axios.get(
+        `http://${clientIpAddress}:3001/maingroup`
+      );
+      // eslint-disable-next-line no-shadow
+      const fetchedGroups = response.data;
+      dispatch(setMainGroups(fetchedGroups));
+
+      setLoading(false); // Set loading to false after data is fetched
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      setLoading(false); // Set loading to false in case of error
+    }
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchGroups();
+    }, [])
+  );
 
   console.log(subscribedGroups.length);
   if (selectedGroupValue.subgroups.length === 0) {
@@ -319,6 +360,11 @@ function MainJoinedGroup() {
           // ))
         )}
       </View>
+      {loading && (
+        <View style={style.overlay}>
+          <ActivityIndicator animating color={theme.colors.primary} />
+        </View>
+      )}
     </View>
   );
 }

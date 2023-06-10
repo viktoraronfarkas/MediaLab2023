@@ -36,7 +36,7 @@ import { styles, theme } from '../constants/myTheme';
 import useFetchPosts from '../routes/hooks/useFetchPosts';
 import useFetchUserData from '../routes/hooks/useFetchUserData';
 import BottomScrollSheet from '../components/BottomScrollSheet/BottomScrollSheet';
-import OptionsLeaveGroupSheet from '../components/BottomScrollSheet/OptionsLeaveGroupSheet';
+import OptionsSubgroupSheet from '../components/BottomScrollSheet/OptionsSubgroupSheet';
 
 function Subgroup({ route }) {
   const style = StyleSheet.create({
@@ -156,6 +156,7 @@ function Subgroup({ route }) {
   const refRBSheet = useRef();
 
   const [joined, setJoined] = useState(0);
+  const [deleteEnabled, setDeleteEnabled] = useState();
 
   const isJoined = () => {
     const url = `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/subscribed-groups`;
@@ -208,6 +209,19 @@ function Subgroup({ route }) {
         refRBSheet.current.close();
       })
       .catch((err) => console.error(err));
+  };
+
+  const deleteSubgroup = () => {
+    const url = `http://${clientIpAddress}:3001/subgroup/${selectedSubGroupValue.subgroupId}/delete`;
+    axios
+      .delete(url)
+      .then(() => {
+        refRBSheet.current.close();
+        navigation.navigate('MainScreen');
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   const handlePress = () => {
@@ -321,6 +335,7 @@ function Subgroup({ route }) {
     return (
       <PostCard
         authorId={post.user_id}
+        postId={post.post_id}
         title={post.heading}
         subTitle={userData.username ? `by: ${userData.username}` : ''}
         content={post.text}
@@ -330,6 +345,17 @@ function Subgroup({ route }) {
       />
     );
   }
+
+  useEffect(() => {
+    if (
+      selectedSubGroupValue?.userId?.toString() ===
+      currentSelectedUserId?.toString()
+    ) {
+      setDeleteEnabled(true);
+    } else {
+      setDeleteEnabled(false);
+    }
+  }, [selectedSubGroupValue.userId, currentSelectedUserId]);
 
   return (
     <SafeAreaView style={style.container}>
@@ -345,16 +371,21 @@ function Subgroup({ route }) {
         <BottomScrollSheet
           bottomSheetRef={refRBSheet}
           contentComponent={
-            <OptionsLeaveGroupSheet
-              sheetTitle={`Leave ${selectedSubGroupValue.subgroupName} Group?`}
-              leaveText="Yes"
-              cancelText="Nevermind"
+            <OptionsSubgroupSheet
+              sheetTitle="Options"
+              leaveText="Leave subgroup"
+              deleteText="Delete subgroup"
+              cancelText="Cancel"
               onCancel={() => {
                 refRBSheet.current.close(); // Close the bottom sheet
               }}
               onLeave={() => {
                 unsubscribeFromSubGroup();
               }}
+              onDelete={() => {
+                deleteSubgroup();
+              }}
+              deleteEnabled={deleteEnabled}
             />
           }
         />

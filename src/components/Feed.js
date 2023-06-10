@@ -66,6 +66,7 @@ function Feed() {
     return (
       <PostCard
         authorId={post.user_id}
+        postId={post.post_id}
         title={post.heading}
         subTitle={userData.username ? `by: ${userData.username}` : ''}
         content={post.text}

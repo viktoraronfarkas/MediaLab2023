@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, Text, Image, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { styles, theme } from '../constants/myTheme';
@@ -13,11 +14,22 @@ import {
 } from '../redux/features/mainSlice/mainSlice';
 
 function PostInteraction() {
+  const navigation = useNavigation();
   const postData = useSelector(selectedPost);
   const clientIpAddress = useSelector(IpAddress);
   const currentUserId = useSelector(selectedUserId);
   const [author, setAuthor] = useState({});
   const [hasDeleteRights, setHasDeleteRights] = useState();
+
+  const deletePost = () => {
+    const url = `http://${clientIpAddress}:3001/subgroup/posts/${postData.postId}/delete`;
+    axios
+      .delete(url)
+      .then(navigation.navigate('MainScreen'))
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   useEffect(() => {
     if (postData.authorId) {
@@ -163,6 +175,7 @@ function PostInteraction() {
               <OrangeButton
                 text="Delete"
                 styleButton={{ alignSelf: 'center', width: '30%' }}
+                onPress={deletePost}
               />
             ) : (
               ''

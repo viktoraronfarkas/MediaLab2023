@@ -116,7 +116,7 @@ exports.createPost = async (req, res) => {
 };
 
 exports.deletePost = (req, res) => {
-  const { postId, userId } = req.params;
+  const { postId } = req.params;
   // eslint-disable-next-line consistent-return
   pool.getConnection((err, connection) => {
     if (err) {
@@ -125,8 +125,8 @@ exports.deletePost = (req, res) => {
     }
 
     connection.query(
-      'DELETE FROM posts WHERE post_id = ? AND user_id = ?',
-      [postId, userId],
+      'DELETE FROM posts WHERE post_id = ?',
+      [postId],
       // eslint-disable-next-line consistent-return
       (error, results) => {
         connection.release();
@@ -286,7 +286,7 @@ exports.createSubgroup = (req, res) => {
     }
 
     // Retrieve user registration data from the request body
-    const { name, mainGroupId, caption, introduction } = req.body;
+    const { userId, name, mainGroupId, caption, introduction } = req.body;
 
     // Validate required fields
     if (!name) {
@@ -335,8 +335,8 @@ exports.createSubgroup = (req, res) => {
 
           // Insert the subgroup into the database
           connection.query(
-            'INSERT INTO subgroups (name, main_group_id, caption, Description, title_image) VALUES (?, ?, ?, ?, ?)',
-            [name, mainGroupId, caption, introduction, subgroupImage],
+            'INSERT INTO subgroups (user_id, name, main_group_id, caption, Description, title_image) VALUES (?, ?, ?, ?, ?, ?)',
+            [userId, name, mainGroupId, caption, introduction, subgroupImage],
             (insertErr, result) => {
               connection.release();
 
@@ -356,5 +356,58 @@ exports.createSubgroup = (req, res) => {
         }
       );
     });
+  });
+};
+
+const deleteSubgroupsFromJoined = (req) => {
+  const { subgroupId } = req.params;
+  // eslint-disable-next-line consistent-return
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error('Error getting MySQL connection:', err);
+    }
+
+    connection.query(
+      'DELETE FROM subscribedsubgroups WHERE subgroup_id = ?',
+      [subgroupId, subgroupId],
+      // eslint-disable-next-line consistent-return
+      (error) => {
+        connection.release();
+
+        if (error) {
+          console.error('Error querying MySQL:', error);
+        }
+      }
+    );
+  });
+};
+
+exports.deleteSubgroup = (req, res) => {
+  const { subgroupId } = req.params;
+  deleteSubgroupsFromJoined(req, res);
+  // eslint-disable-next-line consistent-return
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error('Error getting MySQL connection:', err);
+      return res.status(500).json({ error: 'Failed to fetch data from MySQL' });
+    }
+
+    connection.query(
+      'DELETE FROM subgroups WHERE group_id = ?',
+      [subgroupId],
+      // eslint-disable-next-line consistent-return
+      (error, results) => {
+        connection.release();
+
+        if (error) {
+          console.error('Error querying MySQL:', error);
+          return res
+            .status(500)
+            .json({ error: 'Failed to fetch data from MySQL' });
+        }
+
+        res.json(results);
+      }
+    );
   });
 };
