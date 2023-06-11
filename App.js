@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
+import { LogBox } from 'react-native';
 import loadFonts from './assets/fonts/FontList'; // import fonts
 import ScreenNavigation from './src/views/Login_Registration/ScreenNavigation';
 // import UserAuthentication from './src/views/Login_Registration/UserAuthentication';
@@ -13,6 +14,9 @@ import {
   setMainGroups,
   setShowOnboarding,
 } from './src/redux/features/mainSlice/mainSlice';
+
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); // Ignore all log notifications
 
 function RootComponent() {
   const [isLoading, setIsLoading] = useState(true);
