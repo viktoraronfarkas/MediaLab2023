@@ -92,26 +92,6 @@ export default function ScreenNavigation() {
                   gestureEnabled: false,
                 }}
               />
-              <Stack.Screen
-                name="LoginScreen"
-                component={LoginScreen}
-                options={{
-                  title: '',
-                  headerShown: false,
-                  // eslint-disable-next-line no-unneeded-ternary
-                  gestureEnabled: isBackPrevented ? false : true,
-                }}
-              />
-              <Stack.Screen
-                name="VerifyEmailScreen"
-                component={VerifyEmailScreen}
-                options={{ title: '', headerShown: false }}
-              />
-              <Stack.Screen
-                name="RegistrationOne"
-                component={RegistrationScreen}
-                options={{ title: '', headerShown: false }}
-              />
             </>
           ) : isUserLoggedIn ? (
             <>
@@ -201,11 +181,6 @@ export default function ScreenNavigation() {
                 options={{ title: '', headerShown: false }}
               />
               <Stack.Screen
-                name="VerifyEmailScreen"
-                component={VerifyEmailScreen}
-                options={{ title: '', headerShown: false }}
-              />
-              <Stack.Screen
                 name="PostInteraction"
                 component={PostInteraction}
                 options={{ title: '', headerShown: true }}
@@ -222,7 +197,6 @@ export default function ScreenNavigation() {
                   gestureEnabled: false,
                 }}
               />
-
               <Stack.Screen
                 name="LoginScreen"
                 component={LoginScreen}
