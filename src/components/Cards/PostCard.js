@@ -109,7 +109,7 @@ export default function PostCard({
           </View> */}
         </View>
         {coverImage ? (
-          <Card.Cover source={coverImage} resizeMode="cover" />
+          <Card.Cover source={{ uri: coverImage }} resizeMode="cover" />
         ) : null}
         {!coverImage && <Divider />}
         <Card.Content>
