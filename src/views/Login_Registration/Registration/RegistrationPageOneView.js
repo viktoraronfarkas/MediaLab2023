@@ -10,6 +10,8 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import Toast from 'react-native-toast-message';
+
 import { HelperText } from 'react-native-paper';
 import ClickableText from '../../../components/ClickableText';
 import { theme, styles } from '../../../constants/myTheme';
@@ -278,6 +280,7 @@ export default function RegistrationPageOneView({
           </View>
         </ScrollView>
       </SafeAreaView>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </KeyboardAvoidingView>
   );
 }

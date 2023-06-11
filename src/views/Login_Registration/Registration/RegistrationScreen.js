@@ -6,6 +6,7 @@ import { StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import Toast from 'react-native-toast-message';
 import firebase from '../../../../config';
 import { theme } from '../../../constants/myTheme';
 import RegistrationPageOneView from './RegistrationPageOneView';
@@ -13,6 +14,7 @@ import RegistrationPageTwoView from './RegistrationPageTwoView';
 import RegistrationPageThreeView from './RegistrationPageThreeView';
 import VerifyEmailScreen from '../VerifyEmailScreen';
 import NeedHelp from '../NeedHelp';
+
 import BackButtonNavigationContainer from '../../../components/Buttons/BackButtonNavigationContainer';
 import {
   setPreventBack,
@@ -190,8 +192,17 @@ export default function RegistrationScreen() {
       quality: 1,
     });
 
-    if (!result.cancelled) {
-      setImage(result.assets[0].uri);
+    if (!result.canceled) {
+      if (result.assets[0].fileSize > 25 * 1024 * 1024) {
+        Toast.show({
+          type: 'error',
+          text1: 'Image file size exceeds the limit > 25mb',
+          visibilityTime: 5000,
+          autoHide: true,
+        });
+      } else {
+        setImage(result.assets[0].uri);
+      }
     }
   };
 
@@ -370,9 +381,13 @@ export default function RegistrationScreen() {
       <RegistrationStack.Screen
         name="RegistrationTwo"
         component={RegistrationPageTwoView}
-        options={{ title: 'Step 2 of 3', headerTitleAlign: 'center', headerTitleStyle: {
-          fontSize: 18, // Modify the font size as desired
-        }, }}
+        options={{
+          title: 'Step 2 of 3',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontSize: 18, // Modify the font size as desired
+          },
+        }}
         initialParams={{
           imageUpload,
           handleImageUpload: pickProfilePicture,
@@ -385,9 +400,13 @@ export default function RegistrationScreen() {
       <RegistrationStack.Screen
         name="RegistrationThree"
         style={style.container}
-        options={{ title: 'Step 3 of 3', headerTitleAlign: 'center', headerTitleStyle: {
-          fontSize: 18, // Modify the font size as desired
-        }, }}
+        options={{
+          title: 'Step 3 of 3',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontSize: 18, // Modify the font size as desired
+          },
+        }}
       >
         {(props) => (
           <RegistrationPageThreeView

@@ -5,7 +5,7 @@ const pool = require('../config/database');
 
 // Configure multer for file upload
 const upload = multer({
-  limits: { fileSize: 5 * 1024 * 1024 }, // Set a file size limit (5MB in this example)
+  limits: { fileSize: 25 * 1024 * 1024 }, // Set a file size limit (5MB in this example)
   fileFilter: (req, file, cb) => {
     // Check the file type and only allow certain file extensions
     if (file.mimetype.startsWith('image/')) {

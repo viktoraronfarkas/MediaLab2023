@@ -102,8 +102,17 @@ function AddPost() {
       quality: 1,
     });
 
-    if (!result.cancelled) {
-      setImage(result.assets[0].uri);
+    if (!result.canceled) {
+      if (result.assets[0].fileSize > 25 * 1024 * 1024) {
+        Toast.show({
+          type: 'error',
+          text1: 'Image file size exceeds the limit > 25mb',
+          visibilityTime: 5000,
+          autoHide: true,
+        });
+      } else {
+        setImage(result.assets[0].uri);
+      }
     }
   };
 
