@@ -1,12 +1,16 @@
 /* eslint-disable global-require */
-import React, { useEffect, useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { View, Text, Image, Dimensions, StyleSheet } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Buffer } from 'buffer';
 import { ActivityIndicator } from 'react-native-paper';
+import { useFocusEffect } from '@react-navigation/native';
+import axios from 'axios';
 import PostCard from './Cards/PostCard';
-import useFetchFeed from '../routes/hooks/useFetchFeed';
-import { setFeed, feed } from '../redux/features/mainSlice/mainSlice';
+import {
+  selectedUserId,
+  IpAddress,
+} from '../redux/features/mainSlice/mainSlice';
 import { styles, theme } from '../constants/myTheme';
 import JoinGroupImage from '../../assets/Images/join-group.png';
 import useFetchUserData from '../routes/hooks/useFetchUserData';
@@ -22,20 +26,34 @@ const style = StyleSheet.create({
   },
 });
 
-function Feed() {
-  const fetchedFeed = useFetchFeed();
-  const dispatch = useDispatch();
-  let storedFeed = useSelector(feed);
+function Feed({ route }) {
+  const [feed, setFeed] = useState();
+  const clientIpAddress = useSelector(IpAddress);
+  const userId = useSelector(selectedUserId);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    dispatch(setFeed(fetchedFeed));
-    setLoading(false); // Set loading to false after the feed is fetched
-  }, [dispatch, fetchedFeed]);
+  const fetchPosts = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        `http://${clientIpAddress}:3001/user/${userId}/feed`
+      );
+      setFeed(res.data);
+    } catch (error) {
+      console.error('Error retrieving feed:', error);
+    }
+    setLoading(false);
+  };
 
-  if (Object.keys(storedFeed).length === 0) {
-    storedFeed = [];
-  }
+  useEffect(() => {
+    fetchPosts();
+  }, [clientIpAddress, userId]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchPosts();
+    }, [route?.params?.update])
+  );
 
   const windowWidth = Dimensions.get('window').width;
   // const windowHeight = Dimensions.get('window').height;
@@ -87,7 +105,7 @@ function Feed() {
       }}
     >
       <View style={{ marginBottom: 10, width: '100%', alignItems: 'center' }}>
-        {storedFeed.length === 0 ? (
+        {feed?.length === 0 ? (
           <View style={{ marginTop: 15 }}>
             <Image
               style={{
@@ -120,8 +138,8 @@ function Feed() {
             </Text>
           </View>
         ) : (
-          storedFeed
-            .slice() // Create a copy of the array
+          feed
+            ?.slice() // Create a copy of the array
             .sort((a, b) => b.timestamp - a.timestamp) // Sort the copied array in descending order based on timestamp
             .reverse() // Reverse the sorted array to display the most recent post at the top
             .map((post, index) => (
