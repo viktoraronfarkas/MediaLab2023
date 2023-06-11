@@ -61,7 +61,6 @@ export default function UserProfileScreen() {
       console.error('Error updating user data:', error);
       throw error;
     }
-    console.log(updatedData);
   };
   // Cancel the Dialog Action
   const handleCancelDialog = () => {
@@ -101,7 +100,6 @@ export default function UserProfileScreen() {
       console.error('Error updating user data:', error);
       throw error;
     }
-    console.log(updatedData);
   };
 
   return (

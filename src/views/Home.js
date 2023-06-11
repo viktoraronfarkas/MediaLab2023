@@ -93,7 +93,6 @@ function HomeContent() {
         return; // Exit the function
       }
       dispatch(setFeed(res.data));
-      console.log(res.data);
       setLoading(false); // Set loading to false after the feed is fetched (whether it succeeds or fails)
     } catch (error) {
       console.error('Error retrieving feed:', error);
