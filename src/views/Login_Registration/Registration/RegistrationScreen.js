@@ -69,7 +69,7 @@ export default function RegistrationScreen() {
     // Users can only use two small letters, 6 numbers and the fh-email ending --> student emails.
     // Only for FH Students
     // const emailRegexFH = /[a-z]{2}\d{6}@fhstp\.ac\.at/;
-    const emailRegexDEMO = /^.+@(gmail|hotmail|gmx|fhstp\.ac\.at)$/i; // FOR DEMO
+    const emailRegexDEMO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i; // FOR DEMO
 
     if (!emailRegexDEMO.test(email)) {
       setEmailError('Please enter a valid student FH email address.');
@@ -327,7 +327,7 @@ export default function RegistrationScreen() {
       <RegistrationStack.Screen
         name="RegistrationTwo"
         component={RegistrationPageTwoView}
-        options={{ title: 'Step 2 of 3', headerTitleAlign: 'center', }}
+        options={{ title: 'Step 2 of 3', headerTitleAlign: 'center' }}
         initialParams={{
           imageUpload,
           handleImageUpload: pickProfilePicture,
@@ -340,7 +340,7 @@ export default function RegistrationScreen() {
       <RegistrationStack.Screen
         name="RegistrationThree"
         style={style.container}
-        options={{ title: 'Step 3 of 3', headerTitleAlign: 'center', }}
+        options={{ title: 'Step 3 of 3', headerTitleAlign: 'center' }}
       >
         {(props) => (
           <RegistrationPageThreeView

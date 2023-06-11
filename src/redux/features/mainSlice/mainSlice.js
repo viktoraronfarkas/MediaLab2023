@@ -7,7 +7,7 @@ const initialState = {
   selectedSubGroup: '',
   currentUser: {},
   currentUserId: '',
-  IpAddress: '10.55.103.111',
+  IpAddress: '192.168.1.100',
   loggedIn: '',
   selectedNewJoinedGroups: [],
   posts: [],
