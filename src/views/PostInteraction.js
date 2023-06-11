@@ -174,7 +174,7 @@ function PostInteraction({ route }) {
             {hasDeleteRights === true ? (
               <OrangeButton
                 text="Delete"
-                styleButton={{ alignSelf: 'center', width: '30%' }}
+                styleButton={{ alignSelf: 'center', paddingHorizontal: 30 }}
                 onPress={deletePost}
               />
             ) : (
