@@ -1,14 +1,19 @@
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Animation from './animation';
 import LandingScreen from '../../assets/Animation/Landing.json';
+import { theme } from '../constants/myTheme';
 
 const style = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: theme.colors.primary,
+  },
+  animation: {
+    flex: 1,
     width: '100%',
     height: '100%',
   },
@@ -20,9 +25,11 @@ const style = StyleSheet.create({
 export default function Splash() {
   return (
     <SafeAreaView
-      style={style.container}
+    style={style.container}
     >
-      <Animation source={LandingScreen} />
+      <View style={style.container}>
+        <Animation source={LandingScreen} style={style.animation}/>
+      </View>
     </SafeAreaView>
   );
 }

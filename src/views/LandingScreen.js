@@ -67,7 +67,7 @@ export default function LandingScreen() {
   };
   return (
     <SafeAreaView
-      style={{ flex: 1, backgroundColor: theme.colors.backgroundSand, marginTop: 25 }}
+      style={{ flex: 1, backgroundColor: theme.colors.backgroundSand, marginTop: 35 }}
     >
       <View style={style.frameContainer}>
         <Image
