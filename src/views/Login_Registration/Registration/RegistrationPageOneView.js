@@ -280,7 +280,7 @@ export default function RegistrationPageOneView({
           </View>
         </ScrollView>
       </SafeAreaView>
-      <Toast ref={(ref) => Toast.setRef(ref)} />
+      <Toast refs={(ref) => Toast.setRef(ref)} />
     </KeyboardAvoidingView>
   );
 }
