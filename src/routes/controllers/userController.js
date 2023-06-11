@@ -404,7 +404,8 @@ exports.fetchFeed = (req, res) => {
       }
 
       if (results.length === 0) {
-        return res.status(404).json({ message: 'No posts found' });
+        // return res.status(404).json({ message: 'No posts found' }); // no posts found
+        return res.status(200).json([]); // Return an empty array
       }
 
       // const posts = results[0];
