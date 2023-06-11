@@ -49,7 +49,7 @@ function AddSubgroup() {
   };
 
   useEffect(() => {
-    if (groupCaption.trim() === '' || groupCaption.trim() === '') {
+    if (groupName.trim() === '' || groupCaption.trim() === '') {
       setDisableButton(true);
     } else {
       setDisableButton(false);
