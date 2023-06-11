@@ -6,12 +6,12 @@ import OrangeButton from '../../../components/Buttons/OrangeButton';
 import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHeading';
 import CaptionScribbleHeadingMirror from '../../../components/Texts/CaptionScribbleHeadingMirror';
 import GroupIconContainer from '../../../components/GroupIconContainer';
-import PostCard from '../../../components/Cards/PostCard';
+import PostCardShowCase from '../../../components/Cards/PostCardShowCase';
 import ListItem from '../../../components/Items/ListItem';
 import underline from '../../../../assets/Images/under-line-image.png';
 import arrow from '../../../../assets/Images/arrow-image.png';
 import arrowIcon from '../../../../assets/Icons/arrow-right.png';
-import coverImage from '../../../../assets/foodshare.jpg';
+import coverImage from '../../../../assets/play.jpeg';
 import groupImage from '../../../../assets/Images/mainGroupExample.png';
 
 const style = StyleSheet.create({
@@ -92,7 +92,7 @@ export default function RegistrationPageTwoView() {
           />
 
           <View style={{ paddingBottom: 5, paddingTop: 30 }}>
-            <PostCard
+            <PostCardShowCase
               title="Header"
               subTitle="by: Displayed Name"
               buttonText="More"
