@@ -1,18 +1,18 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, ScrollView, View } from 'react-native';
+import { SafeAreaView, StyleSheet, ScrollView, View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { theme } from '../../../constants/myTheme';
+import { styles, theme } from '../../../constants/myTheme';
 import OrangeButton from '../../../components/Buttons/OrangeButton';
 import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHeading';
 import CaptionScribbleHeadingMirror from '../../../components/Texts/CaptionScribbleHeadingMirror';
 import GroupIconContainer from '../../../components/GroupIconContainer';
-import EventCard from '../../../components/Cards/EventCard';
 import PostCard from '../../../components/Cards/PostCard';
 import ListItem from '../../../components/Items/ListItem';
 import underline from '../../../../assets/Images/under-line-image.png';
 import arrow from '../../../../assets/Images/arrow-image.png';
 import arrowIcon from '../../../../assets/Icons/arrow-right.png';
 import coverImage from '../../../../assets/foodshare.jpg';
+import groupImage from '../../../../assets/Images/mainGroupExample.png';
 
 const style = StyleSheet.create({
   container: {
@@ -34,11 +34,6 @@ export default function RegistrationPageTwoView() {
       <ScrollView>
         <View style={{ paddingHorizontal: 10 }}>
           <CaptionScribbleHeading
-            subHeading="Our concept"
-            title="We use a system of main groups, inside those are subgroups that relate to the main groups. Inside the subgroups there are posts and events that you and others can create and interact with."
-          />
-
-          <CaptionScribbleHeading
             title="Main Groups"
             headlineStyle={{ fontSize: 32 }}
             underlineImage={underline}
@@ -48,17 +43,25 @@ export default function RegistrationPageTwoView() {
 
           <View style={{ paddingVertical: 30 }}>
             <GroupIconContainer
-              title="Music"
+              title="Sport"
+              imageSource={groupImage}
               imageStyle={{ width: 130, height: 130 }}
             />
           </View>
+
+          <Text style={[styles.bodyDefault, { paddingBottom: 50 }]}>
+            We provide pre-defined main groups for our users. They include all
+            the study programmes and a variety of other free time activities
+            like sport, music, food or arts. In case you are unable to find a
+            group that fits your needs you can always go to the group “Random”.
+          </Text>
 
           <CaptionScribbleHeadingMirror
             title="Sub Groups"
             underlineImage={underline}
             arrowImage={arrow}
             underlineStyle={{ width: 130, top: 52 }}
-            headlineStyle={{ width: 300 }}
+            headlineStyle={{ width: 160 }}
           />
 
           <View style={{ paddingVertical: 30 }}>
@@ -68,30 +71,40 @@ export default function RegistrationPageTwoView() {
               iconImage={arrowIcon}
             />
             <ListItem
-              mainTitle="Study Group"
-              subtitle="Join us!"
+              mainTitle="E-Sports"
+              subtitle="Mostly Fifa!"
               iconImage={arrowIcon}
             />
           </View>
+          <Text style={[styles.bodyDefault, { paddingBottom: 50 }]}>
+            Inside our Main Groups you and others can create or join Subgroups.
+            These relate to the main groups that they are in. For example the
+            Subgroups “Swimming” and “E-Sports” belong to the Main Groups
+            “Sports”.
+          </Text>
+
           <CaptionScribbleHeading
-            title="Posts & Events"
+            title="Posts"
             headlineStyle={{ fontSize: 32 }}
             underlineImage={underline}
             arrowImage={arrow}
-            underlineStyle={{ width: 180, top: 48, left: 10 }}
+            underlineStyle={{ width: 90, top: 48, left: 2 }}
           />
-          <View style={{ paddingVertical: 30, paddingHorizontal: 50 }}>
-            <EventCard joiningNumber={17} title="Party" subTitle="31.06" />
-          </View>
-          <View style={{ paddingBottom: 30 }}>
+
+          <View style={{ paddingBottom: 5, paddingTop: 30 }}>
             <PostCard
-              title="Foodshare"
-              subTitle="Just comment ;)"
-              buttonText="Comment"
-              content="You can make a comment on this post"
+              title="Header"
+              subTitle="by: Displayed Name"
+              buttonText="More"
+              content="We meet to play every Friday."
               coverImage={coverImage}
             />
           </View>
+          <Text style={[styles.bodyDefault, { paddingBottom: 50 }]}>
+            You and other users can create posts inside the Subgroups. Users
+            subscribed to the Subgroups can comment on these posts to get or
+            share the information that they need.
+          </Text>
           <OrangeButton
             text="Next"
             onPress={handlePage3Click}

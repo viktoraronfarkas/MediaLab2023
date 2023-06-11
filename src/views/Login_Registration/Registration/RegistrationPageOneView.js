@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   Text,
@@ -10,6 +10,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import { HelperText } from 'react-native-paper';
 import ClickableText from '../../../components/ClickableText';
 import { theme, styles } from '../../../constants/myTheme';
 import InputField from '../../../components/Items/InputField';
@@ -68,6 +69,12 @@ const style = StyleSheet.create({
 });
 
 export default function RegistrationPageOneView({
+  onBlurEmail,
+  onBlurFullName,
+  onBlurUsername,
+  onBlurPassword,
+  onBlurPasswordConfirm,
+
   emailError,
   emailValue,
   onChangeTextEmail,
@@ -94,43 +101,17 @@ export default function RegistrationPageOneView({
   // fileNameImage,
 
   onNavigateText,
+  onNavigateTextHelp,
   onNavigatePage2,
 }) {
-  const scrollViewRef = useRef(null);
-  const emailInputRef = useRef(null);
-  const usernameInputRef = useRef(null);
-  const nameInputRef = useRef(null);
-  const passwordInputRef = useRef(null);
-  const confirmPasswordInputRef = useRef(null);
-
-  const focusEmailInput = () => {
-    emailInputRef.current?.focus();
-  };
-
-  const focusUsernameInput = () => {
-    usernameInputRef.current?.focus();
-  };
-
-  const focusNameInput = () => {
-    nameInputRef.current?.focus();
-  };
-
-  const focusPasswordInput = () => {
-    passwordInputRef.current?.focus();
-  };
-
-  const focusConfirmPasswordInput = () => {
-    confirmPasswordInputRef.current?.focus();
-  };
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{ flex: 1 }}
     >
       <SafeAreaView style={style.container}>
-        <ScrollView ref={scrollViewRef} contentContainerStyle={{ flexGrow: 1 }}>
-          <View style={{ paddingHorizontal: 25 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <View style={{ paddingHorizontal: 10 }}>
             <View style={{ paddingTop: 30 }}>
               <CaptionScribbleHeading
                 subHeading="Sign up"
@@ -146,69 +127,102 @@ export default function RegistrationPageOneView({
                 }}
               />
             </View>
-            {emailError ? <Text style={style.error}>{emailError}</Text> : null}
+            <ClickableText
+              onPress={onNavigateTextHelp}
+              clickableTextStyle={{
+                padding: 10,
+                paddingBottom: 30,
+                alignSelf: 'flex-end',
+                marginLeft: 'auto',
+              }}
+              text="Need Help?!"
+            />
             <View style={style.inputStyle}>
               <InputField
                 labelText="Enter Email"
                 value={emailValue}
+                onBlur={onBlurEmail}
                 onChangeText={onChangeTextEmail}
                 marginLeft={0}
-                inputRef={emailInputRef}
-                onFocus={focusEmailInput}
               />
+              <HelperText
+                style={{ color: theme.colors.primary }}
+                type="error"
+                visible={emailError}
+              >
+                {emailError}
+              </HelperText>
             </View>
-            {usernameError ? (
-              <Text style={style.error}>{usernameError}</Text>
-            ) : null}
+
             <View style={style.inputStyle}>
               <InputField
                 labelText="Your Displayed Name"
                 value={usernameValue}
+                onBlur={onBlurUsername}
                 onChangeText={onChangeTextUsername}
                 marginLeft={0}
-                inputRef={usernameInputRef}
-                onFocus={focusUsernameInput}
               />
+
+              <HelperText
+                style={{ color: theme.colors.primary }}
+                type="error"
+                visible={usernameError}
+              >
+                {usernameError}
+              </HelperText>
             </View>
 
-            {nameError ? <Text style={style.error}>{nameError}</Text> : null}
             <View style={style.inputStyle}>
               <InputField
                 labelText="Your Full Name"
                 value={nameValue}
+                onBlur={onBlurFullName}
                 onChangeText={onChangeTextName}
                 marginLeft={0}
-                inputRef={nameInputRef}
-                onFocus={focusNameInput}
               />
+              <HelperText
+                style={{ color: theme.colors.primary }}
+                type="error"
+                visible={nameError}
+              >
+                {nameError}
+              </HelperText>
             </View>
-            {passwordError ? (
-              <Text style={style.error}>{passwordError}</Text>
-            ) : null}
+
             <View style={style.inputStyle}>
               <InputField
                 labelText="Enter Password"
                 value={passwordValue}
+                onBlur={onBlurPassword}
                 onChangeText={onChangeTextPassword}
                 secureTextEntry
                 marginLeft={0}
-                inputRef={passwordInputRef}
-                onFocus={focusPasswordInput}
               />
+              <HelperText
+                style={{ color: theme.colors.primary }}
+                type="error"
+                visible={passwordError}
+              >
+                {passwordError}
+              </HelperText>
             </View>
-            {confirmError ? (
-              <Text style={style.error}>{confirmError}</Text>
-            ) : null}
+
             <View style={style.inputStyle}>
               <InputField
                 labelText="Confirm Password"
                 value={confirmPasswordValue}
+                onBlur={onBlurPasswordConfirm}
                 onChangeText={onPasswordConfirmation}
                 secureTextEntry
                 marginLeft={0}
-                inputRef={confirmPasswordInputRef}
-                onFocus={focusConfirmPasswordInput}
               />
+              <HelperText
+                style={{ color: theme.colors.primary }}
+                type="error"
+                visible={confirmError}
+              >
+                {confirmError}
+              </HelperText>
             </View>
 
             {/* UPLOAD PROFILE IMAGE */}
