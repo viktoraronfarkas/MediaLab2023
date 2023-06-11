@@ -208,7 +208,7 @@ export default function JoinNewGroup() {
               <CaptionScribbleHeading
                 subHeading="Join new ?"
                 title="New Groups To Join : "
-                headlineStyle={{ width: 300 }}
+                headlineStyle={{ width: '100%' }}
               />
             </View>
 

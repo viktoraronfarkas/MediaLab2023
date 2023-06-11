@@ -61,7 +61,7 @@ export default function RegistrationPageTwoView() {
             underlineImage={underline}
             arrowImage={arrow}
             underlineStyle={{ width: 130, top: 52 }}
-            headlineStyle={{ width: 160 }}
+            headlineStyle={{ width: 250 }}
           />
 
           <View style={{ paddingVertical: 30 }}>
