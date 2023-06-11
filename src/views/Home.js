@@ -63,7 +63,6 @@ function HomeContent() {
         const value = await AsyncStorage.getItem('userID');
         if (value !== null) {
           dispatch(setCurrentUserId(value));
-          console.log(value);
         }
       } catch (e) {
         // handle error

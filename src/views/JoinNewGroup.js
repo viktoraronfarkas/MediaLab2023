@@ -57,7 +57,7 @@ export default function JoinNewGroup() {
   const [showDialog, setShowDialog] = useState(false);
   const [rejectedGroups, setRejectedGroups] = useState([]);
   const currentSelectedUserId = useSelector(selectedUserId);
-  const fetechedMainGroups = useSelector(mainGroups);
+  const fetchedMainGroups = useSelector(mainGroups);
 
   const dispatch = useDispatch();
   // navigate to REGISTRATION Screen
@@ -101,16 +101,12 @@ export default function JoinNewGroup() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSelectedUserId]);
 
-  const unjoinedGroups = fetechedMainGroups.filter(
+  const unjoinedGroups = fetchedMainGroups.filter(
     (mainGroup) =>
       !subscribedGroups.some(
         (group) => group.main_group_id === mainGroup.mainGroupId
       )
   );
-
-  console.log(fetechedMainGroups);
-  console.log(unjoinedGroups);
-  console.log(subscribedGroups);
 
   function handlePress(selectedMainGroup) {
     const isNewlyJoined = NewJoinedGroups.includes(

@@ -173,7 +173,7 @@ export default function RegistrationScreen() {
     ) {
       navigation.navigate('RegistrationTwo');
     } else {
-      console.log('Cannot proceed');
+      console.error('Cannot proceed');
     }
   };
 
@@ -252,14 +252,12 @@ export default function RegistrationScreen() {
                 }
               );
 
-              console.log(response.data);
-
               const { userId } = response.data;
               const mainGroupIds = [...NewJoinedGroups];
 
               if (userId) {
                 try {
-                  const joinGroupResponse = await axios.post(
+                  await axios.post(
                     `http://${clientIpAddress}:3001/user/subscribe/maingroup`,
                     {
                       userId,
@@ -267,7 +265,6 @@ export default function RegistrationScreen() {
                     }
                   );
 
-                  console.log(joinGroupResponse.data);
                   dispatch(setNewJoinedGroup([]));
                 } catch (error) {
                   console.error('Error joining recommended groups:', error);

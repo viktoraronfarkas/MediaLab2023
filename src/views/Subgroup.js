@@ -36,7 +36,7 @@ import { styles, theme } from '../constants/myTheme';
 import useFetchPosts from '../routes/hooks/useFetchPosts';
 import useFetchUserData from '../routes/hooks/useFetchUserData';
 import BottomScrollSheet from '../components/BottomScrollSheet/BottomScrollSheet';
-import OptionsLeaveGroupSheet from '../components/BottomScrollSheet/OptionsLeaveGroupSheet';
+import OptionsSubgroupSheet from '../components/BottomScrollSheet/OptionsSubgroupSheet';
 
 function Subgroup({ route }) {
   const style = StyleSheet.create({
@@ -156,6 +156,7 @@ function Subgroup({ route }) {
   const refRBSheet = useRef();
 
   const [joined, setJoined] = useState(0);
+  const [deleteEnabled, setDeleteEnabled] = useState();
 
   const isJoined = () => {
     const url = `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/subscribed-groups`;
@@ -168,6 +169,17 @@ function Subgroup({ route }) {
       );
     });
   };
+
+  const [noPosts, setNoPosts] = useState(false);
+
+  useEffect(() => {
+    // Check if there are no posts
+    if (storedPosts.length === 0) {
+      setNoPosts(true);
+    } else {
+      setNoPosts(false);
+    }
+  }, [storedPosts]);
 
   const joinSubgroup = () => {
     const url = `http://${clientIpAddress}:3001/user/subscribe/subgroup`;
@@ -197,6 +209,30 @@ function Subgroup({ route }) {
         refRBSheet.current.close();
       })
       .catch((err) => console.error(err));
+  };
+
+  const deleteSubgroup = () => {
+    axios
+      .delete(
+        `http://${clientIpAddress}:3001/subgroup/${selectedSubGroupValue.subgroupId}/delete-from-joined`
+      )
+      .then(() => {
+        axios.delete(
+          `http://${clientIpAddress}:3001/subgroup/${selectedSubGroupValue.subgroupId}/delete-posts`
+        );
+      })
+      .then(() => {
+        axios.delete(
+          `http://${clientIpAddress}:3001/subgroup/${selectedSubGroupValue.subgroupId}/delete`
+        );
+      })
+      .then(() => {
+        refRBSheet.current.close();
+        navigation.navigate('MainScreen', { update: true });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   const handlePress = () => {
@@ -277,7 +313,7 @@ function Subgroup({ route }) {
   useFocusEffect(
     useCallback(() => {
       fetchPosts();
-    }, [])
+    }, [route?.params?.update])
   );
 
   if (Object.keys(storedPosts).length === 0) {
@@ -309,8 +345,10 @@ function Subgroup({ route }) {
 
     return (
       <PostCard
+        authorId={post.user_id}
+        postId={post.post_id}
         title={post.heading}
-        subTitle={`created by: ${userData.username}`}
+        subTitle={userData.username ? `by: ${userData.username}` : ''}
         content={post.text}
         coverImage={image}
         iconImage={imageUpload}
@@ -318,6 +356,17 @@ function Subgroup({ route }) {
       />
     );
   }
+
+  useEffect(() => {
+    if (
+      selectedSubGroupValue?.userId?.toString() ===
+      currentSelectedUserId?.toString()
+    ) {
+      setDeleteEnabled(true);
+    } else {
+      setDeleteEnabled(false);
+    }
+  }, [selectedSubGroupValue.userId, currentSelectedUserId]);
 
   return (
     <SafeAreaView style={style.container}>
@@ -333,16 +382,21 @@ function Subgroup({ route }) {
         <BottomScrollSheet
           bottomSheetRef={refRBSheet}
           contentComponent={
-            <OptionsLeaveGroupSheet
-              sheetTitle={`Leave ${selectedSubGroupValue.subgroupName} Group?`}
-              leaveText="Yes"
-              cancelText="Nevermind"
+            <OptionsSubgroupSheet
+              sheetTitle="Options"
+              leaveText="Leave subgroup"
+              deleteText="Delete subgroup"
+              cancelText="Cancel"
               onCancel={() => {
                 refRBSheet.current.close(); // Close the bottom sheet
               }}
               onLeave={() => {
                 unsubscribeFromSubGroup();
               }}
+              onDelete={() => {
+                deleteSubgroup();
+              }}
+              deleteEnabled={deleteEnabled}
             />
           }
         />
@@ -389,14 +443,26 @@ function Subgroup({ route }) {
 
             <View style={style.postsContainer}>
               <View style={style.postContainer}>
-                {storedPosts
-                  .slice()
-                  .sort((a, b) => b.timestamp - a.timestamp)
-                  .reverse()
-                  .map((post, index) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <PostCardWithUserData key={index} post={post} />
-                  ))}
+                {noPosts ? (
+                  <Text
+                    style={[
+                      styles.bodyDefault,
+                      { textAlign: 'center', justifyContent: 'center' },
+                    ]}
+                  >
+                    There are no posts here yet. Click on the plus button above
+                    to create your own!
+                  </Text>
+                ) : (
+                  storedPosts
+                    .slice()
+                    .sort((a, b) => b.timestamp - a.timestamp)
+                    .reverse()
+                    .map((post, index) => (
+                      // eslint-disable-next-line react/no-array-index-key
+                      <PostCardWithUserData key={index} post={post} />
+                    ))
+                )}
               </View>
             </View>
           </View>

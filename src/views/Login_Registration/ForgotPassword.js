@@ -23,7 +23,7 @@ const style = StyleSheet.create({
 });
 
 export default function VerifyEmailScreen() {
-  const [email, setEmail] = useState('');
+  const [email] = useState('');
 
   const forgotPassword = () => {
     firebase

@@ -23,7 +23,7 @@ function changePassword() {
               { marginTop: 50, marginBottom: 10, marginHorizontal: 10 },
             ]}
           >
-            Forgot your Passwort?
+            Forgot your Password?
           </Text>
           <Text
             style={[

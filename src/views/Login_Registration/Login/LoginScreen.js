@@ -53,7 +53,6 @@ export default function LoginScreen() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(clientIpAddress);
     try {
       setLoading(true);
 
@@ -70,8 +69,6 @@ export default function LoginScreen() {
       // Optional: Display success message
       console.log(message);
 
-      // TODO: Store user data or token in the app state or local storage
-      console.log(user);
       navigation.navigate('MainScreen');
       dispatch(setCurrentUser(user));
 

@@ -58,6 +58,7 @@ exports.getMainGroupsWithSubgroups = (req, res) => {
         maingroup.group_id AS mainGroupId, 
         maingroup.name AS mainGroupName, 
         maingroup.title_image AS mainGroupTitleImage,
+        subgroups.user_id AS userId,
         subgroups.group_id AS subgroupId, 
         subgroups.name AS subgroupName, 
         subgroups.title_image AS subgroupTitleImage, 
@@ -88,6 +89,7 @@ exports.getMainGroupsWithSubgroups = (req, res) => {
           mainGroupId,
           mainGroupName,
           mainGroupTitleImage,
+          userId,
           subgroupId,
           subgroupName,
           subgroupTitleImage,
@@ -112,6 +114,7 @@ exports.getMainGroupsWithSubgroups = (req, res) => {
         if (subgroupId) {
           // Only add subgroups if subgroupId exists
           mainGroups[mainGroupId].subgroups.push({
+            userId,
             subgroupId,
             subgroupName,
             subgroupTitleImage: subgroupTitleImage
@@ -127,7 +130,6 @@ exports.getMainGroupsWithSubgroups = (req, res) => {
       });
 
       const response = Object.values(mainGroups);
-      console.log(`responseObject:${response}`);
       return res.json(response); // Return the response
     });
   });

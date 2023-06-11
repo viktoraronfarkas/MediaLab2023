@@ -35,6 +35,7 @@ import {
 } from '../../redux/features/mainSlice/mainSlice';
 import JoinNewGroup from '../JoinNewGroup';
 import OnboardingViews from '../OnboardingViews';
+import PostInteraction from '../PostInteraction';
 
 /**
  * This is the main Navigation file of most of the screens.
@@ -54,7 +55,7 @@ export default function ScreenNavigation() {
         }
       })
       .catch((error) => {
-        console.log('Error retrieving userID:', error);
+        console.error('Error retrieving userID:', error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -203,6 +204,11 @@ export default function ScreenNavigation() {
                 name="VerifyEmailScreen"
                 component={VerifyEmailScreen}
                 options={{ title: '', headerShown: false }}
+              />
+              <Stack.Screen
+                name="PostInteraction"
+                component={PostInteraction}
+                options={{ title: '', headerShown: true }}
               />
             </>
           ) : (

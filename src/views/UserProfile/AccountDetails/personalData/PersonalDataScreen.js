@@ -131,7 +131,6 @@ export default function PersonalDataScreen() {
         console.error('Error updating user data:', error);
         throw error;
       }
-      console.log(updatedData);
     }
   };
 

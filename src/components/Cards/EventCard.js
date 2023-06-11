@@ -37,7 +37,7 @@ export default function EventCard({
     <Card elevation={0} style={style.container}>
       {cardImage ? (
         <Card.Cover
-          source={cardImage}
+          source={{ uri: cardImage }}
           resizeMode="cover"
           style={{
             borderTopStartRadius: 10,
