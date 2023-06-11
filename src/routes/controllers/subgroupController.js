@@ -359,7 +359,7 @@ exports.createSubgroup = (req, res) => {
   });
 };
 
-const deleteSubgroupsFromJoined = (req) => {
+exports.deleteSubgroupFromJoined = (req, res) => {
   const { subgroupId } = req.params;
   // eslint-disable-next-line consistent-return
   pool.getConnection((err, connection) => {
@@ -371,12 +371,45 @@ const deleteSubgroupsFromJoined = (req) => {
       'DELETE FROM subscribedsubgroups WHERE subgroup_id = ?',
       [subgroupId, subgroupId],
       // eslint-disable-next-line consistent-return
-      (error) => {
+      (error, results) => {
         connection.release();
 
         if (error) {
           console.error('Error querying MySQL:', error);
+          return res
+            .status(500)
+            .json({ error: 'Failed to fetch data from MySQL' });
         }
+        res.json(results);
+      }
+    );
+  });
+};
+
+exports.deletePostsFromSubgroup = (req, res) => {
+  const { subgroupId } = req.params;
+  // eslint-disable-next-line consistent-return
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error('Error getting MySQL connection:', err);
+      return res.status(500).json({ error: 'Failed to fetch data from MySQL' });
+    }
+
+    connection.query(
+      'DELETE FROM posts WHERE group_id = ?',
+      [subgroupId],
+      // eslint-disable-next-line consistent-return
+      (error, results) => {
+        connection.release();
+
+        if (error) {
+          console.error('Error querying MySQL:', error);
+          return res
+            .status(500)
+            .json({ error: 'Failed to fetch data from MySQL' });
+        }
+
+        res.json(results);
       }
     );
   });
@@ -384,7 +417,6 @@ const deleteSubgroupsFromJoined = (req) => {
 
 exports.deleteSubgroup = (req, res) => {
   const { subgroupId } = req.params;
-  deleteSubgroupsFromJoined(req, res);
   // eslint-disable-next-line consistent-return
   pool.getConnection((err, connection) => {
     if (err) {

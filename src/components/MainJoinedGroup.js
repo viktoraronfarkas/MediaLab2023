@@ -29,7 +29,7 @@ import OptionsLeaveGroupSheet from './BottomScrollSheet/OptionsLeaveGroupSheet';
 
 // import { MoreSvg } from './svgs';
 
-function MainJoinedGroup() {
+function MainJoinedGroup({ route }) {
   const style = StyleSheet.create({
     overlay: {
       ...StyleSheet.absoluteFillObject,
@@ -82,7 +82,7 @@ function MainJoinedGroup() {
   useFocusEffect(
     useCallback(() => {
       fetchGroups();
-    }, [])
+    }, [route?.params?.update])
   );
 
   if (selectedGroupValue.subgroups.length === 0) {

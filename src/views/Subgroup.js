@@ -212,12 +212,23 @@ function Subgroup({ route }) {
   };
 
   const deleteSubgroup = () => {
-    const url = `http://${clientIpAddress}:3001/subgroup/${selectedSubGroupValue.subgroupId}/delete`;
     axios
-      .delete(url)
+      .delete(
+        `http://${clientIpAddress}:3001/subgroup/${selectedSubGroupValue.subgroupId}/delete-from-joined`
+      )
+      .then(() => {
+        axios.delete(
+          `http://${clientIpAddress}:3001/subgroup/${selectedSubGroupValue.subgroupId}/delete-posts`
+        );
+      })
+      .then(() => {
+        axios.delete(
+          `http://${clientIpAddress}:3001/subgroup/${selectedSubGroupValue.subgroupId}/delete`
+        );
+      })
       .then(() => {
         refRBSheet.current.close();
-        navigation.navigate('MainScreen');
+        navigation.navigate('MainScreen', { update: true });
       })
       .catch((err) => {
         console.error(err);
