@@ -15,11 +15,16 @@ import SingeFrameImage from '../../assets/Images/single-frame.png';
 import LetsConnectImage from '../../assets/Images/lets-connect-image.png';
 import { setPreventBack } from '../redux/features/mainSlice/mainSlice';
 
-const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const style = StyleSheet.create({
-  mainTitle: { textAlign: 'center', fontSize: 40, paddingTop: 30 },
+  mainTitle: { 
+    textAlign: 'center', 
+    fontSize: 40, 
+    paddingTop: 20, 
+    paddingBottom: 20 
+  },
+  
   frameContainer: {
     position: 'absolute',
     alignSelf: 'center',
@@ -28,7 +33,7 @@ const style = StyleSheet.create({
 
   frameImage: {
     height: windowHeight * 0.4, // Adjust the height based on the screen height
-    width: windowWidth * 0.4,
+    width: windowHeight * 0.4,
   },
 
   LetsConnectContainer: {
@@ -62,7 +67,7 @@ export default function LandingScreen() {
   };
   return (
     <SafeAreaView
-      style={{ flex: 1, backgroundColor: theme.colors.backgroundSand }}
+      style={{ flex: 1, backgroundColor: theme.colors.backgroundSand, marginTop: 25 }}
     >
       <View style={style.frameContainer}>
         <Image

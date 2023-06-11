@@ -295,6 +295,9 @@ export default function RegistrationScreen() {
         options={{
           title: 'Step 1 of 3',
           headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontSize: 18, // Modify the font size as desired
+          },
         }}
         style={style.container}
       >
@@ -367,7 +370,13 @@ export default function RegistrationScreen() {
       <RegistrationStack.Screen
         name="RegistrationTwo"
         component={RegistrationPageTwoView}
-        options={{ title: 'Step 2 of 3', headerTitleAlign: 'center' }}
+        options={{
+          title: 'Step 2 of 3',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontSize: 18, // Modify the font size as desired
+          },
+        }}
         initialParams={{
           imageUpload,
           handleImageUpload: pickProfilePicture,
@@ -380,7 +389,13 @@ export default function RegistrationScreen() {
       <RegistrationStack.Screen
         name="RegistrationThree"
         style={style.container}
-        options={{ title: 'Step 3 of 3', headerTitleAlign: 'center' }}
+        options={{
+          title: 'Step 3 of 3',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontSize: 18, // Modify the font size as desired
+          },
+        }}
       >
         {(props) => (
           <RegistrationPageThreeView
