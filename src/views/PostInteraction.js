@@ -13,7 +13,7 @@ import {
   selectedUserId,
 } from '../redux/features/mainSlice/mainSlice';
 
-function PostInteraction() {
+function PostInteraction({ route }) {
   const navigation = useNavigation();
   const postData = useSelector(selectedPost);
   const clientIpAddress = useSelector(IpAddress);
@@ -25,7 +25,7 @@ function PostInteraction() {
     const url = `http://${clientIpAddress}:3001/subgroup/posts/${postData.postId}/delete`;
     axios
       .delete(url)
-      .then(navigation.navigate('MainScreen'))
+      .then(navigation.navigate(route.params.screenName, { update: true }))
       .catch((err) => {
         console.error(err);
       });

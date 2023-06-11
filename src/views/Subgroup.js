@@ -217,7 +217,7 @@ function Subgroup({ route }) {
       .delete(url)
       .then(() => {
         refRBSheet.current.close();
-        navigation.navigate('Subgroup');
+        navigation.navigate('MainScreen');
       })
       .catch((err) => {
         console.error(err);
@@ -302,7 +302,7 @@ function Subgroup({ route }) {
   useFocusEffect(
     useCallback(() => {
       fetchPosts();
-    }, [])
+    }, [route?.params?.update])
   );
 
   if (Object.keys(storedPosts).length === 0) {

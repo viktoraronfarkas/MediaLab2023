@@ -134,7 +134,7 @@ function AddPost() {
         visibilityTime: 2000,
         autoHide: true,
       });
-      navigation.navigate('Subgroup');
+      navigation.navigate('Subgroup', { update: true });
     } catch (err) {
       console.error(
         'Subscribe to main groups error:',

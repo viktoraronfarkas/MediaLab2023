@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Card, Divider } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useNavigationState } from '@react-navigation/native';
 import { theme, styles } from '../../constants/myTheme';
 import OrangeButton from '../Buttons/OrangeButton';
 import IconImageDefault from '../../../assets/Icons/group-default-icon.png';
@@ -64,6 +64,9 @@ export default function PostCard({
 }) {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const screenName = useNavigationState(
+    (state) => state.routes[state.index].name
+  );
 
   const handlePress = () => {};
 
@@ -82,7 +85,7 @@ export default function PostCard({
       })
     );
 
-    navigation.navigate('PostInteraction');
+    navigation.navigate('PostInteraction', { screenName });
   };
 
   return (
