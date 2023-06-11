@@ -79,6 +79,10 @@ function MainJoinedGroup({ route }) {
     }
   }, []);
 
+  useCallback(() => {
+    fetchGroups();
+  }, [clientIpAddress]);
+
   useFocusEffect(
     useCallback(() => {
       fetchGroups();
