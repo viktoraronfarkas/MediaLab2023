@@ -64,9 +64,10 @@ function AddSubgroup() {
     formData.append('mainGroupId', [currentGroup.mainGroupId]);
     formData.append('caption', groupCaption);
     formData.append('subgroupImage', ''); // DELETE when image upload is implemented
+    const headers = { headers: { 'Content-Type': 'multipart/form-data' } };
 
     try {
-      const response = await axios.post(url, formData);
+      const response = await axios.post(url, formData, headers);
       const { message, groupId } = response.data;
       if (message === 'Subgroup created') {
         Toast.show({

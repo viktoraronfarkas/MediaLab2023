@@ -134,9 +134,10 @@ function AddPost() {
     formData.append('userId', currentUser);
     formData.append('heading', postHeading);
     formData.append('text', postText);
+    const headers = { headers: { 'Content-Type': 'multipart/form-data' } };
 
     try {
-      await axios.post(url, formData);
+      await axios.post(url, formData, headers);
       Toast.show({
         type: 'success',
         text1: 'Post created',
