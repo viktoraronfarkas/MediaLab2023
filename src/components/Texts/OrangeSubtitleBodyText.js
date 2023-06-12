@@ -14,10 +14,10 @@ const style = StyleSheet.create({
  * @param {*} param0
  * @returns
  */
-export default function OrangeSubtitleBodyText({ title, bodyText }) {
+export default function OrangeSubtitleBodyText({ title, bodyText, titleStyle }) {
   return (
     <View style={style.container}>
-      <Text style={[styles.subtitle2, { color: theme.colors.primary }]}>
+      <Text style={[styles.subtitle2, { color: theme.colors.primary }, titleStyle]}>
         {title}
       </Text>
       <Text style={styles.bodyDefault}>{bodyText}</Text>
