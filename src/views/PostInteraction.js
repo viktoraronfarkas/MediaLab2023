@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, Text, Image, ScrollView } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, Clipboard, Platform, ToastAndroid, Alert} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+import { IconButton } from 'react-native-paper';
 import axios from 'axios';
 import { styles, theme } from '../constants/myTheme';
 import OrangeButton from '../components/Buttons/OrangeButton';
 import underlineImage from '../../assets/Images/thin-underline-image.png';
+import OrangeSubtitleBodyText from '../components/Texts/OrangeSubtitleBodyText';
 import {
   selectedPost,
   IpAddress,
@@ -20,6 +22,16 @@ function PostInteraction({ route }) {
   const currentUserId = useSelector(selectedUserId);
   const [author, setAuthor] = useState({});
   const [hasDeleteRights, setHasDeleteRights] = useState();
+
+    // copy email to the Clipboard
+    const handleCopy = () => {
+      Clipboard.setString(author.email);
+      if (Platform.OS === 'android') {
+        ToastAndroid.show('The email has been copied.', ToastAndroid.SHORT);
+      } else if (Platform.OS === 'ios') {
+        Alert.alert('The email has been copied.');
+      }
+    };
 
   const deletePost = () => {
     const url = `http://${clientIpAddress}:3001/subgroup/posts/${postData.postId}/delete`;
@@ -140,34 +152,25 @@ function PostInteraction({ route }) {
               <Text
                 style={[
                   styles.bodyDefault,
-                  { marginLeft: 10, marginBottom: 15 },
+                  { marginLeft: 10, marginBottom: 5 },
                 ]}
               >
                 {author.name}
               </Text>
             </View>
 
-            <View>
-              <Text
-                style={[
-                  styles.subtitle1,
-                  {
-                    marginLeft: 10,
-                    marginBottom: 5,
-                    color: theme.colors.primary,
-                  },
-                ]}
-              >
-                Email
-              </Text>
-              <Text
-                style={[
-                  styles.bodyDefault,
-                  { marginLeft: 10, marginBottom: 15 },
-                ]}
-              >
-                {author.email}
-              </Text>
+            <View style={{ marginLeft: 10, marginBottom: 15,}}>
+              <TouchableOpacity onPress={() => handleCopy(author.email)}>
+              <OrangeSubtitleBodyText title="Email" titleStyle={{ fontSize: 20 }} bodyText={author.email} />
+              <IconButton
+                icon="content-copy"
+                style={{
+                  position: 'absolute',
+                  alignSelf: 'flex-end',
+                  top: 10,
+                }}
+              />
+              </TouchableOpacity>
             </View>
           </View>
           <View style={{ marginTop: 50 }}>
