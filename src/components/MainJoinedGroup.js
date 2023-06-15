@@ -5,7 +5,14 @@ import {
 } from '@react-navigation/native';
 import axios from 'axios';
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import {
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Platform,
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { ActivityIndicator } from 'react-native-paper';
 import iconImage from '../../assets/Icons/plus-icon.png';
@@ -249,7 +256,11 @@ function MainJoinedGroup({ route }) {
           }}
         />
         <TouchableOpacity
-          style={{ position: 'absolute', left: '41%', top: '80%' }}
+          style={{
+            position: 'absolute',
+            left: Platform.OS === 'web' ? '250%' : '41%',
+            top: Platform.OS === 'web' ? '50%' : '80%',
+          }}
           onPress={() => refRBSheet.current.open()}
         >
           <MoreSvg color="#000" width={50} height={50} />

@@ -20,13 +20,13 @@ LogBox.ignoreAllLogs(); // Ignore all log notifications
 
 function RootComponent() {
   const [isLoading, setIsLoading] = useState(true);
-  const clientIpAddress = useSelector(IpAddress);
+  // const clientIpAddress = useSelector(IpAddress);
   const dispatch = useDispatch();
 
   const fetchMainGroups = async () => {
     try {
       const response = await axios.get(
-        `http://${clientIpAddress}:3001/maingroup`
+        `https://medialab-server.vercel.app/maingroup`
       );
       const mainGroupsData = response.data;
       dispatch(setMainGroups(mainGroupsData));
