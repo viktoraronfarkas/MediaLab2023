@@ -7,10 +7,7 @@ import { ActivityIndicator } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import PostCard from './Cards/PostCard';
-import {
-  selectedUserId,
-  IpAddress,
-} from '../redux/features/mainSlice/mainSlice';
+import { selectedUserId } from '../redux/features/mainSlice/mainSlice';
 import { styles, theme } from '../constants/myTheme';
 import JoinGroupImage from '../../assets/Images/join-group.png';
 import useFetchUserData from '../routes/hooks/useFetchUserData';
@@ -28,7 +25,6 @@ const style = StyleSheet.create({
 
 function Feed({ route }) {
   const [feed, setFeed] = useState();
-  const clientIpAddress = useSelector(IpAddress);
   const userId = useSelector(selectedUserId);
   const [loading, setLoading] = useState(true);
 
@@ -36,7 +32,7 @@ function Feed({ route }) {
     setLoading(true);
     try {
       const res = await axios.get(
-        `http://${clientIpAddress}:3001/user/${userId}/feed`
+        `https://medialab-server.vercel.app/user/${userId}/feed`
       );
       setFeed(res.data);
     } catch (error) {
@@ -47,7 +43,7 @@ function Feed({ route }) {
 
   useEffect(() => {
     fetchPosts();
-  }, [clientIpAddress, userId]);
+  }, [userId]);
 
   useFocusEffect(
     useCallback(() => {

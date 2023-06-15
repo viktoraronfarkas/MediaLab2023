@@ -17,7 +17,6 @@ import { Buffer } from 'buffer';
 import {
   selectedGroup,
   selectedSubGroup,
-  IpAddress,
   setPosts,
   posts,
   selectedUserId,
@@ -150,7 +149,6 @@ function Subgroup({ route }) {
 
   const selectedGroupValue = useSelector(selectedGroup);
   const selectedSubGroupValue = useSelector(selectedSubGroup);
-  const clientIpAddress = useSelector(IpAddress);
   let storedPosts = useSelector(posts);
   const currentSelectedUserId = useSelector(selectedUserId);
   const refRBSheet = useRef();
@@ -159,7 +157,7 @@ function Subgroup({ route }) {
   const [deleteEnabled, setDeleteEnabled] = useState();
 
   const isJoined = () => {
-    const url = `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/subscribed-groups`;
+    const url = `https://medialab-server.vercel.app/user/${currentSelectedUserId}/subscribed-groups`;
 
     axios.get(url).then((res) => {
       setJoined(
@@ -182,7 +180,7 @@ function Subgroup({ route }) {
   }, [storedPosts]);
 
   const joinSubgroup = () => {
-    const url = `http://${clientIpAddress}:3001/user/subscribe/subgroup`;
+    const url = `https://medialab-server.vercel.app/user/subscribe/subgroup`;
     const data = {
       userId: currentSelectedUserId,
       subgroupId: selectedSubGroupValue.subgroupId,
@@ -196,7 +194,7 @@ function Subgroup({ route }) {
   };
 
   const unsubscribeFromSubGroup = () => {
-    const url = `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/unsubscribe/subgroup`;
+    const url = `https://medialab-server.vercel.app/user/${currentSelectedUserId}/unsubscribe/subgroup`;
     const data = {
       userId: currentSelectedUserId,
       subGroupId: selectedSubGroupValue.subgroupId,
@@ -214,16 +212,16 @@ function Subgroup({ route }) {
   const deleteSubgroup = () => {
     axios
       .delete(
-        `http://${clientIpAddress}:3001/subgroup/${selectedSubGroupValue.subgroupId}/delete-from-joined`
+        `https://medialab-server.vercel.app/subgroup/${selectedSubGroupValue.subgroupId}/delete-from-joined`
       )
       .then(() => {
         axios.delete(
-          `http://${clientIpAddress}:3001/subgroup/${selectedSubGroupValue.subgroupId}/delete-posts`
+          `https://medialab-server.vercel.app/subgroup/${selectedSubGroupValue.subgroupId}/delete-posts`
         );
       })
       .then(() => {
         axios.delete(
-          `http://${clientIpAddress}:3001/subgroup/${selectedSubGroupValue.subgroupId}/delete`
+          `https://medialab-server.vercel.app/subgroup/${selectedSubGroupValue.subgroupId}/delete`
         );
       })
       .then(() => {
@@ -248,7 +246,7 @@ function Subgroup({ route }) {
       try {
         // fetch main groups again
         axios
-          .get(`http://${clientIpAddress}:3001/maingroup`)
+          .get(`https://medialab-server.vercel.app/maingroup`)
           .then((response) => {
             const mainGroupsData = response.data;
             dispatch(setMainGroups(mainGroupsData));
@@ -297,7 +295,7 @@ function Subgroup({ route }) {
 
       // Fetch user data using axios or any other method
       const response = await axios.get(
-        `http://${clientIpAddress}:3001/subgroup/${selectedSubGroupValue.subgroupId}/posts`
+        `https://medialab-server.vercel.app/subgroup/${selectedSubGroupValue.subgroupId}/posts`
       );
       // eslint-disable-next-line no-shadow
       const fetchedPosts = response.data;

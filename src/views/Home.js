@@ -13,7 +13,6 @@ import GroupsTopBar from '../components/GroupsTopHorizontalBar';
 import MainJoinedGroup from '../components/MainJoinedGroup';
 
 import {
-  IpAddress,
   mainGroups,
   selectedGroup,
   setCurrentUserId,
@@ -37,7 +36,6 @@ const styles = StyleSheet.create({
 });
 function HomeContent() {
   const selectedGroupValue = useSelector(selectedGroup);
-  const clientIpAddress = useSelector(IpAddress);
 
   const dispatch = useDispatch();
   const fetechedMainGroups = useSelector(mainGroups);
@@ -47,7 +45,7 @@ function HomeContent() {
   const fetchMainGroups = async () => {
     try {
       const response = await axios.get(
-        `http://${clientIpAddress}:3001/maingroup`
+        `https://medialab-server.vercel.app/maingroup`
       );
       const mainGroupsData = response.data;
       dispatch(setMainGroups(mainGroupsData));
@@ -85,7 +83,7 @@ function HomeContent() {
     setLoading(true);
     try {
       const res = await axios.get(
-        `http://${clientIpAddress}:3001/user/${userId}/feed`
+        `https://medialab-server.vercel.app/user/${userId}/feed`
       );
       if (res.data.length === 0) {
         setFeed([]); // Set the feed state to an empty array
@@ -102,7 +100,7 @@ function HomeContent() {
     setLoading(true); // Set loading to true before fetching the feed
 
     fetchPosts();
-  }, [clientIpAddress, userId]);
+  }, [userId]);
 
   useEffect(() => {
     if (!selectedGroupValue.mainGroupName) {

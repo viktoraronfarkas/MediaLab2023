@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, StyleSheet } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
@@ -9,7 +9,6 @@ import { theme } from '../../../constants/myTheme';
 import LoginView from './LoginView';
 import {
   setCurrentUser,
-  IpAddress,
   setLoggedIn,
   setCurrentUserId,
 } from '../../../redux/features/mainSlice/mainSlice';
@@ -34,7 +33,6 @@ export default function LoginScreen() {
   const [passwordError, setPasswordError] = useState('');
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const clientIpAddress = useSelector(IpAddress);
   const navigation = useNavigation();
 
   const handleTextClick = () => {
@@ -57,7 +55,7 @@ export default function LoginScreen() {
       setLoading(true);
 
       const response = await axios.post(
-        `http://${clientIpAddress}:3001/auth/login`,
+        `https://medialab-server.vercel.app/auth/login`,
         {
           email,
           password,

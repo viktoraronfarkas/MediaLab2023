@@ -17,7 +17,6 @@ import OrangeButton from '../components/Buttons/OrangeButton';
 import CaptionScribbleHeading from '../components/Texts/CaptionScribbleHeading';
 import { styles, theme } from '../constants/myTheme';
 import {
-  IpAddress,
   setSelectedMainGroup,
   selectedNewJoinedGroups,
   setNewJoinedGroup,
@@ -52,7 +51,6 @@ const style = StyleSheet.create({
 
 export default function JoinNewGroup() {
   const [subscribedGroups, setSubscribedGroups] = useState([]);
-  const clientIpAddress = useSelector(IpAddress);
   const NewJoinedGroups = useSelector(selectedNewJoinedGroups);
   const [showDialog, setShowDialog] = useState(false);
   const [rejectedGroups, setRejectedGroups] = useState([]);
@@ -67,7 +65,7 @@ export default function JoinNewGroup() {
     const fetchSubscribedGroups = async () => {
       try {
         const response = await axios.get(
-          `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/subscribed-groups`
+          `https://medialab-server.vercel.app/user/${currentSelectedUserId}/subscribed-groups`
         );
         // eslint-disable-next-line no-shadow
         const { mainGroups } = response.data;
@@ -81,7 +79,7 @@ export default function JoinNewGroup() {
     const fetchMainGroups = async () => {
       try {
         const response = await axios.get(
-          `http://${clientIpAddress}:3001/maingroup`
+          `https://medialab-server.vercel.app/maingroup`
         );
         const mainGroupsData = response.data.map((mainGroup) => ({
           ...mainGroup,
@@ -141,7 +139,7 @@ export default function JoinNewGroup() {
 
         // Make the POST request for adding the user to the selected groups
         const response = await axios.post(
-          `http://${clientIpAddress}:3001/user/subscribe/maingroup`,
+          `https://medialab-server.vercel.app/user/subscribe/maingroup`,
           {
             userId: currentSelectedUserId,
             mainGroupIds,

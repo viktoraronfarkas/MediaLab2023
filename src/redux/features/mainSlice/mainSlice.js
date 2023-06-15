@@ -7,7 +7,6 @@ const initialState = {
   selectedPost: {},
   currentUser: {},
   currentUserId: '',
-  IpAddress: '192.168.1.246',
   loggedIn: '',
   selectedNewJoinedGroups: [],
   posts: [],
@@ -82,7 +81,6 @@ export const selectedSubGroup = (state) => state.main.selectedSubGroup;
 export const selectedPost = (state) => state.main.selectedPost;
 export const selectedUser = (state) => state.main.currentUser;
 export const selectedUserId = (state) => state.main.currentUserId;
-export const IpAddress = (state) => state.main.IpAddress;
 export const loggedIn = (state) => state.main.loggedIn;
 export const selectedNewJoinedGroups = (state) =>
   state.main.selectedNewJoinedGroups;

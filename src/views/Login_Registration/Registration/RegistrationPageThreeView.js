@@ -15,7 +15,6 @@ import CaptionScribbleHeading from '../../../components/Texts/CaptionScribbleHea
 import { AcceptedSvg, RejectedSvg } from '../../../components/svgs';
 import { theme } from '../../../constants/myTheme';
 import {
-  IpAddress,
   selectedNewJoinedGroups,
   setNewJoinedGroup,
   mainGroups,
@@ -39,7 +38,6 @@ const styles = StyleSheet.create({
 });
 
 export default function RegistrationPageThreeView({ handleSubmit, loading }) {
-  const clientIpAddress = useSelector(IpAddress);
   // const currentUser = useSelector(selectedUser);
   const NewJoinedGroups = useSelector(selectedNewJoinedGroups);
   const [rejectedGroups, setRejectedGroups] = useState([]);
@@ -50,7 +48,7 @@ export default function RegistrationPageThreeView({ handleSubmit, loading }) {
     const fetchMainGroups = async () => {
       try {
         const response = await axios.get(
-          `http://${clientIpAddress}:3001/maingroup`
+          `https://medialab-server.vercel.app/maingroup`
         );
         const mainGroupsData = response.data;
         dispatch(setMainGroups(mainGroupsData));

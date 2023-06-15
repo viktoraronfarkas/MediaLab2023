@@ -14,7 +14,6 @@ import underlineArrowImage from '../../assets/Images/under-line-arrow-image.png'
 import { styles, theme } from '../constants/myTheme';
 import { MoreSvg } from './svgs';
 import {
-  IpAddress,
   SetSelectedSubGroup,
   selectedGroup,
   selectedUserId,
@@ -41,7 +40,6 @@ function MainJoinedGroup({ route }) {
   });
 
   const selectedGroupValue = useSelector(selectedGroup);
-  const clientIpAddress = useSelector(IpAddress);
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [subscribedGroups, setSubscribedGroups] = useState([]);
   const [filteredSubgroups, setFilteredSubgroups] = useState([]);
@@ -66,7 +64,7 @@ function MainJoinedGroup({ route }) {
 
       // Fetch user data using axios or any other method
       const response = await axios.get(
-        `http://${clientIpAddress}:3001/maingroup`
+        `https://medialab-server.vercel.app/maingroup`
       );
       // eslint-disable-next-line no-shadow
       const fetchedGroups = response.data;
@@ -81,7 +79,7 @@ function MainJoinedGroup({ route }) {
 
   useCallback(() => {
     fetchGroups();
-  }, [clientIpAddress]);
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -140,7 +138,7 @@ function MainJoinedGroup({ route }) {
   const fetchSubscribedGroups = async () => {
     try {
       const response = await axios.get(
-        `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/subscribed-groups`
+        `https://medialab-server.vercel.app/user/${currentSelectedUserId}/subscribed-groups`
       );
       const { mainGroups, subGroups } = response.data;
 
@@ -160,7 +158,7 @@ function MainJoinedGroup({ route }) {
     // Replace this with your actual implementation
     try {
       const response = await axios.get(
-        `http://${clientIpAddress}:3001/maingroup`
+        `https://medialab-server.vercel.app/maingroup`
       );
       const mainGroupsData = response.data;
       dispatch(setMainGroups(mainGroupsData));
@@ -171,12 +169,7 @@ function MainJoinedGroup({ route }) {
   useEffect(() => {
     fetchSubscribedGroups();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    currentSelectedUserId,
-    selectedFilter,
-    selectedGroupValue,
-    clientIpAddress,
-  ]);
+  }, [currentSelectedUserId, selectedFilter, selectedGroupValue]);
 
   useEffect(() => {
     if (isFocused) {
@@ -204,7 +197,7 @@ function MainJoinedGroup({ route }) {
   const unsubscribeFromMainGroup = async (userId, mainGroupId) => {
     try {
       const response = await axios.post(
-        `http://${clientIpAddress}:3001/user/${userId}/unsubscribe/maingroup`,
+        `https://medialab-server.vercel.app/user/${userId}/unsubscribe/maingroup`,
         { userId, mainGroupId }
       );
       // Handle successful response

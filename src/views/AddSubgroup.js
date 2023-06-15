@@ -20,14 +20,12 @@ import CaptionScribbleHeading from '../components/Texts/CaptionScribbleHeading';
 import GlitterImage from '../../assets/Images/glitter-image.png';
 import {
   selectedGroup,
-  IpAddress,
   selectedUserId,
 } from '../redux/features/mainSlice/mainSlice';
 
 function AddSubgroup() {
   const navigation = useNavigation();
   const currentGroup = useSelector(selectedGroup);
-  const clientIpAddress = useSelector(IpAddress);
   const userId = useSelector(selectedUserId);
 
   const [groupName, setName] = useState('');
@@ -57,7 +55,7 @@ function AddSubgroup() {
   });
   const handlePress = async (e) => {
     e.preventDefault();
-    const url = `http://${clientIpAddress}:3001/subgroup/add`;
+    const url = `https://medialab-server.vercel.app/subgroup/add`;
     const formData = new FormData();
     formData.append('userId', userId);
     formData.append('name', groupName);

@@ -1,15 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import {
-  selectedUser,
-  IpAddress,
-} from '../../redux/features/mainSlice/mainSlice';
+import { selectedUser } from '../../redux/features/mainSlice/mainSlice';
 
 // Custom hook for fetching user data
 export default function useFetchUserData(userId) {
   const currentUser = useSelector(selectedUser);
-  const clientIpAddress = useSelector(IpAddress);
   const [userData, setUserData] = useState({});
   const [imageUpload, setImage] = useState(null);
 
@@ -17,7 +13,7 @@ export default function useFetchUserData(userId) {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `http://${clientIpAddress}:3001/user/${userId}`
+          `https://medialab-server.vercel.app/user/${userId}`
         );
 
         // Convert Blob to Base64 string
@@ -32,7 +28,7 @@ export default function useFetchUserData(userId) {
     };
 
     fetchUserData();
-  }, [clientIpAddress, currentUser]);
+  }, [currentUser]);
 
   return { userData, imageUpload };
 }

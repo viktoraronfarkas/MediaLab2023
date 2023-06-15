@@ -18,7 +18,6 @@ import NeedHelp from '../NeedHelp';
 import BackButtonNavigationContainer from '../../../components/Buttons/BackButtonNavigationContainer';
 import {
   setPreventBack,
-  IpAddress,
   selectedNewJoinedGroups,
   setNewJoinedGroup,
 } from '../../../redux/features/mainSlice/mainSlice';
@@ -58,8 +57,6 @@ export default function RegistrationScreen() {
   const [imageUpload, setImage] = useState(null);
   const [selectedNames, setSelectedNames] = useState([]);
   const NewJoinedGroups = useSelector(selectedNewJoinedGroups);
-
-  const clientIpAddress = useSelector(IpAddress);
 
   // Handle Navigation
   const RegistrationStack = createStackNavigator();
@@ -148,7 +145,7 @@ export default function RegistrationScreen() {
     if (isEmailValid) {
       try {
         const response = await axios.post(
-          `http://${clientIpAddress}:3001/auth/checkEmailExists`,
+          `https://medialab-server.vercel.app/auth/checkEmailExists`,
           { email }
         );
 
@@ -243,7 +240,7 @@ export default function RegistrationScreen() {
             }
             try {
               const response = await axios.post(
-                `http://${clientIpAddress}:3001/auth/signup`,
+                `https://medialab-server.vercel.app/auth/signup`,
                 formData,
                 {
                   headers: {
@@ -258,7 +255,7 @@ export default function RegistrationScreen() {
               if (userId) {
                 try {
                   await axios.post(
-                    `http://${clientIpAddress}:3001/user/subscribe/maingroup`,
+                    `https://medialab-server.vercel.app/user/subscribe/maingroup`,
                     {
                       userId,
                       mainGroupIds,

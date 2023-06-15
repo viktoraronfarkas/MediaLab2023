@@ -16,7 +16,6 @@ import AddIconInteraction from './Buttons/AddIconInteraction';
 import {
   setSelectedMainGroup,
   selectedGroup,
-  IpAddress,
   selectedUserId,
 } from '../redux/features/mainSlice/mainSlice';
 
@@ -32,7 +31,6 @@ const styles = StyleSheet.create({
 
 export default function GroupsTopBar({ preDefinedGroups }) {
   const selectedGroupValue = useSelector(selectedGroup);
-  const clientIpAddress = useSelector(IpAddress);
   const [subscribedGroups, setSubscribedGroups] = useState([]);
   const currentSelectedUserId = useSelector(selectedUserId);
   const [loading, setLoading] = useState(true); // New loading state
@@ -45,7 +43,7 @@ export default function GroupsTopBar({ preDefinedGroups }) {
         setLoading(true); // Start loading spinner
 
         const response = await axios.get(
-          `http://${clientIpAddress}:3001/user/${currentSelectedUserId}/subscribed-groups`
+          `https://medialab-server.vercel.app/user/${currentSelectedUserId}/subscribed-groups`
         );
         const { mainGroups } = response.data;
 

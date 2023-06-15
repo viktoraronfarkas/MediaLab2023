@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, Text, Image, ScrollView, TouchableOpacity, Clipboard, Platform, ToastAndroid, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Clipboard,
+  Platform,
+  ToastAndroid,
+  Alert,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { IconButton } from 'react-native-paper';
@@ -11,30 +21,28 @@ import underlineImage from '../../assets/Images/thin-underline-image.png';
 import OrangeSubtitleBodyText from '../components/Texts/OrangeSubtitleBodyText';
 import {
   selectedPost,
-  IpAddress,
   selectedUserId,
 } from '../redux/features/mainSlice/mainSlice';
 
 function PostInteraction({ route }) {
   const navigation = useNavigation();
   const postData = useSelector(selectedPost);
-  const clientIpAddress = useSelector(IpAddress);
   const currentUserId = useSelector(selectedUserId);
   const [author, setAuthor] = useState({});
   const [hasDeleteRights, setHasDeleteRights] = useState();
 
-    // copy email to the Clipboard
-    const handleCopy = () => {
-      Clipboard.setString(author.email);
-      if (Platform.OS === 'android') {
-        ToastAndroid.show('The email has been copied.', ToastAndroid.SHORT);
-      } else if (Platform.OS === 'ios') {
-        Alert.alert('The email has been copied.');
-      }
-    };
+  // copy email to the Clipboard
+  const handleCopy = () => {
+    Clipboard.setString(author.email);
+    if (Platform.OS === 'android') {
+      ToastAndroid.show('The email has been copied.', ToastAndroid.SHORT);
+    } else if (Platform.OS === 'ios') {
+      Alert.alert('The email has been copied.');
+    }
+  };
 
   const deletePost = () => {
-    const url = `http://${clientIpAddress}:3001/subgroup/posts/${postData.postId}/delete`;
+    const url = `https://medialab-server.vercel.app/subgroup/posts/${postData.postId}/delete`;
     axios
       .delete(url)
       .then(navigation.navigate(route.params.screenName, { update: true }))
@@ -45,7 +53,7 @@ function PostInteraction({ route }) {
 
   useEffect(() => {
     if (postData.authorId) {
-      const url = `http://${clientIpAddress}:3001/user/${postData.authorId}`;
+      const url = `https://medialab-server.vercel.app/user/${postData.authorId}`;
 
       axios.get(url).then((res) => {
         setAuthor(res.data);
@@ -159,17 +167,21 @@ function PostInteraction({ route }) {
               </Text>
             </View>
 
-            <View style={{ marginLeft: 10, marginBottom: 15,}}>
+            <View style={{ marginLeft: 10, marginBottom: 15 }}>
               <TouchableOpacity onPress={() => handleCopy(author.email)}>
-              <OrangeSubtitleBodyText title="Email" titleStyle={{ fontSize: 20 }} bodyText={author.email} />
-              <IconButton
-                icon="content-copy"
-                style={{
-                  position: 'absolute',
-                  alignSelf: 'flex-end',
-                  top: 10,
-                }}
-              />
+                <OrangeSubtitleBodyText
+                  title="Email"
+                  titleStyle={{ fontSize: 20 }}
+                  bodyText={author.email}
+                />
+                <IconButton
+                  icon="content-copy"
+                  style={{
+                    position: 'absolute',
+                    alignSelf: 'flex-end',
+                    top: 10,
+                  }}
+                />
               </TouchableOpacity>
             </View>
           </View>

@@ -27,7 +27,6 @@ import GlitterImage from '../../assets/Images/glitter-image.png';
 import {
   selectedSubGroup,
   selectedUserId,
-  IpAddress,
 } from '../redux/features/mainSlice/mainSlice';
 
 const style = StyleSheet.create({
@@ -61,7 +60,6 @@ const style = StyleSheet.create({
 function AddPost() {
   const navigation = useNavigation();
   const currentGroup = useSelector(selectedSubGroup);
-  const clientIpAddress = useSelector(IpAddress);
   const currentUser = useSelector(selectedUserId);
   const scrollViewRef = useRef(null);
 
@@ -118,7 +116,7 @@ function AddPost() {
 
   const handlePress = async (e) => {
     e.preventDefault();
-    const url = `http://${clientIpAddress}:3001/subgroup/posts/add`;
+    const url = `https://medialab-server.vercel.app/subgroup/posts/add`;
 
     const formData = new FormData();
     formData.append('groupId', currentGroup.subgroupId);

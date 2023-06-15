@@ -1,20 +1,16 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  selectedUserId,
-  IpAddress,
-} from '../../redux/features/mainSlice/mainSlice';
+import { selectedUserId } from '../../redux/features/mainSlice/mainSlice';
 
 function useUpdateUserData() {
   const [userId, setUserId] = useState({});
   const currentSelectedUserId = useSelector(selectedUserId);
-  const clientIpAddress = useSelector(IpAddress);
 
   const updateUser = async (updatedData) => {
     try {
       const response = await axios.put(
-        `http://${clientIpAddress}:3001/user/${currentSelectedUserId}`,
+        `https://medialab-server.vercel.app/user/${currentSelectedUserId}`,
         updatedData
       );
 
