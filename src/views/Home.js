@@ -1,11 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
-import { ScrollView, View, StyleSheet } from 'react-native';
+import React, { useCallback, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActivityIndicator } from 'react-native-paper';
 import Feed from '../components/Feed';
 import { theme } from '../constants/myTheme';
 
@@ -18,7 +17,6 @@ import {
   setCurrentUserId,
   setMainGroups,
   selectedUserId,
-  setFeed,
 } from '../redux/features/mainSlice/mainSlice';
 
 const styles = StyleSheet.create({
@@ -39,7 +37,6 @@ function HomeContent() {
 
   const dispatch = useDispatch();
   const fetechedMainGroups = useSelector(mainGroups);
-  const [loading, setLoading] = useState(true);
   const userId = useSelector(selectedUserId);
 
   const fetchMainGroups = async () => {
@@ -78,57 +75,19 @@ function HomeContent() {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
   );
-
-  const fetchPosts = async () => {
-    setLoading(true);
-    try {
-      const res = await axios.get(
-        `https://medialab-server.vercel.app/user/${userId}/feed`
-      );
-      if (res.data.length === 0) {
-        setFeed([]); // Set the feed state to an empty array
-        setLoading(false); // Set loading to false if no posts are found
-        return; // Exit the function
-      }
-      dispatch(setFeed(res.data));
-      setLoading(false); // Set loading to false after the feed is fetched (whether it succeeds or fails)
-    } catch (error) {
-      console.error('Error retrieving feed:', error);
-    }
-  };
-  useEffect(() => {
-    setLoading(true); // Set loading to true before fetching the feed
-
-    fetchPosts();
-  }, [userId]);
-
-  useEffect(() => {
-    if (!selectedGroupValue.mainGroupName) {
-      fetchPosts();
-    }
-  }, [selectedGroupValue]);
-
   function renderContent() {
     if (selectedGroupValue.mainGroupName) {
       return (
-        <ScrollView style={styles.container}>
+        <View style={styles.container}>
           <MainJoinedGroup />
-        </ScrollView>
-      );
-    }
-
-    if (loading) {
-      return (
-        <View style={[styles.overlay, { flex: 1 }]}>
-          <ActivityIndicator animating color={theme.colors.primary} />
         </View>
       );
     }
 
     return (
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
         <Feed />
-      </ScrollView>
+      </View>
     );
   }
   return (

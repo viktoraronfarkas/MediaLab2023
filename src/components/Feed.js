@@ -1,6 +1,13 @@
 /* eslint-disable global-require */
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, Text, Image, Dimensions, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  Dimensions,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
 import { useSelector } from 'react-redux';
 import { Buffer } from 'buffer';
 import { ActivityIndicator } from 'react-native-paper';
@@ -91,66 +98,67 @@ function Feed({ route }) {
     );
   }
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        paddingTop: 20,
-        paddingBottom: 10,
-        padding: 15,
-      }}
-    >
-      <View style={{ marginBottom: 10, width: '100%', alignItems: 'center' }}>
-        {feed?.length === 0 ? (
-          <View style={{ marginTop: 15 }}>
-            <Image
-              style={{
-                height: windowWidth,
-                width: windowWidth,
-                opacity: 0.8,
-              }}
-              source={JoinGroupImage}
-            />
-            <Text
-              style={[
-                styles.headline1,
-                {
-                  textAlign: 'center',
-                  justifyContent: 'center',
-                  marginBottom: 10,
-                },
-              ]}
-            >
-              No Posts Yet!
-            </Text>
-            <Text
-              style={[
-                styles.bodyDefault,
-                { textAlign: 'center', justifyContent: 'center' },
-              ]}
-            >
-              Create a post yourself. Join a new group and subgroup and create a
-              post for you and others to see.
-            </Text>
-          </View>
-        ) : (
-          feed
-            ?.slice() // Create a copy of the array
-            .sort((a, b) => b.timestamp - a.timestamp) // Sort the copied array in descending order based on timestamp
-            .reverse() // Reverse the sorted array to display the most recent post at the top
-            .map((post, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <PostCardWithUserData key={index} post={post} />
-            ))
-        )}
-      </View>
-
+    <>
       {loading && (
         <View style={style.overlay}>
           <ActivityIndicator animating color={theme.colors.primary} />
         </View>
       )}
-    </View>
+      <ScrollView
+        contentContainerStyle={{
+          flex: 1,
+          alignItems: 'center',
+          paddingTop: 20,
+          paddingBottom: 10,
+          padding: 15,
+        }}
+      >
+        <View style={{ marginBottom: 10, width: '100%', alignItems: 'center' }}>
+          {feed?.length === 0 ? (
+            <View style={{ marginTop: 15 }}>
+              <Image
+                style={{
+                  height: windowWidth,
+                  width: windowWidth,
+                  opacity: 0.8,
+                }}
+                source={JoinGroupImage}
+              />
+              <Text
+                style={[
+                  styles.headline1,
+                  {
+                    textAlign: 'center',
+                    justifyContent: 'center',
+                    marginBottom: 10,
+                  },
+                ]}
+              >
+                No Posts Yet!
+              </Text>
+              <Text
+                style={[
+                  styles.bodyDefault,
+                  { textAlign: 'center', justifyContent: 'center' },
+                ]}
+              >
+                Create a post yourself. Join a new group and subgroup and create
+                a post for you and others to see.
+              </Text>
+            </View>
+          ) : (
+            feed
+              ?.slice() // Create a copy of the array
+              .sort((a, b) => b.timestamp - a.timestamp) // Sort the copied array in descending order based on timestamp
+              .reverse() // Reverse the sorted array to display the most recent post at the top
+              .map((post, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <PostCardWithUserData key={index} post={post} />
+              ))
+          )}
+        </View>
+      </ScrollView>
+    </>
   );
 }
 
