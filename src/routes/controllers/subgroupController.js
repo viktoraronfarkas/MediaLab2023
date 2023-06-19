@@ -79,11 +79,23 @@ exports.createPost = async (req, res) => {
       // Get the title image file data
       let titleImageBuffer = null; // Set initial value to null
       if (req.file) {
-        const compressedImageBuffer = await sharp(req.file.buffer)
-          .resize(800, 800) // Resize the image to a specific size (e.g., 500x500 pixels)
-          .jpeg({ quality: 80 }) // Convert the image to JPEG format with 80% quality
-          .toBuffer();
-        titleImageBuffer = compressedImageBuffer;
+        if (req.file.mimetype.startsWith('image')) {
+          // Image data from web (base64-encoded)
+          const base64Image = req.file.buffer.toString('base64');
+          const decodedImage = Buffer.from(base64Image, 'base64');
+          const compressedImageBuffer = await sharp(decodedImage)
+            .resize(500, 500)
+            .jpeg({ quality: 80 })
+            .toBuffer();
+          titleImageBuffer = compressedImageBuffer;
+        } else {
+          // Image data from mobile (file URI)
+          const compressedImageBuffer = await sharp(req.file.buffer)
+            .resize(800, 800)
+            .jpeg({ quality: 80 })
+            .toBuffer();
+          titleImageBuffer = compressedImageBuffer;
+        }
       }
 
       // Insert the post data into the database

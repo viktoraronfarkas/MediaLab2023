@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -62,7 +61,7 @@ export default function RegistrationScreen() {
   const RegistrationStack = createStackNavigator();
   const navigation = useNavigation();
   const handleTextLoginClick = () => {
-    navigation.navigate('RegistrationOne');
+    navigation.navigate('LoginScreen');
   };
   const handleNeedHelpClick = () => {
     navigation.navigate('NeedHelp');
@@ -232,11 +231,22 @@ export default function RegistrationScreen() {
             formData.append('password', password);
 
             if (imageUpload) {
-              formData.append('profile_image', {
-                uri: imageUpload,
-                type: 'image/jpeg',
-                name: 'user_image.jpg',
-              });
+              if (Platform.OS === 'web') {
+                try {
+                  const response = await fetch(imageUpload);
+                  const blob = await response.blob();
+                  // Append the image blob to FormData object
+                  formData.append('title_image', blob, 'title_image.png');
+                } catch (error) {
+                  console.error('Error reading image file:', error);
+                }
+              } else {
+                formData.append('title_image', {
+                  uri: imageUpload,
+                  type: 'image/jpeg',
+                  name: 'user_image.jpg',
+                });
+              }
             }
             try {
               const response = await axios.post(

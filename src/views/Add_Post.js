@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Platform,
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -122,11 +123,22 @@ function AddPost() {
     formData.append('groupId', currentGroup.subgroupId);
 
     if (imageUpload) {
-      formData.append('title_image', {
-        uri: imageUpload,
-        type: 'image/jpeg',
-        name: 'user_image.jpg',
-      });
+      if (Platform.OS === 'web') {
+        try {
+          const response = await fetch(imageUpload);
+          const blob = await response.blob();
+          // Append the image blob to FormData object
+          formData.append('title_image', blob, 'title_image.png');
+        } catch (error) {
+          console.error('Error reading image file:', error);
+        }
+      } else {
+        formData.append('title_image', {
+          uri: imageUpload,
+          type: 'image/jpeg',
+          name: 'user_image.jpg',
+        });
+      }
     }
 
     formData.append('userId', currentUser);

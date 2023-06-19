@@ -5,7 +5,15 @@ import {
 } from '@react-navigation/native';
 import axios from 'axios';
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import {
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Platform,
+  ScrollView,
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { ActivityIndicator } from 'react-native-paper';
 import iconImage from '../../assets/Icons/plus-icon.png';
@@ -32,6 +40,7 @@ function MainJoinedGroup({ route }) {
   const style = StyleSheet.create({
     overlay: {
       ...StyleSheet.absoluteFillObject,
+      flex: 1,
       zIndex: 10,
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
       justifyContent: 'center',
@@ -43,7 +52,7 @@ function MainJoinedGroup({ route }) {
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [subscribedGroups, setSubscribedGroups] = useState([]);
   const [filteredSubgroups, setFilteredSubgroups] = useState([]);
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState('true');
   const currentSelectedUserId = useSelector(selectedUserId);
   const isFocused = useIsFocused();
   const refRBSheet = useRef();
@@ -209,155 +218,163 @@ function MainJoinedGroup({ route }) {
   };
 
   return (
-    <View
-      style={{
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <BottomScrollSheet
-        bottomSheetRef={refRBSheet}
-        contentComponent={
-          <OptionsLeaveGroupSheet
-            sheetTitle={`Leave ${selectedGroupValue.mainGroupName} Group?`}
-            leaveText="Yes"
-            cancelText="Nevermind"
-            onCancel={() => {
-              refRBSheet.current.close(); // Close the bottom sheet
-            }}
-            onLeave={() => {
-              unsubscribeFromMainGroup(
-                currentSelectedUserId,
-                selectedGroupValue.mainGroupId
-              ).then(() => {
-                // Close the bottom sheet
-                refRBSheet.current.close();
-                dispatch(setSelectedMainGroup(''));
-              });
-            }}
-          />
-        }
-      />
-      <View style={{ position: 'relative', paddingTop: 40 }}>
-        <TitleCircleHeadingH2
-          title={selectedGroupValue.name || selectedGroupValue.mainGroupName}
-          image={circleLineImage}
-          lineStyle={{
-            height: 60,
-            width: 190,
-          }}
-        />
-        <TouchableOpacity
-          style={{ position: 'absolute', left: '41%', top: '80%' }}
-          onPress={() => refRBSheet.current.open()}
-        >
-          <MoreSvg color="#000" width={50} height={50} />
-        </TouchableOpacity>
-      </View>
-
-      <View
-        style={{
-          width: '100%',
-          marginTop: '10%',
-          alignContent: 'center',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <SubGroupsFilter
-          firstFilterLabel="all"
-          secondFilterLabel="joined"
-          thirdFilterLabel="unjoined"
-          onFilterChange={handleFilterChange}
-          selectedValue={selectedFilter}
-          disabled={selectedGroupValue.subgroups.length === 0}
-        />
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          marginTop: '8%',
-          width: '100%',
-          justifyContent: 'center',
-          alignContent: 'center',
-          position: 'relative',
-        }}
-      >
-        <View style={{ position: 'relative' }}>
-          <Text style={[styles.headline3, { textAlign: 'center' }]}>
-            add a new subgroup
-          </Text>
-          <Image
-            style={{
-              left: '12%',
-              top: '90%',
-              height: 50,
-              width: 205,
-              position: 'absolute',
-            }}
-            source={underlineArrowImage}
-          />
-        </View>
-
-        <View
-          style={{
-            left: '84%',
-            top: '-20%',
-            position: 'absolute',
-          }}
-        >
-          <TouchableOpacity onPress={() => navigation.navigate('AddSubgroup')}>
-            <Image source={iconImage} style={{ height: 48, width: 48 }} />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View
-        style={{
-          marginTop: '20%',
-          width: '94%',
-        }}
-      >
-        {/** FIXME : a place holder should take place here instead */}
-        {filteredSubgroups.length === 0 ? (
-          <Text style={[styles.bodyDefault, { textAlign: 'center' }]}>
-            {message}
-          </Text>
-        ) : (
-          filteredSubgroups.map((subgroup) => (
-            <ListItem
-              key={subgroup.subgroupId}
-              mainTitle={subgroup.subgroupName}
-              subtitle={subgroup.subgroupCaption}
-              iconImage={require('../../assets/Icons/arrow-right.png')}
-              onPress={() => {
-                dispatch(SetSelectedSubGroup(subgroup));
-                navigation.navigate('Subgroup');
-              }}
-            />
-          ))
-          // If we want to sort the subgroups based on the number of members.
-          // sortedSubgroups.map((subgroup) => (
-          //   <ListItem
-          //     key={subgroup.subgroupId}
-          //     mainTitle={subgroup.name || subgroup.subgroupName}
-          //     subtitle={subgroup.subTitle || subgroup.subgroupName}
-          //     iconImage={require('../../assets/Icons/arrow-right.png')}
-          //     onPress={() => {
-          //       dispatch(SetSelectedSubGroup(subgroup));
-          //       navigation.navigate('Subgroup');
-          //     }}
-          //   />
-          // ))
-        )}
-      </View>
+    <>
       {loading && (
         <View style={style.overlay}>
           <ActivityIndicator animating color={theme.colors.primary} />
         </View>
       )}
-    </View>
+      <ScrollView
+        contentContainerStyle={{
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <BottomScrollSheet
+          bottomSheetRef={refRBSheet}
+          contentComponent={
+            <OptionsLeaveGroupSheet
+              sheetTitle={`Leave ${selectedGroupValue.mainGroupName} Group?`}
+              leaveText="Yes"
+              cancelText="Nevermind"
+              onCancel={() => {
+                refRBSheet.current.close(); // Close the bottom sheet
+              }}
+              onLeave={() => {
+                unsubscribeFromMainGroup(
+                  currentSelectedUserId,
+                  selectedGroupValue.mainGroupId
+                ).then(() => {
+                  // Close the bottom sheet
+                  refRBSheet.current.close();
+                  dispatch(setSelectedMainGroup(''));
+                });
+              }}
+            />
+          }
+        />
+        <View style={{ position: 'relative', paddingTop: 40 }}>
+          <TitleCircleHeadingH2
+            title={selectedGroupValue.name || selectedGroupValue.mainGroupName}
+            image={circleLineImage}
+            lineStyle={{
+              height: 60,
+              width: 190,
+            }}
+          />
+          <TouchableOpacity
+            style={{
+              position: 'absolute',
+              left: Platform.OS === 'web' ? '250%' : '41%',
+              top: Platform.OS === 'web' ? '50%' : '80%',
+            }}
+            onPress={() => refRBSheet.current.open()}
+          >
+            <MoreSvg color="#000" width={50} height={50} />
+          </TouchableOpacity>
+        </View>
+
+        <View
+          style={{
+            width: '100%',
+            marginTop: '10%',
+            alignContent: 'center',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <SubGroupsFilter
+            firstFilterLabel="all"
+            secondFilterLabel="joined"
+            thirdFilterLabel="unjoined"
+            onFilterChange={handleFilterChange}
+            selectedValue={selectedFilter}
+            disabled={selectedGroupValue.subgroups.length === 0}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: '8%',
+            width: '100%',
+            justifyContent: 'center',
+            alignContent: 'center',
+            position: 'relative',
+          }}
+        >
+          <View style={{ position: 'relative' }}>
+            <Text style={[styles.headline3, { textAlign: 'center' }]}>
+              add a new subgroup
+            </Text>
+            <Image
+              style={{
+                left: '12%',
+                top: '90%',
+                height: 50,
+                width: 205,
+                position: 'absolute',
+              }}
+              source={underlineArrowImage}
+            />
+          </View>
+
+          <View
+            style={{
+              left: '84%',
+              top: '-20%',
+              position: 'absolute',
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => navigation.navigate('AddSubgroup')}
+            >
+              <Image source={iconImage} style={{ height: 48, width: 48 }} />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View
+          style={{
+            marginTop: '20%',
+            width: '94%',
+          }}
+        >
+          {/** FIXME : a place holder should take place here instead */}
+          {filteredSubgroups.length === 0 ? (
+            <Text style={[styles.bodyDefault, { textAlign: 'center' }]}>
+              {message}
+            </Text>
+          ) : (
+            filteredSubgroups.map((subgroup) => (
+              <ListItem
+                key={subgroup.subgroupId}
+                mainTitle={subgroup.subgroupName}
+                subtitle={subgroup.subgroupCaption}
+                iconImage={require('../../assets/Icons/arrow-right.png')}
+                onPress={() => {
+                  dispatch(SetSelectedSubGroup(subgroup));
+                  navigation.navigate('Subgroup');
+                }}
+              />
+            ))
+            // If we want to sort the subgroups based on the number of members.
+            // sortedSubgroups.map((subgroup) => (
+            //   <ListItem
+            //     key={subgroup.subgroupId}
+            //     mainTitle={subgroup.name || subgroup.subgroupName}
+            //     subtitle={subgroup.subTitle || subgroup.subgroupName}
+            //     iconImage={require('../../assets/Icons/arrow-right.png')}
+            //     onPress={() => {
+            //       dispatch(SetSelectedSubGroup(subgroup));
+            //       navigation.navigate('Subgroup');
+            //     }}
+            //   />
+            // ))
+          )}
+        </View>
+      </ScrollView>
+    </>
   );
 }
 
